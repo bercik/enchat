@@ -4,7 +4,10 @@ import message.Message;
 import message.MessageReader;
 import message.handlers.MessageHandler;
 import message.handlers.MessageHandlerFactory;
+import messages.IncorrectMessageId;
 import user.ActiveUser;
+
+import java.io.IOException;
 
 /**
  * Created by tochur on 17.04.15.
@@ -23,11 +26,13 @@ public class NewMessageHandler implements Runnable {
 
     @Override
     public void run() {
-        /*Getting message*/
-        Message message = MessageReader.readMessage(activeUser);
-
-        /*Creating suitable message handler.*/
-        MessageHandler messageHandler = MessageHandlerFactory.getMessageHandler(message, activeUser);
-        messageHandler.handle();
+        try {
+            MessageHandler messageHandler = MessageHandlerFactory.getMessageHandler(activeUser);
+            messageHandler.handle();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IncorrectMessageId incorrectMessageId) {
+            incorrectMessageId.printStackTrace();
+        }
     }
 }

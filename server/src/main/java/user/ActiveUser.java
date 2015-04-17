@@ -1,5 +1,6 @@
 package user;
 
+import java.io.InputStream;
 import java.net.Socket;
 import message.Message;
 import message.MessageReader;
@@ -75,5 +76,9 @@ public class ActiveUser extends MessageReader {
      */
     public String getNick(){
         return userData.getNick();
+    }
+
+    public Socket getSocket() {
+        return clientSocket;
     }
 }

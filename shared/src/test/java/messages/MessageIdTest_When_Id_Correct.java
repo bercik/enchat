@@ -16,7 +16,7 @@ public class MessageIdTest_When_Id_Correct {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data(){
-        Object[][] data = new Object[][] {{0}, {5}, {12}};
+        Object[][] data = new Object[][] {{0}, {5}, {13}};
         return Arrays.asList(data);
     }
 
