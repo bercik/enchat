@@ -1,8 +1,7 @@
 package user;
 
 import java.net.Socket;
-import message.Message;
-import message.MessageSender;
+
 import rsa.PublicKeyInfo;
 
 /**

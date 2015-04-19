@@ -1,5 +1,4 @@
 import handlers.NewClientHandler;
-import message.NewMessageScanner;
 import view.ViewThread;
 
 import java.io.IOException;

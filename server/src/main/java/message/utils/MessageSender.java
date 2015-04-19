@@ -1,13 +1,12 @@
-package message;
+package message.utils;
 
+import message.Message;
+import message.Pack;
 import user.ActiveUser;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by tochur on 16.04.15.
@@ -25,7 +24,7 @@ public class MessageSender {
      * Sends message to the user passed as parameter
      * @param activeUser - the user to whom message is sending.
      * @param message - The sending message.
-     * @throws IOException
+     * @throws java.io.IOException
      */
     public static void sendMessage(ActiveUser activeUser, Message message) throws IOException {
         DataOutputStream out = null;

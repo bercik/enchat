@@ -5,7 +5,7 @@ package user;
  */
 
 import message.Message;
-import message.MessageSender;
+import message.utils.MessageSender;
 import rsa.PublicKeyInfo;
 
 import java.io.IOException;
