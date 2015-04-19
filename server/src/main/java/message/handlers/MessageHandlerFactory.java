@@ -1,12 +1,8 @@
 package message.handlers;
 
-import message.Message;
-import message.MessageReader;
 import messages.IncorrectMessageId;
-import messages.MessageId;
 import user.ActiveUser;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
@@ -22,7 +18,7 @@ public abstract class MessageHandlerFactory{
      * @return Handler, that is capable to handle new message by invoking handle() method.
      */
     public static MessageHandler getMessageHandler(ActiveUser activeUser) throws IOException, IncorrectMessageId {
-        MessageId messageId = MessageReader.readMessageId(activeUser);
+        /*MessageId messageId = MessageReader.readMessageId(activeUser);
 
         switch (messageId){
             case JUNK:
@@ -32,6 +28,7 @@ public abstract class MessageHandlerFactory{
                 return new NonDecryptingHandler(activeUser, messageId);
             default:
                 return new DecryptingHandler(activeUser, messageId);
-        }
+        }*/
+        return null;
     }
 }

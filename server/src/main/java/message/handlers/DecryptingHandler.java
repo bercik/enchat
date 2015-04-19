@@ -12,7 +12,7 @@ public class DecryptingHandler extends MessageHandler {
     }
 
     @Override
-    public void handle() {
+    public void run() {
 
     }
 }

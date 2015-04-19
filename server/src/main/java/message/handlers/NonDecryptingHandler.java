@@ -14,7 +14,7 @@ public class NonDecryptingHandler extends MessageHandler {
     }
 
     @Override
-    public void handle() {
+    public void run() {
 
     }
 }
