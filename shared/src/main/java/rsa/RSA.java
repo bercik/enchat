@@ -74,12 +74,12 @@ public final class RSA {
     }
     
     
-    public static void checkSign(byte[] recvSign, String message, PublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+    public static void checkSign(byte[] recvSign, byte[] message, PublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
         try
         {
             Signature signature = Signature.getInstance(SIGN_ALGORITHM_NAME);
             signature.initVerify(publicKey);
-            signature.update(message.getBytes(STRING_CODING));
+            signature.update(message);
             
             if(signature.verify(recvSign) == false) {
                 throw new CheckError("Check Sign Error");
@@ -106,7 +106,7 @@ public final class RSA {
         public CheckError(String message) { super(message); }
     }
     
-   
+/*  
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, SignatureException, UnsupportedEncodingException {
         KeyContainer container_client1 = new KeyContainer();
         String message = "Input message";
@@ -118,8 +118,8 @@ public final class RSA {
         
         byte[] sign = RSA.sign(message.getBytes(), container_client1.getPrivateKeyInfo().getPrivateKey());
         
-        RSA.checkSign(sign, message, container_client1.getPublicKeyInfo().getPublicKey());
+        RSA.checkSign(sign, message.getBytes(), container_client1.getPublicKeyInfo().getPublicKey());
         
     }
-
+*/
 }
