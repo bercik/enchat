@@ -27,6 +27,11 @@
         <module name="shared" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="client" target="1.5" />
+      <module name="enChat" target="1.5" />
+      <module name="server" target="1.5" />
+      <module name="shared" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
-
