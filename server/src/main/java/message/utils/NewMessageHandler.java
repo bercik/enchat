@@ -4,6 +4,9 @@ import message.Message;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import responders.*;
+import responders.logging.LogInMessageHandler;
+import responders.logging.PublicKeyResponser;
+import responders.logging.SignUpMessageHandler;
 import user.ActiveUser;
 
 import java.io.IOException;
