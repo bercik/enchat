@@ -1,5 +1,6 @@
 import rsa.PublicKeyInfo;
 import rsa.RSA;
+import rsa.exceptions.GeneratingPublicKeyException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -145,7 +146,11 @@ public class ConnectHandler implements Runnable {
     }
 
     protected void scanForKey() throws InvalidKeySpecException, ClassNotFoundException, NoSuchAlgorithmException, IOException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
-        this.keyInfo = new PublicKeyInfo(in);
+        try {
+            this.keyInfo = new PublicKeyInfo(in);
+        } catch (GeneratingPublicKeyException e) {
+            e.printStackTrace();
+        }
     }
 
     /*THOSE 3 METHODS RETURNS ACTION TO PERFORM BY SERVER IN NEXT LOOP STEP.*/

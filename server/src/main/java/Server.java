@@ -1,3 +1,4 @@
+import handlers.NewClientHandler;
 import view.ViewThread;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class Server {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: " + PORT);
+            System.err.println("Could not open port: " + PORT);
             System.exit(1);
         }
     }
@@ -26,37 +27,33 @@ public class Server {
         return server;
     }
 
-    /*Wprowadza serwer w stan nasłuchiwania, nowy klient jest przełączeny do handlera a Server nadal nasłuchuje. */
-    public void start(){
+    /*This function let to run the server in standard way.*/
+    public void standardServerStart(){
         new Thread(new ViewThread(stdOut)).start();
         startListeningNewClientsRequest();
-    }
-
-    /*Starting new thread showing actual server state.*/
-    private ViewThread startViewThread(){
-        ViewThread viewThread = new ViewThread(stdOut);
-        viewThread.run();
-        return viewThread;
+        startListeningNewMessagesFromUser();
     }
 
     /*Waiting for Client and initializing interaction with him.*/
-    private void startListeningNewClientsRequest(){
+    public void startListeningNewClientsRequest(){
         Socket clientSocket;
         while(true) {
             try {
                 clientSocket = serverSocket.accept();
                 System.out.println("Got the client");
-                switchNewClientToHandler(clientSocket);
+                NewClientHandler.addNewClient(clientSocket);
+                System.out.println("New client connected.");
             } catch (IOException e) {
                 System.err.println("Clients acceptation failed - io exception");
             }
         }
     }
 
-    /*Metoda przekazuje klienta - reprezentowanego przez clientSocket do hendlera, który przeprowadzi go przez */
-    private void switchNewClientToHandler(Socket clientSocket){
-        Thread newClientHandler = new Thread((Runnable) new ConnectHandler(clientSocket));
-        newClientHandler.start();
+    public void startListeningNewMessagesFromUser(){
+        NewMessageScanner newMessageScanner = new NewMessageScanner();
+        newMessageScanner.run();
     }
+
+
 }
 
