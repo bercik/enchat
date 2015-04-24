@@ -3,6 +3,8 @@ package network;
 import app_info.Configuration;
 import rsa.KeyContainer;
 import rsa.PublicKeyInfo;
+import rsa.exceptions.GeneratingPublicKeyException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,14 +23,16 @@ import javax.crypto.NoSuchPaddingException;
  */
 public class Connection {
     
-    public Connection() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public Connection() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, GeneratingPublicKeyException {
 
-        socket = new Socket(Configuration.getServerAddress(), Configuration.getPort());
+        Configuration conn = Configuration.getInstance();
+
+        socket = new Socket(conn.getServerAddress(), conn.getPort());
         
         out = new DataOutputStream(socket.getOutputStream());
         in = new DataInputStream(socket.getInputStream());
         
-        serverPublicKey = Configuration.getServerPublicKeyInfo();
+        serverPublicKey = conn.getServerPublicKeyInfo();
         
         keyPair = new KeyContainer();
     }

@@ -16,28 +16,40 @@ import rsa.exceptions.GeneratingPublicKeyException;
  * @version 1.0
  */
 public class Configuration {
-    
-    public static int getWidth() {
+
+    private Configuration() throws IOException, GeneratingPublicKeyException {
+        width = 122;
+        height = 36;
+        loadFromFile(path);
+    }
+
+    public static Configuration getInstance() throws IOException, GeneratingPublicKeyException {
+        if(instance == null)
+            instance = new Configuration();
+        return instance;
+    }
+
+    public int getWidth() {
         return width;
     }
     
-    public static int getHeight() {
+    public int getHeight() {
         return height;
     }
     
-    public static String getServerAddress() {
+    public String getServerAddress() {
         return new String(serverAddress.getBytes());
     }
     
-    public static int getPort() {
+    public int getPort() {
         return port;
     }
     
-    public static PublicKeyInfo getServerPublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public PublicKeyInfo getServerPublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException {
         return new PublicKeyInfo(serverPublicKeyInfo);
     }
 
-    public static void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
+    public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         FileInputStream in = new FileInputStream(path);
         DataInputStream input = new DataInputStream(in);
 
@@ -53,18 +65,21 @@ public class Configuration {
         serverPublicKeyInfo = new PublicKeyInfo(input);
     }
 
-    private Configuration instance;
+    private static Configuration instance = null;
 
-    private final static int width = 122;
-    private final static int height = 36;
+    private int width = 122;
+    private int height = 36;
 
     //zmienne te będą wczytywane z pliku
     private static String serverAddress;
     private static int port;
     private static PublicKeyInfo serverPublicKeyInfo;
 
+    //zmienne pomocnicze
+    private static final String path = "file.txt";
 
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+/*
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, GeneratingPublicKeyException {
         FileOutputStream outFile = new FileOutputStream("file.txt");
         DataOutputStream out = new DataOutputStream(outFile);
 
@@ -78,10 +93,18 @@ public class Configuration {
 
         //zapisywanie publicKeyInfo
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(new BigInteger("100000000000000000000"), new BigInteger("1234"));
+        RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(new BigInteger("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"), new BigInteger("1234"));
         PublicKey publicKey = keyFactory.generatePublic(pubKeySpec);
         PublicKeyInfo publicKeyInfo = new PublicKeyInfo(publicKey);
 
         publicKeyInfo.send(out);
+
+
+        Configuration.loadFromFile("file.txt");
+        System.out.println(Configuration.serverAddress);
+        System.out.println(Configuration.getPort());
+        System.out.println("Recv modulus = " + Configuration.getServerPublicKeyInfo().getModulus());
+        System.out.println("Recv exponent = " + Configuration.getServerPublicKeyInfo().getExponent());
     }
+*/
 }
