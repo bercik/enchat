@@ -22,15 +22,13 @@ import javax.crypto.NoSuchPaddingException;
 public class Connection {
     
     public Connection() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        
-        Configuration conn = new Configuration();
-        
+
         socket = new Socket(Configuration.getServerAddress(), Configuration.getPort());
         
         out = new DataOutputStream(socket.getOutputStream());
         in = new DataInputStream(socket.getInputStream());
         
-        serverPublicKey = conn.getServerPublicKeyInfo();
+        serverPublicKey = Configuration.getServerPublicKeyInfo();
         
         keyPair = new KeyContainer();
     }
