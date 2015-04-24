@@ -17,12 +17,14 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public class Configuration {
 
+    //konstruktor prywatny potrzebny do wygenerowania i potrzebnych informacji
     private Configuration() throws IOException, GeneratingPublicKeyException {
         width = 122;
         height = 36;
         loadFromFile(path);
     }
 
+    //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
     public static Configuration getInstance() throws IOException, GeneratingPublicKeyException {
         if(instance == null)
             instance = new Configuration();
@@ -49,6 +51,15 @@ public class Configuration {
         return new PublicKeyInfo(serverPublicKeyInfo);
     }
 
+    /**
+     *
+     * @param path zmienna typu String określająca nazwę ścieżki gdzie znajduje się
+     *             plik w którym zawierają się informacje o adresie serwera, jego porcie
+     *             oraz o liczbach exponent i modulus potrzebnych do wygenerowania klucza
+     *             publicznego serwera
+     * @throws IOException
+     * @throws GeneratingPublicKeyException wyjątek stworzony przez super programistów
+     */
     public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         FileInputStream in = new FileInputStream(path);
         DataInputStream input = new DataInputStream(in);
@@ -65,8 +76,10 @@ public class Configuration {
         serverPublicKeyInfo = new PublicKeyInfo(input);
     }
 
+    //zmienna którą w razie potrzeby będziemy zwracać
     private static Configuration instance = null;
 
+    //rozmiar naszej konsoli
     private int width = 122;
     private int height = 36;
 
@@ -75,7 +88,8 @@ public class Configuration {
     private static int port;
     private static PublicKeyInfo serverPublicKeyInfo;
 
-    //zmienne pomocnicze
+    //zmienna pomocnicza przechowująca nazwę pliku w którym przechowujemy
+    //adres serwera, numer portu oraz modulus i exponent klucza publicznego serwera(wersja "żeby działało")
     private static final String path = "file.txt";
 
 /*
