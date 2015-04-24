@@ -38,7 +38,7 @@ public class Configuration {
     }
     
     public String getServerAddress() {
-        return new String(serverAddress.getBytes());
+        return serverAddress;
     }
     
     public int getPort() {
