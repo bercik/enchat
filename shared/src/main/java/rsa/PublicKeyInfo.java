@@ -4,13 +4,9 @@ import rsa.exceptions.GeneratingPublicKeyException;
 import rsa.exceptions.ReadingPublicKeyInfoException;
 import rsa.services.PublicKeyReader;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 
@@ -21,6 +17,7 @@ import java.security.spec.RSAPublicKeySpec;
  * @version 1.0
  */
 public final class PublicKeyInfo {
+
     public PublicKeyInfo(PublicKeyInfo publicKeyInfo) throws NoSuchAlgorithmException, InvalidKeySpecException {
         modulus = publicKeyInfo.getModulus();
         exponent = publicKeyInfo.getExponent();
@@ -35,7 +32,7 @@ public final class PublicKeyInfo {
         modulus = pubKeySpec.getModulus();
         exponent = pubKeySpec.getPublicExponent();
             
-        this.publicKey = keyFactory.generatePublic(pubKeySpec);
+        publicKey = keyFactory.generatePublic(pubKeySpec);
     }
 
     public PublicKeyInfo(DataInputStream in) throws GeneratingPublicKeyException {
@@ -46,6 +43,9 @@ public final class PublicKeyInfo {
 
             /*Generating public key*/
             publicKey = generatePublicKey(pubKeySpec);
+
+            System.out.println("Recv Modulus = " + modulus);
+            System.out.println("Recv Exponent = " + exponent);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,8 +114,8 @@ public final class PublicKeyInfo {
     private PublicKey publicKey;
     private static final String ALGORITHM = "RSA";
 
-/*
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, ClassNotFoundException {
+
+    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, ClassNotFoundException, GeneratingPublicKeyException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
@@ -132,5 +132,5 @@ public final class PublicKeyInfo {
         DataInputStream i = new DataInputStream(in);
         PublicKeyInfo pubKetInfo1 = new PublicKeyInfo(i);
     }
-*/
+
 }
