@@ -10,7 +10,6 @@ public class ViewThread implements Runnable{
         stdOut.print("Waiting for clients ...");
     }
 
-    @Override
     public void run(){
         while(true) {
             stdOut.print(".");

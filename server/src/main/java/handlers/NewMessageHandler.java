@@ -1,15 +1,23 @@
-package message.utils;
+package handlers;
 
-import message.Message;
+import message.EncryptedMessage;
+import message.utils.MessageReader;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import responders.*;
 import responders.logging.LogInMessageHandler;
 import responders.logging.PublicKeyResponser;
-import responders.logging.SignUpMessageHandler;
+import responders.registration.SignUpMessageHandler;
 import user.ActiveUser;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  * Created by tochur on 17.04.15.
@@ -17,25 +25,22 @@ import java.io.IOException;
 /*When this thread is created lock fot stream should by installed.*/
 public class NewMessageHandler implements Runnable {
     ActiveUser activeUser;
+    EncryptedMessage message;
 
-    public NewMessageHandler(ActiveUser activeUser){
+    public NewMessageHandler(ActiveUser activeUser, EncryptedMessage message){
         this.activeUser = activeUser;
+        this.message = message;
     }
 
-    @Override
     public void run() {
-        Message message = null;
+        MessageHandler messageResponder = null;
         try {
-            message = new MessageReader().readMessage(activeUser);
-            MessageHandler messageResponder = getMessageResponder(message.getId());
+            messageResponder = getMessageResponder(message.getId());
             messageResponder.handle(activeUser, message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IncorrectMessageId incorrectMessageId) {
-            incorrectMessageId.printStackTrace();
-        }catch (NoHandlersFound noHandlersFound) {
+        } catch (NoHandlersFound noHandlersFound) {
             noHandlersFound.printStackTrace();
         }
+
     }
 
     private MessageHandler getMessageResponder(MessageId messageId) throws NoHandlersFound {

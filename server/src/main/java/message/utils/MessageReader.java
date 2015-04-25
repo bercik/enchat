@@ -1,6 +1,6 @@
 package message.utils;
 
-import message.Message;
+import message.EncryptedMessage;
 import message.Pack;
 import messages.IncorrectMessageId;
 import user.ActiveUser;
@@ -32,9 +32,8 @@ public class MessageReader {
 
     private DataInputStream in;
 
-    public Message readMessage(ActiveUser activeUser) throws IOException, IncorrectMessageId {
-        try{
-            in = new DataInputStream( activeUser.getSocket().getInputStream());
+    public EncryptedMessage readMessage(ActiveUser activeUser) throws IOException, IncorrectMessageId {
+            in = activeUser.getInputStream();
             id = in.readInt();
             errorId = in.readInt();
             packageAmount = in.readInt();
@@ -55,11 +54,8 @@ public class MessageReader {
                 packs.add(pack);
             }
 
-            Message message = new Message(id, errorId, packageAmount, packs);
+            EncryptedMessage message = new EncryptedMessage(id, errorId, packageAmount, packs);
             return message;
-        }finally {
-            if(in != null)
-                in.close();
-        }
+
     }
 }
