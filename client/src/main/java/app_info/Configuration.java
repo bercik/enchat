@@ -21,7 +21,7 @@ public class Configuration {
     private Configuration() throws IOException, GeneratingPublicKeyException {
         width = 122;
         height = 36;
-        loadFromFile(path);
+        //loadFromFile(path);
     }
 
     //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
@@ -71,9 +71,6 @@ public class Configuration {
 
         //wczytywanie numeru portu z pliku
         port = input.readInt();
-
-        //wczytywanie modulus i exponent z pliku w celu stworzenia klucza publicznego serwera
-        serverPublicKeyInfo = new PublicKeyInfo(input);
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
@@ -84,8 +81,8 @@ public class Configuration {
     private int height = 36;
 
     //zmienne te będą wczytywane z pliku
-    private static String serverAddress;
-    private static int port;
+    private static String serverAddress = "10.20.101.183";
+    private static int port = 50000;
     private static PublicKeyInfo serverPublicKeyInfo;
 
     //zmienna pomocnicza przechowująca nazwę pliku w którym przechowujemy
@@ -98,7 +95,7 @@ public class Configuration {
         DataOutputStream out = new DataOutputStream(outFile);
 
         //wysyłanie do pliku
-        byte[] byteArray = "123.123.0.1".getBytes();
+        byte[] byteArray = "122.123.0.1".getBytes();
         out.writeInt(byteArray.length);
         out.write(byteArray);
 
@@ -114,11 +111,13 @@ public class Configuration {
         publicKeyInfo.send(out);
 
 
-        Configuration.loadFromFile("file.txt");
+        Configuration conn = Configuration.getInstance();
+
+        conn.loadFromFile("file.txt");
         System.out.println(Configuration.serverAddress);
-        System.out.println(Configuration.getPort());
-        System.out.println("Recv modulus = " + Configuration.getServerPublicKeyInfo().getModulus());
-        System.out.println("Recv exponent = " + Configuration.getServerPublicKeyInfo().getExponent());
+        System.out.println(conn.getPort());
+        System.out.println("Recv modulus = " + conn.getServerPublicKeyInfo().getModulus());
+        System.out.println("Recv exponent = " + conn.getServerPublicKeyInfo().getExponent());
     }
 */
 }

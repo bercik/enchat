@@ -22,6 +22,7 @@ public class MessageSignPair {
     public MessageSignPair(byte[] mmessage, byte[] ssign) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         message = Arrays.copyOf(mmessage, mmessage.length);
         sign = Arrays.copyOf(ssign, ssign.length);
+        System.out.println("Moja wiadomość = " + new String(message));
     }
     
     //na tym etapie nasza wiadomość powinna być odszyfrowana

@@ -19,18 +19,21 @@ import rsa.RSA;
 public class NetworkMessageIncome {
     
     public void recv(Connection conn) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, SignatureException {
-        error = conn.recvInt();
+
         id = conn.recvInt();
+        error = conn.recvInt();
         int size = conn.recvInt();
+        System.out.println (id + " " + error + " " + size);
         
         for(int i = 0; i < size; ++i) {
             byte[] decrypt = RSA.decrypt(conn.recvByteArray(), conn.getKeyPair().getPrivateKeyInfo().getPrivateKey());
             messageSignPair.add(new MessageSignPair(decrypt, conn.recvByteArray()));
-            messageSignPair.get(i).checkSign(conn.getKeyPair().getPublicKeyInfo().getPublicKey());
+            //System.out.println(new String(messageSignPair.get(i).getMessage()));
+            messageSignPair.get(i).checkSign(conn.getServerPublicKey().getPublicKey());
         }
     }
     
     private int error;
     private int id;
-    private ArrayList<MessageSignPair> messageSignPair;
+    private ArrayList<MessageSignPair> messageSignPair = new ArrayList<>();
 }
