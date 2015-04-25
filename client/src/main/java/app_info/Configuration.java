@@ -81,7 +81,7 @@ public class Configuration {
     private int height = 36;
 
     //zmienne te będą wczytywane z pliku
-    private static String serverAddress = "10.20.101.183";
+    private static String serverAddress = "localhost";
     private static int port = 50000;
     private static PublicKeyInfo serverPublicKeyInfo;
 
