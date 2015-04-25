@@ -10,7 +10,6 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 
-
 /**
  *
  * @author mateusz
@@ -114,7 +113,7 @@ public final class PublicKeyInfo {
     private PublicKey publicKey;
     private static final String ALGORITHM = "RSA";
 
-
+/*
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, ClassNotFoundException, GeneratingPublicKeyException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
@@ -132,5 +131,5 @@ public final class PublicKeyInfo {
         DataInputStream i = new DataInputStream(in);
         PublicKeyInfo pubKetInfo1 = new PublicKeyInfo(i);
     }
-
+*/
 }

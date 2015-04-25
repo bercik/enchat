@@ -59,6 +59,7 @@ final public class PrivateKeyInfo {
 
 /*
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
@@ -67,7 +68,9 @@ final public class PrivateKeyInfo {
         
         PrivateKeyInfo prvKeyInfo = new PrivateKeyInfo(key);
         
-        System.out.println("modulus = " + prvKeyInfo.getModulus() + " exponent = " + prvKeyInfo.getExponent());
+        System.out.println("modulus = " + prvKeyInfo.getModulus());
+        System.out.println("exponent = " + prvKeyInfo.getExponent());
+
     }
 */
 }
