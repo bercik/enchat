@@ -1,14 +1,13 @@
 package responders;
 
-import message.Message;
+import message.EncryptedMessage;
 import user.ActiveUser;
 
 /**
  * Created by tochur on 19.04.15.
  */
 public class ServerMessageMessageHandler implements MessageHandler {
-    @Override
-    public void handle(ActiveUser activeUser, Message message) {
+    public void handle(ActiveUser activeUser, EncryptedMessage message) {
 
     }
 }

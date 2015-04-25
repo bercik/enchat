@@ -1,6 +1,6 @@
 package responders.logging;
 
-import message.Message;
+import message.EncryptedMessage;
 import responders.MessageHandler;
 import user.ActiveUser;
 
@@ -9,7 +9,7 @@ import user.ActiveUser;
  */
 public class LogInMessageHandler implements MessageHandler {
     @Override
-    public void handle(ActiveUser activeUser, Message message) {
+    public void handle(ActiveUser activeUser, EncryptedMessage message) {
 
     }
 }

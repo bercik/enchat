@@ -1,7 +1,9 @@
+package handlers;
+
 import containers.ActiveUsers;
-import message.utils.NewMessageHandler;
 import user.ActiveUser;
 
+import java.io.BufferedReader;
 import java.util.ArrayList;
 
 /**
@@ -11,16 +13,17 @@ import java.util.ArrayList;
  */
 public class NewMessageScanner implements Runnable{
     /* ActiveUsers (ArrayList)should be blocked*/
-    @Override
     public void run() {
         while (true){
             ArrayList<ActiveUser> activeUsers = ActiveUsers.getInstance().getActiveUsers();
             for(ActiveUser activeUser: activeUsers){
-                if ( activeUser.checkMessageBox() ) {
-                    NewMessageHandler messageHandler = new NewMessageHandler(activeUser);
-                    messageHandler.run();
-                }
-
+                BufferHandler.handleBuffer(activeUser);
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ie) {
+                System.out.println("Interuuped exception");
+                ie.printStackTrace();
             }
         }
     }
