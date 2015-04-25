@@ -17,7 +17,12 @@ public class NewMessageScanner implements Runnable{
         while (true){
             ArrayList<ActiveUser> activeUsers = ActiveUsers.getInstance().getActiveUsers();
             for(ActiveUser activeUser: activeUsers){
-                BufferHandler.handleBuffer(activeUser);
+                if ( activeUser.isBufferFree() ){
+                    activeUser.setCanCheckBuffer(false);
+                    BufferHandler.handleBuffer(activeUser);
+                    activeUser.setCanCheckBuffer(true);
+                }
+
             }
             try {
                 Thread.sleep(100);

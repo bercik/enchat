@@ -32,7 +32,7 @@ public class Registered {
     // They wont modify system state
     public boolean isLoginFree(String login){
         for(UserData userData: registered){
-            if (userData.getNick() == login){
+            if (userData.getNick().equals(login) ){
                 return false;
             }
         }
