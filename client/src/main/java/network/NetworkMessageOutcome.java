@@ -21,23 +21,47 @@ import rsa.exceptions.GeneratingPublicKeyException;
  * @version 1.0
  */
 public class NetworkMessageOutcome {
-    
+
+    /**
+     *
+     * @param iid jest to id wiadomości jaką wysyłamy
+     * @param list jest to lista która przechowuje paczki z wiadomościami
+     */
     public NetworkMessageOutcome(int iid, ArrayList<MessageSignPair> list) {
         id = iid;
-        messageSignPair = new ArrayList<MessageSignPair>();
+        messageSignPair = new ArrayList<>();
         for(int i = 0; i < list.size(); ++i)
             messageSignPair.add(list.get(i));
     }
-    
+
+
+    /**
+     * Funkcja służy do wysyłania paczek do serwera
+     * @param conn jest to obiekt klasy odpowiedzialny za połączenie się z serwerem
+     */
     public void send(Connection conn) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+        //wysyłanie id wiadomości
         conn.sendInt(id);
+
+        //żeby każda wiadomość wyglądała tak samo jako drugą wartość wysyłamy 0 i jest to nasze "error"
         conn.sendInt(0);
+
+        //jest to liczba paczek którą wysyłamy. Pomoga ona serwerowi w zorientowaniu się jak długo
+        //musi odbierać dane ze strumienia
         conn.sendInt(messageSignPair.size());
-        
+
+        //pętla która iteruje po całej liście przechowującej klase która opakowuje naszą wiadomość
+        //przez słowo wiadomość rozumiemy tablice bajtów z naszą wiadomościa i jej podpis
         for(int i = 0; i < messageSignPair.size(); ++i) {
-            System.out.println("Moja wiadomość  w funkcji send = " + new String(messageSignPair.get(i).getMessage()));
+            //System.out.println("Moja wiadomość  w funkcji send = " + new String(messageSignPair.get(i).getMessage()));
+
+            //szyfrowanie tablicy z wiadomoscia
             byte[] encrypt = RSA.encrypt(messageSignPair.get(i).getMessage(), conn.getServerPublicKey().getPublicKey());
+
+            //wysyłanie zaszyfrowanej tablicy do serwera
             conn.sendByteArray(encrypt);
+
+            //wysłanie podpisu do serwera
             conn.sendByteArray(messageSignPair.get(i).getSign());
         }
     }
@@ -45,10 +69,11 @@ public class NetworkMessageOutcome {
     private int id;
     private ArrayList<MessageSignPair> messageSignPair;
 
+/*
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeyException, GeneratingPublicKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, ClassNotFoundException, SignatureException {
         //połączenie z serwerem oraz odebranie jego klucza publicznego i wysłanie swojego klucza publicznego
         Connection conn = new Connection();
-/*
+
         //wysyłanie wiadomości
         String login = "Mateusz";
         String password = "Gierczak";
@@ -65,7 +90,7 @@ public class NetworkMessageOutcome {
         signMessage = RSA.sign(mesaggeArray, conn.getKeyPair().getPrivateKeyInfo().getPrivateKey());
 
         list.add(new MessageSignPair(mesaggeArray, signMessage));
-*/
+
 
         //dwie linie odpowiedzialne za odbieranie paczek od serwera
         NetworkMessageIncome income = new NetworkMessageIncome();
@@ -75,5 +100,5 @@ public class NetworkMessageOutcome {
         //outcome.send(conn);
 
     }
-
+*/
 }

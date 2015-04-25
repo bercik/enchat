@@ -17,11 +17,11 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public class Configuration {
 
-    //konstruktor prywatny potrzebny do wygenerowania i potrzebnych informacji
+    //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
     private Configuration() throws IOException, GeneratingPublicKeyException {
         width = 122;
         height = 36;
-        //loadFromFile(path);
+        loadFromFile(path);
     }
 
     //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
@@ -57,8 +57,6 @@ public class Configuration {
      *             plik w którym zawierają się informacje o adresie serwera, jego porcie
      *             oraz o liczbach exponent i modulus potrzebnych do wygenerowania klucza
      *             publicznego serwera
-     * @throws IOException
-     * @throws GeneratingPublicKeyException wyjątek stworzony przez super programistów
      */
     public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         FileInputStream in = new FileInputStream(path);
@@ -81,8 +79,8 @@ public class Configuration {
     private int height = 36;
 
     //zmienne te będą wczytywane z pliku
-    private static String serverAddress = "10.20.101.183";
-    private static int port = 50000;
+    private static String serverAddress;
+    private static int port;
     private static PublicKeyInfo serverPublicKeyInfo;
 
     //zmienna pomocnicza przechowująca nazwę pliku w którym przechowujemy
