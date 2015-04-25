@@ -1,12 +1,13 @@
 package message.utils;
 
-import message.Message;
+import message.EncryptedMessage;
 import message.Pack;
 import user.ActiveUser;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tochur on 16.04.15.
@@ -26,14 +27,14 @@ public class MessageSender {
      * @param message - The sending message.
      * @throws java.io.IOException
      */
-    public static void sendMessage(ActiveUser activeUser, Message message) throws IOException {
+    public static void sendMessage(ActiveUser activeUser, EncryptedMessage message) throws IOException {
         DataOutputStream out = null;
         try {
-            out = new DataOutputStream(activeUser.getSocket().getOutputStream());
-            out.writeInt(message.getId());
+            out = activeUser.getOutStream();
+            out.writeInt(message.getId().getIntRepresentation());
             out.writeInt(message.getErrorId());
             out.writeInt(message.getPackageAmount());
-            ArrayList<Pack> packs = message.getPackages();
+            List<Pack> packs = message.getPackages();
             for (Pack pack: packs){
                 out.writeInt(pack.getDataArrayLength());
                 out.write(pack.getDataArray());

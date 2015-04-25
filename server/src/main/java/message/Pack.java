@@ -1,13 +1,14 @@
 package message;
 
+import user.ActiveUser;
+
 /**
  * Created by tochur on 18.04.15.
  */
 public class Pack {
     private byte[] dataArray;
     private byte[] signArray;
-    private int dataArrayLength;
-    private int signArrayLength;
+
     /**
      * Part of the message, every package holds one portion of data that are encrypted, and signed.
      *
@@ -17,8 +18,6 @@ public class Pack {
     public Pack(byte[] dataArray, byte[] signArray){
         this.dataArray = dataArray;
         this.signArray = signArray;
-        this.dataArrayLength = dataArray.length;
-        this.signArrayLength = signArray.length;
     }
 
     public byte[] getDataArray() {
@@ -30,10 +29,10 @@ public class Pack {
     }
 
     public int getDataArrayLength() {
-        return dataArrayLength;
+        return dataArray.length;
     }
 
     public int getSignArrayLength() {
-        return signArrayLength;
+        return signArray.length;
     }
 }

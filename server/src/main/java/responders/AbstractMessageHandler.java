@@ -1,7 +1,9 @@
 package responders;
 
 import message.EncryptedMessage;
+import message.IMessage;
 import messages.IncorrectMessageId;
+import responders.exceptions.WrongUserStateException;
 import user.ActiveUser;
 
 import javax.crypto.BadPaddingException;
@@ -15,8 +17,9 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * Created by tochur on 19.04.15.
+ * Created by tochur on 24.04.15.
  */
-public interface MessageHandler {
-    public void handle(ActiveUser activeUser, EncryptedMessage message);
+public abstract class AbstractMessageHandler implements MessageHandler {
+    public abstract void handle(ActiveUser activeUser, EncryptedMessage message);
+    protected abstract boolean isMessageAppropriate(ActiveUser activeUser, IMessage message);
 }

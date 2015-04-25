@@ -9,6 +9,11 @@ public class UserData {
     private String nick;
     private String password;
 
+    public UserData(String nick, String password){
+        this.nick = nick;
+        this.password = password;
+    }
+
     public String getNick() {
         return nick;
     }
