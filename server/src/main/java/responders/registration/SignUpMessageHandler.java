@@ -6,8 +6,8 @@ import message.utils.MessageSender;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import responders.AbstractMessageHandler;
-import responders.exceptions.WrongUserStateException;
 import user.ActiveUser;
+import user.UserData;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -21,6 +21,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 /**
+ * This class handles the messages with MessageId = 2 (SIGN_UP)
+ * This class lets the user to register.
+ *
  * Created by tochur on 19.04.15.
  */
 public class SignUpMessageHandler extends AbstractMessageHandler {
@@ -77,7 +80,8 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
                 e.printStackTrace();
             }
         }else{
-            System.out.print("Login is occupied");
+            Registered.getInstance().addNewClient(new UserData(strings.get(0), strings.get(1)));
+            System.out.print("You has been registered as a: " + strings.get(0));
             Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 0);
             try {
                 MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, message1));
@@ -101,6 +105,28 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
                 e.printStackTrace();
             }
         }
+        //Message message2 = MessageCreator.createInfoMessage(MessageId.SERVER_MESSAGE,0,"Wiadomość zaszyfrowana");
+       /* try {
+            MessageSender.sendMessage(activeUser,Encryption.encryptMessage(activeUser,message2));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (IncorrectMessageId incorrectMessageId) {
+            incorrectMessageId.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        }*/
     }
 
     @Override

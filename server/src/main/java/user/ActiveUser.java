@@ -1,9 +1,5 @@
 package user;
 
-/**
- * Created by tochur on 18.04.15.
- */
-
 import message.EncryptedMessage;
 import message.utils.MessageSender;
 import rsa.PublicKeyInfo;
@@ -31,6 +27,7 @@ public class ActiveUser{
     private UserState userState = UserState.DISCONNECTED;
     private DataInputStream in;
     private DataOutputStream out;
+    private boolean canCheckBuffer = true;
 
 
     /*Represents the user that is active.*/
@@ -55,7 +52,7 @@ public class ActiveUser{
 
     /*Sends message to client*/
     public void sendMessage(EncryptedMessage message) throws IOException {
-        MessageSender.getInstance().sendMessage(this, message);
+        MessageSender.sendMessage(this, message);
     }
 
 
@@ -91,7 +88,7 @@ public class ActiveUser{
 
     /**
      * Gets nick of user.
-     * @return
+     * @return nick of the user
      */
     public String getNick(){
         return userData.getNick();
@@ -130,6 +127,14 @@ public class ActiveUser{
         } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isBufferFree() {
+        return canCheckBuffer;
+    }
+
+    public void setCanCheckBuffer(boolean canCheckBuffer) {
+        this.canCheckBuffer = canCheckBuffer;
     }
 }
 

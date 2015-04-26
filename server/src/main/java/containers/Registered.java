@@ -1,6 +1,5 @@
 package containers;
 
-import user.PersistentUser;
 import user.UserData;
 
 import java.util.LinkedList;
@@ -37,5 +36,15 @@ public class Registered {
             }
         }
         return true;
+    }
+    
+    public boolean doesUserExist(String name, String password){
+        for( UserData userData: registered){
+            if( userData.getNick().equals(name)){
+                if (userData.getPassword().equals(password))
+                    return true;
+            }
+        }
+        return false;
     }
 }

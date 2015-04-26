@@ -8,7 +8,6 @@ import user.ActiveUser;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -16,6 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Util, that is used for encrypting and decrypting Messages.
+ *
  * Created by tochur on 24.04.15.
  */
 public class Encryption {
@@ -26,10 +27,9 @@ public class Encryption {
         for(Pack pack: packages){
             byte[] decrypted = RSA.decrypt(pack.getDataArray(), privateServerKey);
             RSA.checkSign(pack.getSignArray(),decrypted, activeUser.getPublicKey());
-            strings.add(decrypted.toString());
+            strings.add(new String(decrypted));
         }
-        new Message(encryptedMessage.getId(), encryptedMessage.getErrorId(), encryptedMessage.getPackageAmount(), strings);
-        return null;
+        return new Message(encryptedMessage.getId(), encryptedMessage.getErrorId(), encryptedMessage.getPackageAmount(), strings);
     }
 
     /**
