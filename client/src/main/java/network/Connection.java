@@ -106,6 +106,10 @@ public class Connection {
         socket.close();
     }
 
+    public int isEmpty() throws IOException {
+        return in.available();
+    }
+
     
     private final PublicKeyInfo serverPublicKey;
     private final KeyContainer keyPair;

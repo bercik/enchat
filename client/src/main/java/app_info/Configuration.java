@@ -65,10 +65,10 @@ public class Configuration {
         //wczytywanie adresu serwera z pliku
         byte[] byteArray = new byte[input.readInt()];
         input.readFully(byteArray);
-        serverAddress = new String(byteArray);
+        serverAddress = "10.20.101.183";
 
         //wczytywanie numeru portu z pliku
-        port = input.readInt();
+        port = 50000;
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać

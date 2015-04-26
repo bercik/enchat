@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.plaf.synth.SynthTextAreaUI;
+
 import rsa.RSA;
 
 /**
@@ -38,7 +40,7 @@ public class NetworkMessageIncome {
 
             //dodawanie pojedynczych wiadomosci do listy
             messageSignPair.add(new MessageSignPair(decrypt, conn.recvByteArray()));
-            //System.out.println(new String(messageSignPair.get(i).getMessage()));
+            String m = new String(messageSignPair.get(i).getMessage());
 
             //sprawdzanie podpisu wiadomości, któro opewni nas, że wiadomość nie została sfałszowana
             messageSignPair.get(i).checkSign(conn.getServerPublicKey().getPublicKey());

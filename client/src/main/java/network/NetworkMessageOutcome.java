@@ -69,7 +69,7 @@ public class NetworkMessageOutcome {
     private int id;
     private ArrayList<MessageSignPair> messageSignPair;
 
-/*
+
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeyException, GeneratingPublicKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, ClassNotFoundException, SignatureException {
         //połączenie z serwerem oraz odebranie jego klucza publicznego i wysłanie swojego klucza publicznego
         Connection conn = new Connection();
@@ -92,13 +92,19 @@ public class NetworkMessageOutcome {
         list.add(new MessageSignPair(mesaggeArray, signMessage));
 
 
+        NetworkMessageOutcome outcome = new NetworkMessageOutcome(2, list);
+        outcome.send(conn);
+
+        NetworkMessageIncome income1 = new NetworkMessageIncome();
+        income1.recv(conn);
+
+
+        NetworkMessageOutcome outcome1 = new NetworkMessageOutcome(1, list);
+        outcome1.send(conn);
+
         //dwie linie odpowiedzialne za odbieranie paczek od serwera
         NetworkMessageIncome income = new NetworkMessageIncome();
         income.recv(conn);
-
-        //NetworkMessageOutcome outcome = new NetworkMessageOutcome(2, list);
-        //outcome.send(conn);
-
     }
-*/
+
 }
