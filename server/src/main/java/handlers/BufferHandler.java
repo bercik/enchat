@@ -7,9 +7,12 @@ import user.ActiveUser;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
+ * Cheeks if new data are available in input stream associated with user.
+ * If so, Reads the message, decrypts it, and starts new (suitable) thread,
+ * that is responsible for reacting for that message
+ *
  * Created by tochur on 25.04.15.
  */
 public class BufferHandler {
@@ -21,7 +24,7 @@ public class BufferHandler {
                 EncryptedMessage encryptedMessage = messageReader.readMessage(activeUser);
                 //Consider starting a new Thread
                 NewMessageHandler newMessageHandler = new NewMessageHandler(activeUser, encryptedMessage);
-                newMessageHandler.run();
+                new Thread(newMessageHandler).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -31,8 +34,6 @@ public class BufferHandler {
     }
 
     public static boolean isEmpty(DataInputStream inputStream) throws IOException {
-        if ( inputStream.available() > 0)
-            return true;
-        return false;
+        return inputStream.available() <= 0;
     }
 }

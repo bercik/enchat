@@ -1,26 +1,14 @@
 package handlers;
 
 import containers.ActiveUsers;
-import message.Encryption;
-import message.Message;
-import message.MessageCreator;
-import message.utils.MessageSender;
-import messages.IncorrectMessageId;
-import messages.MessageId;
 import rsa.KeyContainer;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
 import server.Server;
 import user.ActiveUser;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
@@ -57,25 +45,29 @@ public class NewClientHandler implements Runnable{
     }
 
     public void createConnection() throws InvalidKeySpecException, NoSuchAlgorithmException, IOException, SignatureException {
+        /*Tworzę nowego użytkownika*/
         ActiveUser newActiveUser = new ActiveUser(clientSocket);
-        keyContainer.getPublicKeyInfo().send(new DataOutputStream(newActiveUser.getOutStream()));
+        //Wysłanie klucza publicznego
+        keyContainer.getPublicKeyInfo().send(newActiveUser.getOutStream());
+
+        //Pobieranie klucza publicznego użytkownika
         PublicKeyInfo clientPublicKeyInfo = null;
         try {
-            clientPublicKeyInfo = new PublicKeyInfo(new DataInputStream(newActiveUser.getInputStream()));
+            clientPublicKeyInfo = new PublicKeyInfo(newActiveUser.getInputStream());
         } catch (GeneratingPublicKeyException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Got modulus: " + clientPublicKeyInfo.getModulus());
-        System.out.println("Got ex: " + clientPublicKeyInfo.getExponent());
-        ActiveUser activeUser = new ActiveUser(clientSocket, clientPublicKeyInfo);
+        System.out.println("Odebrano klucz publiczny nowego użytkownika.");
+        System.out.println("Modulus: " + clientPublicKeyInfo.getModulus());
+        System.out.println("Exponent: " + clientPublicKeyInfo.getExponent());
+        //Ustawienie klucza publicznego
         newActiveUser.setPublicKeyInfo(clientPublicKeyInfo);
-        ActiveUsers.getInstance().addUser(activeUser);
-        System.out.print("CLIENT SERVED");
 
-        Message message = MessageCreator.createInfoMessage(MessageId.SIGN_UP, 1, "String encoded");
+
+        //Sending sample message
+       /* Message message = MessageCreator.createInfoMessage(MessageId.SIGN_UP, 1, "String encoded");
         try {
-            MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, message));
+            MessageSender.sendMessage(newActiveUser, Encryption.encryptMessage(newActiveUser, message));
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {
@@ -86,6 +78,9 @@ public class NewClientHandler implements Runnable{
             e.printStackTrace();
         } catch (IncorrectMessageId incorrectMessageId) {
             incorrectMessageId.printStackTrace();
-        }
+        }*/
+
+        //Adding new user
+        ActiveUsers.getInstance().addUser(newActiveUser);
     }
 }
