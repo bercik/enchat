@@ -10,7 +10,13 @@
 *.war
 *.ear
 
+# netbeans files
+./nb-configuration.xml
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 
+/shared/target/
+/server/target/
+/client/target/
