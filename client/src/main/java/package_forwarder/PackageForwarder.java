@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class PackageForwarder implements Runnable{
 
     public void run() {
+
         //pętla nieskończona która będzie nasłuchiwała strumień
         while(true) {
             try {
@@ -34,6 +35,7 @@ public class PackageForwarder implements Runnable{
                 e.printStackTrace();
             }
         }
+
     }
 
     public void connect() throws IOException, NoSuchAlgorithmException, InvalidKeyException, GeneratingPublicKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, ClassNotFoundException {

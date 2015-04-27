@@ -10,9 +10,22 @@ public enum State {
     LOGGED(2),
     CONVERSATION(3);
 
-    State(int vvalue) {
-        value = vvalue;
+    State(int iid) {
+        id = iid;
     }
 
-    private int value;
+    //funkcja służąca do tworzenia stanu
+    public static State createState(int id) throws IncorrectState {
+        for(State state : State.values()) {
+            if(state.getID() == id)
+                return state;
+        }
+        throw new IncorrectState("Incorrect state !!! Was " + id + " expected: [0 - 3]");
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    private int id;
 }
