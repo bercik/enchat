@@ -6,6 +6,8 @@
 package io.display;
 
 import io.display.IDisplay;
+import java.io.IOException;
+import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *
@@ -13,11 +15,14 @@ import io.display.IDisplay;
  */
 public interface IDisplayManager
 {
-    public void setMsg(String msg, boolean error);
+    public void setMsg(String msg, boolean error) 
+            throws IOException, GeneratingPublicKeyException;
     
-    public void setCommand(String newCommand);
+    public void setCommand(String newCommand)
+            throws IOException, GeneratingPublicKeyException;
     
-    public void setDisplay(IDisplay newDisplay, boolean saveCommandLine);
+    public void setDisplay(IDisplay newDisplay, boolean saveCommandLine)
+            throws IOException, GeneratingPublicKeyException;
     
     public String getCommand();
 }

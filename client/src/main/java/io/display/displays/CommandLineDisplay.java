@@ -16,8 +16,11 @@
  */
 package io.display.displays;
 
+import app_info.Configuration;
 import io.display.IDisplay;
 import io.display.IFormatter;
+import java.io.IOException;
+import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *
@@ -25,11 +28,7 @@ import io.display.IFormatter;
  */
 public abstract class CommandLineDisplay implements IDisplay
 {
-    // TO REPLACE BY CONFIGURATION CLASS
-    private static final int COMMANDLINE_HEIGHT = 20;
-    private static final int COMMANDLINE_WIDTH = 122;
-    //
-    
+    // wysokość lini komend, komunikatu
     private static final int COMMAND_MESSAGE_HEIGHT = 5;
     
     private String msg = "";
@@ -72,12 +71,15 @@ public abstract class CommandLineDisplay implements IDisplay
         return result.toString();
     }
     
-    private String trimOrFill(String body)
+    private String trimOrFill(String body) 
+            throws IOException, GeneratingPublicKeyException
     {
         int bodyHeight = countHeight(body);
         int wholeHeight = bodyHeight + COMMAND_MESSAGE_HEIGHT;
         
-        int diff = wholeHeight - COMMANDLINE_HEIGHT;
+        // get console size from configuration
+        Configuration conf = Configuration.getInstance();
+        int diff = wholeHeight - conf.getHeight();
         
         if (diff > 0)
         {
@@ -133,16 +135,20 @@ public abstract class CommandLineDisplay implements IDisplay
 
     @Override
     public String show()
+            throws IOException, GeneratingPublicKeyException
     {
+        // get console size from configuration
+        Configuration conf = Configuration.getInstance();
+        
         String body = showBody();
         body = trimOrFill(body);
         
         String whole = body + '\n';
         whole += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE,
-                indent(COMMANDLINE_WIDTH));
+                indent(conf.getWidth()));
         whole += '\n' + msg + '\n';
         whole += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE,
-                indent(COMMANDLINE_WIDTH));
+                indent(conf.getWidth()));
         whole += command + '\n';
         
         return whole;

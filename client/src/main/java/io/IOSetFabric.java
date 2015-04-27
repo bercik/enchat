@@ -25,6 +25,7 @@ import io.display.displays.NonConnectedDisplay;
 import io.input.IInput;
 import io.input.LinuxNonBlockingInput;
 import java.io.IOException;
+import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *
@@ -33,7 +34,7 @@ import java.io.IOException;
 public class IOSetFabric
 {
     public static IOSet getIOSet() throws NotSupportedOsException,
-            IOException, InterruptedException
+            IOException, InterruptedException, GeneratingPublicKeyException
     {
         String os = System.getProperty("os.name");
         os = os.toLowerCase();

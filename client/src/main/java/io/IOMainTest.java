@@ -20,6 +20,10 @@ import io.display.IDisplayManager;
 import io.display.displays.NonConnectedDisplay;
 import io.display.displays.TestDisplay;
 import io.input.IInput;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *

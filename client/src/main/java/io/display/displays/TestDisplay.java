@@ -25,8 +25,10 @@ public class TestDisplay extends CommandLineDisplay
     @Override
     public String showBody()
     {
-        return "Test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\n" +
-                "test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\n" +
-                "test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\n";
+        String res = "";
+        for (int i = 0; i < 40; ++i)
+            res += "test" + Integer.toString(i) + '\n';
+        
+        return res;
     }
 }

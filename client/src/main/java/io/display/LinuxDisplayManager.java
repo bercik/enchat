@@ -16,6 +16,10 @@
  */
 package io.display;
 
+import app_info.Configuration;
+import java.io.IOException;
+import rsa.exceptions.GeneratingPublicKeyException;
+
 /**
  *
  * @author robert
@@ -31,6 +35,7 @@ public class LinuxDisplayManager implements IDisplayManager
     private final IFormatter formatter;
 
     public LinuxDisplayManager(IDisplay display, IFormatter fformatter)
+            throws IOException, GeneratingPublicKeyException
     {
         currentDisplay = display;
         currentDisplay.setFormatter(fformatter);
@@ -40,6 +45,7 @@ public class LinuxDisplayManager implements IDisplayManager
 
     @Override
     public void setMsg(String msg, boolean error)
+            throws IOException, GeneratingPublicKeyException
     {
         currentDisplay.setMsg(msg, error);
         refresh();
@@ -47,6 +53,7 @@ public class LinuxDisplayManager implements IDisplayManager
 
     @Override
     public void setCommand(String newCommand)
+            throws IOException, GeneratingPublicKeyException
     {
         currentDisplay.setCommand(newCommand);
         refresh();
@@ -54,6 +61,7 @@ public class LinuxDisplayManager implements IDisplayManager
 
     @Override
     public void setDisplay(IDisplay newDisplay, boolean saveCommandLine)
+            throws IOException, GeneratingPublicKeyException
     {
         newDisplay.setFormatter(formatter);
         if (saveCommandLine)
@@ -85,11 +93,13 @@ public class LinuxDisplayManager implements IDisplayManager
         System.out.print(toPrint);
     }
 
-    private void refresh()
+    private void refresh() throws IOException, GeneratingPublicKeyException
     {
         clearConsole();
-//        setConsoleSize(width, height);
-        setConsoleSize(COMMANDLINE_WIDTH, COMMANDLINE_HEIGHT); // TOCHANGE
+        // get console size from configuration class
+        Configuration conf = Configuration.getInstance();
+        setConsoleSize(conf.getWidth(), conf.getHeight());
+        // show content to user
         System.out.print(currentDisplay.show());
     }
 }
