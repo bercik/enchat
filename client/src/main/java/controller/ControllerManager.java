@@ -34,13 +34,13 @@ public class ControllerManager
         currentController = new MainController(this);
     }
     
-    public void updatePlugin(int id, String[] parameters)
+    public void startPlugin(int id, String[] parameters)
     {
         // TODO
         // need to check if command with given id can do this in current app state
     }
     
-    public void updateController(int id, String[] parameters)
+    public void setController(int id, String[] parameters)
     {
         // TODO
         // need to check if command with given id can do this in current app state
