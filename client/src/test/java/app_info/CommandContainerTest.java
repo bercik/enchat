@@ -405,4 +405,41 @@ public class CommandContainerTest
         IController result = instance.getControllerById(id);
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of registerController method, of class CommandContainer.
+     */
+    @Test
+    public void testRegisterController() throws Exception
+    {
+        System.out.println("registerController");
+        int id = 0;
+        IController controller = null;
+        State[] possibleStates = null;
+        CommandContainer instance = new CommandContainer();
+        try
+        {
+            instance.registerController(id, controller, possibleStates);
+            fail("registerController didn't throw NullCommandException");
+        }
+        catch (NullCommandException ex)
+        {
+        }
+
+        controller = new TestController();
+        possibleStates = new State[]
+        {
+            State.CONNECTED, State.CONVERSATION
+        };
+        instance.registerController(id, controller, possibleStates);
+
+        try
+        {
+            instance.registerController(id, controller, possibleStates);
+            fail("registerController didn't throw IdAlreadyExistsException");
+        }
+        catch (IdAlreadyExistsException ex)
+        {
+        }
+    }
 }
