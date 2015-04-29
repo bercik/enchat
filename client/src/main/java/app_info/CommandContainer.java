@@ -74,6 +74,25 @@ public class CommandContainer implements IPluginCommandContainer,
         itps.put(id, possibleStates);
     }
     
+    public void registerController(int id, IController controller,
+            State[] possibleStates) 
+            throws NullCommandException, IdAlreadyExistsException
+    {
+        // check for exceptions
+        if (controller == null)
+            throw new NullCommandException();
+        
+        if (itp.containsKey(id))
+            throw new IdAlreadyExistsException();
+        
+        if (itc.containsKey(id))
+            throw new IdAlreadyExistsException();
+        
+        // add to maps
+        itc.put(id, controller);
+        itps.put(id, possibleStates);
+    }
+    
     @Override
     public IPlugin[] getAllPlugins()
     {
