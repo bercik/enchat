@@ -1,4 +1,4 @@
-package message;
+package message.types;
 
 import user.ActiveUser;
 

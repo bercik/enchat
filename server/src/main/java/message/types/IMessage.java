@@ -1,4 +1,4 @@
-package message;
+package message.types;
 
 import messages.MessageId;
 
@@ -9,7 +9,6 @@ import java.util.List;
  */
 public interface IMessage {
     public MessageId getId();
-    public int getErrorId();
+    public MessageId.ErrorId getErrorId();
     public int getPackageAmount();
-    public List<?> getPackages();
 }

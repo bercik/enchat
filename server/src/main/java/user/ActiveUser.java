@@ -1,6 +1,6 @@
 package user;
 
-import message.EncryptedMessage;
+import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import rsa.PublicKeyInfo;
 

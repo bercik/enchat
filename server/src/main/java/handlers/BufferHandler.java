@@ -1,6 +1,6 @@
 package handlers;
 
-import message.EncryptedMessage;
+import message.types.EncryptedMessage;
 import message.utils.MessageReader;
 import messages.IncorrectMessageId;
 import user.ActiveUser;

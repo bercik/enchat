@@ -1,7 +1,9 @@
 package responders.registration;
 
 import containers.Registered;
-import message.*;
+import message.types.*;
+import message.utils.Encryption;
+import message.utils.MessageCreator;
 import message.utils.MessageSender;
 import messages.IncorrectMessageId;
 import messages.MessageId;
@@ -29,7 +31,7 @@ import java.util.List;
 public class SignUpMessageHandler extends AbstractMessageHandler {
 
     public void handle(ActiveUser activeUser, EncryptedMessage encryptedMessage){
-        Message message = null;
+        message.types.Message message = null;
         try {
             message = Encryption.decryptMessage(encryptedMessage, activeUser);
         } catch (InvalidKeySpecException e) {
@@ -57,7 +59,7 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
         System.out.print("Password: " + password);
         if(!Registered.getInstance().isLoginFree(login)){
             System.out.print("Login is occupied");
-            Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 1);
+            message.types.Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 1);
             try {
                 MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, message1));
             } catch (IOException e) {
@@ -82,7 +84,7 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
         }else{
             Registered.getInstance().addNewClient(new UserData(strings.get(0), strings.get(1)));
             System.out.print("You has been registered as a: " + strings.get(0));
-            Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 0);
+            message.types.Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 0);
             try {
                 MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, message1));
             } catch (IOException e) {
@@ -135,7 +137,7 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
             case CONNECTED_TO_SERVER:
                 return true;
             case CONNECTED_WITH_OTHER:
-                Message errorMessage = MessageCreator.createInfoMessage(MessageId.SIGN_UP, 1, "You should log out before.");
+                message.types.Message errorMessage = MessageCreator.createInfoMessage("Ypu should log out before");
                 try {
                     EncryptedMessage encryptedMessage = null;
                     try {

@@ -1,10 +1,10 @@
 package responders.logging;
 
 import containers.Registered;
-import message.EncryptedMessage;
-import message.Encryption;
-import message.Message;
-import message.MessageCreator;
+import message.types.EncryptedMessage;
+import message.utils.Encryption;
+import message.types.Message;
+import message.utils.MessageCreator;
 import message.utils.MessageSender;
 import messages.IncorrectMessageId;
 import messages.MessageId;

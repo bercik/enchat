@@ -1,7 +1,7 @@
 package message.utils;
 
-import message.EncryptedMessage;
-import message.Pack;
+import message.types.EncryptedMessage;
+import message.types.Pack;
 import user.ActiveUser;
 
 import java.io.DataOutputStream;
@@ -14,14 +14,6 @@ import java.util.List;
  * This util lets user send messages to other system components.
  */
 public class MessageSender {
-    private static MessageSender messageSender;
-
-    public static MessageSender getInstance(){
-        if( messageSender == null )
-            messageSender = new MessageSender();
-        return messageSender;
-    }
-
     /**
      * Sends message to the user passed as parameter
      * @param activeUser - the user to whom message is sending.
@@ -31,16 +23,17 @@ public class MessageSender {
     public static void sendMessage(ActiveUser activeUser, EncryptedMessage message) throws IOException {
         DataOutputStream out = activeUser.getOutStream();
         out.writeInt(message.getId().getIntRepresentation());
-        out.writeInt(message.getErrorId());
+        out.writeInt(message.getErrorId().getIntRepresentation());
         out.writeInt(message.getPackageAmount());
-        List<Pack> packs = message.getPackages();
-        for (Pack pack: packs){
-            out.writeInt(pack.getDataArrayLength());
-            out.write(pack.getDataArray());
-            out.writeInt(pack.getSignArrayLength());
-            out.write(pack.getSignArray());
+
+        if (message.getPackageAmount() > 0){
+            List<Pack> packs = message.getPackages();
+            for (Pack pack: packs){
+                out.writeInt(pack.getDataArrayLength());
+                out.write(pack.getDataArray());
+                out.writeInt(pack.getSignArrayLength());
+                out.write(pack.getSignArray());
+            }
         }
     }
-
-    private MessageSender(){}
 }

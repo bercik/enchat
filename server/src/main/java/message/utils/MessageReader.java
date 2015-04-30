@@ -1,7 +1,7 @@
 package message.utils;
 
-import message.EncryptedMessage;
-import message.Pack;
+import message.types.EncryptedMessage;
+import message.types.Pack;
 import messages.IncorrectMessageId;
 import user.ActiveUser;
 
@@ -33,29 +33,33 @@ public class MessageReader {
     private DataInputStream in;
 
     public EncryptedMessage readMessage(ActiveUser activeUser) throws IOException, IncorrectMessageId {
+            //Reading message header
             in = activeUser.getInputStream();
             id = in.readInt();
             errorId = in.readInt();
             packageAmount = in.readInt();
+
+            //Reading encrypted packages if exists
             System.out.print("Package Amount: " + packageAmount);
-            for(int i = 0; i<packageAmount; i++){
-                System.out.print("Reading package " + i);
-                int dataArrayLength = in.readInt();
-                System.out.print("Sign Array Length: " + dataArrayLength);
-                byte[] dataArray = new byte[dataArrayLength];
-                in.readFully(dataArray);
+            if(packageAmount > 0){
+                for(int i = 0; i < packageAmount; i++){
+                    System.out.print("Reading package " + i);
+                    int dataArrayLength = in.readInt();
+                    System.out.print("Sign Array Length: " + dataArrayLength);
+                    byte[] dataArray = new byte[dataArrayLength];
+                    in.readFully(dataArray);
 
-                int signArrayLength = in.readInt();
-                System.out.print("Sign Array Length: " + signArrayLength);
-                byte[] signArray = new byte[signArrayLength];
-                in.readFully(signArray);
+                    int signArrayLength = in.readInt();
+                    System.out.print("Sign Array Length: " + signArrayLength);
+                    byte[] signArray = new byte[signArrayLength];
+                    in.readFully(signArray);
 
-                Pack pack = new Pack(dataArray, signArray);
-                packs.add(pack);
+                    Pack pack = new Pack(dataArray, signArray);
+                    packs.add(pack);
+                }
+                return MessageCreator.fromStream(id, errorId, packageAmount, packs);
+            }else{
+                return MessageCreator.fromStream(id, errorId);
             }
-
-            EncryptedMessage message = new EncryptedMessage(id, errorId, packageAmount, packs);
-            return message;
-
     }
 }
