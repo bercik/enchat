@@ -29,8 +29,6 @@ public class CommandContainer implements IPluginCommandContainer,
     
     public void registerCommand(int id, String command, IPlugin plugin, 
             IController controller, State[] possibleStates) 
-            throws NullCommandException, IdAlreadyExistsException, 
-            CommandAlreadyExistsException
     {
         // check for exceptions
         if (plugin == null && controller == null)
@@ -57,7 +55,6 @@ public class CommandContainer implements IPluginCommandContainer,
     }
     
     public void registerPlugin(int id, IPlugin plugin, State[] possibleStates) 
-            throws NullCommandException, IdAlreadyExistsException
     {
         // check for exceptions
         if (plugin == null)
@@ -76,7 +73,6 @@ public class CommandContainer implements IPluginCommandContainer,
     
     public void registerController(int id, IController controller,
             State[] possibleStates) 
-            throws NullCommandException, IdAlreadyExistsException
     {
         // check for exceptions
         if (controller == null)

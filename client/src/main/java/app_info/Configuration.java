@@ -25,9 +25,16 @@ public class Configuration {
     }
 
     //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
-    public static Configuration getInstance() throws IOException, GeneratingPublicKeyException {
-        if(instance == null)
-            instance = new Configuration();
+    public static Configuration getInstance() {
+        if(instance == null) {
+            try {
+                instance = new Configuration();
+            }
+            catch (Exception ex) {
+                throw new ExceptionInInitializerError(ex);
+            }
+        }
+        
         return instance;
     }
 

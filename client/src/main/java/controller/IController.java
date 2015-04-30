@@ -16,4 +16,10 @@ public interface IController
     public void update(String[] parameters);
     
     public void updateError(int error);
+    
+    /**
+     * Metoda wywoływana za każdym razem kiedy IController jest zmieniany
+     * przez ControllerManagera.
+     */
+    public void reset();
 }

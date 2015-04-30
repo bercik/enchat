@@ -9,11 +9,10 @@ package app_info.exceptions;
  *
  * @author robert
  */
-public class NullCommandException extends RuntimeException
+public class IncorrectIdException extends RuntimeException
 {
-    public NullCommandException()
+    public IncorrectIdException(String msg)
     {
-        super("Plugin or both plugin and controller are null when register in"
-                + " command container");
+        super(msg);
     }
 }

@@ -9,7 +9,7 @@ package app_info.exceptions;
  *
  * @author robert
  */
-public class CommandAlreadyExistsException extends Exception
+public class CommandAlreadyExistsException extends RuntimeException
 {
     public CommandAlreadyExistsException()
     {

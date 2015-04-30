@@ -33,7 +33,7 @@ public abstract class CommandLineDisplay implements IDisplay
     
     private String msg = "";
     private String command = "";
-    private IFormatter formatter = null;
+    protected IFormatter formatter = null;
     
     public abstract String showBody();
     
@@ -72,7 +72,6 @@ public abstract class CommandLineDisplay implements IDisplay
     }
     
     private String trimOrFill(String body) 
-            throws IOException, GeneratingPublicKeyException
     {
         int bodyHeight = countHeight(body);
         int wholeHeight = bodyHeight + COMMAND_MESSAGE_HEIGHT;
@@ -135,7 +134,6 @@ public abstract class CommandLineDisplay implements IDisplay
 
     @Override
     public String show()
-            throws IOException, GeneratingPublicKeyException
     {
         // get console size from configuration
         Configuration conf = Configuration.getInstance();

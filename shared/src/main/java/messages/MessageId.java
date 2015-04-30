@@ -35,7 +35,7 @@ public enum MessageId
         this.id = id;
 
         errorIds = EnumSet.noneOf(ErrorId.class); // make an empty enumset
-        errorIds.add(ErrorId.OK);
+        errorIds.add(ErrorId.OK); // always contains OK error
         errorIds.addAll(Arrays.asList(eerrorIds)); // add varargs to it
     }
 

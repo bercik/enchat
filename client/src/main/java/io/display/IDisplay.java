@@ -5,9 +5,6 @@
  */
 package io.display;
 
-import java.io.IOException;
-import rsa.exceptions.GeneratingPublicKeyException;
-
 /**
  *
  * @author robert
@@ -24,7 +21,7 @@ public interface IDisplay
     
     public String getCommand();
     
-    public String show() throws IOException, GeneratingPublicKeyException;
+    public String show();
     
     public void setFormatter(IFormatter newFormatter);
 }

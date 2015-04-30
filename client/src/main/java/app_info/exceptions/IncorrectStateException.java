@@ -1,4 +1,4 @@
-package app_info;
+package app_info.exceptions;
 
 /**
  * @author mateusz
@@ -6,8 +6,8 @@ package app_info;
  */
 
 //klasa służaca do sprawdzania czy stan w jakim ma znajdować się połączenie jest poprawne
-public class IncorrectState extends Exception {
-    IncorrectState(String message) {
+public class IncorrectStateException extends Exception {
+    public IncorrectStateException(String message) {
         super(message);
     }
 }

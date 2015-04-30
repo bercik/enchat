@@ -17,6 +17,12 @@ public class MainController extends CommandLineController
     {
         super(controllerManager);
     }
+
+    @Override
+    public void reset()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     @Override
     public void updateError(int error)

@@ -16,9 +16,11 @@
  */
 package io;
 
+import app_info.Info;
 import io.display.IDisplayManager;
+import io.display.displays.ConnectedDisplay;
+import io.display.displays.LoggedDisplay;
 import io.display.displays.NonConnectedDisplay;
-import io.display.displays.TestDisplay;
 import io.input.IInput;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -53,9 +55,11 @@ public class IOMainTest
                     }
                     else if (ch == 10)
                     {
-                        displayManager.setMsg("BAH", true);
+                        String nick = "bercik";
+                        Info.getInstance().setUserName(nick);
+                        displayManager.setMsg("Zalogowany jako " + nick, false);
                         displayManager.setDisplay(
-                                new TestDisplay(), true);
+                                new LoggedDisplay(), true);
                     }
                     else if (ch == 127)
                     {

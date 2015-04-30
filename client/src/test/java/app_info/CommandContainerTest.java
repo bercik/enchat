@@ -48,6 +48,12 @@ public class CommandContainerTest
         {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+        @Override
+        public void reset()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
     // end of classes used to tests
 

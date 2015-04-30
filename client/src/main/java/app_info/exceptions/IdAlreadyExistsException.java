@@ -9,7 +9,7 @@ package app_info.exceptions;
  *
  * @author robert
  */
-public class IdAlreadyExistsException extends Exception
+public class IdAlreadyExistsException extends RuntimeException
 {
     public IdAlreadyExistsException()
     {

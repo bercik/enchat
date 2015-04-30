@@ -15,14 +15,11 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public interface IDisplayManager
 {
-    public void setMsg(String msg, boolean error) 
-            throws IOException, GeneratingPublicKeyException;
+    public void setMsg(String msg, boolean error);
     
-    public void setCommand(String newCommand)
-            throws IOException, GeneratingPublicKeyException;
+    public void setCommand(String newCommand);
     
-    public void setDisplay(IDisplay newDisplay, boolean saveCommandLine)
-            throws IOException, GeneratingPublicKeyException;
+    public void setDisplay(IDisplay newDisplay, boolean saveCommandLine);
     
     public String getCommand();
 }
