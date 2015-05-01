@@ -32,10 +32,10 @@ public final class RSA {
      * @throws java.security.InvalidKeyException wyjątek rzucany gdy klucz jest niesprawny
      * (np. gdy ma nieodpowiednia długość itp)
      */
-    public static byte[] encrypt(byte[] toEncrypt, Key key) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public static byte[] encrypt(byte[] toEncrypt, Key key) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
             Cipher rsa = Cipher.getInstance(CIPHER_ALGORITHM_NAME);
-            rsa.init(Cipher.ENCRYPT_MODE, key);
-            return rsa.doFinal(toEncrypt);
+        rsa.init(Cipher.ENCRYPT_MODE, key);
+        return rsa.doFinal(toEncrypt);
     }
     
     /**
