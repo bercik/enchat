@@ -15,6 +15,10 @@ public class Message extends AbstractMessage {
         super(id, errorId, 0);
     }
 
+    public Message(Header header) {
+        super(header);
+    }
+
     public Message(MessageId messageId, MessageId.ErrorId errorId, String info){
         super(messageId, errorId, 1);
         this.data = new LinkedList<String>();
@@ -30,8 +34,12 @@ public class Message extends AbstractMessage {
         }
     }
 
-    public Message(Header header) {
+    public Message(Header header, List<String> info) {
         super(header);
+        this.data = new LinkedList<String>();
+        for(String s: info){
+            this.data.add(new String(s));
+        }
     }
 
     /*Consider to make a deep copy*/

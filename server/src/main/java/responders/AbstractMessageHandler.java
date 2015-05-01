@@ -9,5 +9,5 @@ import user.ActiveUser;
  */
 public abstract class AbstractMessageHandler implements MessageHandler {
     public abstract void handle(ActiveUser activeUser, EncryptedMessage message);
-    protected abstract boolean isMessageAppropriate(ActiveUser activeUser, IMessage message);
+    //protected abstract boolean isMessageAppropriate(ActiveUser activeUser, IMessage message);
 }

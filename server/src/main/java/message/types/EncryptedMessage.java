@@ -25,13 +25,13 @@ public class EncryptedMessage extends AbstractMessage {
        super(id, errorId, 0);
     }
 
-    public EncryptedMessage(Header header) {
-        super(header);
-    }
-
     public EncryptedMessage(Header header, List<Pack> packs) {
         super(header);
         this.packages = packs;
+    }
+
+    public EncryptedMessage(Header header) {
+        super(header);
     }
 
     public List<Pack> getPackages() { return packages; }

@@ -5,9 +5,11 @@ import message.types.*;
 import message.utils.Encryption;
 import message.utils.MessageCreator;
 import message.utils.MessageSender;
+import message.utils.Messages;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import responders.AbstractMessageHandler;
+import rsa.exceptions.EncryptionException;
 import user.ActiveUser;
 import user.UserData;
 
@@ -31,27 +33,14 @@ import java.util.List;
 public class SignUpMessageHandler extends AbstractMessageHandler {
 
     public void handle(ActiveUser activeUser, EncryptedMessage encryptedMessage){
-        message.types.Message message = null;
+        Message message = null;
+
         try {
             message = Encryption.decryptMessage(encryptedMessage, activeUser);
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (SignatureException e) {
+        } catch (EncryptionException e) {
             e.printStackTrace();
         }
-        //isMessageAppropriate(activeUser, message);
+
         List<String> strings = message.getPackages();
         String login = strings.get(0);
         String password = strings.get(1);
@@ -59,114 +48,23 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
         System.out.print("Password: " + password);
         if(!Registered.getInstance().isLoginFree(login)){
             System.out.print("Login is occupied");
-            message.types.Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 1);
+            Message message1 = Messages.occupiedLogin();
             try {
                 MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, message1));
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (IllegalBlockSizeException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            } catch (BadPaddingException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (IncorrectMessageId incorrectMessageId) {
-                incorrectMessageId.printStackTrace();
-            } catch (InvalidKeySpecException e) {
-                e.printStackTrace();
-            } catch (SignatureException e) {
+            } catch (EncryptionException e) {
                 e.printStackTrace();
             }
         }else{
             Registered.getInstance().addNewClient(new UserData(strings.get(0), strings.get(1)));
-            System.out.print("You has been registered as a: " + strings.get(0));
-            message.types.Message message1 = MessageCreator.createHeaderMessage(MessageId.SIGN_UP, 0);
+            System.out.print("New user registered: " + strings.get(0));
+            EncryptedMessage message1 = Messages.loggedSuccessfully();
             try {
-                MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, message1));
+                MessageSender.sendMessage(activeUser, message1);
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (IllegalBlockSizeException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            } catch (BadPaddingException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (IncorrectMessageId incorrectMessageId) {
-                incorrectMessageId.printStackTrace();
-            } catch (InvalidKeySpecException e) {
-                e.printStackTrace();
-            } catch (SignatureException e) {
                 e.printStackTrace();
             }
         }
-        //Message message2 = MessageCreator.createInfoMessage(MessageId.SERVER_MESSAGE,0,"Wiadomość zaszyfrowana");
-       /* try {
-            MessageSender.sendMessage(activeUser,Encryption.encryptMessage(activeUser,message2));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IncorrectMessageId incorrectMessageId) {
-            incorrectMessageId.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (SignatureException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    @Override
-    protected boolean isMessageAppropriate(ActiveUser activeUser, IMessage message) {
-        switch ( activeUser.getState() ) {
-            case CONNECTED_TO_SERVER:
-                return true;
-            case CONNECTED_WITH_OTHER:
-                message.types.Message errorMessage = MessageCreator.createInfoMessage("Ypu should log out before");
-                try {
-                    EncryptedMessage encryptedMessage = null;
-                    try {
-                        encryptedMessage = Encryption.encryptMessage(activeUser, errorMessage);
-                    } catch (InvalidKeySpecException e) {
-                        e.printStackTrace();
-                    } catch (SignatureException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        MessageSender.sendMessage(activeUser, encryptedMessage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (IllegalBlockSizeException e) {
-                    e.printStackTrace();
-                } catch (InvalidKeyException e) {
-                    e.printStackTrace();
-                } catch (BadPaddingException e) {
-                    e.printStackTrace();
-                } catch (NoSuchPaddingException e) {
-                    e.printStackTrace();
-                } catch (IncorrectMessageId incorrectMessageId) {
-                    incorrectMessageId.printStackTrace();
-                }
-
-        }
-        return false;
     }
 }

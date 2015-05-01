@@ -25,26 +25,14 @@ public class HeaderTest {
     @Test(expected = IncorrectMessageId.class)
     public void headerWontBeCreatedWhenHeaderIdIsIncorrect() throws IncorrectMessageId {
         //when
-        MessageId id = MessageId.createMessageId(14);
+        MessageId id = MessageId.createMessageId(15);
         MessageId.ErrorId errorId = id.createErrorId(0);
-        Header header = new Header(id, errorId, 1);
-
-        //then
-        assertThat(header.getId(), is(id));
-        assertThat(header.getErrorId(), is(errorId));
-        assertThat(header.getPackageAmount(), is(1));
     }
 
-    @Test(expected = IncorrectMessageId.class)
+   @Test(expected = IncorrectMessageId.class)
     public void headerWontBeCreatedWhenHeaderErrorIdIsIncorrect() throws IncorrectMessageId {
         //when
         MessageId id = MessageId.createMessageId(2);
         MessageId.ErrorId errorId = id.createErrorId(4);
-        Header header = new Header(id, errorId, 1);
-
-        //then
-        assertThat(header.getId(), is(id));
-        assertThat(header.getErrorId(), is(errorId));
-        assertThat(header.getPackageAmount(), is(1));
     }
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by tochur on 17.04.15.
  *
  * It is responsible for reading the message from the user.
- * Message from buffer is changed to Message object.
+ * Message from buffer is changed to EncryptedMessage object.
  * The message is read from the clients buffer.
  * Message format is:
  *      id      - (int32)
