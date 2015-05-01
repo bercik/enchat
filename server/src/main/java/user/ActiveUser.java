@@ -12,75 +12,77 @@ import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 /**
  * Created by tochur on 16.04.15.
  *
- * Represents user that is capable to interact with server.
+ * Represents user that is at least capable to interact with server.
+ * It can change it's state
  */
 
 public class ActiveUser{
-    /*Public key - used to encrypt messages before sending*/
+    /* Public key - used to encrypt messages before sending */
     private PublicKey publicKey;
+    /* Holds characteristic and constant userData */
     private UserData userData;
-    private UserState userState = UserState.DISCONNECTED;
+    /* Represents user current state */
+    private UserState userState;
+    /* Stream used for sending messages to user */
     private DataInputStream in;
+    /* Stream used for reading messages that user send to server. */
     private DataOutputStream out;
+    /* Socket let us exchange messages - after constructing it's not used, but probably reference is necessary (garbage collector) */
+    private Socket clientSocket;
+    /* Reference to room, its necessary to make a conversation. */
     private ChatRoom room;
 
 
-    /*Represents the user that is active.*/
+    /**
+     * Creates the user that is able to exchange messages with server.
+     * @param clientSocket - interface to user.
+     * @throws IOException - Some IOException can always happen during stream creation.
+     */
     public ActiveUser(Socket clientSocket) throws IOException {
+        this.clientSocket = clientSocket;
         this.in = new DataInputStream( clientSocket.getInputStream());
         this.out = new DataOutputStream( clientSocket.getOutputStream());
         this.userState = UserState.CONNECTED_TO_SERVER;
     }
 
     /**
-     * Setting publicKey
+     * Setting publicKey, which is used to encrypt messages
      * @param publicKey - public key received from user.
      */
-    public void setPublicKeyInfo(PublicKey publicKey){
+    public void setPublicKey(PublicKey publicKey){
         this.publicKey = publicKey;
     }
 
     /**
-     * Get Public key
+     * Returns the user public key, used to encrypt messages.
      * @return User PublicKey
      */
     public PublicKey getPublicKey(){
         return this.publicKey;
     }
 
-    /**
-     *
-     * @param userData
-     */
+
     public void setData(UserData userData){
         this.userData = userData;
     }
 
-    /**
-     * Gets user current state
-     * @return - UserState - actual user state
-     */
+    public UserData getUserData(){
+        return userData;
+    }
+
     public UserState getState(){
         return userState;
     }
 
-
-    /**
-     * Changes Current User State
-     * @param state - new user State.
-     */
     public void setState(UserState state){
         this.userState = state;
     }
 
-    /**
-     * Gets nick of user.
-     * @return nick of the user
-     */
     public String getNick(){
         return userData.getNick();
     }
@@ -88,7 +90,6 @@ public class ActiveUser{
     public String getPassword(){
         return userData.getPassword();
     }
-
 
     public DataInputStream getInputStream() throws IOException {
         return in;

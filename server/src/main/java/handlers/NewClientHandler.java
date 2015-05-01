@@ -10,6 +10,7 @@ import user.ActiveUser;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -53,7 +54,8 @@ public class NewClientHandler implements Runnable{
         System.out.println("Modulus: " + clientPublicKeyInfo.getModulus());
         System.out.println("Exponent: " + clientPublicKeyInfo.getExponent());
         //Ustawienie klucza publicznego
-        newActiveUser.setPublicKeyInfo(clientPublicKeyInfo);
+        PublicKey publicKey = clientPublicKeyInfo.getPublicKey();
+        newActiveUser.setPublicKey(publicKey);
 
         //Adding new user
         ActiveUsers.getInstance().addUser(newActiveUser);
