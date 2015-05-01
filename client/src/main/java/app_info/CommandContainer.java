@@ -47,9 +47,15 @@ public class CommandContainer implements IPluginCommandContainer,
         sti.put(command, id);
         
         if (plugin != null)
+        {
+            plugin.setId(id);
             itp.put(id, plugin);
+        }
         if (controller != null)
+        {
+            controller.setId(id);
             itc.put(id, controller);
+        }
         
         itps.put(id, possibleStates);
     }
@@ -67,6 +73,7 @@ public class CommandContainer implements IPluginCommandContainer,
             throw new IdAlreadyExistsException();
         
         // add to maps
+        plugin.setId(id);
         itp.put(id, plugin);
         itps.put(id, possibleStates);
     }
@@ -85,6 +92,7 @@ public class CommandContainer implements IPluginCommandContainer,
             throw new IdAlreadyExistsException();
         
         // add to maps
+        controller.setId(id);
         itc.put(id, controller);
         itps.put(id, possibleStates);
     }

@@ -11,5 +11,7 @@ package plugin;
  */
 public interface IPlugin
 {
+    public void setId(int id);
     
+    public void getId();
 }

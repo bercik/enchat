@@ -18,10 +18,10 @@ public class ConnectedDisplay extends CommandLineDisplay
     {
         String body = "Jesteś teraz połączony z serwerem!\n\n" +
                 "Możesz się zarejestrować wpisując komendę " + 
-                formatter.fg(IFormatter.Color.YELLOW, "/register") + "\n" +
+                formatter.fg(COMMAND_FG_COLOR, "/register") + "\n" +
                 "lub zalogować wpisując komendę " + 
-                formatter.fg(IFormatter.Color.YELLOW, "/login") + "\n\n" +
-                "Wpisz " + formatter.fg(IFormatter.Color.YELLOW, "/help") +
+                formatter.fg(COMMAND_FG_COLOR, "/login") + "\n\n" +
+                "Wpisz " + formatter.fg(COMMAND_FG_COLOR, "/help") +
                 " aby uzyskać więcej informacji";
         
         return body;

@@ -21,7 +21,7 @@ public class LoggedDisplay extends CommandLineDisplay
         
         String body = "Jesteś teraz zalogowany jako " + info.getUserName() + 
                 "!\n\n" + "Aby uzyskać więcej informacji wpisz " +
-                formatter.fg(IFormatter.Color.YELLOW, "/help");
+                formatter.fg(COMMAND_FG_COLOR, "/help");
         
         return body;
     }

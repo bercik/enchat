@@ -8,6 +8,7 @@ package app_info;
 import app_info.exceptions.CommandAlreadyExistsException;
 import app_info.exceptions.IdAlreadyExistsException;
 import app_info.exceptions.NullCommandException;
+import controller.ControllerManager;
 import controller.IController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,9 +29,28 @@ public class CommandContainerTest
     // classes used to test
     private static class TestPlugin implements IPlugin
     {
+
+        @Override
+        public void setId(int id)
+        {
+        }
+
+        @Override
+        public void getId()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
     }
     private static class TestController implements IController
     {
+
+        @Override
+        public void setId(int iid)
+        {
+        }
+        
+        
         @Override
         public void putChar(char ch)
         {
@@ -38,7 +58,13 @@ public class CommandContainerTest
         }
 
         @Override
-        public void update(String[] parameters)
+        public void start(String previousCommand, String[] parameters)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public String getCommand()
         {
             throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -49,6 +75,18 @@ public class CommandContainerTest
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
+        @Override
+        public void setControllerManager(ControllerManager ccontrollerManager)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public int getId()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
         @Override
         public void reset()
         {

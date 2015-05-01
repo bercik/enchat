@@ -30,6 +30,11 @@ public abstract class CommandLineDisplay implements IDisplay
 {
     // wysokość lini komend, komunikatu
     private static final int COMMAND_MESSAGE_HEIGHT = 5;
+    // kolory
+    protected static final IFormatter.Color COMMAND_FG_COLOR = 
+            IFormatter.Color.YELLOW;
+    protected static final IFormatter.Color PARAMETER_BG_COLOR = 
+            IFormatter.Color.GREEN;
     
     private String msg = "";
     private String command = "";

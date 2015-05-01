@@ -35,6 +35,8 @@ public class ControllerManager
     {
         // TODO 
         // pluginManager
+        // iterate over plugins and setPluginManager(this)!!!
+        
         // unchanging references to some core objects
         controllerCommandContainer = ccontrollerCommandContainer;
         displayManager = ddisplayManager;
@@ -42,7 +44,15 @@ public class ControllerManager
         appState = State.NOT_CONNECTED;
         // this will be changed by CommandContainer get of
         // MainController instance
-        currentController = new MainController(this);
+        currentController = controllerCommandContainer.getControllerById(
+                Id.MAIN_CONTROLLER.getIntRepresentation());
+        
+        // update controller manager reference in controllers
+        for (IController controller : 
+                controllerCommandContainer.getAllControllers())
+        {
+            controller.setControllerManager(this);
+        }
     }
 
     public void startPlugin(int id, String[] parameters)
@@ -68,10 +78,11 @@ public class ControllerManager
         // need to check if command with given id can do this in current app state
         if (controllerCommandContainer.checkCommandAvailability(id, appState))
         {
+            String previousCommand = currentController.getCommand();
             currentController.reset();
             currentController
                     = controllerCommandContainer.getControllerById(id);
-            currentController.update(parameters);
+            currentController.start(previousCommand, parameters);
         }
         else
         {
@@ -84,13 +95,11 @@ public class ControllerManager
     }
 
     public void setCommand(String newCommand)
-            throws IOException, GeneratingPublicKeyException
     {
         displayManager.setCommand(newCommand);
     }
 
     public void setMsg(String msg, boolean error)
-            throws IOException, GeneratingPublicKeyException
     {
         displayManager.setMsg(msg, error);
     }
@@ -123,11 +132,8 @@ public class ControllerManager
         }
         // change app state
         appState = newAppState;
-        // reset previous controller
-        currentController.reset();
-        // change currentController to MainController
-        currentController = controllerCommandContainer.getControllerById(
-                Id.MAIN_CONTROLLER.getIntRepresentation());
+        // change controller
+        setController(Id.MAIN_CONTROLLER.getIntRepresentation(), null);
         // change to proper display depends on app state
         switch (newAppState)
         {

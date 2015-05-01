@@ -13,13 +13,28 @@ public interface IController
 {
     public void putChar(char ch);
     
-    public void update(String[] parameters);
+    /**
+     * Metoda wywoływana za każdym razem gdy IController jest ustawiany
+     * jako currentController w ControllerManager.
+     * 
+     * @param previousCommand komenda w poprzednim kontrolerze
+     * @param parameters  parametry
+     */
+    public void start(String previousCommand, String[] parameters);
+    
+    public int getId();
+    
+    public void setId(int iid);
     
     public void updateError(int error);
     
+    public String getCommand();
+    
+    public void setControllerManager(ControllerManager ccontrollerManager);
+    
     /**
      * Metoda wywoływana za każdym razem kiedy IController jest zmieniany
-     * przez ControllerManagera.
+     * na inny przez ControllerManagera.
      */
     public void reset();
 }
