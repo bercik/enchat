@@ -33,7 +33,6 @@ public class LogInMessageHandler extends AbstractMessageHandler {
      */
     public LogInMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted) {
         super(activeUser, encrypted);
-        permittedStates = new UserState[] {UserState.AFTER_KEY_EXCHANGE};
     }
 
     @Override
@@ -70,5 +69,10 @@ public class LogInMessageHandler extends AbstractMessageHandler {
         } catch (IOException e) {
             throw new ReactionException();
         }
+    }
+
+    @Override
+    protected UserState[] getPermittedUserStates() {
+        return new UserState[] {UserState.AFTER_KEY_EXCHANGE};
     }
 }

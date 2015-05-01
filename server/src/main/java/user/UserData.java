@@ -2,6 +2,8 @@ package user;
 
 import containers.BlackList;
 
+import java.util.List;
+
 /**
  * Created by tochur on 16.04.15.
  */
@@ -24,4 +26,6 @@ public class UserData {
     public String getPassword(){
         return password;
     }
+
+    public BlackList getBlackList(){ return blackList; }
 }

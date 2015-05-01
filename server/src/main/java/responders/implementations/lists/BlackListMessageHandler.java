@@ -1,24 +1,28 @@
-package responders.implementations;
+package responders.implementations.lists;
 
+import containers.BlackList;
+import message.generarators.Lists;
 import message.types.EncryptedMessage;
+import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.ActiveUser;
 import user.UserState;
 
+import java.io.IOException;
+
 /**
  * Created by tochur on 19.04.15.
  */
-public class DisconnectMessageHandler extends AbstractMessageHandler {
-
+public class BlackListMessageHandler extends AbstractMessageHandler {
     /**
-     * Constructor of DisconnectRequestHandler
+     * Constructor of handler
      *
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public DisconnectMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public BlackListMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 
@@ -34,13 +38,17 @@ public class DisconnectMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected void reaction() throws ReactionException {
-        sender.getRoom().remove(sender);
-        sender.setRoom(null);
-        sender.setState(UserState.LOGGED);
+        String[] nicks = sender.getUserData().getBlackList().getNicks();
+        EncryptedMessage answer = Lists.blackList(sender, nicks);
+        try {
+            MessageSender.sendMessage(sender, answer);
+        } catch (IOException e) {
+            throw new ReactionException();
+        }
     }
 
     @Override
     protected UserState[] getPermittedUserStates() {
-        return new UserState[] {UserState.IN_ROOM};
+        return new UserState[] {UserState.LOGGED};
     }
 }

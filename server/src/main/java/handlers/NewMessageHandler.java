@@ -5,6 +5,8 @@ import messages.MessageId;
 import responders.*;
 import responders.exceptions.*;
 import responders.implementations.*;
+import responders.implementations.lists.AddToBlackListMessageHandler;
+import responders.implementations.lists.BlackListMessageHandler;
 import rsa.exceptions.DecryptingException;
 import user.ActiveUser;
 
@@ -47,9 +49,7 @@ public class NewMessageHandler implements Runnable {
             case SIGN_UP:
                 return new SignUpMessageHandler(activeUser, message);
             case CONVERSATION_REQUEST:
-                return new ConversationRequestMessageHandler();
-            case INCOMING_CONVERSATION:
-                return new IncomingConversationMessageHandler();
+                return new ConversationRequestMessageHandler(activeUser, message);
             case CLIENT_MESSAGE:
                 return new ClientMessageMessageHandler();
             case SERVER_MESSAGE:
@@ -59,13 +59,13 @@ public class NewMessageHandler implements Runnable {
             case CLIENTS_LIST:
                 return new ClientListMessageHandler();
             case BLACK_LIST:
-                return new BlackListMessageHandler();
+                return new BlackListMessageHandler(activeUser, message);
             case ADD_TO_BLACK_LIST:
-                return new AddToBlackListMessageHandler();
+                return new AddToBlackListMessageHandler(activeUser, message);
             case REMOVE_FROM_BLACK_LIST:
                 return new RemoveFromBlackListMessageHandler();
             case DISCONNECT:
-                return new DisconnectMessageHandler();
+                return new DisconnectMessageHandler(activeUser, message);
         }
         throw new NoHandlersFound(messageId);
     }

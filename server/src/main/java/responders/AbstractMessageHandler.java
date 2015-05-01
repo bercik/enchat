@@ -24,12 +24,13 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
 
     /**
      * Constructor of handler
-     * @param activeUser - author of the message
+     * @param sender - author of the message
      * @param encrypted - received message
      */
-    public AbstractMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted){
-        this.sender = activeUser;
+    public AbstractMessageHandler(ActiveUser sender, EncryptedMessage encrypted){
+        this.sender = sender;
         this.encrypted = encrypted;
+        this.permittedStates = getPermittedUserStates();
     }
 
     /**
@@ -76,6 +77,12 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @throws ReactionException
      */
     protected abstract void reaction() throws ReactionException;
+
+    /**
+     * Prepares list of UserStates in which user is allowed to send this type of message
+     * @return Array of allowed states.
+     */
+    protected abstract UserState[] getPermittedUserStates();
 
     /**
      * Decrypts the message and ensign it to this.message;

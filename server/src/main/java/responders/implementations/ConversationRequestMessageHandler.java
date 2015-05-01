@@ -3,11 +3,15 @@ package responders.implementations;
 import containers.Logged;
 import message.generarators.ConversationRequest;
 import message.types.EncryptedMessage;
+import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ToMuchUsersInThisRoom;
 import rsa.exceptions.DecryptingException;
 import user.ActiveUser;
+import user.UserState;
+
+import java.io.IOException;
 
 /**
  * Created by tochur on 19.04.15.
@@ -19,11 +23,11 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     /**
      * Constructor of handler
      *
-     * @param activeUser - author of the message
+     * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public ConversationRequestMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted) {
-        super(activeUser, encrypted);
+    public ConversationRequestMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+        super(sender, encrypted);
     }
 
     @Override
@@ -40,10 +44,12 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     protected void reaction() throws ReactionException {
         EncryptedMessage answer;
 
-        //If user is not logged
+        //If user is not logged or is on black list.
         if( (userToConnect = Logged.getInstance().getUserIfLogged(nick)) == null){
             answer = ConversationRequest.notLogged();
-        } else {
+        }else if (userToConnect.getUserData().getBlackList().hasNick(nick)){
+            answer = ConversationRequest.notLogged();
+        }else {
             try {
                 userToConnect.getRoom().add(sender);
                 answer = ConversationRequest.connected();
@@ -51,5 +57,15 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
                 answer = ConversationRequest.busyUser();
             }
         }
+        try {
+            MessageSender.sendMessage(sender, answer);
+        } catch (IOException e) {
+            throw new ReactionException();
+        }
+    }
+
+    @Override
+    protected UserState[] getPermittedUserStates() {
+        return new UserState[] {UserState.LOGGED};
     }
 }
