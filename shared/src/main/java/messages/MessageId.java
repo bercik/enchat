@@ -6,6 +6,7 @@ import java.util.EnumSet;
 
 /**
  * Created by tochur on 17.04.15. Modified by robert on 29.04.15.
+ * Official version verified by (tochur) on 30.04.15
  */
 public enum MessageId
 {
@@ -25,13 +26,13 @@ public enum MessageId
             ErrorId.TOO_MUCH_USERS_ON_BLACKLIST),
     REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST),
     DISCONNECT(12),
-    PUBLIC_KEY(13);
+    PUBLIC_KEY(13),
+    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED);
 
     private int id;
     private EnumSet<ErrorId> errorIds;
 
-    private MessageId(int id, ErrorId... eerrorIds)
-    {
+    private MessageId(int id, ErrorId... eerrorIds){
         this.id = id;
 
         errorIds = EnumSet.noneOf(ErrorId.class); // make an empty enumset
@@ -39,8 +40,7 @@ public enum MessageId
         errorIds.addAll(Arrays.asList(eerrorIds)); // add varargs to it
     }
 
-    public static enum ErrorId
-    {
+    public static enum ErrorId{
         OK(0),
         BAD_LOGIN_OR_PASSWORD(1),
         TOO_MUCH_USERS_LOGGED(2),
@@ -54,7 +54,8 @@ public enum MessageId
         FAILED(1),
         USER_DOESNT_EXIST(1),
         TOO_MUCH_USERS_ON_BLACKLIST(2),
-        USER_NOT_ON_BLACKLIST(1);
+        USER_NOT_ON_BLACKLIST(1),
+        MESSAGE_DECRYPTING_FAILED(1);
 
         private int id;
 
@@ -69,19 +70,15 @@ public enum MessageId
         }
     }
 
-    public ErrorId createErrorId(int id) throws IncorrectMessageId
-    {
+    public ErrorId createErrorId(int id) throws IncorrectMessageId{
         int max = Integer.MIN_VALUE;
 
-        for (ErrorId errorId : errorIds)
-        {
-            if (errorId.getIntRepresentation() > max)
-            {
+        for (ErrorId errorId : errorIds){
+            if (errorId.getIntRepresentation() > max){
                 max = errorId.getIntRepresentation();
             }
 
-            if (errorId.getIntRepresentation() == id)
-            {
+            if (errorId.getIntRepresentation() == id){
                 return errorId;
             }
         }
@@ -90,17 +87,14 @@ public enum MessageId
                 + " expected: [0 - " + Integer.toString(max) + "]");
     }
 
-    public static MessageId createMessageId(int id) throws IncorrectMessageId
-    {
-        for (MessageId messageId : MessageId.values())
-        {
-            if (messageId.getIntRepresentation() == id)
-            {
+    public static MessageId createMessageId(int id) throws IncorrectMessageId{
+        for (MessageId messageId : MessageId.values()){
+            if (messageId.getIntRepresentation() == id){
                 return messageId;
             }
         }
         throw new IncorrectMessageId("Incorrect message id !!! Was: " + id
-                + " expected: [0 - 12]");
+                + " expected: [0 - 13]");
     }
 
     public int getIntRepresentation()
