@@ -10,23 +10,52 @@ import java.util.EnumSet;
  */
 public enum MessageId
 {
+    // śmieci (używane do sprawdzenia czy połączenie istnieje)
     JUNK(0),
+    // logowanie
+    // BAD_LOGIN_OR_PASSWORD - zły login lub hasło
+    // TOO_MUCH_USERS_LOGGED - za dużo zalogowanych użytkowników
     LOG_IN(1, ErrorId.BAD_LOGIN_OR_PASSWORD, ErrorId.TOO_MUCH_USERS_LOGGED),
-    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, 
-            ErrorId.BAD_PASSWORD_LENGTH),
+    // rejestracja
+    // BUSY_LOGIN - login zajęty
+    // INCORRECT_LOGIN - nieprawidłowy login 
+    // (zawiera inne znaki niż alfanumeryczne ASCII)
+    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN),
+    // żądanie konwersacji (klient -> serwer)
+    // USER_NOT_LOGGED - użytkownik z którym chcemy rozmawiać jest niezalogowany
+    // BUSY_USER - użytkownik z którym chcemy rozmawiać jest zajęty
+    // (prowadzi rozmowę albo wpisał nas na czarną listę)
+    // CONVERSATION_WITH_ANOTHER_USER - prowadzimy aktualnie rozmowę z kimś innym
     CONVERSATION_REQUEST(3, ErrorId.USER_NOT_LOGGED, ErrorId.BUSY_USER, 
             ErrorId.CONVERSATION_WITH_ANOTHER_USER),
+    // przychodzące połączenie (serwer -> klient)
+    // IM_BUSY - ktoś próbował się z nami połączyć, ale rozmawiamy z kimś innym
     INCOMING_CONVERSATION(4, ErrorId.IM_BUSY),
+    // wiadomość od klienta (klient -> serwer)
+    // FAILED - nie udało wysłać się wiadomości (jakikolwiek powód)
     CLIENT_MESSAGE(5, ErrorId.FAILED),
+    // wiadomość od serwera (serwer -> klient)
     SERVER_MESSAGE(6),
+    // zakończenie rozmowy
     CONVERSATIONALIST_DISCONNECTED(7),
+    // prośba o listę zalogowanych użytkowników
     CLIENTS_LIST(8),
+    // prośba o moją czarną listę
     BLACK_LIST(9),
+    // dodanie użytkownika do czarnej listy
+    // USER_DOESNT_EXIST - użytkownik nie istnieje
+    // TOO_MUCH_USERS_ON_BLACKLIST - posiadamy za dużo osób na czarnej liście
     ADD_TO_BLACK_LIST(10, ErrorId.USER_DOESNT_EXIST, 
             ErrorId.TOO_MUCH_USERS_ON_BLACKLIST),
+    // usuń użytkownika z czarnej listy
+    // USER_NOT_ON_BLACKLIST - użytkownik nie znajduje się na czarnej liście
     REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST),
+    // rozłącz z serwerem
     DISCONNECT(12),
+    // klucz publiczny (do wyrzucenia) !!!
     PUBLIC_KEY(13),
+    // błąd serwera
+    // MESSAGE_DECRYPTING_FAILED - nie udało się odszyfrować wiadomości
     SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED);
 
     private int id;
@@ -46,7 +75,6 @@ public enum MessageId
         TOO_MUCH_USERS_LOGGED(2),
         BUSY_LOGIN(1),
         INCORRECT_LOGIN(2),
-        BAD_PASSWORD_LENGTH(3),
         USER_NOT_LOGGED(1),
         BUSY_USER(2),
         CONVERSATION_WITH_ANOTHER_USER(3),
