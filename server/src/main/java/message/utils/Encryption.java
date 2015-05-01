@@ -1,9 +1,8 @@
 package message.utils;
 
+import message.types.EncryptedMessage;
 import message.types.Message;
 import message.types.Pack;
-import message.types.EncryptedMessage;
-import messages.IncorrectMessageId;
 import rsa.RSA;
 import rsa.exceptions.DecryptingException;
 import rsa.exceptions.EncryptingException;
@@ -11,12 +10,9 @@ import rsa.exceptions.EncryptionException;
 import server.Server;
 import user.ActiveUser;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
-import java.security.*;
-import java.security.spec.InvalidKeySpecException;
+import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,12 +22,12 @@ import java.util.List;
  * Created by tochur on 24.04.15.
  */
 public class Encryption {
-    public static Message decryptMessage(EncryptedMessage encrypted, ActiveUser activeUser) throws EncryptionException {
+    public static Message decryptMessage(EncryptedMessage encrypted, ActiveUser activeUser) throws DecryptingException{
         if( encrypted.getPackageAmount() == 0 ){
             return new Message(encrypted.getId(), encrypted.getErrorId());
         }else{
             List<Pack> packages = encrypted.getPackages();
-            List<String> strings = new LinkedList<String>();
+            List<String> strings = new LinkedList<>();
             Key privateServerKey = getPrivateKey();
             for(Pack pack: packages){
                 byte[] decrypted = decrypt(pack.getDataArray(), privateServerKey);
@@ -49,7 +45,7 @@ public class Encryption {
      * @return encrypted message
      */
     public static EncryptedMessage encryptMessage(ActiveUser activeUser, Message message) throws EncryptionException {
-        List<Pack> packages = new LinkedList<Pack>();
+        List<Pack> packages = new LinkedList<>();
 
         if( message.getPackageAmount() == 0 ){
             return new EncryptedMessage(message.getId(), message.getErrorId());
@@ -68,11 +64,11 @@ public class Encryption {
         }
     }
 
-    private static PrivateKey getPrivateKey() throws EncryptingException {
+    private static PrivateKey getPrivateKey() throws DecryptingException {
         try {
             return Server.getInstance().getKeyContainer().getPrivateKeyInfo().getPrivateKey();
         } catch (Exception e) {
-            throw new EncryptingException();
+            throw new DecryptingException();
         }
     }
 
