@@ -70,7 +70,7 @@ public enum MessageId
         }
     }
 
-    public ErrorId createErrorId(int id) throws IncorrectMessageId{
+    public ErrorId createErrorId(int id) {
         int max = Integer.MIN_VALUE;
 
         for (ErrorId errorId : errorIds){
@@ -82,12 +82,12 @@ public enum MessageId
                 return errorId;
             }
         }
-        throw new IncorrectMessageId("Incorrect error id for "
+        throw new IncorrectErrorId("Incorrect error id for "
                 + getClass().getSimpleName() + " !!!\nWas: " + id
                 + " expected: [0 - " + Integer.toString(max) + "]");
     }
 
-    public static MessageId createMessageId(int id) throws IncorrectMessageId{
+    public static MessageId createMessageId(int id) {
         for (MessageId messageId : MessageId.values()){
             if (messageId.getIntRepresentation() == id){
                 return messageId;
