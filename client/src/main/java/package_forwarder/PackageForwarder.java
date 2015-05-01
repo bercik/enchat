@@ -22,18 +22,16 @@ import java.util.ArrayList;
  */
 public class PackageForwarder implements Runnable{
 
+    //Konstruktor służacy do zapisywania referencji do obiektu typu MessageIncomeBuffer
+    public PackageForwarder(MessageIncomeBuffer mmessageIncomeBuffer) {
+        messageIncomeBuffer = mmessageIncomeBuffer;
+    }
+
     public void run() {
 
         //pętla nieskończona która będzie nasłuchiwała strumień
         while(true) {
-            try {
-                //sprawdzane jest czy strumień jest pusty
-                if(conn.isEmpty() > 0) {
 
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
     }
@@ -64,4 +62,5 @@ public class PackageForwarder implements Runnable{
 
     private Connection conn;
     private Thread thread;
+    private MessageIncomeBuffer messageIncomeBuffer;
 }
