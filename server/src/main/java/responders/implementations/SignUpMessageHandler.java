@@ -65,7 +65,7 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
         }
 
         try{
-            MessageSender.sendMessage(activeUser, answer);
+            MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {
             throw new ReactionException();
         }

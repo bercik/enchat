@@ -6,7 +6,6 @@ import message.utils.Encryption;
 import responders.exceptions.IncorrectUserStateException;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import rsa.exceptions.EncryptingException;
 import user.ActiveUser;
 import user.UserState;
 
@@ -15,7 +14,7 @@ import user.UserState;
  */
 public abstract class AbstractMessageHandler implements IMessageHandler {
     //User - author of the message
-    protected ActiveUser activeUser;
+    protected ActiveUser sender;
     //Message - that was received from User
     protected EncryptedMessage encrypted;
     //Holds decrypted message when it's necessary
@@ -29,7 +28,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @param encrypted - received message
      */
     public AbstractMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted){
-        this.activeUser = activeUser;
+        this.sender = activeUser;
         this.encrypted = encrypted;
     }
 
@@ -51,7 +50,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @throws IncorrectUserStateException - if user State do not let him for sending this kind of message
      */
     protected void validateUserState() throws IncorrectUserStateException {
-        UserState userState = activeUser.getState();
+        UserState userState = sender.getState();
         for(UserState state: permittedStates){
             if(userState == state){
                 return;
@@ -83,7 +82,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @throws DecryptingException - when message decrypting failed.
      */
     protected void decryptMessage() throws DecryptingException {
-        this.message = Encryption.decryptMessage( encrypted, activeUser);
+        this.message = Encryption.decryptMessage( encrypted, sender);
         createAncillaryVariables();
     }
 }

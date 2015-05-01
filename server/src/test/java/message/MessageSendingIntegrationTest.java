@@ -34,25 +34,25 @@ import static org.mockito.Mockito.when;
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         DataOutputStream outputStream = new DataOutputStream(fileOutputStream);
 
-        //mocking Socket & activeUser
+        //mocking Socket & sender
         Socket socket = mock(Socket.class);
         when(socket.getOutputStream()).thenReturn(outputStream);
 
-        ActiveUser activeUser = mock(ActiveUser.class);
-        //when(activeUser.getSocket()).thenReturn(socket);
+        ActiveUser sender = mock(ActiveUser.class);
+        //when(sender.getSocket()).thenReturn(socket);
 
         //message to send
         EncryptedMessage message = createTestMessage();
 
 
         //when
-        MessageSender.sendMessage(activeUser, message);
+        MessageSender.sendMessage(sender, message);
 
         FileInputStream fileInputStream = new FileInputStream(file);
         DataInputStream inputStream = new DataInputStream(fileInputStream);
         when(socket.getInputStream()).thenReturn(inputStream);
         MessageReader messageReader = new MessageReader();
-        EncryptedMessage readMessage = messageReader.readMessage(activeUser);
+        EncryptedMessage readMessage = messageReader.readMessage(sender);
 
 
         //then

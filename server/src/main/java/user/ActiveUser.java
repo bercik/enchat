@@ -2,6 +2,7 @@ package user;
 
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
+import room.ChatRoom;
 import rsa.PublicKeyInfo;
 
 import java.io.DataInputStream;
@@ -19,52 +20,41 @@ import java.security.spec.InvalidKeySpecException;
  */
 
 public class ActiveUser{
-    private Socket clientSocket;
     /*Public key - used to encrypt messages before sending*/
-    private PublicKeyInfo keyInfo;
     private PublicKey publicKey;
     private UserData userData;
     private UserState userState = UserState.DISCONNECTED;
     private DataInputStream in;
     private DataOutputStream out;
-    private boolean canCheckBuffer = true;
+    private ChatRoom room;
 
 
     /*Represents the user that is active.*/
     public ActiveUser(Socket clientSocket) throws IOException {
-        this.clientSocket = clientSocket;
-        this.userState = UserState.CONNECTED_TO_SERVER;
         this.in = new DataInputStream( clientSocket.getInputStream());
         this.out = new DataOutputStream( clientSocket.getOutputStream());
-    }
-
-    /*Represents the user that is active (interacting with server).*/
-    public ActiveUser(Socket clientSocket, PublicKeyInfo keyInfo) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        this.clientSocket = clientSocket;
-        this.keyInfo = keyInfo;
-        this.publicKey = keyInfo.getPublicKey();
         this.userState = UserState.CONNECTED_TO_SERVER;
     }
 
+    /**
+     * Setting publicKey
+     * @param publicKey - public key received from user.
+     */
+    public void setPublicKeyInfo(PublicKey publicKey){
+        this.publicKey = publicKey;
+    }
+
+    /**
+     * Get Public key
+     * @return User PublicKey
+     */
     public PublicKey getPublicKey(){
         return this.publicKey;
     }
 
-    /*Sends message to client*/
-    public void sendMessage(EncryptedMessage message) throws IOException {
-        MessageSender.sendMessage(this, message);
-    }
-
-
     /**
-     * Handle next message from user.
-     */
-    public void handleMessage(){
-    }
-
-    /**
-     * Sets user personal data
-     * @param userData - UserData, personal user Data
+     *
+     * @param userData
      */
     public void setData(UserData userData){
         this.userData = userData;
@@ -78,12 +68,13 @@ public class ActiveUser{
         return userState;
     }
 
-    /***
-     * Changing user state
-     * @param clientState - new user sate.
+
+    /**
+     * Changes Current User State
+     * @param state - new user State.
      */
-    public void setState(UserState clientState){
-        this.userState = clientState;
+    public void setState(UserState state){
+        this.userState = state;
     }
 
     /**
@@ -94,47 +85,25 @@ public class ActiveUser{
         return userData.getNick();
     }
 
-    /*public Socket getSocket() {
-        return clientSocket;
-    }*/
-
-    public PublicKeyInfo getKeyInfo() {
-        return keyInfo;
+    public String getPassword(){
+        return userData.getPassword();
     }
 
-    public void setKeyInfo(PublicKeyInfo keyInfo) {
-        this.keyInfo = keyInfo;
-    }
 
     public DataInputStream getInputStream() throws IOException {
-        if(in == null)
-            in = new DataInputStream( clientSocket.getInputStream() );
         return in;
     }
 
     public DataOutputStream getOutStream() throws IOException {
-        if( out == null )
-            out = new DataOutputStream(clientSocket.getOutputStream());
         return out;
     }
 
-    public void setPublicKeyInfo(PublicKeyInfo clientPublicKeyInfo) {
-        try {
-            this.keyInfo = clientPublicKeyInfo;
-            this.publicKey = keyInfo.getPublicKey();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
+    public ChatRoom getRoom() {
+        return room;
     }
 
-    public boolean isBufferFree() {
-        return canCheckBuffer;
-    }
-
-    public void setCanCheckBuffer(boolean canCheckBuffer) {
-        this.canCheckBuffer = canCheckBuffer;
+    public void setRoom(ChatRoom room) {
+        this.room = room;
     }
 }
 

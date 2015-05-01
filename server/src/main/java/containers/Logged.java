@@ -33,5 +33,18 @@ public class Logged {
         return activeUsers;
     }
 
+    /**
+     * Search for user with specified nick amongst logged users.
+     * @param nick - nick of user we want to connect
+     * @return - sender which was searching
+     */
+    public ActiveUser getUserIfLogged(String nick){
+        for(ActiveUser activeUser: activeUsers){
+            if( activeUser.getNick().equals(nick))
+                return activeUser;
+        }
+        return null;
+    }
+
     public boolean canLogNextUser() { return activeUsers.size() < MAX_LOGGED_USER; }
 }

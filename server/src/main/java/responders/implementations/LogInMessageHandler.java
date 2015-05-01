@@ -9,6 +9,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.ActiveUser;
+import user.UserData;
 import user.UserState;
 
 import java.io.IOException;
@@ -52,18 +53,20 @@ public class LogInMessageHandler extends AbstractMessageHandler {
         boolean exist = Registered.getInstance().doesUserExist(nick, password);
         boolean notOverload = Logged.getInstance().canLogNextUser();
 
-            /*Creating answer*/
-        if (exist && notOverload) {
-            answer = Log_In.loggedSuccessfully();
-        } else if (!exist) {
+        /*Creating answer*/
+        if (! exist) {
             answer = Log_In.badLoginOrPassword();
         } else if (!notOverload) {
             answer = Log_In.toMuchUserLogged();
+        } else {
+            answer = Log_In.loggedSuccessfully();
+            sender.setData(new UserData(nick, password));
+            sender.setState(UserState.LOGGED);
         }
 
         /*Sending answer*/
         try {
-            MessageSender.sendMessage(activeUser, answer);
+            MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {
             throw new ReactionException();
         }
