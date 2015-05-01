@@ -6,7 +6,6 @@ import message.utils.Encryption;
 import responders.exceptions.IncorrectUserStateException;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import rsa.exceptions.EncryptingException;
 import user.ActiveUser;
 import user.UserState;
 
@@ -15,7 +14,7 @@ import user.UserState;
  */
 public abstract class AbstractMessageHandler implements IMessageHandler {
     //User - author of the message
-    protected ActiveUser activeUser;
+    protected ActiveUser sender;
     //Message - that was received from User
     protected EncryptedMessage encrypted;
     //Holds decrypted message when it's necessary
@@ -25,12 +24,13 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
 
     /**
      * Constructor of handler
-     * @param activeUser - author of the message
+     * @param sender - author of the message
      * @param encrypted - received message
      */
-    public AbstractMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted){
-        this.activeUser = activeUser;
+    public AbstractMessageHandler(ActiveUser sender, EncryptedMessage encrypted){
+        this.sender = sender;
         this.encrypted = encrypted;
+        this.permittedStates = getPermittedUserStates();
     }
 
     /**
@@ -51,7 +51,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @throws IncorrectUserStateException - if user State do not let him for sending this kind of message
      */
     protected void validateUserState() throws IncorrectUserStateException {
-        UserState userState = activeUser.getState();
+        UserState userState = sender.getState();
         for(UserState state: permittedStates){
             if(userState == state){
                 return;
@@ -79,11 +79,17 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
     protected abstract void reaction() throws ReactionException;
 
     /**
+     * Prepares list of UserStates in which user is allowed to send this type of message
+     * @return Array of allowed states.
+     */
+    protected abstract UserState[] getPermittedUserStates();
+
+    /**
      * Decrypts the message and ensign it to this.message;
      * @throws DecryptingException - when message decrypting failed.
      */
     protected void decryptMessage() throws DecryptingException {
-        this.message = Encryption.decryptMessage( encrypted, activeUser);
+        this.message = Encryption.decryptMessage( encrypted, sender);
         createAncillaryVariables();
     }
 }

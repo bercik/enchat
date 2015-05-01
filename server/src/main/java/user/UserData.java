@@ -1,5 +1,9 @@
 package user;
 
+import containers.BlackList;
+
+import java.util.List;
+
 /**
  * Created by tochur on 16.04.15.
  */
@@ -8,6 +12,7 @@ package user;
 public class UserData {
     private String nick;
     private String password;
+    private BlackList blackList = new BlackList();
 
     public UserData(String nick, String password){
         this.nick = nick;
@@ -21,4 +26,6 @@ public class UserData {
     public String getPassword(){
         return password;
     }
+
+    public BlackList getBlackList(){ return blackList; }
 }

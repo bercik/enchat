@@ -10,6 +10,7 @@ import user.ActiveUser;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -33,52 +34,28 @@ public class NewClientHandler implements Runnable{
     public void run() {
         try {
             createConnection();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SignatureException e) {
+        } catch (Exception e) {
+            System.out.print("Unable to initialize connection; Public key exchanging failed.");
             e.printStackTrace();
         }
     }
 
-    public void createConnection() throws InvalidKeySpecException, NoSuchAlgorithmException, IOException, SignatureException {
+    public void createConnection() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, GeneratingPublicKeyException {
         /*Tworzę nowego użytkownika*/
         ActiveUser newActiveUser = new ActiveUser(clientSocket);
         //Wysłanie klucza publicznego
         keyContainer.getPublicKeyInfo().send(newActiveUser.getOutStream());
 
         //Pobieranie klucza publicznego użytkownika
-        PublicKeyInfo clientPublicKeyInfo = null;
-        try {
-            clientPublicKeyInfo = new PublicKeyInfo(newActiveUser.getInputStream());
-        } catch (GeneratingPublicKeyException e) {
-            e.printStackTrace();
-        }
+        PublicKeyInfo clientPublicKeyInfo = new PublicKeyInfo(newActiveUser.getInputStream());
         System.out.println("Odebrano klucz publiczny nowego użytkownika.");
         System.out.println("Modulus: " + clientPublicKeyInfo.getModulus());
         System.out.println("Exponent: " + clientPublicKeyInfo.getExponent());
         //Ustawienie klucza publicznego
-        newActiveUser.setPublicKeyInfo(clientPublicKeyInfo);
-
-
-        //Sending sample message
-       /* Message message = MessageCreator.createInfoMessage(MessageId.SIGN_UP, 1, "String encoded");
-        try {
-            MessageSender.sendMessage(newActiveUser, Encryption.encryptMessage(newActiveUser, message));
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IncorrectMessageId incorrectMessageId) {
-            incorrectMessageId.printStackTrace();
-        }*/
+        PublicKey publicKey = clientPublicKeyInfo.getPublicKey();
+        newActiveUser.setPublicKey(publicKey);
 
         //Adding new user
         ActiveUsers.getInstance().addUser(newActiveUser);

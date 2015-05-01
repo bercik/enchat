@@ -20,14 +20,14 @@ public enum MessageId
     // BUSY_LOGIN - login zajęty
     // INCORRECT_LOGIN - nieprawidłowy login 
     // (zawiera inne znaki niż alfanumeryczne ASCII)
-    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN),
+    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, ErrorId.BAD_PASSWORD_LENGTH),
     // żądanie konwersacji (klient -> serwer)
     // USER_NOT_LOGGED - użytkownik z którym chcemy rozmawiać jest niezalogowany
     // BUSY_USER - użytkownik z którym chcemy rozmawiać jest zajęty
     // (prowadzi rozmowę albo wpisał nas na czarną listę)
     // CONVERSATION_WITH_ANOTHER_USER - prowadzimy aktualnie rozmowę z kimś innym
     CONVERSATION_REQUEST(3, ErrorId.USER_NOT_LOGGED, ErrorId.BUSY_USER, 
-            ErrorId.CONVERSATION_WITH_ANOTHER_USER),
+            ErrorId.CONVERSATION_WITH_ANOTHER_USER, ErrorId.ON_BLACK_LIST),
     // przychodzące połączenie (serwer -> klient)
     // IM_BUSY - ktoś próbował się z nami połączyć, ale rozmawiamy z kimś innym
     INCOMING_CONVERSATION(4, ErrorId.IM_BUSY),
@@ -46,7 +46,7 @@ public enum MessageId
     // USER_DOESNT_EXIST - użytkownik nie istnieje
     // TOO_MUCH_USERS_ON_BLACKLIST - posiadamy za dużo osób na czarnej liście
     ADD_TO_BLACK_LIST(10, ErrorId.USER_DOESNT_EXIST, 
-            ErrorId.TOO_MUCH_USERS_ON_BLACKLIST),
+            ErrorId.TOO_MUCH_USERS_ON_BLACKLIST, ErrorId.ALREADY_ADDED),
     // usuń użytkownika z czarnej listy
     // USER_NOT_ON_BLACKLIST - użytkownik nie znajduje się na czarnej liście
     REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST),
@@ -56,7 +56,7 @@ public enum MessageId
     PUBLIC_KEY(13),
     // błąd serwera
     // MESSAGE_DECRYPTING_FAILED - nie udało się odszyfrować wiadomości
-    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED);
+    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, ErrorId.MESSAGE_ENCRYPTING_FAILED);
 
     private int id;
     private EnumSet<ErrorId> errorIds;
@@ -75,15 +75,19 @@ public enum MessageId
         TOO_MUCH_USERS_LOGGED(2),
         BUSY_LOGIN(1),
         INCORRECT_LOGIN(2),
+        BAD_PASSWORD_LENGTH(3),
         USER_NOT_LOGGED(1),
         BUSY_USER(2),
         CONVERSATION_WITH_ANOTHER_USER(3),
+        ON_BLACK_LIST(4),
         IM_BUSY(1),
         FAILED(1),
         USER_DOESNT_EXIST(1),
         TOO_MUCH_USERS_ON_BLACKLIST(2),
+        ALREADY_ADDED(3),
         USER_NOT_ON_BLACKLIST(1),
-        MESSAGE_DECRYPTING_FAILED(1);
+        MESSAGE_DECRYPTING_FAILED(1),
+        MESSAGE_ENCRYPTING_FAILED(2);
 
         private int id;
 

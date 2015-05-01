@@ -16,7 +16,7 @@ import java.net.Socket;
  * Responsible for creating Active user and adding him to ActiveUsers aggregate.
  */
 
-/*This class generates activeUser (without personal Data), that contains only objects that are necessary to interact with him*/
+/*This class generates sender (without personal Data), that contains only objects that are necessary to interact with him*/
 public class PublicKeyReader{
     private Socket socket;
     private DataInputStream inputStream;

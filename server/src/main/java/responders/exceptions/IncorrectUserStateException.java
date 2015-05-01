@@ -18,7 +18,7 @@ public class IncorrectUserStateException extends Exception {
     /**
      * Exception that is caused by operation that is not permitted in current userState
      * @param activeUser - user that send message but message caused exception
-     * @param message - message received from activeUser
+     * @param message - message received from sender
      * @param messageToUser - message that inform user what happened
      */
     public IncorrectUserStateException(ActiveUser activeUser, EncryptedMessage message, int errorType, String messageToUser){

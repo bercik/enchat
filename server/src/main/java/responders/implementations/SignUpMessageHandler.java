@@ -35,7 +35,6 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
      */
     public SignUpMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted) {
         super(activeUser, encrypted);
-        permittedStates = new UserState[] {UserState.AFTER_KEY_EXCHANGE};
     }
 
     @Override
@@ -65,10 +64,15 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
         }
 
         try{
-            MessageSender.sendMessage(activeUser, answer);
+            MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {
             throw new ReactionException();
         }
 
+    }
+
+    @Override
+    protected UserState[] getPermittedUserStates() {
+        return new UserState[] {UserState.AFTER_KEY_EXCHANGE};
     }
 }
