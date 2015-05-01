@@ -1,6 +1,6 @@
 package responders;
 
-import message.EncryptedMessage;
+import message.types.EncryptedMessage;
 import user.ActiveUser;
 
 /**

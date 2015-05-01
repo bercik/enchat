@@ -1,6 +1,6 @@
 package responders.logging;
 
-import message.EncryptedMessage;
+import message.types.EncryptedMessage;
 import responders.MessageHandler;
 import user.ActiveUser;
 

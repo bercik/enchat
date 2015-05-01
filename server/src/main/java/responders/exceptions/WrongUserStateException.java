@@ -1,6 +1,6 @@
 package responders.exceptions;
 
-import message.EncryptedMessage;
+import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import user.ActiveUser;
 

@@ -1,23 +1,12 @@
 package handlers;
 
-import message.EncryptedMessage;
-import message.utils.MessageReader;
-import messages.IncorrectMessageId;
+import message.types.EncryptedMessage;
 import messages.MessageId;
 import responders.*;
 import responders.logging.LogInMessageHandler;
 import responders.logging.PublicKeyResponser;
 import responders.registration.SignUpMessageHandler;
 import user.ActiveUser;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
  * Created by tochur on 17.04.15.

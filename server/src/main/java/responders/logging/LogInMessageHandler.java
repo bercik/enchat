@@ -1,14 +1,18 @@
 package responders.logging;
 
+import containers.Logged;
 import containers.Registered;
-import message.EncryptedMessage;
-import message.Encryption;
-import message.Message;
-import message.MessageCreator;
+import message.types.EncryptedMessage;
+import message.utils.Encryption;
+import message.types.Message;
+import message.utils.MessageCreator;
 import message.utils.MessageSender;
+import message.utils.Messages;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import responders.MessageHandler;
+import rsa.exceptions.EncryptingException;
+import rsa.exceptions.EncryptionException;
 import user.ActiveUser;
 
 import javax.crypto.BadPaddingException;
@@ -29,42 +33,36 @@ import java.security.spec.InvalidKeySpecException;
 public class LogInMessageHandler implements MessageHandler {
     public void handle(ActiveUser activeUser, EncryptedMessage encryptedMessage) {
         Message message;
-        try {
+
+        try{
+            /*Decrypting and reading message*/
             message = Encryption.decryptMessage(encryptedMessage, activeUser);
+
             String nick = message.getPackages().get(0);
             String password = message.getPackages().get(1);
 
+            /*Scan for errors*/
             boolean exist = Registered.getInstance().doesUserExist(nick, password);
-            Message answer;
-            if(exist){
-                answer = MessageCreator.createInfoMessage(MessageId.LOG_IN, 0, "Logged as: " + nick);
-            }else{
-                answer = MessageCreator.createInfoMessage(MessageId.LOG_IN, 1, "Login or password incorrect.");
-            }
-            try {
-                MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, answer));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (IncorrectMessageId incorrectMessageId) {
-                incorrectMessageId.printStackTrace();
+            boolean notOverload = Logged.getInstance().canLogNextUser();
+
+            /*Creating answer*/
+            Message answer = null;
+            if (exist && notOverload) {
+                answer = Messages.loginConfirmation("Logged as: " + nick);
+            } else if (!exist) {
+                answer = Messages.wrongNickOrPassword();
+            } else if (!notOverload) {
+                answer = Messages.toMuchUsersLogged();
             }
 
-        } catch (InvalidKeySpecException e) {
+            /*Sending answer*/
+            MessageSender.sendMessage(activeUser, Encryption.encryptMessage(activeUser, answer));
+
+        } catch (EncryptionException e) {
             e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (SignatureException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
