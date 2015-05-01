@@ -6,9 +6,9 @@ import user.ActiveUser;
 /**
  * Created by tochur on 19.04.15.
  */
-public class ConversationRequestMessageHandler implements MessageHandler {
+public class ConversationRequestMessageHandler implements IMessageHandler {
     @Override
-    public void handle(ActiveUser activeUser, EncryptedMessage message) {
+    public void handle() {
 
     }
 }

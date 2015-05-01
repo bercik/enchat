@@ -3,9 +3,9 @@ package handlers;
 import message.types.EncryptedMessage;
 import messages.MessageId;
 import responders.*;
-import responders.logging.LogInMessageHandler;
-import responders.logging.PublicKeyResponser;
-import responders.registration.SignUpMessageHandler;
+import responders.exceptions.*;
+import responders.implementations.*;
+import rsa.exceptions.DecryptingException;
 import user.ActiveUser;
 
 /**
@@ -22,24 +22,30 @@ public class NewMessageHandler implements Runnable {
     }
 
     public void run() {
-        MessageHandler messageResponder = null;
+        IMessageHandler messageResponder;
         try {
             messageResponder = getMessageResponder(message.getId());
-            messageResponder.handle(activeUser, message);
+            messageResponder.handle();
         } catch (NoHandlersFound noHandlersFound) {
             noHandlersFound.printStackTrace();
+        } catch (IncorrectUserStateException e) {
+            e.printStackTrace();
+        } catch (ReactionException e) {
+            e.printStackTrace();
+        } catch (DecryptingException e) {
+            e.printStackTrace();
         }
 
     }
 
-    private MessageHandler getMessageResponder(MessageId messageId) throws NoHandlersFound {
+    private IMessageHandler getMessageResponder(MessageId messageId) throws NoHandlersFound {
         switch (messageId){
             case JUNK:
                 return new JunkMessageHandler();
             case LOG_IN:
-                return new LogInMessageHandler();
+                return new LogInMessageHandler(activeUser, message);
             case SIGN_UP:
-                return new SignUpMessageHandler();
+                return new SignUpMessageHandler(activeUser, message);
             case CONVERSATION_REQUEST:
                 return new ConversationRequestMessageHandler();
             case INCOMING_CONVERSATION:
@@ -60,8 +66,6 @@ public class NewMessageHandler implements Runnable {
                 return new RemoveFromBlackListMessageHandler();
             case DISCONNECT:
                 return new DisconnectMessageHandler();
-            case PUBLIC_KEY:
-                return new PublicKeyResponser();
         }
         throw new NoHandlersFound(messageId);
     }

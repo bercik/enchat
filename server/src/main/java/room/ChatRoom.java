@@ -1,12 +1,8 @@
 package room;
 
+import message.generarators.Clients_Message;
 import message.types.EncryptedMessage;
-import message.types.Message;
-import message.utils.Encryption;
-import message.utils.MessageCreator;
 import message.utils.MessageSender;
-import message.utils.Messages;
-import rsa.exceptions.EncryptionException;
 import user.ActiveUser;
 
 import java.io.IOException;
@@ -37,12 +33,9 @@ public class ChatRoom {
                 try {
                     MessageSender.sendMessage(activeUser, message);
                 } catch (IOException e) {
-                    Message answer = Messages.unableToDeliver(activeUser.getNick());
                     try {
-                        MessageSender.sendMessage(sender, Encryption.encryptMessage(sender, answer));
+                        MessageSender.sendMessage(sender, Clients_Message.deliveryFailed(activeUser));
                     } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (EncryptionException e1) {
                         e1.printStackTrace();
                     }
                 }

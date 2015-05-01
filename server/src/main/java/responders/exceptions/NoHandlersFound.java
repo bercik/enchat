@@ -1,4 +1,4 @@
-package responders;
+package responders.exceptions;
 
 import messages.MessageId;
 
