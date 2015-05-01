@@ -6,8 +6,8 @@ import user.ActiveUser;
 /**
  * Created by tochur on 19.04.15.
  */
-public class ServerMessageMessageHandler implements MessageHandler {
-    public void handle(ActiveUser activeUser, EncryptedMessage message) {
+public class ServerMessageMessageHandler implements IMessageHandler {
+    public void handle() {
 
     }
 }

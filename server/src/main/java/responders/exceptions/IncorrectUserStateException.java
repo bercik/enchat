@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Created by tochur on 24.04.15.
  */
-public class WrongUserStateException extends Exception {
+public class IncorrectUserStateException extends Exception {
     protected ActiveUser activeUser;
     protected EncryptedMessage message;
     protected int errorType;
@@ -21,17 +21,14 @@ public class WrongUserStateException extends Exception {
      * @param message - message received from activeUser
      * @param messageToUser - message that inform user what happened
      */
-    public WrongUserStateException(ActiveUser activeUser, EncryptedMessage message, int errorType, String messageToUser){
+    public IncorrectUserStateException(ActiveUser activeUser, EncryptedMessage message, int errorType, String messageToUser){
         this.activeUser = activeUser;
         this.message = message;
         this.errorType = errorType;
         this.messageToUser = messageToUser;
     }
 
-    public void informUser() throws IOException {
-        //EncryptedMessage message = new EncryptedMessage();
-        MessageSender.sendMessage(activeUser, message);
-    }
+    public IncorrectUserStateException(){}
 
     public ActiveUser getActiveUser(){
         return activeUser;
