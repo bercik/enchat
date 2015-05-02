@@ -50,7 +50,6 @@ public class MainController extends CommandLineController
     public void start(String previousCommand, String[] parameters)
     {
         setCommand("");
-        controllerManager.setMsg(previousCommand, false);
     }
 
     @Override

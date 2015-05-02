@@ -97,6 +97,7 @@ public abstract class CommandLineController implements IController
         showCommand = true;
         blockConsole = false;
         command = "";
+        commandToReturn = "";
         prefix = "";
     }
 

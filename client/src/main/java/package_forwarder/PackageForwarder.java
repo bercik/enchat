@@ -34,7 +34,11 @@ public class PackageForwarder implements Runnable{
         while(true) {
             try {
                 if(conn.isEmpty() == false) {
-                    NetworkMessageIncome networkMessageIncome = new NetworkMessageIncome();
+                    // won't compile
+                    //NetworkMessageIncome networkMessageIncome = new NetworkMessageIncome();
+                    // add by robert to compile
+                    NetworkMessageIncome networkMessageIncome
+                            = new NetworkMessageIncome(null, null);
                     networkMessageIncome.recv(conn);
                     messageIncomeBuffer.append(networkMessageIncome);
                 }

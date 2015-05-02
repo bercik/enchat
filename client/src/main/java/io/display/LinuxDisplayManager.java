@@ -24,11 +24,6 @@ import app_info.Configuration;
  */
 public class LinuxDisplayManager implements IDisplayManager
 {
-    // TO REPLACE BY CONFIGURATION CLASS
-    private final int COMMANDLINE_HEIGHT = 20;
-    private final int COMMANDLINE_WIDTH = 122;
-    //
-    
     private IDisplay currentDisplay = null;
     private final IFormatter formatter;
 
@@ -43,6 +38,14 @@ public class LinuxDisplayManager implements IDisplayManager
     @Override
     public void setMsg(String msg, boolean error)
     {
+        Configuration conf = Configuration.getInstance();
+        if (msg.length() > conf.getWidth())
+        {
+            String errorMsg = "Wiadomość " + msg + " w setMsg dłuższa niż " +
+                    "szerokość konsoli";
+            throw new RuntimeException(errorMsg);
+        }
+        
         currentDisplay.setMsg(msg, error);
         refresh();
     }
@@ -50,6 +53,14 @@ public class LinuxDisplayManager implements IDisplayManager
     @Override
     public void setCommand(String newCommand)
     {
+        Configuration conf = Configuration.getInstance();
+        if (newCommand.length() > conf.getWidth())
+        {
+            String errorMsg = "Komenda " + newCommand + " w setCommand "
+                    + "dłuższa niż szerokość konsoli";
+            throw new RuntimeException(errorMsg);
+        }
+        
         currentDisplay.setCommand(newCommand);
         refresh();
     }
