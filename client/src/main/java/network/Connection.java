@@ -106,8 +106,11 @@ public class Connection {
         socket.close();
     }
 
-    public int isEmpty() throws IOException {
-        return in.available();
+    public boolean isEmpty() throws IOException {
+        if(in.available() > 0)
+            return false;
+        else
+            return true;
     }
 
     

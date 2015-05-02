@@ -2,6 +2,7 @@ package package_forwarder;
 
 import network.Connection;
 import network.MessageSignPair;
+import network.NetworkMessageIncome;
 import network.NetworkMessageOutcome;
 import rsa.RSA;
 import rsa.exceptions.GeneratingPublicKeyException;
@@ -31,6 +32,30 @@ public class PackageForwarder implements Runnable{
 
         //pętla nieskończona która będzie nasłuchiwała strumień
         while(true) {
+            try {
+                if(conn.isEmpty() == false) {
+                    NetworkMessageIncome networkMessageIncome = new NetworkMessageIncome();
+                    networkMessageIncome.recv(conn);
+                    messageIncomeBuffer.append(networkMessageIncome);
+                }
+
+            } catch (IOException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (NoSuchPaddingException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (NoSuchAlgorithmException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (IllegalBlockSizeException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (BadPaddingException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (SignatureException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (InvalidKeyException e) {
+                messageIncomeBuffer.setException(e);
+            } catch (InvalidKeySpecException e) {
+                messageIncomeBuffer.setException(e);
+            }
 
         }
 
