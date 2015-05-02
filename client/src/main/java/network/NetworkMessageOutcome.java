@@ -69,7 +69,7 @@ public class NetworkMessageOutcome {
     private int id;
     private ArrayList<MessageSignPair> messageSignPair;
 
-
+/*
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeyException, GeneratingPublicKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, ClassNotFoundException, SignatureException {
         //połączenie z serwerem oraz odebranie jego klucza publicznego i wysłanie swojego klucza publicznego
         Connection conn = new Connection();
@@ -106,5 +106,5 @@ public class NetworkMessageOutcome {
         NetworkMessageIncome income = new NetworkMessageIncome();
         income.recv(conn);
     }
-
+*/
 }

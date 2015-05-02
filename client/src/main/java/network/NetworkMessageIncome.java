@@ -19,7 +19,18 @@ import rsa.RSA;
  * @version 1.0
  */
 public class NetworkMessageIncome {
-    
+
+    //////////////////////////////////////wszystko w tym obszarze służy do testów///////////////////////////////////////////////////
+    public NetworkMessageIncome(String fake1, String fake2) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+        messageSignPair.add(new MessageSignPair(fake1.getBytes(), fake2.getBytes()));
+    }
+
+    public ArrayList<MessageSignPair> getMessageSignPair() {
+        return new ArrayList<>(messageSignPair);
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void recv(Connection conn) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, SignatureException {
 
         //odbierane jes id wiadomosci

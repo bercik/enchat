@@ -10,10 +10,13 @@ import java.util.ArrayList;
  */
 public class MessageIncomeBuffer {
 
+    //funkcja zwraca listę z wiadomościami
     public synchronized ArrayList<NetworkMessageIncome> get() {
         return new ArrayList<>(buffer);
     }
 
+    //funkcja zwraca true jeżeli jest jakiś wyjątek, jeżeli go nie ma
+    //zwraca false
     public synchronized boolean isException() {
         if(exception == null)
             return false;
@@ -21,6 +24,7 @@ public class MessageIncomeBuffer {
             return true;
     }
 
+    //funkcja dodaje wiadomość do listy z wiadomościami
     public synchronized void append(NetworkMessageIncome message) {
         buffer.add(message);
     }
@@ -33,12 +37,14 @@ public class MessageIncomeBuffer {
             return false;
     }
 
+    //funkcja ustawia wyjątek
     public synchronized void setException(Exception eexception) {
-        exception = new Exception(eexception.getMessage());
+        exception = new Exception(eexception);
     }
 
+    //funkcja zwraca wyjątek
     public synchronized Exception getException() {
-        return new Exception(exception.getMessage());
+        return new Exception(exception);
     }
 
     private ArrayList<NetworkMessageIncome> buffer = new ArrayList<>();
