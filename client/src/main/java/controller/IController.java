@@ -26,6 +26,12 @@ public interface IController
     
     public void setId(int iid);
     
+    /**
+     * Metoda umożliwiająca przekazanie informacji o błędach do kontrolera
+     * przez np. plugin.
+     * 
+     * @param error
+     */
     public void updateError(int error);
     
     public String getCommand();

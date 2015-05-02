@@ -27,7 +27,7 @@ public class MainController extends CommandLineController
     protected void route(String input)
     {
         // TODO
-        
+
         switch (input)
         {
             case "/help":
@@ -38,7 +38,14 @@ public class MainController extends CommandLineController
                 break;
             case "/test1":
             case "/test2":
-                controllerManager.setController(-10, new String[] { "test" });
+            case "/test3":
+                controllerManager.setController(-10, new String[]
+                {
+                    "test"
+                });
+                break;
+            default:
+                setCommand("");
                 break;
         }
     }
@@ -46,9 +53,8 @@ public class MainController extends CommandLineController
     @Override
     public void start(String previousCommand, String[] parameters)
     {
-        // ustawiamy na poprzednią komendę dzięki czemu uzyskujemy efekt
-        // płynnego przejścia między controllerami
-        setCommand(previousCommand);
+        setCommand("");
+        controllerManager.setMsg(previousCommand, false);
     }
 
     @Override

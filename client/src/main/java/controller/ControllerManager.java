@@ -104,10 +104,10 @@ public class ControllerManager
         displayManager.setMsg(msg, error);
     }
 
-    public void setDisplay(int id, IDisplay newDisplay, boolean saveCommandLine)
+    public void setDisplay(int callerId, IDisplay newDisplay, boolean saveCommandLine)
     {
         // need to check if command with given id can do this in current app state
-        if (controllerCommandContainer.checkCommandAvailability(id, appState))
+        if (controllerCommandContainer.checkCommandAvailability(callerId, appState))
         {
             displayManager.setDisplay(newDisplay, saveCommandLine);
         }
@@ -115,7 +115,7 @@ public class ControllerManager
         {
             // MAYBE SHOULD BE CHANGED TO FOR EXAMPLE NOT THROWING EXCEPTION
             String msg = "Zmiana ekranu przez komendę o id="
-                    + Integer.toString(id) + " nie może zostać wykonana"
+                    + Integer.toString(callerId) + " nie może zostać wykonana"
                     + " przy stanie aplikacji " + appState.toString();
             throw new RuntimeException(msg);
         }

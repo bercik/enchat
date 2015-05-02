@@ -45,6 +45,14 @@ public abstract class CommandLineController implements IController
         blockConsole = bblockConsole;
     }
 
+    /**
+     * Funkcja wywoływana gdy użytkownik naciśnie klawisz ENTER.
+     * Wewnątrz funkcji powinno znaleźć się wywołanie metody setCommand
+     * z odpowiednim parametrem (np. jeżeli chcemy, aby po wciśnięcu ENTER
+     * pole komendy było czyszczone powinniśmy przekazać parametr pusty string).
+     * 
+     * @param input Komenda po wciśnięciu klawisza ENTER.
+     */
     protected abstract void route(String input);
 
     protected void setShowCommand(boolean sshowCommand)

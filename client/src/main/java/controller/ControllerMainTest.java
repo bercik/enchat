@@ -35,25 +35,30 @@ public class ControllerMainTest
             // Command Container
             CommandContainer commandContainer = new CommandContainer();
             commandContainer.registerController(
-                    Id.MAIN_CONTROLLER.getIntRepresentation(), 
+                    Id.MAIN_CONTROLLER.getIntRepresentation(),
                     new MainController(commandContainer), State.ALL);
-            commandContainer.registerController(-10, 
-                    new TestController(), 
-                    new State[] { State.CONNECTED });
+            commandContainer.registerController(-10,
+                    new TestController(),
+                    new State[]
+                    {
+                        State.CONNECTED
+                    });
             // Controller Manager
-            ControllerManager controllerManager = 
-                    new ControllerManager(displayManager, commandContainer);
-            
+            ControllerManager controllerManager
+                    = new ControllerManager(displayManager, commandContainer);
+
             while (true)
             {
                 input.update();
                 if (input.hasChar())
                 {
                     char ch = input.getChar();
-                    
+
                     if (ch == 27)
+                    {
                         break;
-                    
+                    }
+
                     controllerManager.putChar(ch);
                 }
             }
@@ -65,7 +70,9 @@ public class ControllerMainTest
         finally
         {
             if (ioSet != null)
+            {
                 ioSet.getInput().close();
+            }
         }
     }
 }
@@ -77,10 +84,14 @@ class TestController extends CommandLineController
     protected void route(String input)
     {
         if (input.equals("/exit"))
+        {
             controllerManager.setAppState(State.NOT_CONNECTED);
+        }
         else
+        {
             controllerManager.setController(
                     Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+        }
     }
 
     @Override
@@ -91,10 +102,17 @@ class TestController extends CommandLineController
             case "/test1":
                 setPrefix("test1:");
                 setShowCommand(false);
+                controllerManager.setMsg(parameters[0], true);
                 break;
             case "/test2":
                 setPrefix("test2:");
                 setShowCommand(true);
+                controllerManager.setMsg(parameters[0], true);
+                break;
+            case "/test3":
+                setBlockConsole(true);
+                setPrefix("BLOCKED");
+                controllerManager.setMsg("Konsola zablokowana", false);
                 break;
         }
     }
