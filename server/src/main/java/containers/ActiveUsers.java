@@ -1,38 +1,76 @@
 package containers;
 
-import user.ActiveUser;
+import containers.exceptions.AlreadyInCollection;
+import containers.exceptions.ElementNotFoundException;
+import containers.exceptions.OverloadedCannotAddNew;
+import user.User;
 
-import java.util.ArrayList;
+import java.net.Socket;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tochur on 16.04.15.
+ *
+ * Is owner of the references to all users in system.
+ * They are unique for the sake of Socket (if reference are equals).
  */
 
-/*Holds all users, that can interact with server
-*   During work server iterates this collection and listen for new messages from this users, and interact with them.
-* */
 public class ActiveUsers {
+    // Reference to singleton object
     private static ActiveUsers instance;
-    /*List of all users capable to interact with server (CONNECTED_TO_SERVER, LOGGED or CONNECTED_WITH_OTHER,)*/
-    private static ArrayList<ActiveUser> activeUsers;
+    // Maps the socket references to User - the owner of the socket.
+    private static Map<Socket, User> users = new HashMap<>();
+    // Restricts amount of User that can interact with Server
+    private final int MAX_ACTIVE_USER = 1000;
 
-    private ActiveUsers(){
-        if (activeUsers == null)
-            activeUsers = new ArrayList<ActiveUser>();
-    }
+    /**
+     * Singleton constructor
+     */
+    private ActiveUsers(){}
 
+    /**
+     * Singleton reference getter.
+     * @return Reference to singleton object.
+     */
     public static ActiveUsers getInstance(){
         if (instance == null)
             instance = new ActiveUsers();
         return instance;
     }
 
-    /*Adds new user to interaction group*/
-    public void addUser(ActiveUser activeUser){
-        activeUsers.add(activeUser);
+    /**
+     * Adding new unique User to ActiveUsers
+     * @param user - user to Add
+     * @throws OverloadedCannotAddNew - when server is overloaded.
+     * @throws AlreadyInCollection - when tried to add not unique user.
+     */
+    public void addUser(User user) throws AlreadyInCollection, OverloadedCannotAddNew {
+        if ( !( MAX_ACTIVE_USER > users.size() ) ){
+            throw new OverloadedCannotAddNew();
+        }else if( users.containsKey(user.getSocket()) ) {
+            throw new AlreadyInCollection();
+        }else {
+            users.put(user.getSocket(), user);
+        }
     }
 
-    public ArrayList<ActiveUser> getActiveUsers(){
-        return activeUsers;
+    /**
+     * Removes user from ActiveUsers
+     * @param user - user to remove
+     * @throws ElementNotFoundException - when user is not in ActiveUsers
+     */
+    public void deleteUser (User user) throws ElementNotFoundException {
+        if ( users.remove(user.getSocket()) == null )
+            throw new ElementNotFoundException();
+    }
+
+    /**
+     * Returns the collection to all users in system.
+     * @return collection of users.
+     */
+    public Collection<User> getActiveUsers(){
+        return users.values();
     }
 }

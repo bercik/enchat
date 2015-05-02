@@ -6,7 +6,7 @@ import message.utils.Encryption;
 import responders.exceptions.IncorrectUserStateException;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 /**
@@ -14,7 +14,7 @@ import user.UserState;
  */
 public abstract class AbstractMessageHandler implements IMessageHandler {
     //User - author of the message
-    protected ActiveUser sender;
+    protected User sender;
     //Message - that was received from User
     protected EncryptedMessage encrypted;
     //Holds decrypted message when it's necessary
@@ -24,10 +24,11 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
 
     /**
      * Constructor of handler
+     * Initialize permitted userState by invoking getPermittedStates in AbstractMessageHandler
      * @param sender - author of the message
      * @param encrypted - received message
      */
-    public AbstractMessageHandler(ActiveUser sender, EncryptedMessage encrypted){
+    public AbstractMessageHandler(User sender, EncryptedMessage encrypted){
         this.sender = sender;
         this.encrypted = encrypted;
         this.permittedStates = getPermittedUserStates();
@@ -83,6 +84,13 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @return Array of allowed states.
      */
     protected abstract UserState[] getPermittedUserStates();
+
+    /**
+     * Reads the data from decrypted message.
+     */
+    protected void getDataFromMessage(){
+
+    }
 
     /**
      * Decrypts the message and ensign it to this.message;

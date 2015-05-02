@@ -1,7 +1,7 @@
 package message.exceptions;
 
 import message.types.EncryptedMessage;
-import user.ActiveUser;
+import user.User;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
  * Created by tochur on 30.04.15.
  */
 public class UnableToSendMessage extends IOException{
-    UnableToSendMessage(ActiveUser activeUser, EncryptedMessage encryptedMessage){
+    UnableToSendMessage(User user, EncryptedMessage encryptedMessage){
         super();
     }
 }

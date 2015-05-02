@@ -2,7 +2,7 @@ package message.utils;
 
 import message.types.EncryptedMessage;
 import message.types.Pack;
-import user.ActiveUser;
+import user.User;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,12 +16,12 @@ import java.util.List;
 public class MessageSender {
     /**
      * Sends message to the user passed as parameter
-     * @param activeUser - the user to whom message is sending.
+     * @param user - the user to whom message is sending.
      * @param message - The sending message.
      * @throws java.io.IOException
      */
-    public static void sendMessage(ActiveUser activeUser, EncryptedMessage message) throws IOException {
-        DataOutputStream out = activeUser.getOutStream();
+    public static void sendMessage(User user, EncryptedMessage message) throws IOException {
+        DataOutputStream out = user.getOutStream();
         out.writeInt(message.getId().getIntRepresentation());
         out.writeInt(message.getErrorId().getIntRepresentation());
         out.writeInt(message.getPackageAmount());

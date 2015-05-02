@@ -1,23 +1,8 @@
 package message;
 
-import message.types.*;
-import message.types.Message;
-import message.utils.MessageReader;
-import message.utils.MessageSender;
-import messages.IncorrectMessageId;
-import messages.MessageId;
-import org.junit.Test;
-import user.ActiveUser;
-
-import java.io.*;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /*public class MessageSendingIntegrationTest {
     private final String fileName = "message";

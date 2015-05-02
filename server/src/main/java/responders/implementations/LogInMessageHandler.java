@@ -2,16 +2,19 @@ package responders.implementations;
 
 import containers.Logged;
 import containers.Registered;
+import containers.exceptions.AlreadyInCollection;
+import containers.exceptions.OverloadedCannotAddNew;
 import message.generarators.Log_In;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserData;
 import user.UserState;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 
 /**
@@ -20,7 +23,7 @@ import java.io.IOException;
  * Created by tochur on 19.04.15.
  */
 public class LogInMessageHandler extends AbstractMessageHandler {
-    EncryptedMessage answer = null;
+    EncryptedMessage answer;
     //Ancillary
     String nick;
     String password;
@@ -28,11 +31,11 @@ public class LogInMessageHandler extends AbstractMessageHandler {
     /**
      * Constructor of handler
      *
-     * @param activeUser - author of the message
+     * @param user - author of the message
      * @param encrypted  - received message
      */
-    public LogInMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted) {
-        super(activeUser, encrypted);
+    public LogInMessageHandler(User user, EncryptedMessage encrypted) {
+        super(user, encrypted);
     }
 
     @Override
@@ -48,19 +51,32 @@ public class LogInMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected void reaction() throws ReactionException {
-        /*Scan for errors*/
-        boolean exist = Registered.getInstance().doesUserExist(nick, password);
-        boolean notOverload = Logged.getInstance().canLogNextUser();
 
-        /*Creating answer*/
-        if (! exist) {
+        //Authorization
+        boolean exist = Registered.getInstance().doesUserExist(nick, password);
+        if ( !exist) {
             answer = Log_In.badLoginOrPassword();
-        } else if (!notOverload) {
-            answer = Log_In.toMuchUserLogged();
-        } else {
+        }
+
+        //Add User to logged
+        UserData userData = new UserData(nick, password);
+        Logged logged = Logged.getInstance();
+        try {
+            logged.addUser(sender);
+            changeUserStateToLogged(sender, userData);
             answer = Log_In.loggedSuccessfully();
-            sender.setData(new UserData(nick, password));
-            sender.setState(UserState.LOGGED);
+        } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
+            answer = Log_In.toMuchUserLogged();
+        } catch (AlreadyInCollection alreadyInCollection) {
+            answer = Log_In.alreadyLogged();
+            logged.deleteUserIfExists(nick);
+            try {
+                logged.addUser(sender);
+                changeUserStateToLogged(sender, userData);
+                answer = Log_In.loggedSuccessfully();
+            } catch (Exception e) {
+                System.out.print("Failed to log user.");
+            }
         }
 
         /*Sending answer*/
@@ -74,5 +90,11 @@ public class LogInMessageHandler extends AbstractMessageHandler {
     @Override
     protected UserState[] getPermittedUserStates() {
         return new UserState[] {UserState.AFTER_KEY_EXCHANGE};
+    }
+
+
+    private void changeUserStateToLogged(User user, UserData userData){
+        user.setData(userData);
+        user.setState(UserState.LOGGED);
     }
 }

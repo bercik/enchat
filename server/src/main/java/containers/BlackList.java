@@ -1,46 +1,63 @@
 package containers;
 
+import containers.exceptions.AlreadyInCollection;
+import containers.exceptions.ElementNotFoundException;
 import containers.exceptions.OverloadedCannotAddNew;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by tochur on 01.05.15.
+ *
+ * Collects the nicks.
+ * User that has black list wont get any message from user with nick from Blacklist
+ * As well users with nick from black list wont see weather user is Logged.
  */
 public class BlackList {
-    private List<String> nicks;
+    //Holds nick
+    private Set<String> nicks;
+    //Max nick amount.
     private final int MAX_SIZE;
 
+    /**
+     * New BlackList is created with default max user size = 100.
+     */
     public BlackList(){
         this(100);
     }
 
+    /**
+     * New BlackList is created with default max user specified by parameter
+     * @param maxSize - max amount of users at blackList
+     */
     public BlackList(int maxSize){
         MAX_SIZE = maxSize;
-        nicks = new LinkedList<String>();
+        nicks = new HashSet<>();
     }
 
     /**
      * Add new nick to black list.
-     * @param nick no message from user with this nick, wont be delivered
+     * @param nick - nick of the user to add to blackList
+     * @throws OverloadedCannotAddNew - when no more users can be added
+     * @throws AlreadyInCollection - when user with this nick already is in blackList
      */
-    public void add(String nick) throws OverloadedCannotAddNew {
-        if(MAX_SIZE > nicks.size()){
-            nicks.add(nick);
-        }else {
+    public void add(String nick) throws OverloadedCannotAddNew, AlreadyInCollection {
+        if( !(MAX_SIZE > nicks.size()) ){
             throw new OverloadedCannotAddNew();
+        } else {
+            if ( !nicks.add(nick) )
+                throw new AlreadyInCollection();
         }
-
     }
 
-    public void remove(String nick){
-        for(int i = 0; i < nicks.size(); i++){
-            if( nick.equals(nicks.get(i))){
-                nicks.remove(i);
-            }
-        }
+    /**
+     * Removes nick from black list.
+     * @param nick - nick to remove from blacklist
+     * @throws containers.exceptions.ElementNotFoundException - When no user with this nick is on list.
+     */
+    public void remove(String nick) throws ElementNotFoundException {
+        if ( !nicks.remove(nick))
+            throw new ElementNotFoundException();
     }
 
     /**
@@ -49,12 +66,7 @@ public class BlackList {
      * @return - answer
      */
     public boolean hasNick(String nick){
-        for(String s: nicks){
-            if( s.equals(nick)){
-                return true;
-            }
-        }
-        return false;
+        return nicks.contains(nick);
     }
 
     /**

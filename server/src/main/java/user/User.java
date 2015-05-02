@@ -1,27 +1,24 @@
 package user;
 
-import message.types.EncryptedMessage;
-import message.utils.MessageSender;
 import room.ChatRoom;
-import rsa.PublicKeyInfo;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
 
 /**
  * Created by tochur on 16.04.15.
  *
- * Represents user that is at least capable to interact with server.
- * It can change it's state
+ * Represents the user is system.
+ * Server can interact with User - by sending encryptedMessages
+ *
+ * Two users are equal if UserData are the same
+ *      user1.equals(user2) <=> user1.getData().equals(user2.getData());
  */
 
-public class ActiveUser{
+public class User {
     /* Public key - used to encrypt messages before sending */
     private PublicKey publicKey;
     /* Holds characteristic and constant userData */
@@ -29,24 +26,25 @@ public class ActiveUser{
     /* Represents user current state */
     private UserState userState;
     /* Stream used for sending messages to user */
-    private DataInputStream in;
+    private final DataInputStream in;
     /* Stream used for reading messages that user send to server. */
-    private DataOutputStream out;
+    private final DataOutputStream out;
+
     /* Socket let us exchange messages - after constructing it's not used, but probably reference is necessary (garbage collector) */
-    private Socket clientSocket;
+    private final Socket socket;
     /* Reference to room, its necessary to make a conversation. */
     private ChatRoom room;
 
 
     /**
      * Creates the user that is able to exchange messages with server.
-     * @param clientSocket - interface to user.
+     * @param socket - interface to user.
      * @throws IOException - Some IOException can always happen during stream creation.
      */
-    public ActiveUser(Socket clientSocket) throws IOException {
-        this.clientSocket = clientSocket;
-        this.in = new DataInputStream( clientSocket.getInputStream());
-        this.out = new DataOutputStream( clientSocket.getOutputStream());
+    public User(Socket socket) throws IOException {
+        this.socket = socket;
+        this.in = new DataInputStream( socket.getInputStream());
+        this.out = new DataOutputStream( socket.getOutputStream());
         this.userState = UserState.CONNECTED_TO_SERVER;
     }
 
@@ -71,7 +69,7 @@ public class ActiveUser{
         this.userData = userData;
     }
 
-    public UserData getUserData(){
+    public UserData getData(){
         return userData;
     }
 
@@ -99,12 +97,35 @@ public class ActiveUser{
         return out;
     }
 
+    /**
+     * If no room is assigned creates new Room
+     * @return ChatRoom, associated with user
+     */
     public ChatRoom getRoom() {
+        if(room == null){
+            room = new ChatRoom(2);
+        }
         return room;
     }
 
     public void setRoom(ChatRoom room) {
         this.room = room;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null)
+            return false;
+        else if ( this.getClass().equals(obj.getClass())){
+            User user = (User) obj;
+            if (this.getData().equals(user.getData()))
+                return true;
+        }
+        return false;
     }
 }
 

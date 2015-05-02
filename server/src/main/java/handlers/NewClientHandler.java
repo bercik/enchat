@@ -1,17 +1,17 @@
 package handlers;
 
 import containers.ActiveUsers;
+import containers.exceptions.AlreadyInCollection;
 import rsa.KeyContainer;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
 import server.Server;
-import user.ActiveUser;
+import user.User;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
@@ -44,20 +44,25 @@ public class NewClientHandler implements Runnable{
 
     public void createConnection() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, GeneratingPublicKeyException {
         /*Tworzę nowego użytkownika*/
-        ActiveUser newActiveUser = new ActiveUser(clientSocket);
+        User newUser = new User(clientSocket);
         //Wysłanie klucza publicznego
-        keyContainer.getPublicKeyInfo().send(newActiveUser.getOutStream());
+        keyContainer.getPublicKeyInfo().send(newUser.getOutStream());
 
         //Pobieranie klucza publicznego użytkownika
-        PublicKeyInfo clientPublicKeyInfo = new PublicKeyInfo(newActiveUser.getInputStream());
+        PublicKeyInfo clientPublicKeyInfo = new PublicKeyInfo(newUser.getInputStream());
         System.out.println("Odebrano klucz publiczny nowego użytkownika.");
         System.out.println("Modulus: " + clientPublicKeyInfo.getModulus());
         System.out.println("Exponent: " + clientPublicKeyInfo.getExponent());
         //Ustawienie klucza publicznego
         PublicKey publicKey = clientPublicKeyInfo.getPublicKey();
-        newActiveUser.setPublicKey(publicKey);
+        newUser.setPublicKey(publicKey);
 
         //Adding new user
-        ActiveUsers.getInstance().addUser(newActiveUser);
+        try {
+            ActiveUsers.getInstance().addUser(newUser);
+        } catch (AlreadyInCollection alreadyInCollection) {
+            //Internal server error, 2 users got the same socket.
+            alreadyInCollection.printStackTrace();
+        }
     }
 }

@@ -1,19 +1,18 @@
 package message.generarators;
 
 import message.types.EncryptedMessage;
-import message.types.Header;
 import message.types.Message;
 import message.utils.Encryption;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
-import user.ActiveUser;
+import user.User;
 
 /**
  * Created by tochur on 01.05.15.
  */
 public class Clients_Message {
-    public static EncryptedMessage deliveryFailed(ActiveUser receiver){
+    public static EncryptedMessage deliveryFailed(User receiver){
         MessageId id = MessageId.CLIENT_MESSAGE;
         EncryptedMessage answer = null;
         try {

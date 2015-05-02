@@ -1,6 +1,7 @@
 package responders.implementations;
 
 import containers.Logged;
+import containers.exceptions.ElementNotFoundException;
 import message.generarators.ConversationRequest;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
@@ -8,7 +9,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ToMuchUsersInThisRoom;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 import java.io.IOException;
@@ -19,14 +20,14 @@ import java.io.IOException;
 public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     //Nick of the person to connect with
     private String nick;
-    private ActiveUser userToConnect;
+    private User userToConnect;
     /**
      * Constructor of handler
      *
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public ConversationRequestMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public ConversationRequestMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 
@@ -44,19 +45,22 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     protected void reaction() throws ReactionException {
         EncryptedMessage answer;
 
-        //If user is not logged or is on black list.
-        if( (userToConnect = Logged.getInstance().getUserIfLogged(nick)) == null){
-            answer = ConversationRequest.notLogged();
-        }else if (userToConnect.getUserData().getBlackList().hasNick(nick)){
-            answer = ConversationRequest.notLogged();
-        }else {
-            try {
-                userToConnect.getRoom().add(sender);
-                answer = ConversationRequest.connected();
-            } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
-                answer = ConversationRequest.busyUser();
+        try {
+            userToConnect = Logged.getInstance().getUser(nick);
+            if (userToConnect.getData().getBlackList().hasNick(nick)){
+                answer = ConversationRequest.notLogged();
+            }else {
+                try {
+                    userToConnect.getRoom().add(sender);
+                    answer = ConversationRequest.connected();
+                } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
+                    answer = ConversationRequest.busyUser();
+                }
             }
+        } catch (ElementNotFoundException e) {
+            answer = ConversationRequest.notLogged();
         }
+
         try {
             MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {

@@ -4,7 +4,6 @@ import message.types.EncryptedMessage;
 import message.types.Header;
 import messages.IncorrectMessageId;
 import messages.MessageId;
-import user.ActiveUser;
 
 /**
  * Created by tochur on 02.05.15.
