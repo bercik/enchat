@@ -15,12 +15,13 @@ public enum MessageId
     // logowanie
     // BAD_LOGIN_OR_PASSWORD - zły login lub hasło
     // TOO_MUCH_USERS_LOGGED - za dużo zalogowanych użytkowników
-    LOG_IN(1, ErrorId.BAD_LOGIN_OR_PASSWORD, ErrorId.TOO_MUCH_USERS_LOGGED),
+    // ErrorId.ALREADY_LOGGED - nie moża być zalogowanym przy pomocy jednego loginu kilka razy, następuje wylogowanie z poprzedniej sesji.
+    LOG_IN(1, ErrorId.BAD_LOGIN_OR_PASSWORD, ErrorId.TOO_MUCH_USERS_LOGGED, ErrorId.ALREADY_LOGGED),
     // rejestracja
     // BUSY_LOGIN - login zajęty
     // INCORRECT_LOGIN - nieprawidłowy login 
     // (zawiera inne znaki niż alfanumeryczne ASCII)
-    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, ErrorId.BAD_PASSWORD_LENGTH),
+    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, ErrorId.BAD_PASSWORD_LENGTH, ErrorId.TO_MUCH_REGISTERED),
     // żądanie konwersacji (klient -> serwer)
     // USER_NOT_LOGGED - użytkownik z którym chcemy rozmawiać jest niezalogowany
     // BUSY_USER - użytkownik z którym chcemy rozmawiać jest zajęty
@@ -73,6 +74,8 @@ public enum MessageId
         OK(0),
         BAD_LOGIN_OR_PASSWORD(1),
         TOO_MUCH_USERS_LOGGED(2),
+        ALREADY_LOGGED(3),
+        TO_MUCH_REGISTERED(4),
         BUSY_LOGIN(1),
         INCORRECT_LOGIN(2),
         BAD_PASSWORD_LENGTH(3),

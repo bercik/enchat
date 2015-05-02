@@ -1,17 +1,25 @@
-package responders;
+package responders.implementations.lists;
 
 import containers.Logged;
+import message.generarators.Lists;
 import message.types.EncryptedMessage;
+import message.utils.MessageSender;
+import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.User;
 import user.UserState;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by tochur on 19.04.15.
  */
 public class ClientListMessageHandler extends AbstractMessageHandler {
-
+    String senderNick;
     /**
      * Constructor of handler
      * Initialize permitted userState by invoking getPermittedStates in AbstractMessageHandler
@@ -30,13 +38,25 @@ public class ClientListMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected void createAncillaryVariables() {
-
+        senderNick = sender.getNick();
     }
 
     @Override
     protected void reaction() throws ReactionException {
-        Logged.getInstance().getActiveUsers();
-        //EncryptedMessage answer = Lists.
+        Collection<User> logged = Logged.getInstance().getLogged();
+        Set<String> available = new HashSet<>();
+        for(User user: logged){
+            if( !user.getData().getBlackList().hasNick(senderNick) )
+                available.add(user.getNick());
+        }
+
+        EncryptedMessage answer = Lists.loggedUserList(sender, available.toArray(new String[0]));
+
+        try {
+            MessageSender.sendMessage(sender, answer);
+        } catch (IOException e) {
+            throw new ReactionException();
+        }
     }
 
     @Override

@@ -52,4 +52,15 @@ public class Sign_Up {
         }
         return new EncryptedMessage(header);
     }
+
+    public static EncryptedMessage toManyAccounts(){
+        MessageId id = MessageId.LOG_IN;
+        Header header = null;
+        try {
+            header = new Header(id, id.createErrorId(0), 4);
+        } catch (IncorrectMessageId incorrectMessageId) {
+            System.out.println("Error inside Messages, wrong error number, repair that.");
+        }
+        return new EncryptedMessage(header);
+    }
 }

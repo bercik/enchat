@@ -1,6 +1,7 @@
 package responders.implementations;
 
 import containers.Logged;
+import containers.exceptions.ElementNotFoundException;
 import message.generarators.ConversationRequest;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
@@ -44,19 +45,22 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     protected void reaction() throws ReactionException {
         EncryptedMessage answer;
 
-        //If user is not logged or is on black list.
-        if( (userToConnect = Logged.getInstance().getUserIfLogged(nick)) == null){
-            answer = ConversationRequest.notLogged();
-        }else if (userToConnect.getData().getBlackList().hasNick(nick)){
-            answer = ConversationRequest.notLogged();
-        }else {
-            try {
-                userToConnect.getRoom().add(sender);
-                answer = ConversationRequest.connected();
-            } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
-                answer = ConversationRequest.busyUser();
+        try {
+            userToConnect = Logged.getInstance().getUser(nick);
+            if (userToConnect.getData().getBlackList().hasNick(nick)){
+                answer = ConversationRequest.notLogged();
+            }else {
+                try {
+                    userToConnect.getRoom().add(sender);
+                    answer = ConversationRequest.connected();
+                } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
+                    answer = ConversationRequest.busyUser();
+                }
             }
+        } catch (ElementNotFoundException e) {
+            answer = ConversationRequest.notLogged();
         }
+
         try {
             MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {

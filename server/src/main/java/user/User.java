@@ -97,7 +97,14 @@ public class User {
         return out;
     }
 
+    /**
+     * If no room is assigned creates new Room
+     * @return ChatRoom, associated with user
+     */
     public ChatRoom getRoom() {
+        if(room == null){
+            room = new ChatRoom(2);
+        }
         return room;
     }
 

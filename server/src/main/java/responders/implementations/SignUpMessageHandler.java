@@ -1,6 +1,8 @@
 package responders.implementations;
 
 import containers.Registered;
+import containers.exceptions.AlreadyInCollection;
+import containers.exceptions.OverloadedCannotAddNew;
 import message.generarators.Sign_Up;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
@@ -8,6 +10,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.User;
+import user.UserData;
 import user.UserState;
 import utils.Validator;
 
@@ -57,10 +60,15 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
             answer = Sign_Up.incorrectLogin();
         }else if( !Validator.isPasswordLengthCorrect(password)){
             answer = Sign_Up.badPasswordLength();
-        }else if ( !Registered.getInstance().isLoginFree(login)) {
-            answer = Sign_Up.busyLogin();
         }else{
-            answer = Sign_Up.ok();
+            try {
+                Registered.getInstance().addNewClient(new UserData(login, password));
+                answer = Sign_Up.ok();
+            } catch (AlreadyInCollection alreadyInCollection) {
+                answer = Sign_Up.busyLogin();
+            } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
+                answer = Sign_Up.toManyAccounts();
+            }
         }
 
         try{

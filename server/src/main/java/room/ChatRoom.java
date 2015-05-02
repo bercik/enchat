@@ -18,7 +18,7 @@ public class ChatRoom {
     private List<User> participants = new LinkedList<>();
     private int maxSize;
 
-    ChatRoom(int maxConversationalists){
+    public ChatRoom(int maxConversationalists){
         this.maxSize = maxConversationalists;
     }
 

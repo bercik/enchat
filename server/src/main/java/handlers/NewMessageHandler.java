@@ -7,6 +7,7 @@ import responders.exceptions.*;
 import responders.implementations.*;
 import responders.implementations.lists.AddToBlackListMessageHandler;
 import responders.implementations.lists.BlackListMessageHandler;
+import responders.implementations.lists.ClientListMessageHandler;
 import rsa.exceptions.DecryptingException;
 import user.User;
 
@@ -53,7 +54,7 @@ public class NewMessageHandler implements Runnable {
             case CLIENT_MESSAGE:
                 return new ClientMessageHandler(user, message);
             case CONVERSATIONALIST_DISCONNECTED:
-                return new ConversationalistDisconectedMessageHandler();
+                return new ConversationalistDisconnectedMessageHandler();
             case CLIENTS_LIST:
                 return new ClientListMessageHandler(user, message);
             case BLACK_LIST:

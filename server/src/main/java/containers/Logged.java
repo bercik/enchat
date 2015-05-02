@@ -5,6 +5,8 @@ import containers.exceptions.ElementNotFoundException;
 import containers.exceptions.OverloadedCannotAddNew;
 import user.User;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +72,35 @@ public class Logged {
             }
         }
         throw new ElementNotFoundException();
+    }
+
+    /**
+     * Removes user from ActiveUsers
+     * @param nick - user with this nick will be to removed
+     * @throws ElementNotFoundException - when user is not in ActiveUsers
+     */
+    public void deleteUser (String nick) throws ElementNotFoundException {
+        if ( logged.remove(nick) == null )
+            throw new ElementNotFoundException();
+    }
+
+    /**
+     * Removes user from ActiveUsers
+     * @param nick - user with this nick will be to removed
+     * @return true if user was in logged group.
+     */
+    public boolean deleteUserIfExists (String nick){
+        if ( logged.remove(nick) == null )
+            return false;
+        return true;
+    }
+
+    /**
+     *
+     * @return UnmodifiableCollection of Users logged
+     */
+    public Collection<User> getLogged(){
+        return Collections.unmodifiableCollection(logged.values());
     }
 
     /**

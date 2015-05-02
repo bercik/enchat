@@ -41,4 +41,15 @@ public class Log_In {
         }
         return new EncryptedMessage(header);
     }
+
+    public static EncryptedMessage alreadyLogged(){
+        MessageId id = MessageId.LOG_IN;
+        Header header = null;
+        try {
+            header = new Header(id, id.createErrorId(0), 3);
+        } catch (IncorrectMessageId incorrectMessageId) {
+            System.out.println("Error inside Messages, wrong error number, repair that.");
+        }
+        return new EncryptedMessage(header);
+    }
 }
