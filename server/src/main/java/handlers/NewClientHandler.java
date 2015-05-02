@@ -2,6 +2,10 @@ package handlers;
 
 import containers.ActiveUsers;
 import containers.exceptions.AlreadyInCollection;
+import containers.exceptions.OverloadedCannotAddNew;
+import message.generarators.Server_error;
+import message.types.EncryptedMessage;
+import message.utils.MessageSender;
 import rsa.KeyContainer;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
@@ -63,6 +67,9 @@ public class NewClientHandler implements Runnable{
         } catch (AlreadyInCollection alreadyInCollection) {
             //Internal server error, 2 users got the same socket.
             alreadyInCollection.printStackTrace();
+        } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
+            EncryptedMessage message = Server_error.serverOverloaded();
+            MessageSender.sendMessage(newUser, message);
         }
     }
 }

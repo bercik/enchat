@@ -72,5 +72,5 @@ public class BlackList {
     /**
      * @return Independent Collection Of Nicks from blackList
      */
-    public String[] getNicks(){ return nicks.toArray(new String[0]); }
+    public Collection<String> getNicks(){ return Collections.unmodifiableCollection(nicks); }
 }

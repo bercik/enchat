@@ -2,6 +2,7 @@ package responders.implementations.lists;
 
 import containers.BlackList;
 import containers.Registered;
+import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
 import message.generarators.Add_To_Black_List;
 import message.types.EncryptedMessage;
@@ -43,18 +44,18 @@ public class AddToBlackListMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected void reaction() throws ReactionException {
-        EncryptedMessage encrypted;
+        EncryptedMessage answer;
 
         if(Registered.getInstance().isLoginFree(nickToBlock)){
-            encrypted = Add_To_Black_List.userNotExists();
-        } else if ( blackList.hasNick(nickToBlock)){
-            encrypted = Add_To_Black_List.alreadyAdded();
+            answer = Add_To_Black_List.userNotExists();
         } else {
             try {
                 blackList.add(nickToBlock);
-                encrypted = Add_To_Black_List.addedSuccessfully();
+                answer = Add_To_Black_List.addedSuccessfully();
             } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
-                encrypted = Add_To_Black_List.toMuchOnList();
+                answer = Add_To_Black_List.toMuchOnList();
+            } catch (AlreadyInCollection alreadyInCollection) {
+                answer = Add_To_Black_List.alreadyAdded();
             }
         }
 

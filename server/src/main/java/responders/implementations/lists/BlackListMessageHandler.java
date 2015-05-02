@@ -37,7 +37,7 @@ public class BlackListMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected void reaction() throws ReactionException {
-        String[] nicks = sender.getData().getBlackList().getNicks();
+        String[] nicks = sender.getData().getBlackList().getNicks().toArray(new String[0]);
         EncryptedMessage answer = Lists.blackList(sender, nicks);
         try {
             MessageSender.sendMessage(sender, answer);

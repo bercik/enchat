@@ -69,14 +69,6 @@ public class LogInMessageHandler extends AbstractMessageHandler {
             answer = Log_In.toMuchUserLogged();
         } catch (AlreadyInCollection alreadyInCollection) {
             answer = Log_In.alreadyLogged();
-            logged.deleteUserIfExists(nick);
-            try {
-                logged.addUser(sender);
-                changeUserStateToLogged(sender, userData);
-                answer = Log_In.loggedSuccessfully();
-            } catch (Exception e) {
-                System.out.print("Failed to log user.");
-            }
         }
 
         /*Sending answer*/

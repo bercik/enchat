@@ -10,7 +10,7 @@ import user.User;
  * Created by tochur on 01.05.15.
  */
 public class Server_error {
-    public static EncryptedMessage unableToEncrypt(User receiver) {
+    public static EncryptedMessage unableToEncrypt() {
         MessageId id = MessageId.SERVER_ERROR;
         Header header = null;
         try {
@@ -23,11 +23,24 @@ public class Server_error {
         return new EncryptedMessage(header);
     }
 
-    public static EncryptedMessage unableToDecrypt(User receiver) {
+    public static EncryptedMessage unableToDecrypt() {
         MessageId id = MessageId.SERVER_ERROR;
         Header header = null;
         try {
             MessageId.ErrorId errorId = id.createErrorId(2);
+            header = new Header(id, errorId);
+        } catch (IncorrectMessageId incorrectMessageId) {
+            System.out.println("Error inside Messages, wrong error number, repair that.");
+        }
+
+        return new EncryptedMessage(header);
+    }
+
+    public static EncryptedMessage serverOverloaded() {
+        MessageId id = MessageId.SERVER_ERROR;
+        Header header = null;
+        try {
+            MessageId.ErrorId errorId = id.createErrorId(3);
             header = new Header(id, errorId);
         } catch (IncorrectMessageId incorrectMessageId) {
             System.out.println("Error inside Messages, wrong error number, repair that.");

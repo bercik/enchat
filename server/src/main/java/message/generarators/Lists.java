@@ -35,7 +35,7 @@ public class Lists {
             System.out.println("Error inside Messages, wrong error number, repair that.");
         } catch (EncryptionException e) {
             System.out.println("Unable to encrypt Message.");
-            encrypted =  Server_error.unableToEncrypt(receiver);
+            encrypted =  Server_error.unableToEncrypt();
         }
 
         return encrypted;
@@ -59,7 +59,7 @@ public class Lists {
             System.out.println("Error inside Messages, wrong error number, repair that.");
         } catch (EncryptionException e) {
             System.out.println("Unable to encrypt Message.");
-            encrypted =  Server_error.unableToEncrypt(receiver);
+            encrypted =  Server_error.unableToEncrypt();
         }
 
         return encrypted;

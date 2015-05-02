@@ -6,7 +6,6 @@ package user;
  * Defines allowed userStates
  */
 public enum UserState {
-    UNINITIALIZED,                      //Means, that user is not yet initialized correctly and waits for is NOT on ActiveUser list.
     CONNECTED_TO_SERVER,                //Means, that server listen for answer from him.
     AFTER_KEY_EXCHANGE,                 //Means, that communication server - client is enabled, but user is not logged after public key exchange
     LOGGED,                             //Means, that user logged Successfully, have full functionality available and posses unique UserData

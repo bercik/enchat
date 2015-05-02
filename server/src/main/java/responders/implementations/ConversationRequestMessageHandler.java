@@ -3,6 +3,7 @@ package responders.implementations;
 import containers.Logged;
 import containers.exceptions.ElementNotFoundException;
 import message.generarators.ConversationRequest;
+import message.generarators.Incoming_Conversation;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -44,6 +45,8 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     @Override
     protected void reaction() throws ReactionException {
         EncryptedMessage answer;
+        //Send to user with whom we tried to connect
+        EncryptedMessage messageToUser;
 
         try {
             userToConnect = Logged.getInstance().getUser(nick);
@@ -53,9 +56,17 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
                 try {
                     userToConnect.getRoom().add(sender);
                     answer = ConversationRequest.connected();
+                    messageToUser = Incoming_Conversation.connected();
                 } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
                     answer = ConversationRequest.busyUser();
+                    messageToUser = Incoming_Conversation.roomOverloaded();
                 }
+                try {
+                    MessageSender.sendMessage(userToConnect, messageToUser);
+                } catch (IOException e) {
+                    throw new ReactionException();
+                }
+
             }
         } catch (ElementNotFoundException e) {
             answer = ConversationRequest.notLogged();
