@@ -7,7 +7,7 @@ import message.utils.Encryption;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
-import user.ActiveUser;
+import user.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +24,32 @@ public class Lists {
      * @param nicks - nicks from blackList
      * @return - encryptedMessage
      */
-    public static EncryptedMessage blackList(ActiveUser receiver, String[] nicks){
+    public static EncryptedMessage blackList(User receiver, String[] nicks){
         MessageId id = MessageId.BLACK_LIST;
+        EncryptedMessage encrypted = null;
+        try {
+            MessageId.ErrorId errorId = id.createErrorId(0);
+            Header header = new Header(id, errorId, nicks.length);
+            encrypted = nicks(receiver, header, nicks);
+        } catch (IncorrectMessageId incorrectMessageId) {
+            System.out.println("Error inside Messages, wrong error number, repair that.");
+        } catch (EncryptionException e) {
+            System.out.println("Unable to encrypt Message.");
+            encrypted =  Server_error.unableToEncrypt(receiver);
+        }
+
+        return encrypted;
+    }
+
+    /**
+     * Returns encrypted message with black list containing one nick in one package.
+     * If encrypting failed, ServerError message is send to user.
+     * @param receiver - the ActiveUser that request for his blackList
+     * @param nicks - nicks from blackList
+     * @return - encryptedMessage
+     */
+    public static EncryptedMessage loggedUserList(User receiver, String[] nicks){
+        MessageId id = MessageId.CLIENTS_LIST;
         EncryptedMessage encrypted = null;
         try {
             MessageId.ErrorId errorId = id.createErrorId(0);
@@ -50,7 +74,7 @@ public class Lists {
      * @return - encryptedMessage
      * @throws EncryptionException
      */
-    private static EncryptedMessage nicks(ActiveUser receiver, Header header, String[] strings) throws EncryptionException {
+    private static EncryptedMessage nicks(User receiver, Header header, String[] strings) throws EncryptionException {
         EncryptedMessage encrypted = null;
 
         if (strings.length == 0){

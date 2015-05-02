@@ -4,14 +4,13 @@ import message.types.EncryptedMessage;
 import message.types.Header;
 import messages.IncorrectMessageId;
 import messages.MessageId;
-import rsa.exceptions.EncryptionException;
-import user.ActiveUser;
+import user.User;
 
 /**
  * Created by tochur on 01.05.15.
  */
 public class Server_error {
-    public static EncryptedMessage unableToEncrypt(ActiveUser receiver) {
+    public static EncryptedMessage unableToEncrypt(User receiver) {
         MessageId id = MessageId.SERVER_ERROR;
         Header header = null;
         try {
@@ -24,7 +23,7 @@ public class Server_error {
         return new EncryptedMessage(header);
     }
 
-    public static EncryptedMessage unableToDecrypt(ActiveUser receiver) {
+    public static EncryptedMessage unableToDecrypt(User receiver) {
         MessageId id = MessageId.SERVER_ERROR;
         Header header = null;
         try {

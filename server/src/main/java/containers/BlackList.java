@@ -1,6 +1,6 @@
 package containers;
 
-import containers.exceptions.ElementNotFound;
+import containers.exceptions.ElementNotFoundException;
 import containers.exceptions.OverloadedCannotAddNew;
 
 import java.util.*;
@@ -34,11 +34,11 @@ public class BlackList {
     /**
      * Removes nick from black list.
      * @param nick - nick to remove from blacklist
-     * @throws ElementNotFound - When no user with this nick is on list.
+     * @throws containers.exceptions.ElementNotFoundException - When no user with this nick is on list.
      */
-    public void remove(String nick) throws ElementNotFound {
+    public void remove(String nick) throws ElementNotFoundException {
         if ( !nicks.remove(nick))
-            throw new ElementNotFound();
+            throw new ElementNotFoundException();
     }
 
     /**

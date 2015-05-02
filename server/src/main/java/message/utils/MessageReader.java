@@ -3,7 +3,7 @@ package message.utils;
 import message.types.EncryptedMessage;
 import message.types.Pack;
 import messages.IncorrectMessageId;
-import user.ActiveUser;
+import user.User;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -32,9 +32,9 @@ public class MessageReader {
 
     private DataInputStream in;
 
-    public EncryptedMessage readMessage(ActiveUser activeUser) throws IOException, IncorrectMessageId {
+    public EncryptedMessage readMessage(User user) throws IOException, IncorrectMessageId {
             //Reading message header
-            in = activeUser.getInputStream();
+            in = user.getInputStream();
             id = in.readInt();
             errorId = in.readInt();
             packageAmount = in.readInt();

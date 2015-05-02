@@ -1,10 +1,10 @@
 package handlers;
 
 import containers.ActiveUsers;
-import user.ActiveUser;
+import user.User;
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by tochur on 18.04.15.
@@ -15,10 +15,10 @@ public class NewMessageScanner implements Runnable{
     /* ActiveUsers (ArrayList)should be blocked*/
     public void run() {
         while (true){
-            ArrayList<ActiveUser> activeUsers = ActiveUsers.getInstance().getActiveUsers();
-            for(ActiveUser activeUser: activeUsers){
+            Collection<User> users = ActiveUsers.getInstance().getActiveUsers();
+            for(User user : users){
                 if ( true ){ //check state
-                    BufferHandler.handleBuffer(activeUser);
+                    BufferHandler.handleBuffer(user);
                 }
 
             }

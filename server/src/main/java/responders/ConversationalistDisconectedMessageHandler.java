@@ -1,8 +1,5 @@
 package responders;
 
-import message.types.EncryptedMessage;
-import user.ActiveUser;
-
 /**
  * Created by tochur on 19.04.15.
  */

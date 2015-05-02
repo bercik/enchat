@@ -8,7 +8,7 @@ import rsa.exceptions.DecryptingException;
 import rsa.exceptions.EncryptingException;
 import rsa.exceptions.EncryptionException;
 import server.Server;
-import user.ActiveUser;
+import user.User;
 
 import java.security.Key;
 import java.security.PrivateKey;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by tochur on 24.04.15.
  */
 public class Encryption {
-    public static Message decryptMessage(EncryptedMessage encrypted, ActiveUser activeUser) throws DecryptingException{
+    public static Message decryptMessage(EncryptedMessage encrypted, User user) throws DecryptingException{
         if( encrypted.getPackageAmount() == 0 ){
             return new Message(encrypted.getId(), encrypted.getErrorId());
         }else{
@@ -31,7 +31,7 @@ public class Encryption {
             Key privateServerKey = getPrivateKey();
             for(Pack pack: packages){
                 byte[] decrypted = decrypt(pack.getDataArray(), privateServerKey);
-                checkSign(pack.getSignArray(), decrypted, activeUser.getPublicKey());
+                checkSign(pack.getSignArray(), decrypted, user.getPublicKey());
                 strings.add(new String(decrypted));
             }
             return new Message(encrypted.getId(), encrypted.getErrorId(), encrypted.getPackageAmount(), strings);
@@ -40,11 +40,11 @@ public class Encryption {
 
     /**
      * Only packages (data) are encrypting
-     * @param activeUser - receiver of the message
+     * @param user - receiver of the message
      * @param message - message to encrypt
      * @return encrypted message
      */
-    public static EncryptedMessage encryptMessage(ActiveUser activeUser, Message message) throws EncryptionException {
+    public static EncryptedMessage encryptMessage(User user, Message message) throws EncryptionException {
         List<Pack> packages = new LinkedList<>();
 
         if( message.getPackageAmount() == 0 ){
@@ -54,7 +54,7 @@ public class Encryption {
             if (stringsAmount > 0){
                 for(String string: message.getPackages()){
                     byte[] data = string.getBytes();
-                    byte[] encrypted = encrypt(data, activeUser.getPublicKey());
+                    byte[] encrypted = encrypt(data, user.getPublicKey());
                     byte[] sign = sign(data);
 
                     packages.add(new Pack(encrypted, sign));

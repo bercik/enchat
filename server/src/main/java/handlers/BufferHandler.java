@@ -3,7 +3,7 @@ package handlers;
 import message.types.EncryptedMessage;
 import message.utils.MessageReader;
 import messages.IncorrectMessageId;
-import user.ActiveUser;
+import user.User;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -17,13 +17,13 @@ import java.io.IOException;
  */
 public class BufferHandler {
 
-    public static void handleBuffer(ActiveUser activeUser){
+    public static void handleBuffer(User user){
         try {
-            if (! isEmpty(activeUser.getInputStream())) {
+            if (! isEmpty(user.getInputStream())) {
                 MessageReader messageReader = new MessageReader();
-                EncryptedMessage encryptedMessage = messageReader.readMessage(activeUser);
+                EncryptedMessage encryptedMessage = messageReader.readMessage(user);
                 //Consider starting a new Thread
-                NewMessageHandler newMessageHandler = new NewMessageHandler(activeUser, encryptedMessage);
+                NewMessageHandler newMessageHandler = new NewMessageHandler(user, encryptedMessage);
                 new Thread(newMessageHandler).start();
             }
         } catch (IOException e) {

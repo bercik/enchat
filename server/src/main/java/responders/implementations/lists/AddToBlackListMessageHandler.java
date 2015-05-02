@@ -9,7 +9,7 @@ import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class AddToBlackListMessageHandler extends AbstractMessageHandler {
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public AddToBlackListMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public AddToBlackListMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 
@@ -38,7 +38,7 @@ public class AddToBlackListMessageHandler extends AbstractMessageHandler {
     @Override
     protected void createAncillaryVariables() {
         this.nickToBlock = message.getPackages().get(0);
-        this.blackList = sender.getUserData().getBlackList();
+        this.blackList = sender.getData().getBlackList();
     }
 
     @Override

@@ -1,21 +1,24 @@
 package containers;
 
-import user.ActiveUser;
+import user.User;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by tochur on 01.05.15.
+ *
+ * This class holds
  */
 public class Logged {
     public static final Integer MAX_LOGGED_USER = 300;
     private static Logged instance;
     /*List of all users capable to interact with server (CONNECTED_TO_SERVER, LOGGED or CONNECTED_WITH_OTHER,)*/
-    private static ArrayList<ActiveUser> activeUsers;
+    private static Set<User> users;
 
     private Logged(){
-        if (activeUsers == null)
-            activeUsers = new ArrayList<ActiveUser>();
+        if (users == null)
+            users = new HashSet<>();
     }
 
     public static Logged getInstance(){
@@ -25,12 +28,12 @@ public class Logged {
     }
 
     /*Adds new user to interaction group*/
-    public void addUser(ActiveUser activeUser){
-        activeUsers.add(activeUser);
+    public void addUser(User user){
+        users.add(user);
     }
 
-    public ArrayList<ActiveUser> getActiveUsers(){
-        return activeUsers;
+    public Set<User> getActiveUsers(){
+        return users;
     }
 
     /**
@@ -38,13 +41,13 @@ public class Logged {
      * @param nick - nick of user we want to connect
      * @return - sender which was searching
      */
-    public ActiveUser getUserIfLogged(String nick){
-        for(ActiveUser activeUser: activeUsers){
-            if( activeUser.getNick().equals(nick))
-                return activeUser;
+    public User getUserIfLogged(String nick){
+        for(User user : users){
+            if( user.getNick().equals(nick))
+                return user;
         }
         return null;
     }
 
-    public boolean canLogNextUser() { return activeUsers.size() < MAX_LOGGED_USER; }
+    public boolean canLogNextUser() { return users.size() < MAX_LOGGED_USER; }
 }

@@ -5,7 +5,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ChatRoom;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 /**
@@ -21,7 +21,7 @@ public class ClientMessageHandler extends AbstractMessageHandler {
      * @param sender    - author of the message
      * @param encrypted - received message
      */
-    public ClientMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public ClientMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 

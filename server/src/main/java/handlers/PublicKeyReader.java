@@ -1,9 +1,8 @@
 package handlers;
 
-import containers.ActiveUsers;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
-import user.ActiveUser;
+import user.User;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class PublicKeyReader{
     private PublicKeyInfo publicKeyInfo;
 
 
-    public PublicKeyReader(ActiveUser activeUser) throws GeneratingPublicKeyException {
+    public PublicKeyReader(User user) throws GeneratingPublicKeyException {
 
         try {
             this.inputStream = new DataInputStream( socket.getInputStream());

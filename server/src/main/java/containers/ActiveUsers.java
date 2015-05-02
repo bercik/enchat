@@ -1,38 +1,76 @@
 package containers;
 
-import user.ActiveUser;
+import containers.exceptions.AlreadyInCollection;
+import containers.exceptions.ElementNotFoundException;
+import user.User;
 
-import java.util.ArrayList;
+import java.net.Socket;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tochur on 16.04.15.
+ *
+ * Is owner of the references to all users in system.
+ * They are unique for the sake of Socket (if reference are equals).
  */
 
-/*Holds all users, that can interact with server
-*   During work server iterates this collection and listen for new messages from this users, and interact with them.
-* */
 public class ActiveUsers {
+    //Reference to singleton object
     private static ActiveUsers instance;
-    /*List of all users capable to interact with server (CONNECTED_TO_SERVER, LOGGED or CONNECTED_WITH_OTHER,)*/
-    private static ArrayList<ActiveUser> activeUsers;
 
+    /**
+     * Maps the socket references to User references
+     */
+    private static Map<Socket, User> users;
+
+    /**
+     * Singleton constructor
+     */
     private ActiveUsers(){
-        if (activeUsers == null)
-            activeUsers = new ArrayList<ActiveUser>();
+        if (users == null)
+            users = new HashMap<>();
     }
 
+    /**
+     * Singleton object creator.
+     * @return Created object.
+     */
     public static ActiveUsers getInstance(){
         if (instance == null)
             instance = new ActiveUsers();
         return instance;
     }
 
-    /*Adds new user to interaction group*/
-    public void addUser(ActiveUser activeUser){
-        activeUsers.add(activeUser);
+    /**
+     * Adding new unique User to ActiveUsers
+     * @param user - user to Add
+     * @throws AlreadyInCollection - when tried to add not unique user.
+     */
+    public void addUser(User user) throws AlreadyInCollection {
+        if ( users.containsKey(user.getSocket()) ) {
+            throw new AlreadyInCollection();
+        }else {
+            users.put(user.getSocket(), user);
+        }
     }
 
-    public ArrayList<ActiveUser> getActiveUsers(){
-        return activeUsers;
+    /**
+     * Removes user from ActiveUsers
+     * @param user - user to remove
+     * @throws ElementNotFoundException - when user is not in ActiveUsers
+     */
+    public void deleteUser (User user) throws ElementNotFoundException {
+        if ( users.remove(user.getSocket()) == null )
+            throw new ElementNotFoundException();
+    }
+
+    /**
+     * Returns the collection to all users in system.
+     * @return collection of users.
+     */
+    public Collection<User> getActiveUsers(){
+        return users.values();
     }
 }

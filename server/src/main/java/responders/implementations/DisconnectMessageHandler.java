@@ -4,7 +4,7 @@ import message.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 /**
@@ -18,7 +18,7 @@ public class DisconnectMessageHandler extends AbstractMessageHandler {
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public DisconnectMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public DisconnectMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 

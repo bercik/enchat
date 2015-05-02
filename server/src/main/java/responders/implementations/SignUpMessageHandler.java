@@ -7,7 +7,7 @@ import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 import utils.Validator;
 
@@ -30,11 +30,11 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
     /**
      * Constructor of handler
      *
-     * @param activeUser - author of the message
+     * @param user - author of the message
      * @param encrypted  - received message
      */
-    public SignUpMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted) {
-        super(activeUser, encrypted);
+    public SignUpMessageHandler(User user, EncryptedMessage encrypted) {
+        super(user, encrypted);
     }
 
     @Override

@@ -2,13 +2,13 @@ package responders;
 
 import containers.BlackList;
 import containers.Registered;
-import containers.exceptions.ElementNotFound;
+import containers.exceptions.ElementNotFoundException;
 import message.generarators.Remove_From_Black_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class RemoveFromBlackListMessageHandler extends AbstractMessageHandler {
      * @param sender    - author of the message
      * @param encrypted - received message
      */
-    public RemoveFromBlackListMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public RemoveFromBlackListMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 
@@ -38,7 +38,7 @@ public class RemoveFromBlackListMessageHandler extends AbstractMessageHandler {
     @Override
     protected void createAncillaryVariables() {
         getDataFromMessage();
-        blackList = sender.getUserData().getBlackList();
+        blackList = sender.getData().getBlackList();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class RemoveFromBlackListMessageHandler extends AbstractMessageHandler {
             try {
                 blackList.remove(toRemove);
                 answer = Remove_From_Black_List.removedSuccessfully();
-            } catch (ElementNotFound elementNotFound) {
+            } catch (ElementNotFoundException elementNotFound) {
                 answer = Remove_From_Black_List.notOnList();
             }
         }

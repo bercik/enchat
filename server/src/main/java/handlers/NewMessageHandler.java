@@ -8,18 +8,18 @@ import responders.implementations.*;
 import responders.implementations.lists.AddToBlackListMessageHandler;
 import responders.implementations.lists.BlackListMessageHandler;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 
 /**
  * Created by tochur on 17.04.15.
  */
 /*When this thread is created lock fot stream should by installed.*/
 public class NewMessageHandler implements Runnable {
-    ActiveUser activeUser;
+    User user;
     EncryptedMessage message;
 
-    public NewMessageHandler(ActiveUser activeUser, EncryptedMessage message){
-        this.activeUser = activeUser;
+    public NewMessageHandler(User user, EncryptedMessage message){
+        this.user = user;
         this.message = message;
     }
 
@@ -45,25 +45,25 @@ public class NewMessageHandler implements Runnable {
             case JUNK:
                 return new JunkMessageHandler();
             case LOG_IN:
-                return new LogInMessageHandler(activeUser, message);
+                return new LogInMessageHandler(user, message);
             case SIGN_UP:
-                return new SignUpMessageHandler(activeUser, message);
+                return new SignUpMessageHandler(user, message);
             case CONVERSATION_REQUEST:
-                return new ConversationRequestMessageHandler(activeUser, message);
+                return new ConversationRequestMessageHandler(user, message);
             case CLIENT_MESSAGE:
-                return new ClientMessageHandler(activeUser, message);
+                return new ClientMessageHandler(user, message);
             case CONVERSATIONALIST_DISCONNECTED:
                 return new ConversationalistDisconectedMessageHandler();
             case CLIENTS_LIST:
-                return new ClientListMessageHandler();
+                return new ClientListMessageHandler(user, message);
             case BLACK_LIST:
-                return new BlackListMessageHandler(activeUser, message);
+                return new BlackListMessageHandler(user, message);
             case ADD_TO_BLACK_LIST:
-                return new AddToBlackListMessageHandler(activeUser, message);
+                return new AddToBlackListMessageHandler(user, message);
             case REMOVE_FROM_BLACK_LIST:
-                return new RemoveFromBlackListMessageHandler(activeUser, message);
+                return new RemoveFromBlackListMessageHandler(user, message);
             case DISCONNECT:
-                return new DisconnectMessageHandler(activeUser, message);
+                return new DisconnectMessageHandler(user, message);
         }
         throw new NoHandlersFound(messageId);
     }

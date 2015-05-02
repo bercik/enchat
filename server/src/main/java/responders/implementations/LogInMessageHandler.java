@@ -8,7 +8,7 @@ import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserData;
 import user.UserState;
 
@@ -28,11 +28,11 @@ public class LogInMessageHandler extends AbstractMessageHandler {
     /**
      * Constructor of handler
      *
-     * @param activeUser - author of the message
+     * @param user - author of the message
      * @param encrypted  - received message
      */
-    public LogInMessageHandler(ActiveUser activeUser, EncryptedMessage encrypted) {
-        super(activeUser, encrypted);
+    public LogInMessageHandler(User user, EncryptedMessage encrypted) {
+        super(user, encrypted);
     }
 
     @Override

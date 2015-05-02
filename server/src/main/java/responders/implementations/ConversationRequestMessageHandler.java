@@ -8,7 +8,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ToMuchUsersInThisRoom;
 import rsa.exceptions.DecryptingException;
-import user.ActiveUser;
+import user.User;
 import user.UserState;
 
 import java.io.IOException;
@@ -19,14 +19,14 @@ import java.io.IOException;
 public class ConversationRequestMessageHandler extends AbstractMessageHandler {
     //Nick of the person to connect with
     private String nick;
-    private ActiveUser userToConnect;
+    private User userToConnect;
     /**
      * Constructor of handler
      *
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public ConversationRequestMessageHandler(ActiveUser sender, EncryptedMessage encrypted) {
+    public ConversationRequestMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 
@@ -47,7 +47,7 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
         //If user is not logged or is on black list.
         if( (userToConnect = Logged.getInstance().getUserIfLogged(nick)) == null){
             answer = ConversationRequest.notLogged();
-        }else if (userToConnect.getUserData().getBlackList().hasNick(nick)){
+        }else if (userToConnect.getData().getBlackList().hasNick(nick)){
             answer = ConversationRequest.notLogged();
         }else {
             try {

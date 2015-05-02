@@ -1,7 +1,5 @@
 package message.types;
 
-import user.ActiveUser;
-
 /**
  * Created by tochur on 18.04.15.
  */
