@@ -14,6 +14,7 @@ import controller.controllers.MainController;
 import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
+import io.display.displays.HelpDisplay;
 import io.display.displays.LoggedDisplay;
 import io.input.IInput;
 
@@ -37,10 +38,10 @@ public class ControllerMainTest
             commandContainer.registerController(
                     Id.MAIN_CONTROLLER.getIntRepresentation(),
                     new MainController(commandContainer), State.ALL);
-            commandContainer.registerController(-10,
-                    new TestController(),
-                    new State[]
+            commandContainer.registerCommand(-10, "test", null,
+                    new TestController(), new State[]
                     {
+                        State.NOT_CONNECTED,
                         State.CONNECTED
                     });
             // Controller Manager
@@ -83,38 +84,26 @@ class TestController extends CommandLineController
     @Override
     protected void route(String input)
     {
-        if (input.equals("/exit"))
+        switch (input)
         {
-            controllerManager.setAppState(State.NOT_CONNECTED);
+            case "/connect":
+                controllerManager.setAppState(State.CONNECTED);
+                break;
+            case "/help":
+                controllerManager.setDisplay(id, new HelpDisplay(), false);
+                break;
+            case "/disconnect":
+                controllerManager.setAppState(State.NOT_CONNECTED);
+                break;
         }
-        else
-        {
-            controllerManager.setController(
-                    Id.MAIN_CONTROLLER.getIntRepresentation(), null);
-        }
+
+        setCommand("");
     }
 
     @Override
     public void start(String previousCommand, String[] parameters)
     {
-        switch (previousCommand)
-        {
-            case "/test1":
-                setPrefix("test1:");
-                setShowCommand(false);
-                controllerManager.setMsg(parameters[0], true);
-                break;
-            case "/test2":
-                setPrefix("test2:");
-                setShowCommand(true);
-                controllerManager.setMsg(parameters[0], true);
-                break;
-            case "/test3":
-                setBlockConsole(true);
-                setPrefix("BLOCKED");
-                controllerManager.setMsg("Konsola zablokowana", false);
-                break;
-        }
+        setPrefix("test:");
     }
 
     @Override

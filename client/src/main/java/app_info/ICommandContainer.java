@@ -13,6 +13,8 @@ public interface ICommandContainer
 {
     public int getIdByString(String command);
     
+    public String getCommandPrefix();
+    
     public boolean hasPlugin(int id);
     
     public boolean hasController(int id);

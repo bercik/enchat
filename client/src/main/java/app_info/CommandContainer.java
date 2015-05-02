@@ -96,6 +96,12 @@ public class CommandContainer implements IPluginCommandContainer,
         itc.put(id, controller);
         itps.put(id, possibleStates);
     }
+
+    @Override
+    public String getCommandPrefix()
+    {
+        return COMMAND_PREFIX;
+    }
     
     @Override
     public IPlugin[] getAllPlugins()
@@ -112,6 +118,7 @@ public class CommandContainer implements IPluginCommandContainer,
     @Override
     public int getIdByString(String command)
     {
+        command = command.substring(COMMAND_PREFIX.length());
         return sti.get(command);
     }
 

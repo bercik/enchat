@@ -158,7 +158,7 @@ public class ControllerManager
         return displayManager.getCommand();
     }
 
-    State getAppState()
+    public State getAppState()
     {
         return appState;
     }

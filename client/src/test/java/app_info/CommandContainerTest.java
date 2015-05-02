@@ -266,7 +266,8 @@ public class CommandContainerTest
         CommandContainer instance = new CommandContainer();
         IPlugin plugin = new TestPlugin();
         instance.registerCommand(expResult, command, plugin, null, null);
-        int result = instance.getIdByString(command);
+        int result = instance.getIdByString(instance.getCommandPrefix() +
+                command);
         assertEquals(expResult, result);
     }
 

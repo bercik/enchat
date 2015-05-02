@@ -27,7 +27,7 @@ public abstract class CommandLineController implements IController
     private static final int ENTER = 10;
     private static final int MIN_CHAR = 32;
     private static final int MAX_CHAR = 2047;
-    private static final int MAX_COMMAND_LENGTH = 122;
+    private static final int MAX_COMMAND_LENGTH = 120;
 
     public CommandLineController()
     {
@@ -68,7 +68,7 @@ public abstract class CommandLineController implements IController
     }
 
     @Override
-    public final void setControllerManager(ControllerManager ccontrollerManager)
+    public void setControllerManager(ControllerManager ccontrollerManager)
     {
         controllerManager = ccontrollerManager;
     }

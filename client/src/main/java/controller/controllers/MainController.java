@@ -18,36 +18,32 @@ import io.display.displays.HelpDisplay;
  */
 public class MainController extends CommandLineController
 {
+    private final CommandParser commandParser;
+    
     public MainController(ICommandContainer commandContainer)
     {
         super();
+        
+        commandParser = new CommandParser(commandContainer);
     }
 
+    @Override
+    public void setControllerManager(ControllerManager ccontrollerManager)
+    {
+        super.setControllerManager(ccontrollerManager);
+        commandParser.setControllerManager(ccontrollerManager);
+    }
+    
     @Override
     protected void route(String input)
     {
         // TODO
-
-        switch (input)
-        {
-            case "/help":
-                controllerManager.setDisplay(id, new HelpDisplay(), false);
-                break;
-            case "/connect":
-                controllerManager.setAppState(State.CONNECTED);
-                break;
-            case "/test1":
-            case "/test2":
-            case "/test3":
-                controllerManager.setController(-10, new String[]
-                {
-                    "test"
-                });
-                break;
-            default:
-                setCommand("");
-                break;
-        }
+        setCommand("");
+        
+        if (controllerManager.getAppState().equals(State.CONVERSATION))
+            commandParser.parseConversation(input);
+        else
+            commandParser.parseDefault(input);
     }
 
     @Override
