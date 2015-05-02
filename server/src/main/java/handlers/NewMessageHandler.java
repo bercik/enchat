@@ -51,9 +51,7 @@ public class NewMessageHandler implements Runnable {
             case CONVERSATION_REQUEST:
                 return new ConversationRequestMessageHandler(activeUser, message);
             case CLIENT_MESSAGE:
-                return new ClientMessageMessageHandler();
-            case SERVER_MESSAGE:
-                return new ServerMessageMessageHandler();
+                return new ClientMessageHandler(activeUser, message);
             case CONVERSATIONALIST_DISCONNECTED:
                 return new ConversationalistDisconectedMessageHandler();
             case CLIENTS_LIST:
@@ -63,7 +61,7 @@ public class NewMessageHandler implements Runnable {
             case ADD_TO_BLACK_LIST:
                 return new AddToBlackListMessageHandler(activeUser, message);
             case REMOVE_FROM_BLACK_LIST:
-                return new RemoveFromBlackListMessageHandler();
+                return new RemoveFromBlackListMessageHandler(activeUser, message);
             case DISCONNECT:
                 return new DisconnectMessageHandler(activeUser, message);
         }

@@ -49,7 +49,7 @@ public enum MessageId
             ErrorId.TOO_MUCH_USERS_ON_BLACKLIST, ErrorId.ALREADY_ADDED),
     // usuń użytkownika z czarnej listy
     // USER_NOT_ON_BLACKLIST - użytkownik nie znajduje się na czarnej liście
-    REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST),
+    REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST, ErrorId.USER_NOT_EXIST),
     // rozłącz z serwerem
     DISCONNECT(12),
     // klucz publiczny (do wyrzucenia) !!!
@@ -86,6 +86,7 @@ public enum MessageId
         TOO_MUCH_USERS_ON_BLACKLIST(2),
         ALREADY_ADDED(3),
         USER_NOT_ON_BLACKLIST(1),
+        USER_NOT_EXIST(2),
         MESSAGE_DECRYPTING_FAILED(1),
         MESSAGE_ENCRYPTING_FAILED(2);
 

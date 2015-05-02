@@ -24,6 +24,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
 
     /**
      * Constructor of handler
+     * Initialize permitted userState by invoking getPermittedStates in AbstractMessageHandler
      * @param sender - author of the message
      * @param encrypted - received message
      */
@@ -83,6 +84,13 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @return Array of allowed states.
      */
     protected abstract UserState[] getPermittedUserStates();
+
+    /**
+     * Reads the data from decrypted message.
+     */
+    protected void getDataFromMessage(){
+
+    }
 
     /**
      * Decrypts the message and ensign it to this.message;

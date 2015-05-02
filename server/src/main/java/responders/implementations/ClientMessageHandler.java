@@ -1,6 +1,7 @@
-package responders;
+package responders.implementations;
 
 import message.types.EncryptedMessage;
+import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ChatRoom;
 import rsa.exceptions.DecryptingException;

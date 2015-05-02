@@ -1,16 +1,15 @@
 package containers;
 
+import containers.exceptions.ElementNotFound;
 import containers.exceptions.OverloadedCannotAddNew;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by tochur on 01.05.15.
  */
 public class BlackList {
-    private List<String> nicks;
+    private Set<String> nicks;
     private final int MAX_SIZE;
 
     public BlackList(){
@@ -19,7 +18,7 @@ public class BlackList {
 
     public BlackList(int maxSize){
         MAX_SIZE = maxSize;
-        nicks = new LinkedList<String>();
+        nicks = new HashSet<>();
     }
 
     /**
@@ -27,20 +26,19 @@ public class BlackList {
      * @param nick no message from user with this nick, wont be delivered
      */
     public void add(String nick) throws OverloadedCannotAddNew {
-        if(MAX_SIZE > nicks.size()){
-            nicks.add(nick);
-        }else {
+        if( !(MAX_SIZE > nicks.size()) )
             throw new OverloadedCannotAddNew();
-        }
-
+        nicks.add(nick);
     }
 
-    public void remove(String nick){
-        for(int i = 0; i < nicks.size(); i++){
-            if( nick.equals(nicks.get(i))){
-                nicks.remove(i);
-            }
-        }
+    /**
+     * Removes nick from black list.
+     * @param nick - nick to remove from blacklist
+     * @throws ElementNotFound - When no user with this nick is on list.
+     */
+    public void remove(String nick) throws ElementNotFound {
+        if ( !nicks.remove(nick))
+            throw new ElementNotFound();
     }
 
     /**
@@ -49,12 +47,7 @@ public class BlackList {
      * @return - answer
      */
     public boolean hasNick(String nick){
-        for(String s: nicks){
-            if( s.equals(nick)){
-                return true;
-            }
-        }
-        return false;
+        return nicks.contains(nick);
     }
 
     /**
