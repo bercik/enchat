@@ -2,6 +2,7 @@ package containers;
 
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.ElementNotFoundException;
+import containers.exceptions.OverloadedCannotAddNew;
 import user.User;
 
 import java.net.Socket;
@@ -17,25 +18,21 @@ import java.util.Map;
  */
 
 public class ActiveUsers {
-    //Reference to singleton object
+    // Reference to singleton object
     private static ActiveUsers instance;
-
-    /**
-     * Maps the socket references to User references
-     */
-    private static Map<Socket, User> users;
+    // Maps the socket references to User - the owner of the socket.
+    private static Map<Socket, User> users = new HashMap<>();
+    // Restricts amount of User that can interact with Server
+    private final int MAX_ACTIVE_USER = 1000;
 
     /**
      * Singleton constructor
      */
-    private ActiveUsers(){
-        if (users == null)
-            users = new HashMap<>();
-    }
+    private ActiveUsers(){}
 
     /**
-     * Singleton object creator.
-     * @return Created object.
+     * Singleton reference getter.
+     * @return Reference to singleton object.
      */
     public static ActiveUsers getInstance(){
         if (instance == null)
@@ -46,10 +43,13 @@ public class ActiveUsers {
     /**
      * Adding new unique User to ActiveUsers
      * @param user - user to Add
+     * @throws OverloadedCannotAddNew - when server is overloaded.
      * @throws AlreadyInCollection - when tried to add not unique user.
      */
-    public void addUser(User user) throws AlreadyInCollection {
-        if ( users.containsKey(user.getSocket()) ) {
+    public void addUser(User user) throws AlreadyInCollection, OverloadedCannotAddNew {
+        if ( !( MAX_ACTIVE_USER > users.size() ) ){
+            throw new OverloadedCannotAddNew();
+        }else if( users.containsKey(user.getSocket()) ) {
             throw new AlreadyInCollection();
         }else {
             users.put(user.getSocket(), user);

@@ -26,12 +26,12 @@ public class User {
     /* Represents user current state */
     private UserState userState;
     /* Stream used for sending messages to user */
-    private DataInputStream in;
+    private final DataInputStream in;
     /* Stream used for reading messages that user send to server. */
-    private DataOutputStream out;
+    private final DataOutputStream out;
 
     /* Socket let us exchange messages - after constructing it's not used, but probably reference is necessary (garbage collector) */
-    private Socket socket;
+    private final Socket socket;
     /* Reference to room, its necessary to make a conversation. */
     private ChatRoom room;
 
