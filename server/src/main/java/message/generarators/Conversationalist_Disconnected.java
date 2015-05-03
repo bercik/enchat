@@ -1,10 +1,11 @@
 package message.generarators;
 
 import message.types.EncryptedMessage;
+import message.types.Header;
 import message.types.Message;
 import message.utils.Encryption;
-import messages.IncorrectMessageId;
 import messages.MessageId;
+import responders.exceptions.ReactionException;
 import rsa.exceptions.EncryptionException;
 import user.User;
 
@@ -12,14 +13,12 @@ import user.User;
  * Created by tochur on 01.05.15.
  */
 public class Conversationalist_Disconnected {
-    public static EncryptedMessage message(User user) throws EncryptionException {
-        MessageId id = MessageId.CONVERSATIONALIST_DISCONNECTED;
-        Message message = null;
-        try {
-            message = new Message(id, id.createErrorId(0), user.getNick());
-        } catch (IncorrectMessageId incorrectMessageId) {
-            System.out.println("Error inside Messages, wrong error number, repair that.");
-        }
+    private static MessageId messageId = MessageId.CONVERSATIONALIST_DISCONNECTED;
+
+    public static EncryptedMessage message(User user, String disconnectedNick) throws EncryptionException, ReactionException {
+        Header header = HeaderGenerator.createHeader(messageId, 0, 1);
+        Message message = new Message(header, disconnectedNick);
+
         return Encryption.encryptMessage(user, message);
     }
 }

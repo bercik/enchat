@@ -1,12 +1,13 @@
 package responders.implementations.lists;
 
 import containers.Logged;
-import message.generarators.Lists;
+import message.generarators.Logged_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 import user.User;
 import user.UserState;
 
@@ -50,7 +51,12 @@ public class ClientListMessageHandler extends AbstractMessageHandler {
                 available.add(user.getNick());
         }
 
-        EncryptedMessage answer = Lists.loggedUserList(sender, available.toArray(new String[0]));
+        EncryptedMessage answer = null;
+        try {
+            answer = Logged_List.loggedUserList(sender, available.toArray(new String[0]));
+        } catch (EncryptionException e) {
+            throw new ReactionException();
+        }
 
         try {
             MessageSender.sendMessage(sender, answer);

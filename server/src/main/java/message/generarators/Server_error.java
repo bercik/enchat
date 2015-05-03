@@ -1,51 +1,23 @@
 package message.generarators;
 
 import message.types.EncryptedMessage;
-import message.types.Header;
-import messages.IncorrectMessageId;
 import messages.MessageId;
-import user.User;
+import responders.exceptions.ReactionException;
 
 /**
  * Created by tochur on 01.05.15.
  */
 public class Server_error {
-    public static EncryptedMessage unableToEncrypt() {
-        MessageId id = MessageId.SERVER_ERROR;
-        Header header = null;
-        try {
-            MessageId.ErrorId errorId = id.createErrorId(1);
-            header = new Header(id, errorId);
-        } catch (IncorrectMessageId incorrectMessageId) {
-            System.out.println("Error inside Messages, wrong error number, repair that.");
-        }
-
-        return new EncryptedMessage(header);
+    private static MessageId messageId = MessageId.SERVER_ERROR;
+    public static EncryptedMessage unableToEncrypt() throws ReactionException {
+        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 1));
     }
 
-    public static EncryptedMessage unableToDecrypt() {
-        MessageId id = MessageId.SERVER_ERROR;
-        Header header = null;
-        try {
-            MessageId.ErrorId errorId = id.createErrorId(2);
-            header = new Header(id, errorId);
-        } catch (IncorrectMessageId incorrectMessageId) {
-            System.out.println("Error inside Messages, wrong error number, repair that.");
-        }
-
-        return new EncryptedMessage(header);
+    public static EncryptedMessage unableToDecrypt() throws ReactionException {
+        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 2));
     }
 
-    public static EncryptedMessage serverOverloaded() {
-        MessageId id = MessageId.SERVER_ERROR;
-        Header header = null;
-        try {
-            MessageId.ErrorId errorId = id.createErrorId(3);
-            header = new Header(id, errorId);
-        } catch (IncorrectMessageId incorrectMessageId) {
-            System.out.println("Error inside Messages, wrong error number, repair that.");
-        }
-
-        return new EncryptedMessage(header);
+    public static EncryptedMessage serverOverloaded() throws ReactionException {
+        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 3));
     }
 }

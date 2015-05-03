@@ -15,30 +15,25 @@ public class Message extends AbstractMessage {
         super(id, errorId, 0);
     }
 
-    public Message(Header header) {
+    public Message(Header header, List<String> info) {
         super(header);
+        this.data = new LinkedList<>();
+        for(String s: info){
+            this.data.add(s);
+        }
     }
 
-    public Message(MessageId messageId, MessageId.ErrorId errorId, String info){
-        super(messageId, errorId, 1);
-        this.data = new LinkedList<String>();
-        //Independent string
-        this.data.add(new String(info));
+    public Message(Header header, String nick) {
+        super(header);
+        this.data = new LinkedList<>();
+        this.data.add(nick);
     }
 
     public Message(MessageId messageId, MessageId.ErrorId errorId, int dataAmount, List<String> info){
         super(messageId, errorId, dataAmount);
-        this.data = new LinkedList<String>();
+        this.data = new LinkedList<>();
         for(String s: info){
-            this.data.add(new String(s));
-        }
-    }
-
-    public Message(Header header, List<String> info) {
-        super(header);
-        this.data = new LinkedList<String>();
-        for(String s: info){
-            this.data.add(new String(s));
+            this.data.add(s);
         }
     }
 
