@@ -10,6 +10,7 @@ import app_info.Id;
 import app_info.State;
 import controller.controllers.LoginController;
 import controller.controllers.MainController;
+import controller.controllers.RegisterController;
 import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
@@ -40,6 +41,13 @@ public class ControllerMainTest
                     MessageId.LOG_IN.getIntRepresentation(),
                     "login", null, new LoginController(), 
                     new State[] 
+                    {
+                        State.NOT_CONNECTED
+                    });
+            commandContainer.registerCommand(
+                    MessageId.SIGN_UP.getIntRepresentation(),
+                    "register", null, new RegisterController(), 
+                    new State[]
                     {
                         State.NOT_CONNECTED
                     });

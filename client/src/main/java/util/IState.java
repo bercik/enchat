@@ -11,5 +11,32 @@ package util;
  */
 public interface IState
 {
-    public IState run();
+
+    /**
+     * Powinna wyrzucać wyjątek RunMethodNotImplementedException jeżeli
+     * nie jest zaimplementowana.
+     * 
+     * @param param
+     * @return
+     */
+    public IState run(String param);
+    
+    /**
+     * Powinna wyrzucać wyjątek RunMethodNotImplementedException jeżeli
+     * nie jest zaimplementowana.
+     * 
+     * @param parameters
+     * @return
+     */
+    public IState run(String[] parameters);
+    
+    /**
+     * Powinna wyrzucać wyjątek RunMethodNotImplementedException jeżeli
+     * nie jest zaimplementowana.
+     * 
+     * @param param1
+     * @param parameters
+     * @return
+     */
+    public IState run(String param1, String[] parameters);
 }
