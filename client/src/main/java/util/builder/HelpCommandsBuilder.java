@@ -31,6 +31,18 @@ public class HelpCommandsBuilder
         Command command = new Command(name, description, parameters);
         helpCommands.addCommand(name, command);
         
+        // help command
+        name = "help";
+        description = "wyświetla szczegółową pomoc o"
+                    + " podanej komendzie";
+        parameters = new Parameter[]
+        {
+            new Parameter("name", "komenda dla której ma zostać wyświetlona"
+                    + " szczegółowa pomoc")
+        };
+        command = new Command(name, description, parameters);
+        helpCommands.addCommand(name, command);
+        
         return helpCommands;
     }
 }

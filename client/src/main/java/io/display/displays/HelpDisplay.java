@@ -6,7 +6,9 @@
 package io.display.displays;
 
 import io.display.IFormatter;
+import util.builder.HelpCommandsBuilder;
 import util.help.Command;
+import util.help.HelpCommands;
 import util.help.Information;
 import util.help.Parameter;
 
@@ -50,18 +52,41 @@ public class HelpDisplay extends CommandLineDisplay
     
     private String showDefault()
     {
-        return "To jest pomoc programu enChat\n\n" + 
-                formatCommand("connect", new String[0], "łączy z serwerem") + 
-                "\n" +
-                formatCommand("register", new String[] { "username" }, 
-                        "rejestruje się na serwerze") + "\n" + 
-                formatCommand("login", new String[] { "username" }, 
-                        "loguje się na serwerze");
+        String result = "To jest pomoc programu enChat\nWpisz " + 
+                formatCommand("help", new String[]{ "name" }) +
+                ", aby uzyskać szczegółowe informacje o podanej komendzie\n\n";
+        
+        HelpCommands helpCommands = HelpCommandsBuilder.build();
+        Command[] allCommands = helpCommands.getAllCommands();
+        Information[] allInformations = helpCommands.getAllInformations();
+        
+        result += formatter.spec(
+                IFormatter.SpecialFormat.UNDERSCORE, "Komendy:") + "\n";
+        for (Command command : allCommands)
+        {
+            result += formatCommand(command.getName(),
+                    command.getParametersName(), command.getDescription()) + 
+                    "\n";
+        }
+        
+        result += formatter.spec(
+                IFormatter.SpecialFormat.UNDERSCORE, "Informacje:") + "\n";
+        for (Information information : allInformations)
+        {
+            result += formatter.fg(COMMAND_FG_COLOR, information.getName()) + 
+                    " - " + information.getShortDescription() + "\n";
+        }
+        
+        // remove last new line
+        result = result.substring(0, result.length() - 1);
+        
+        return result;
     }
     
     private String showInformation()
     {
-        return formatter.fg(COMMAND_FG_COLOR, information.getName()) + "\n\n" +
+        return formatter.fg(COMMAND_FG_COLOR, information.getName()) + " - " +
+                information.getShortDescription() + "\n\n" +
                 information.getDescription();
     }
     

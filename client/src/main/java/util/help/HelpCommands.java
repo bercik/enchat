@@ -46,4 +46,26 @@ public class HelpCommands
     {
         sti.put(name, information);
     }
+    
+    public Information[] getAllInformations()
+    {
+        Information[] allInformations = new Information[sti.size()];
+        
+        int i = 0;
+        for (Map.Entry<String, Information> entry : sti.entrySet())
+            allInformations[i++] = entry.getValue();
+        
+        return allInformations;
+    }
+    
+    public Command[] getAllCommands()
+    {
+        Command[] allCommands = new Command[stc.size()];
+        
+        int i = 0;
+        for (Map.Entry<String, Command> entry : stc.entrySet())
+            allCommands[i++] = entry.getValue();
+        
+        return allCommands;
+    }
 }

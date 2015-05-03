@@ -13,6 +13,7 @@ public class Information
 {
     private final String name;
     private final String description;
+    private final String shortDescription;
 
     public String getName()
     {
@@ -24,9 +25,15 @@ public class Information
         return description;
     }
 
-    public Information(String name, String description)
+    public String getShortDescription()
+    {
+        return shortDescription;
+    }
+    
+    public Information(String name, String description, String shortDescription)
     {
         this.name = name;
         this.description = description;
+        this.shortDescription = shortDescription;
     }
 }

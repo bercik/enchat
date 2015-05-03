@@ -46,6 +46,10 @@ public class ControllerMainTest
             ControllerManager controllerManager
                     = new ControllerManager(displayManager, commandContainer);
             
+            HelpDisplay hd = new HelpDisplay();
+            controllerManager.setDisplay(
+                    Id.MAIN_CONTROLLER.getIntRepresentation(), hd);
+            
             while (true)
             {
                 input.update();
