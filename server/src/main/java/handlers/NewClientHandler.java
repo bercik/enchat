@@ -3,7 +3,7 @@ package handlers;
 import containers.ActiveUsers;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generarators.Server_error;
+import message.generators.Server_error;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import rsa.KeyContainer;

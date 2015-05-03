@@ -1,11 +1,10 @@
-package message.generarators;
+package message.generators;
 
 import message.types.EncryptedMessage;
 import message.types.Header;
 import message.types.Message;
 import message.utils.Encryption;
 import messages.MessageId;
-import responders.exceptions.ReactionException;
 import rsa.exceptions.EncryptionException;
 import user.User;
 
@@ -21,15 +20,13 @@ public class Black_List {
      * Creates message with users from blackList
      * @param receiver - the ActiveUser that request for his blackList
      * @param nicks - nicks from blackList
-     * @return - encryptedMessage
-     * @throws responders.exceptions.ReactionException - only for developing
+     * @return EncryptedMessage - answer, prepared by the system.
      * @throws rsa.exceptions.EncryptionException - When encryption of the message failed
      */
-    public static EncryptedMessage blackList(User receiver, String[] nicks) throws ReactionException, EncryptionException {
+    public static EncryptedMessage blackList(User receiver, String[] nicks) throws EncryptionException {
         Header header = HeaderGenerator.createHeader(messageId, 0, nicks.length);
         Message message = new Message(header, Arrays.asList(nicks));
-        EncryptedMessage encrypted = Encryption.encryptMessage(receiver, message);
 
-        return encrypted;
+        return Encryption.encryptMessage(receiver, message);
     }
 }

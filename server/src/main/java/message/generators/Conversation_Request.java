@@ -1,8 +1,7 @@
-package message.generarators;
+package message.generators;
 
 import message.types.EncryptedMessage;
 import messages.MessageId;
-import responders.exceptions.ReactionException;
 
 /**
  * Created by tochur on 01.05.15.
@@ -10,19 +9,19 @@ import responders.exceptions.ReactionException;
 public class Conversation_Request {
     private static MessageId messageId = MessageId.CONVERSATION_REQUEST;
 
-    public static EncryptedMessage connected() throws ReactionException {
+    public static EncryptedMessage connected(){
         return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 0));
     }
 
-    public static EncryptedMessage notLogged() throws ReactionException {
+    public static EncryptedMessage notLogged(){
         return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 1));
     }
 
-    public static EncryptedMessage busyUser() throws ReactionException {
+    public static EncryptedMessage busyUser(){
         return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 2));
     }
 
-    public static EncryptedMessage onBlackList() throws ReactionException {
+    public static EncryptedMessage onBlackList(){
         return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 4));
     }
 }

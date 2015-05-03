@@ -1,7 +1,7 @@
 package responders.implementations.lists;
 
 import containers.Logged;
-import message.generarators.Logged_List;
+import message.generators.Logged_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;

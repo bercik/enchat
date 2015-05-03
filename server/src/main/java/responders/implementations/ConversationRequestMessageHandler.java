@@ -2,9 +2,8 @@ package responders.implementations;
 
 import containers.Logged;
 import containers.exceptions.ElementNotFoundException;
-import message.generarators.Conversation_Request;
-import message.generarators.Conversationalist_Disconnected;
-import message.generarators.Incoming_Conversation;
+import message.generators.Conversation_Request;
+import message.generators.Incoming_Conversation;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;

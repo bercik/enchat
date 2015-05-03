@@ -1,6 +1,6 @@
 package responders.implementations.lists;
 
-import message.generarators.Black_List;
+import message.generators.Black_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;

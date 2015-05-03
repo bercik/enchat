@@ -1,7 +1,7 @@
 package room;
 
-import message.generarators.Clients_Message;
-import message.generarators.Conversationalist_Disconnected;
+import message.generators.Clients_Message;
+import message.generators.Conversationalist_Disconnected;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.exceptions.ReactionException;
@@ -38,8 +38,6 @@ public class ChatRoom {
                 } catch (EncryptionException e) {
                     System.out.print("Informing about escaping conversation failed.");
                     e.printStackTrace();
-                } catch (ReactionException e) {
-                    System.out.print("Wrong error Id,repair it.");
                 }
                 participants.remove(toDisJoin);
             }
@@ -57,8 +55,6 @@ public class ChatRoom {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     } catch (EncryptionException e1) {
-                        e1.printStackTrace();
-                    } catch (ReactionException e1) {
                         e1.printStackTrace();
                     }
                 }

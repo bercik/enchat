@@ -1,11 +1,10 @@
-package message.generarators;
+package message.generators;
 
 import message.types.EncryptedMessage;
 import message.types.Header;
 import message.types.Message;
 import message.utils.Encryption;
 import messages.MessageId;
-import responders.exceptions.ReactionException;
 import rsa.exceptions.EncryptionException;
 import user.User;
 
@@ -15,7 +14,7 @@ import user.User;
 public class Conversationalist_Disconnected {
     private static MessageId messageId = MessageId.CONVERSATIONALIST_DISCONNECTED;
 
-    public static EncryptedMessage message(User user, String disconnectedNick) throws EncryptionException, ReactionException {
+    public static EncryptedMessage message(User user, String disconnectedNick) throws EncryptionException{
         Header header = HeaderGenerator.createHeader(messageId, 0, 1);
         Message message = new Message(header, disconnectedNick);
 
