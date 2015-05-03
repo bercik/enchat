@@ -32,9 +32,9 @@ public class MessageIncomeBuffer {
     //jeżeli lista z wiadomościami jest pusta to zwracamy true
     public synchronized boolean isAvailable() {
         if(buffer.isEmpty() == true)
-            return true;
-        else
             return false;
+        else
+            return true;
     }
 
     //funkcja ustawia wyjątek

@@ -25,6 +25,8 @@ public class NetworkMessageIncome {
         messageSignPair.add(new MessageSignPair(fake1.getBytes(), fake2.getBytes()));
     }
 
+    public NetworkMessageIncome() {}
+
     public ArrayList<MessageSignPair> getMessageSignPair() {
         return new ArrayList<>(messageSignPair);
     }
