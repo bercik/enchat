@@ -11,7 +11,13 @@ package plugin;
  */
 public interface IPlugin
 {
-    public void setId(int id);
+    public void reset();
     
-    public void getId();
+    public void update(int error, String[] parameters);
+    
+    public void setPluginManager(PluginManager ppluginManager);
+    
+    public void setId(int iid);
+    
+    public int getId();
 }

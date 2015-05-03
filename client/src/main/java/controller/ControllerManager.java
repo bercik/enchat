@@ -15,6 +15,7 @@ import io.display.displays.ConnectedDisplay;
 import io.display.displays.LoggedDisplay;
 import io.display.displays.NonConnectedDisplay;
 import java.io.IOException;
+import plugin.PluginManager;
 import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
@@ -24,20 +25,19 @@ import rsa.exceptions.GeneratingPublicKeyException;
 public class ControllerManager
 {
     // TODO
-    // PLUGIN_MANAGER NEED TO BE ADD
+    
     private final IControllerCommandContainer controllerCommandContainer;
     private State appState;
     private final IDisplayManager displayManager;
     private IController currentController;
+    private final PluginManager pluginManager;
 
     public ControllerManager(IDisplayManager ddisplayManager,
-            IControllerCommandContainer ccontrollerCommandContainer)
+            IControllerCommandContainer ccontrollerCommandContainer,
+            PluginManager ppluginManager)
     {
-        // TODO 
-        // pluginManager
-        // iterate over plugins and setPluginManager(this)!!!
-        
         // unchanging references to some core objects
+        pluginManager = ppluginManager;
         controllerCommandContainer = ccontrollerCommandContainer;
         displayManager = ddisplayManager;
         // starting settings
@@ -57,11 +57,10 @@ public class ControllerManager
 
     public void startPlugin(int id, String[] parameters)
     {
-        // TODO
         // need to check if command with given id can do this in current app state
         if (controllerCommandContainer.checkCommandAvailability(id, appState))
         {
-            // pluginManager.startPlugin(id, parameters);
+            pluginManager.updatePlugin(id, parameters);
         }
         else
         {

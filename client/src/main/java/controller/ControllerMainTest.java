@@ -18,6 +18,7 @@ import io.display.IDisplayManager;
 import io.display.displays.HelpDisplay;
 import io.input.IInput;
 import messages.MessageId;
+import plugin.PluginManager;
 import util.builder.CommandContainerBuilder;
 import util.builder.HelpCommandsBuilder;
 import util.help.Command;
@@ -42,14 +43,15 @@ public class ControllerMainTest
             IInput input = ioSet.getInput();
             // Command Container
             CommandContainer commandContainer = CommandContainerBuilder.build();
+            // plugin manager
+            PluginManager pluginManager = new PluginManager(null,
+                    commandContainer, null);
             // Controller Manager
             ControllerManager controllerManager
-                    = new ControllerManager(displayManager, commandContainer);
-            
-            HelpDisplay hd = new HelpDisplay();
-            controllerManager.setDisplay(
-                    Id.MAIN_CONTROLLER.getIntRepresentation(), hd);
-            
+                    = new ControllerManager(displayManager, commandContainer,
+                            pluginManager);
+            pluginManager.setControllerManager(controllerManager);
+
             while (true)
             {
                 input.update();

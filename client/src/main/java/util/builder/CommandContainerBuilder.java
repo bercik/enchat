@@ -12,6 +12,7 @@ import controller.controllers.LoginController;
 import controller.controllers.MainController;
 import controller.controllers.RegisterController;
 import messages.MessageId;
+import plugin.plugins.HelpPlugin;
 
 /**
  *
@@ -43,6 +44,9 @@ public class CommandContainerBuilder
                 {
                     State.NOT_CONNECTED
                 });
+        // help
+        commandContainer.registerCommand(Id.HELP_PLUGIN.getIntRepresentation(),
+                "help", new HelpPlugin(), null, State.ALL);
         
         return commandContainer;
     }

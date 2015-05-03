@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import plugin.IPlugin;
+import plugin.PluginManager;
 
 /**
  *
@@ -29,18 +30,34 @@ public class CommandContainerTest
     // classes used to test
     private static class TestPlugin implements IPlugin
     {
+        @Override
+        public int getId()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+        @Override
+        public void reset()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void update(int error, String[] parameters)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void setPluginManager(PluginManager pluginManager)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
 
         @Override
         public void setId(int id)
         {
         }
-
-        @Override
-        public void getId()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        
     }
     private static class TestController implements IController
     {
