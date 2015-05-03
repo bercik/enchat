@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import messages.MessageId;
 import util.Authentication;
-import util.IState;
 import util.exceptions.RunMethodNotImplementedException;
 
 /**
@@ -93,14 +92,10 @@ public class RegisterController extends CommandLineController
             // ustawiamy prefix i nie wyświetlanie wpisywanej treści
             setPrefix("Podaj hasło:");
             setShowCommand(false);
+            // w haśle można wpisać dowolne znaki
+            setCheckCharRange(false);
             // zwracamy kolejny stan
             return new State2();
-        }
-
-        @Override
-        public IState run(String[] parameters)
-        {
-            throw new RunMethodNotImplementedException();
         }
     }
 
@@ -133,12 +128,6 @@ public class RegisterController extends CommandLineController
         }
 
         @Override
-        public IState run(String[] parameters)
-        {
-            throw new RunMethodNotImplementedException();
-        }
-
-        @Override
         public IState run(String param1, String[] parameters)
         {
             throw new RunMethodNotImplementedException();
@@ -167,14 +156,8 @@ public class RegisterController extends CommandLineController
             setBlockConsole(true);
             // TODO
             // uruchamiamy register plugin
-            
-            return new State1();
-        }
 
-        @Override
-        public IState run(String[] parameters)
-        {
-            throw new RunMethodNotImplementedException();
+            return new State1();
         }
 
         @Override
@@ -182,5 +165,28 @@ public class RegisterController extends CommandLineController
         {
             throw new RunMethodNotImplementedException();
         }
+    }
+
+    private interface IState
+    {
+
+        /**
+         * Rzuca wyjątek RunMethodNotImplementedException jeżeli nie jest
+         * zaimplementowana.
+         *
+         * @param param
+         * @return
+         */
+        public IState run(String param);
+
+        /**
+         * Rzuca wyjątek RunMethodNotImplementedException jeżeli nie jest
+         * zaimplementowana.
+         *
+         * @param param1
+         * @param parameters
+         * @return
+         */
+        public IState run(String param1, String[] parameters);
     }
 }

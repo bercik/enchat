@@ -16,21 +16,21 @@ import util.Authentication;
 public class LoginController extends CommandLineController
 {
     private String login;
-    
+
     @Override
     protected void route(String input)
     {
         // TODO
-        
+
         String password = input;
         // sprawdzamy poprawność hasła
         if (!Authentication.isPasswordCorrect(password))
         {
             String msg = "Zbyt krótkie lub zbyt długie hasło. "
-                    + "Powinno mieć " +
-                    Integer.toString(Authentication.MIN_PASSWORD_LENGTH) + "-" +
-                    Integer.toString(Authentication.MAX_PASSWORD_LENGTH) +
-                    " znaków";
+                    + "Powinno mieć "
+                    + Integer.toString(Authentication.MIN_PASSWORD_LENGTH) + "-"
+                    + Integer.toString(Authentication.MAX_PASSWORD_LENGTH)
+                    + " znaków";
             controllerManager.setMsg(msg, true);
             controllerManager.setController(
                     Id.MAIN_CONTROLLER.getIntRepresentation(), null);
@@ -58,18 +58,18 @@ public class LoginController extends CommandLineController
         // sprawdzamy poprawność loginu
         if (!Authentication.isLoginCorrect(parameters[0]))
         {
-            String msg = "Nieprawidłowy login " + parameters[0] + 
-                    ". Prawidłowy ma " +
-                    Integer.toString(Authentication.MIN_LOGIN_LENGTH) + "-" +
-                    Integer.toString(Authentication.MAX_LOGIN_LENGTH) +
-                    " znaków i składa się z samych liter, cyfr lub"
+            String msg = "Nieprawidłowy login " + parameters[0]
+                    + ". Prawidłowy ma "
+                    + Integer.toString(Authentication.MIN_LOGIN_LENGTH) + "-"
+                    + Integer.toString(Authentication.MAX_LOGIN_LENGTH)
+                    + " znaków i składa się z samych liter, cyfr lub"
                     + " znaku podkreślenia";
             controllerManager.setMsg(msg, true);
             controllerManager.setController(
                     Id.MAIN_CONTROLLER.getIntRepresentation(), null);
             return;
         }
-        
+
         // zapisujemy tymczasowo login
         login = parameters[0];
         // ustawiamy wiadomość na poprzednią komendę
@@ -77,6 +77,8 @@ public class LoginController extends CommandLineController
         // ustawiamy prefix i nie wyświetlanie wpisywanej treści
         setPrefix("Podaj hasło:");
         setShowCommand(false);
+        // w haśle można wpisać dowolne znaki
+        setCheckCharRange(false);
     }
 
     @Override
