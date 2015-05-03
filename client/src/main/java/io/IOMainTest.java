@@ -58,8 +58,7 @@ public class IOMainTest
                         String nick = "bercik";
                         Info.getInstance().setUserName(nick);
                         displayManager.setMsg("Zalogowany jako " + nick, false);
-                        displayManager.setDisplay(
-                                new LoggedDisplay(), true);
+                        displayManager.setDisplay(new LoggedDisplay());
                     }
                     else if (ch == 127)
                     {

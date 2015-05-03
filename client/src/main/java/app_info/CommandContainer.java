@@ -20,8 +20,6 @@ import java.util.*;
 public class CommandContainer implements IPluginCommandContainer, 
         IControllerCommandContainer, ICommandContainer
 {
-    private static final String COMMAND_PREFIX = "/";
-    
     private final Map<String, Integer> sti = new HashMap<>();
     private final Map<Integer, IPlugin> itp = new HashMap<>();
     private final Map<Integer, IController> itc = new HashMap<>();
@@ -96,12 +94,6 @@ public class CommandContainer implements IPluginCommandContainer,
         itc.put(id, controller);
         itps.put(id, possibleStates);
     }
-
-    @Override
-    public String getCommandPrefix()
-    {
-        return COMMAND_PREFIX;
-    }
     
     @Override
     public IPlugin[] getAllPlugins()
@@ -118,7 +110,8 @@ public class CommandContainer implements IPluginCommandContainer,
     @Override
     public int getIdByString(String command)
     {
-        command = command.substring(COMMAND_PREFIX.length());
+        Configuration conf = Configuration.getInstance();
+        command = command.substring(conf.getCommandPrefix().length());
         return sti.get(command);
     }
 
@@ -137,14 +130,16 @@ public class CommandContainer implements IPluginCommandContainer,
     @Override
     public boolean commandExists(String command)
     {
-        command = command.substring(COMMAND_PREFIX.length());
+        Configuration conf = Configuration.getInstance();
+        command = command.substring(conf.getCommandPrefix().length());
         return sti.containsKey(command);
     }
 
     @Override
     public boolean isCommand(String command)
     {
-        return command.startsWith(COMMAND_PREFIX);
+        Configuration conf = Configuration.getInstance();
+        return command.startsWith(conf.getCommandPrefix());
     }
 
     @Override

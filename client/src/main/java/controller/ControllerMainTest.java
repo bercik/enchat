@@ -8,14 +8,22 @@ package controller;
 import app_info.CommandContainer;
 import app_info.Id;
 import app_info.State;
+import controller.controllers.CommandLineController;
 import controller.controllers.LoginController;
 import controller.controllers.MainController;
 import controller.controllers.RegisterController;
 import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
+import io.display.displays.HelpDisplay;
 import io.input.IInput;
 import messages.MessageId;
+import util.builder.CommandContainerBuilder;
+import util.builder.HelpCommandsBuilder;
+import util.help.Command;
+import util.help.HelpCommands;
+import util.help.Information;
+import util.help.Parameter;
 
 /**
  *
@@ -33,28 +41,11 @@ public class ControllerMainTest
             IDisplayManager displayManager = ioSet.getDisplayManager();
             IInput input = ioSet.getInput();
             // Command Container
-            CommandContainer commandContainer = new CommandContainer();
-            commandContainer.registerController(
-                    Id.MAIN_CONTROLLER.getIntRepresentation(),
-                    new MainController(commandContainer), State.ALL);
-            commandContainer.registerCommand(
-                    MessageId.LOG_IN.getIntRepresentation(),
-                    "login", null, new LoginController(), 
-                    new State[] 
-                    {
-                        State.NOT_CONNECTED
-                    });
-            commandContainer.registerCommand(
-                    MessageId.SIGN_UP.getIntRepresentation(),
-                    "register", null, new RegisterController(), 
-                    new State[]
-                    {
-                        State.NOT_CONNECTED
-                    });
+            CommandContainer commandContainer = CommandContainerBuilder.build();
             // Controller Manager
             ControllerManager controllerManager
                     = new ControllerManager(displayManager, commandContainer);
-
+            
             while (true)
             {
                 input.update();

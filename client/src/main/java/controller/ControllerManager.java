@@ -104,12 +104,12 @@ public class ControllerManager
         displayManager.setMsg(msg, error);
     }
 
-    public void setDisplay(int callerId, IDisplay newDisplay, boolean saveCommandLine)
+    public void setDisplay(int callerId, IDisplay newDisplay)
     {
         // need to check if command with given id can do this in current app state
         if (controllerCommandContainer.checkCommandAvailability(callerId, appState))
         {
-            displayManager.setDisplay(newDisplay, saveCommandLine);
+            displayManager.setDisplay(newDisplay);
         }
         else
         {
@@ -138,13 +138,13 @@ public class ControllerManager
         switch (newAppState)
         {
             case NOT_CONNECTED:
-                displayManager.setDisplay(new NonConnectedDisplay(), true);
+                displayManager.setDisplay(new NonConnectedDisplay());
                 break;
             case CONNECTED:
-                displayManager.setDisplay(new ConnectedDisplay(), true);
+                displayManager.setDisplay(new ConnectedDisplay());
                 break;
             case LOGGED:
-                displayManager.setDisplay(new LoggedDisplay(), true);
+                displayManager.setDisplay(new LoggedDisplay());
                 break;
             default:
                 // do nothing. In case of Conversation display should be 

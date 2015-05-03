@@ -66,14 +66,9 @@ public class LinuxDisplayManager implements IDisplayManager
     }
 
     @Override
-    public void setDisplay(IDisplay newDisplay, boolean saveCommandLine)
+    public void setDisplay(IDisplay newDisplay)
     {
         newDisplay.setFormatter(formatter);
-        if (saveCommandLine)
-        {
-            newDisplay.setCommand(currentDisplay.getCommand());
-            newDisplay.setMsg(currentDisplay.getMsg());
-        }
         currentDisplay = newDisplay;
         refresh();
     }

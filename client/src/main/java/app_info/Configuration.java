@@ -16,7 +16,6 @@ import rsa.exceptions.GeneratingPublicKeyException;
  * @version 1.0
  */
 public class Configuration {
-
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
     private Configuration() throws IOException, GeneratingPublicKeyException {
         width = 122;
@@ -44,6 +43,10 @@ public class Configuration {
     
     public int getHeight() {
         return height;
+    }
+    
+    public String getCommandPrefix() {
+        return commandPrefix;
     }
     
     public String getServerAddress() {
@@ -85,6 +88,8 @@ public class Configuration {
     //zmienna którą w razie potrzeby będziemy zwracać
     private static Configuration instance = null;
 
+    // prefiks każdej komendy
+    private String commandPrefix = "/";
     //rozmiar naszej konsoli
     private int width = 122;
     private int height = 36;

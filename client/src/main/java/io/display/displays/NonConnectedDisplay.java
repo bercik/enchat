@@ -26,7 +26,8 @@ public class NonConnectedDisplay extends CommandLineDisplay
     public String showBody()
     {
         return "Witaj w enChacie!\n" +
-                "Aby połączyć się z serwerem wpisz komendę /connect\n\n" +
+                "Aby połączyć się z serwerem wpisz komendę " + 
+                formatCommand("connect") + "\n\n" +
                 "Miłego chatowania życzy zespół io_fighters.";
     }
 }

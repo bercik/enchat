@@ -5,6 +5,7 @@
  */
 package controller.controllers;
 
+import app_info.Configuration;
 import app_info.ICommandContainer;
 import controller.ControllerManager;
 import java.util.Arrays;
@@ -40,8 +41,9 @@ public class CommandParser
         // sprawdzamy czy komenda jest poprawną komendą
         if (!commandContainer.isCommand(cpp.command))
         {
+            Configuration conf = Configuration.getInstance();
             String msg = command + " nie jest komendą. Każda komenda musi " +
-                    "zaczynać się od " + commandContainer.getCommandPrefix();
+                    "zaczynać się od " + conf.getCommandPrefix();
             controllerManager.setMsg(msg, true);
             return;
         }
@@ -91,7 +93,8 @@ public class CommandParser
     {
         // jeżeli zaczyna się od znaku komendy to traktujemy 
         // jak zawsze
-        if (input.startsWith(commandContainer.getCommandPrefix()))
+        Configuration conf = Configuration.getInstance();
+        if (input.startsWith(conf.getCommandPrefix()))
         {
             parseDefault(input);
         }
