@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 public class ConfigurationTest extends TestCase {
 
     public void testConfiguration() throws Exception {
+        //na obecną chwilę niech zostanie zakomentowane
+        /*
         FileOutputStream fileOutputStream = new FileOutputStream("file.txt");
         DataOutputStream outputStream = new DataOutputStream(fileOutputStream);
 
@@ -30,6 +32,6 @@ public class ConfigurationTest extends TestCase {
         Configuration configuration = Configuration.getInstance();
         System.out.println("Adres załadowany z pliku : " + configuration.getServerAddress() + " oraz jego port : " + configuration.getPort());
         System.out.println("Szerokość konsoli : " + configuration.getWidth() + " oraz jest wysokosc : " + configuration.getHeight());
-
+        */
     }
 }

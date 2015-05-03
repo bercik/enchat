@@ -71,7 +71,7 @@ public class Configuration {
     public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         //ten fragment kodu został zakomentowany do czasu kiedy zostanie napisana funkcja
         //serwera która będzie zapisywać adres serwera i jego port do pliku
-        FileInputStream in = new FileInputStream(path);
+        /*FileInputStream in = new FileInputStream(path);
         DataInputStream input = new DataInputStream(in);
 
         //wczytywanie adresu serwera z pliku
@@ -82,6 +82,10 @@ public class Configuration {
 
         //wczytywanie numeru portu z pliku
         port = input.readInt();
+        */
+
+        serverAddress = "123.123.123.123";
+        port = 50000;
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
