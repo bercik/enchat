@@ -44,14 +44,28 @@ public abstract class CommandLineDisplay implements IDisplay
     
     protected String formatCommand(String command)
     {
-        return formatCommand(command, new String[0]);
+        return formatCommand(command, true);
+    }
+    
+    protected String formatCommand(String command, boolean addPrefix)
+    {
+        return formatCommand(command, new String[0], addPrefix);
     }
     
     protected String formatCommand(String command, String[] parameters)
     {
-        // we add prefix to command
-        Configuration conf = Configuration.getInstance();
-        command = conf.getCommandPrefix() + command;
+        return formatCommand(command, parameters, true);
+    }
+    
+    protected String formatCommand(String command, String[] parameters, 
+            boolean addPrefix)
+    {
+        if (addPrefix)
+        {
+            // we add prefix to command
+            Configuration conf = Configuration.getInstance();
+            command = conf.getCommandPrefix() + command;
+        }        
         // add foreground color to command
         String result = formatter.fg(COMMAND_FG_COLOR, command) + " ";
         
@@ -71,7 +85,14 @@ public abstract class CommandLineDisplay implements IDisplay
     protected String formatCommand(String command, String[] parameters,
             String description)
     {
-        return formatCommand(command, parameters) + " - " + description;
+        return formatCommand(command, parameters, description, true);
+    }
+    
+    protected String formatCommand(String command, String[] parameters,
+            String description, boolean addPrefix)
+    {
+        return formatCommand(command, parameters, addPrefix) + " - " + 
+                description;
     }
     
     private int countHeight(String body)

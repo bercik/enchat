@@ -65,16 +65,16 @@ public class HelpDisplay extends CommandLineDisplay
         for (Command command : allCommands)
         {
             result += formatCommand(command.getName(),
-                    command.getParametersName(), command.getDescription()) + 
-                    "\n";
+                    command.getParametersName(), command.getDescription(), 
+                    false) + "\n";
         }
         
         result += formatter.spec(
                 IFormatter.SpecialFormat.UNDERSCORE, "Informacje:") + "\n";
         for (Information information : allInformations)
         {
-            result += formatter.fg(COMMAND_FG_COLOR, information.getName()) + 
-                    " - " + information.getShortDescription() + "\n";
+            result += formatCommand(information.getName(), new String[0], 
+                    information.getShortDescription(), false) + "\n";
         }
         
         // remove last new line

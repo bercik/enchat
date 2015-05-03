@@ -7,6 +7,7 @@ package util.builder;
 
 import util.help.Command;
 import util.help.HelpCommands;
+import util.help.Information;
 import util.help.Parameter;
 
 /**
@@ -42,6 +43,18 @@ public class HelpCommandsBuilder
         };
         command = new Command(name, description, parameters);
         helpCommands.addCommand(name, command);
+        
+        // authors information
+        name = "authors";
+        String shortDescription = "wyświetla informację o autorach aplikacji";
+        description = "Aplikacja enChat została napisana przez zespół "
+                + "io_fighters jako projekt z inżynierii oprogramowania\n\n" + 
+                "Członkowie zespołu: " +
+                "programista/inżynier: bercik <robert.cebula1@gmail.com>\n" +
+                "programista: Mati <matello455@gmail.com>";
+        Information information = new Information(name, description, 
+                shortDescription);
+        helpCommands.addInformation(name, information);
         
         return helpCommands;
     }
