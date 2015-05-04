@@ -71,7 +71,7 @@ public class Configuration {
     public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         //ten fragment kodu został zakomentowany do czasu kiedy zostanie napisana funkcja
         //serwera która będzie zapisywać adres serwera i jego port do pliku
-
+/*
         File file = new File("file.txt");
         String currentPath = file.getCanonicalPath();
 
@@ -83,7 +83,7 @@ public class Configuration {
         serverAddress = in.readLine();
 
         port = Integer.parseInt(in.readLine());
-
+*/
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
