@@ -66,11 +66,11 @@ public class PackageForwarder implements Runnable{
     }
 
     public void connect() throws IOException, NoSuchAlgorithmException, InvalidKeyException, GeneratingPublicKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, ClassNotFoundException {
-        if(thread == null){
+        conn = new Connection();
+        if(thread == null) {
             thread = new Thread(this);
             thread.start();
         }
-        conn = new Connection();
     }
 
     public void send(int id, String[] parameters) throws InvalidKeySpecException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, IOException {
