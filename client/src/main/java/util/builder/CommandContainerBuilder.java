@@ -13,6 +13,7 @@ import controller.controllers.MainController;
 import controller.controllers.RegisterController;
 import messages.MessageId;
 import plugin.plugins.CalcPlugin;
+import plugin.plugins.ConnectPlugin;
 import plugin.plugins.HelpPlugin;
 
 /**
@@ -36,7 +37,7 @@ public class CommandContainerBuilder
                 new State[]
                 {
                     State.NOT_CONNECTED
-                });
+                }, true);
         // register TODO change state to connected
         commandContainer.registerCommand(
                 MessageId.SIGN_UP.getIntRepresentation(),
@@ -44,13 +45,21 @@ public class CommandContainerBuilder
                 new State[]
                 {
                     State.NOT_CONNECTED
-                });
+                }, true);
         // help
         commandContainer.registerCommand(Id.HELP_PLUGIN.getIntRepresentation(),
-                "help", new HelpPlugin(), null, State.ALL);
+                "help", new HelpPlugin(), null, State.ALL, false);
         // calc
         commandContainer.registerCommand(Id.CALC_PLUGIN.getIntRepresentation(),
-                "calc", new CalcPlugin(), null, State.ALL);
+                "calc", new CalcPlugin(), null, State.ALL, false);
+        
+        // connect
+        commandContainer.registerCommand(
+                Id.CONNECT_PLUGIN.getIntRepresentation(), "connect", 
+                new ConnectPlugin(), null, new State[]
+                {
+                    State.NOT_CONNECTED
+                }, true);
         
         return commandContainer;
     }

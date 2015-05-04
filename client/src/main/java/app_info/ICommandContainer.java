@@ -22,4 +22,6 @@ public interface ICommandContainer
     public boolean isCommand(String command);
     
     public boolean checkCommandAvailability(int id, State state);
+    
+    public boolean checkBlockConsole(int id);
 }

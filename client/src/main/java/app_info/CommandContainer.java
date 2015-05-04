@@ -24,9 +24,11 @@ public class CommandContainer implements IPluginCommandContainer,
     private final Map<Integer, IPlugin> itp = new HashMap<>();
     private final Map<Integer, IController> itc = new HashMap<>();
     private final Map<Integer, State[]> itps = new HashMap<>();
+    private final Map<Integer, Boolean> itbc = new HashMap<>();
     
     public void registerCommand(int id, String command, IPlugin plugin, 
-            IController controller, State[] possibleStates) 
+            IController controller, State[] possibleStates,
+            boolean blockConsole)
     {
         // check for exceptions
         if (plugin == null && controller == null)
@@ -56,6 +58,7 @@ public class CommandContainer implements IPluginCommandContainer,
         }
         
         itps.put(id, possibleStates);
+        itbc.put(id, blockConsole);
     }
     
     public void registerPlugin(int id, IPlugin plugin, State[] possibleStates) 
@@ -149,6 +152,12 @@ public class CommandContainer implements IPluginCommandContainer,
         return Arrays.asList(possibleStates).contains(state);
     }
 
+    @Override
+    public boolean checkBlockConsole(int id)
+    {
+        return itbc.get(id);
+    }
+    
     @Override
     public IController[] getAllControllers()
     {

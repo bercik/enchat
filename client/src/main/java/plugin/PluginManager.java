@@ -55,16 +55,9 @@ public class PluginManager
         }
     }
     
-    public void connect()
+    public void connect() throws Exception
     {
-        try
-        {
-            packageForwarder.connect();
-        }
-        catch (Exception ex)
-        {
-            exceptionOccured();
-        }
+        packageForwarder.connect();
     }
     
     public void setMsg(String msg, boolean error)

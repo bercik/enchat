@@ -17,11 +17,14 @@ import java.util.Arrays;
 public class CommandParser
 {
     private final ICommandContainer commandContainer;
+    private final CommandLineController controller;
     private ControllerManager controllerManager;
     
-    public CommandParser(ICommandContainer ccommandContainer)
+    public CommandParser(ICommandContainer ccommandContainer, 
+            CommandLineController ccontroller)
     {
         commandContainer = ccommandContainer;
+        controller = ccontroller;
     }
     
     public void setControllerManager(ControllerManager ccontrollerManager)
@@ -78,6 +81,9 @@ public class CommandParser
         // sprawdzamy czy istnieje plugin dla danego id
         else if (commandContainer.hasPlugin(commandId))
         {
+            // sprawdzamy i blokujemy konsolę
+            if (commandContainer.checkBlockConsole(commandId))
+                controller.setBlockConsole(true);
             // uruchamiamy plugin
             controllerManager.startPlugin(commandId, parameters);
         }

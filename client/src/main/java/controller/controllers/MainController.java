@@ -24,7 +24,7 @@ public class MainController extends CommandLineController
     {
         super();
         
-        commandParser = new CommandParser(commandContainer);
+        commandParser = new CommandParser(commandContainer, this);
     }
 
     @Override
@@ -38,6 +38,8 @@ public class MainController extends CommandLineController
     protected void route(String input)
     {
         setCommand("");
+        String msg = "Próbuję połączyć się z serwerem...";
+        controllerManager.setMsg(msg, false);
         
         if (controllerManager.getAppState().equals(State.CONVERSATION))
             commandParser.parseConversation(input);
@@ -55,5 +57,7 @@ public class MainController extends CommandLineController
     public void updateError(int error)
     {
         // do nothing
+        // TEST
+        reset();
     }
 }

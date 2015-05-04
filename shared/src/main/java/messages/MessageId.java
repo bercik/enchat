@@ -53,11 +53,9 @@ public enum MessageId
     REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST, ErrorId.USER_NOT_EXIST),
     // rozłącz z serwerem
     DISCONNECT(12),
-    // klucz publiczny (do wyrzucenia) !!!
-    PUBLIC_KEY(13),
     // błąd serwera
     // MESSAGE_DECRYPTING_FAILED - nie udało się odszyfrować wiadomości
-    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, ErrorId.MESSAGE_ENCRYPTING_FAILED);
+    SERVER_ERROR(13, ErrorId.MESSAGE_DECRYPTING_FAILED, ErrorId.MESSAGE_ENCRYPTING_FAILED);
 
     private int id;
     private EnumSet<ErrorId> errorIds;
