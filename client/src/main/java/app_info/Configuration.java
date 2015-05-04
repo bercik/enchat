@@ -71,13 +71,14 @@ public class Configuration {
     public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         //ten fragment kodu został zakomentowany do czasu kiedy zostanie napisana funkcja
         //serwera która będzie zapisywać adres serwera i jego port do pliku
-
+/*
         //stworzenie strumienia do
         BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("file.txt"), "UTF-8"));
 
         serverAddress = in.readLine();
 
         port = Integer.parseInt(in.readLine());
+*/
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
