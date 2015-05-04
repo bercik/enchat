@@ -9,12 +9,18 @@ package util.help;
  *
  * @author robert
  */
-public class Information
+public class Information implements Comparable<Information>
 {
     private final String name;
     private final String description;
     private final String shortDescription;
 
+    @Override
+    public int compareTo(Information o)
+    {
+        return name.compareTo(o.name);
+    }
+    
     public String getName()
     {
         return name;

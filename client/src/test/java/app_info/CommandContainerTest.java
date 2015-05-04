@@ -389,7 +389,8 @@ public class CommandContainerTest
     public void testIsCommand()
     {
         System.out.println("isCommand");
-        String command = "/test";
+        Configuration conf = Configuration.getInstance();
+        String command = conf.getCommandPrefix() + "test";
         CommandContainer instance = new CommandContainer();
         boolean expResult = true;
         boolean result = instance.isCommand(command);

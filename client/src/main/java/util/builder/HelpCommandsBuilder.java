@@ -5,6 +5,7 @@
  */
 package util.builder;
 
+import app_info.Configuration;
 import util.help.Command;
 import util.help.HelpCommands;
 import util.help.Information;
@@ -19,37 +20,67 @@ public class HelpCommandsBuilder
     public static HelpCommands build()
     {
         HelpCommands helpCommands = new HelpCommands();
+        Configuration conf = Configuration.getInstance();
+        String commandPrefix = conf.getCommandPrefix();
         
         // register command
         String name = "register";
-        String description = "umożliwia rejestrację użytkownika na serwerze";
+        String shortDescription = "Umożliwia rejestrację użytkownika na "
+                + "serwerze";
+        String description = shortDescription + ".\nHasło powinno składać się "
+                + "z 4-12 znaków";
         Parameter[] parameters = new Parameter[]
         {
             new Parameter("username", "nazwa użytkownika, 4-8 liter, cyfr lub"
                     + " znaków podkreślenia"),
-            new Parameter("password", "hasło, 4-12 znaków")
         };
-        Command command = new Command(name, description, parameters);
+        Command command = new Command(name, description, shortDescription, 
+                parameters);
         helpCommands.addCommand(name, command);
         
         // help command
         name = "help";
-        description = "wyświetla szczegółową pomoc o"
-                    + " podanej komendzie";
+        shortDescription = "Wyświetla szczegółową pomoc o podanej komendzie";
+        description = shortDescription + ".\nWpisanie bez parametru wyświetla "
+                + "informacje o wszystkich komendach i informacjach";
         parameters = new Parameter[]
         {
             new Parameter("name", "komenda dla której ma zostać wyświetlona"
                     + " szczegółowa pomoc")
         };
-        command = new Command(name, description, parameters);
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
+        // calc command
+        name = "calc";
+        shortDescription = "Pozwala wykonać proste obliczenia arytmetyczne na"
+                + " dwóch liczbach całkowitych";
+        description = "equation jest w postaci: [liczba1][operand][liczba2]\n" +
+                "Liczby są liczbami całkowitymi typu int (32 bit)\n" +
+                "Jako operand mozemy wpisać:\n" + 
+                "  + dodawanie\n" + 
+                "  - odejmowanie\n" + 
+                "  * mnozenie\n" + 
+                "  / dzielenie\n" + 
+                "  ^ potęgowanie\n\n" +
+                "Przykładowe wywołania:\n" +
+                commandPrefix + "calc" + " 10+20\n" + 
+                commandPrefix + "calc" + " -15*23\n" + 
+                commandPrefix + "calc" + " 5^-2";
+        parameters = new Parameter[]
+        {
+            new Parameter("equation", "działanie arytmetyczne, które chcemy "
+                    + "obliczyć")
+        };
+        command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
         // authors information
         name = "authors";
-        String shortDescription = "wyświetla informację o autorach aplikacji";
+        shortDescription = "Wyświetla informację o autorach aplikacji";
         description = "Aplikacja enChat została napisana przez zespół "
                 + "io_fighters jako projekt z inżynierii oprogramowania\n\n" + 
-                "Członkowie zespołu: " +
+                "Członkowie zespołu:\n" +
                 "programista/inżynier: bercik <robert.cebula1@gmail.com>\n" +
                 "programista: Mati <matello455@gmail.com>";
         Information information = new Information(name, description, 

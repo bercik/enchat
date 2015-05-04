@@ -9,15 +9,27 @@ package util.help;
  *
  * @author robert
  */
-public class Command
+public class Command implements Comparable<Command>
 {
     private final String name;
+    private final String shortDescription;
     private final String description;
     private final Parameter[] parameters;
 
+    @Override
+    public int compareTo(Command o)
+    {
+        return name.compareTo(o.name);
+    }
+    
     public String getName()
     {
         return name;
+    }
+
+    public String getShortDescription()
+    {
+        return shortDescription;
     }
 
     public String getDescription()
@@ -41,10 +53,12 @@ public class Command
         return parametersName;
     }
     
-    public Command(String name, String description, Parameter[] parameters)
+    public Command(String name, String description, String shortDescription,
+            Parameter[] parameters)
     {
         this.name = name;
         this.description = description;
+        this.shortDescription = shortDescription;
         this.parameters = parameters;
     }
 }

@@ -12,6 +12,7 @@ import controller.controllers.LoginController;
 import controller.controllers.MainController;
 import controller.controllers.RegisterController;
 import messages.MessageId;
+import plugin.plugins.CalcPlugin;
 import plugin.plugins.HelpPlugin;
 
 /**
@@ -28,7 +29,7 @@ public class CommandContainerBuilder
         commandContainer.registerController(
                 Id.MAIN_CONTROLLER.getIntRepresentation(),
                 new MainController(commandContainer), State.ALL);
-        // login
+        // login TODO change state to connected
         commandContainer.registerCommand(
                 MessageId.LOG_IN.getIntRepresentation(),
                 "login", null, new LoginController(),
@@ -36,7 +37,7 @@ public class CommandContainerBuilder
                 {
                     State.NOT_CONNECTED
                 });
-        // register
+        // register TODO change state to connected
         commandContainer.registerCommand(
                 MessageId.SIGN_UP.getIntRepresentation(),
                 "register", null, new RegisterController(),
@@ -47,6 +48,9 @@ public class CommandContainerBuilder
         // help
         commandContainer.registerCommand(Id.HELP_PLUGIN.getIntRepresentation(),
                 "help", new HelpPlugin(), null, State.ALL);
+        // calc
+        commandContainer.registerCommand(Id.CALC_PLUGIN.getIntRepresentation(),
+                "calc", new CalcPlugin(), null, State.ALL);
         
         return commandContainer;
     }

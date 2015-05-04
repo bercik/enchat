@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import messages.MessageId;
 import util.Authentication;
+import util.StringFormatter;
 import util.exceptions.RunMethodNotImplementedException;
 
 /**
@@ -63,9 +64,8 @@ public class RegisterController extends CommandLineController
             // sprawdzamy czy login został wpisany
             if (parameters.length < 1)
             {
-                String msg = "Złe wywołanie komendy. Prawidłowo:"
-                        + " /register username";
-                controllerManager.setMsg(msg, true);
+                controllerManager.setMsg(StringFormatter.badCommand("register"),
+                        true);
                 controllerManager.setController(
                         Id.MAIN_CONTROLLER.getIntRepresentation(), null);
                 return new State1();

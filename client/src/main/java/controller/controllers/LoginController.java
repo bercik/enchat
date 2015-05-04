@@ -8,6 +8,7 @@ package controller.controllers;
 import app_info.Id;
 import messages.MessageId;
 import util.Authentication;
+import util.StringFormatter;
 
 /**
  *
@@ -49,8 +50,7 @@ public class LoginController extends CommandLineController
         // sprawdzamy czy login został wpisany
         if (parameters.length < 1)
         {
-            String msg = "Złe wywołanie komendy. Prawidłowo: /login username";
-            controllerManager.setMsg(msg, true);
+            controllerManager.setMsg(StringFormatter.badCommand("login"), true);
             controllerManager.setController(
                     Id.MAIN_CONTROLLER.getIntRepresentation(), null);
             return;

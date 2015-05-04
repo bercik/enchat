@@ -19,7 +19,8 @@ public enum Id
 {
     // id musi być mniejsze od zera!
     MAIN_CONTROLLER(-1),
-    HELP_PLUGIN(-2);
+    HELP_PLUGIN(-2),
+    CALC_PLUGIN(-3);
 
     private int id;
 

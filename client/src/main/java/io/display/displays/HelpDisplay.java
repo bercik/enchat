@@ -6,6 +6,7 @@
 package io.display.displays;
 
 import io.display.IFormatter;
+import java.util.Arrays;
 import util.builder.HelpCommandsBuilder;
 import util.help.Command;
 import util.help.HelpCommands;
@@ -58,14 +59,16 @@ public class HelpDisplay extends CommandLineDisplay
         
         HelpCommands helpCommands = HelpCommandsBuilder.build();
         Command[] allCommands = helpCommands.getAllCommands();
+        Arrays.sort(allCommands);
         Information[] allInformations = helpCommands.getAllInformations();
+        Arrays.sort(allInformations);
         
         result += formatter.spec(
                 IFormatter.SpecialFormat.UNDERSCORE, "Komendy:") + "\n";
         for (Command command : allCommands)
         {
             result += formatCommand(command.getName(),
-                    command.getParametersName(), command.getDescription(), 
+                    command.getParametersName(), command.getShortDescription(), 
                     false) + "\n";
         }
         
@@ -93,7 +96,8 @@ public class HelpDisplay extends CommandLineDisplay
     private String showCommand()
     {
         String result = formatCommand(command.getName(), 
-                command.getParametersName(), command.getDescription()) + "\n";
+                command.getParametersName(), command.getShortDescription()) + 
+                "\n";
         
         for (Parameter param : command.getParameters())
         {
@@ -101,8 +105,16 @@ public class HelpDisplay extends CommandLineDisplay
                     " - " + param.getDescription() + "\n";
         }
         
-        // remove last new line
+        // usuwamy ostatni znak końca lini
         result = result.substring(0, result.length() - 1);
+        
+        // jeżeli jest szczegółowy opis to go wyświetlamy
+        if (!command.getDescription().equals(""))
+        {
+            result += "\n\n" + formatter.spec(IFormatter.SpecialFormat.UNDERSCORE, 
+                    "Szczegółowy opis:") + "\n";
+            result += command.getDescription();
+        }
                 
         return result;
     }
