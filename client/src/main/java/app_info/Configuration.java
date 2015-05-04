@@ -73,14 +73,11 @@ public class Configuration {
         //serwera która będzie zapisywać adres serwera i jego port do pliku
 
         //stworzenie strumienia do
-        FileInputStream in = new FileInputStream(path);
-        DataInputStream input = new DataInputStream(in);
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream("file.txt"), "UTF-8"));
 
-        //wczytywanie adresu serwera z pliku
-        serverAddress = input.readUTF();
+        serverAddress = in.readLine();
 
-        String portString = input.readUTF();
-        port = Integer.parseInt(portString);
+        port = Integer.parseInt(in.readLine());
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
