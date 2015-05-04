@@ -33,7 +33,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>controller.ControllerMainTest</mainClass>
+                  <mainClass>main.App</mainClass>
                 </transformer>
               </transformers>
             </configuration>

@@ -38,8 +38,6 @@ public class MainController extends CommandLineController
     protected void route(String input)
     {
         setCommand("");
-        String msg = "Próbuję połączyć się z serwerem...";
-        controllerManager.setMsg(msg, false);
         
         if (controllerManager.getAppState().equals(State.CONVERSATION))
             commandParser.parseConversation(input);

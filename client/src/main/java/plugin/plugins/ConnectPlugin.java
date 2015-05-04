@@ -22,6 +22,8 @@ public class ConnectPlugin extends Plugin
     {
         try
         {
+            String msg = "Próbuję połączyć się z serwerem...";
+            pluginManager.setMsg(msg, false);
             pluginManager.connect();
         }
         catch (Exception ex)

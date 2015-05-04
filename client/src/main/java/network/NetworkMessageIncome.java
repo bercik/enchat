@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -27,11 +28,19 @@ public class NetworkMessageIncome {
 
     public NetworkMessageIncome() {}
 
-    public ArrayList<MessageSignPair> getMessageSignPair() {
+    public List<MessageSignPair> getMessageSignPair() {
         return new ArrayList<>(messageSignPair);
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public int getError()
+    {
+        return error;
+    }
 
+    public int getId()
+    {
+        return id;
+    }
 
     public void recv(Connection conn) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, SignatureException {
 
