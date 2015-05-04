@@ -24,8 +24,6 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public class ControllerManager
 {
-    // TODO
-    
     private final IControllerCommandContainer controllerCommandContainer;
     private State appState;
     private final IDisplayManager displayManager;

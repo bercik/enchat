@@ -7,6 +7,7 @@ package plugin.plugins;
 
 import io.display.displays.HelpDisplay;
 import plugin.PluginManager;
+import util.StringFormatter;
 import util.builder.HelpCommandsBuilder;
 import util.help.Command;
 import util.help.HelpCommands;
@@ -53,7 +54,8 @@ public class HelpPlugin extends Plugin
             // show error message
             else
             {
-                String msg = "Komenda " + name + " dla /help nie istnieje";
+                String msg = "Komenda " + name + " dla /help nie istnieje. "
+                        + "Wpisz /help, aby uzyskać listę wszystkich komend";
                 pluginManager.setMsg(msg, true);
             }
         }

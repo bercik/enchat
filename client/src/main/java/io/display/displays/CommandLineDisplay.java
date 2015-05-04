@@ -29,7 +29,7 @@ import rsa.exceptions.GeneratingPublicKeyException;
 public abstract class CommandLineDisplay implements IDisplay
 {
     // wysokość lini komend, komunikatu
-    private static final int COMMAND_MESSAGE_HEIGHT = 5;
+    private static final int COMMAND_MESSAGE_HEIGHT = 4;
     // kolory
     protected static final IFormatter.Color COMMAND_FG_COLOR = 
             IFormatter.Color.YELLOW;
@@ -205,7 +205,7 @@ public abstract class CommandLineDisplay implements IDisplay
         whole += '\n' + msg + '\n';
         whole += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE,
                 indent(conf.getWidth()));
-        whole += command + '\n';
+        whole += '\n' + command;
         
         return whole;
     }

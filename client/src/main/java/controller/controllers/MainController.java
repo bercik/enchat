@@ -37,7 +37,6 @@ public class MainController extends CommandLineController
     @Override
     protected void route(String input)
     {
-        // TODO
         setCommand("");
         
         if (controllerManager.getAppState().equals(State.CONVERSATION))
