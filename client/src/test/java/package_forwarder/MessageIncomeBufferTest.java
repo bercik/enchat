@@ -33,10 +33,10 @@ public class MessageIncomeBufferTest extends TestCase {
             System.out.println("List is empty");
 
         //test funkcji get, sprawdzimy czy to co wysłaliśmy zgadza się z tym co otrzymamy
-        ArrayList<NetworkMessageIncome> networkMessageIncomeArrayList = messageIncomeBuffer.get();
+        ArrayList<NetworkMessageIncome> networkMessageIncomeArrayList = (ArrayList<NetworkMessageIncome>) messageIncomeBuffer.get();
 
         for(int i = 0; i < networkMessageIncomeArrayList.size(); ++i) {
-            ArrayList<MessageSignPair> messageSignPairArrayList = networkMessageIncomeArrayList.get(i).getMessageSignPair();
+            ArrayList<MessageSignPair> messageSignPairArrayList = (ArrayList<MessageSignPair>) networkMessageIncomeArrayList.get(i).getMessageSignPair();
             for(int k = 0; k < messageSignPairArrayList.size(); ++k)
                 System.out.println("Message = " + new String(messageSignPairArrayList.get(k).getMessage()) + " Sign = " + new String(messageSignPairArrayList.get(k).getSign()) );
         }
