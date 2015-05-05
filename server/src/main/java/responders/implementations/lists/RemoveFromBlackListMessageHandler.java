@@ -3,7 +3,7 @@ package responders.implementations.lists;
 import containers.BlackList;
 import containers.Registered;
 import containers.exceptions.ElementNotFoundException;
-import message.generarators.Remove_From_Black_List;
+import message.generators.Remove_From_Black_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;

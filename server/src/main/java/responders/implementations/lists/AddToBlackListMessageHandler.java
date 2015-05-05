@@ -4,7 +4,7 @@ import containers.BlackList;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generarators.Add_To_Black_List;
+import message.generators.Add_To_Black_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;

@@ -2,8 +2,8 @@ package responders.implementations;
 
 import containers.Logged;
 import containers.exceptions.ElementNotFoundException;
-import message.generarators.ConversationRequest;
-import message.generarators.Incoming_Conversation;
+import message.generators.Conversation_Request;
+import message.generators.Incoming_Conversation;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -49,27 +49,30 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
         EncryptedMessage messageToUser;
 
         try {
-            userToConnect = Logged.getInstance().getUser(nick);
-            if (userToConnect.getData().getBlackList().hasNick(nick)){
-                answer = ConversationRequest.notLogged();
-            }else {
-                try {
-                    userToConnect.getRoom().add(sender);
-                    answer = ConversationRequest.connected();
-                    messageToUser = Incoming_Conversation.connected();
-                } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
-                    answer = ConversationRequest.busyUser();
-                    messageToUser = Incoming_Conversation.roomOverloaded();
+            if (sender.getData().getBlackList().hasNick(nick)){
+                answer= Conversation_Request.onBlackList();
+            } else {
+                userToConnect = Logged.getInstance().getUser(nick);
+                if (userToConnect.getData().getBlackList().hasNick(nick)){
+                    answer = Conversation_Request.notLogged();
+                }else {
+                    try {
+                        userToConnect.getRoom().add(sender);
+                        answer = Conversation_Request.connected();
+                        messageToUser = Incoming_Conversation.connected();
+                    } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
+                        answer = Conversation_Request.busyUser();
+                        messageToUser = Incoming_Conversation.roomOverloaded();
+                    }
+                    try {
+                        MessageSender.sendMessage(userToConnect, messageToUser);
+                    } catch (IOException e) {
+                        throw new ReactionException();
+                    }
                 }
-                try {
-                    MessageSender.sendMessage(userToConnect, messageToUser);
-                } catch (IOException e) {
-                    throw new ReactionException();
-                }
-
             }
         } catch (ElementNotFoundException e) {
-            answer = ConversationRequest.notLogged();
+            answer = Conversation_Request.notLogged();
         }
 
         try {

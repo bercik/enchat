@@ -3,7 +3,7 @@ package responders.implementations;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generarators.Sign_Up;
+import message.generators.Sign_Up;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;

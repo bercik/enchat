@@ -1,11 +1,12 @@
 package responders.implementations.lists;
 
-import message.generarators.Lists;
+import message.generators.Black_List;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 import user.User;
 import user.UserState;
 
@@ -38,11 +39,13 @@ public class BlackListMessageHandler extends AbstractMessageHandler {
     @Override
     protected void reaction() throws ReactionException {
         String[] nicks = sender.getData().getBlackList().getNicks().toArray(new String[0]);
-        EncryptedMessage answer = Lists.blackList(sender, nicks);
         try {
+            EncryptedMessage answer = Black_List.blackList(sender, nicks);
             MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {
             throw new ReactionException();
+        } catch (EncryptionException e) {
+            e.printStackTrace();
         }
     }
 

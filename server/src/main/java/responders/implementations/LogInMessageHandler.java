@@ -4,7 +4,7 @@ import containers.Logged;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generarators.Log_In;
+import message.generators.Log_In;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -14,7 +14,6 @@ import user.User;
 import user.UserData;
 import user.UserState;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 
 /**

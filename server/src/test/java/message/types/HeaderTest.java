@@ -1,5 +1,6 @@
 package message.types;
 
+import messages.IncorrectErrorId;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 import org.junit.Test;
@@ -29,10 +30,10 @@ public class HeaderTest {
         MessageId.ErrorId errorId = id.createErrorId(0);
     }
 
-   @Test(expected = IncorrectMessageId.class)
+    @Test(expected = IncorrectErrorId.class)
     public void headerWontBeCreatedWhenHeaderErrorIdIsIncorrect() throws IncorrectMessageId {
         //when
         MessageId id = MessageId.createMessageId(2);
-        MessageId.ErrorId errorId = id.createErrorId(4);
+        MessageId.ErrorId errorId = id.createErrorId(5);
     }
 }

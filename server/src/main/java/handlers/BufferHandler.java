@@ -1,5 +1,6 @@
 package handlers;
 
+import message.exceptions.MessageIdException;
 import message.types.EncryptedMessage;
 import message.utils.MessageReader;
 import messages.IncorrectMessageId;
@@ -30,6 +31,8 @@ public class BufferHandler {
             e.printStackTrace();
         } catch (IncorrectMessageId incorrectMessageId) {
             incorrectMessageId.printStackTrace();
+        } catch (MessageIdException e) {
+            e.printStackTrace();
         }
     }
 
