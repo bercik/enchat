@@ -16,7 +16,6 @@ import rsa.exceptions.GeneratingPublicKeyException;
  * @version 1.0
  */
 public class Configuration {
-
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
     private Configuration() throws IOException, GeneratingPublicKeyException {
         width = 122;
@@ -46,6 +45,10 @@ public class Configuration {
         return height;
     }
     
+    public String getCommandPrefix() {
+        return commandPrefix;
+    }
+    
     public String getServerAddress() {
         return serverAddress;
     }
@@ -68,23 +71,26 @@ public class Configuration {
     public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
         //ten fragment kodu został zakomentowany do czasu kiedy zostanie napisana funkcja
         //serwera która będzie zapisywać adres serwera i jego port do pliku
-        /*
-        FileInputStream in = new FileInputStream(path);
-        DataInputStream input = new DataInputStream(in);
+/*
+        File file = new File("file.txt");
+        String currentPath = file.getCanonicalPath();
 
-        //wczytywanie adresu serwera z pliku
-        byte[] byteArray = new byte[input.readInt()];
-        input.readFully(byteArray);
-        */
-        serverAddress = "localhost";
+        System.out.println(currentPath);
 
-        //wczytywanie numeru portu z pliku
-        port = 50000;
+        //stworzenie strumienia do
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(currentPath), "UTF-8"));
+
+        serverAddress = in.readLine();
+
+        port = Integer.parseInt(in.readLine());
+*/
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
     private static Configuration instance = null;
 
+    // prefiks każdej komendy
+    private String commandPrefix = "/";
     //rozmiar naszej konsoli
     private int width = 122;
     private int height = 36;

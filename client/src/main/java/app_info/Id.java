@@ -18,18 +18,26 @@ import app_info.exceptions.IncorrectIdException;
 public enum Id
 {
     // id musi być mniejsze od zera!
-    MAIN_CONTROLLER(-1),
-    HELP_PLUGIN(-2);
+    MAIN_CONTROLLER(),
+    HELP_PLUGIN(),
+    CALC_PLUGIN(),
+    CONNECT_PLUGIN();
+
+    private static int idCounter = -1;
+
+    // ugly workaround
+
+    private static int getIdCounter()
+    {
+        return idCounter--;
+    }
 
     private int id;
 
-    private Id(int iid)
+    private Id()
     {
-        if (iid >= 0)
-            throw new IncorrectIdException("Id powinno być mniejsze od zera, "
-                    + "a ma wartość " + Integer.toString(id));
-        
-        id = iid;
+        // ugly workaround
+        id = getIdCounter();
     }
 
     public static Id createId(int iid)
@@ -41,11 +49,11 @@ public enum Id
                 return id;
             }
         }
-        
+
         throw new IncorrectIdException("Plugin ani kontroler o podanym ID"
                 + " nie istnieją");
     }
-    
+
     public int getIntRepresentation()
     {
         return id;

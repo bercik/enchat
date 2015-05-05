@@ -3,36 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package main;
 
 import app_info.CommandContainer;
-import app_info.Id;
-import app_info.State;
-import controller.controllers.CommandLineController;
-import controller.controllers.LoginController;
-import controller.controllers.MainController;
-import controller.controllers.RegisterController;
+import controller.ControllerManager;
 import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
-import io.display.displays.HelpDisplay;
 import io.input.IInput;
-import messages.MessageId;
+import package_forwarder.MessageIncomeBuffer;
+import package_forwarder.PackageForwarder;
 import plugin.PluginManager;
 import util.builder.CommandContainerBuilder;
-import util.builder.HelpCommandsBuilder;
-import util.help.Command;
-import util.help.HelpCommands;
-import util.help.Information;
-import util.help.Parameter;
 
 /**
  *
  * @author robert
  */
-public class ControllerMainTest
+public class AppCore
 {
-    public static void main(String[] args)
+    public AppCore()
     {
         IOSet ioSet = null;
         try
@@ -43,27 +33,40 @@ public class ControllerMainTest
             IInput input = ioSet.getInput();
             // Command Container
             CommandContainer commandContainer = CommandContainerBuilder.build();
+            // message income buffer
+            MessageIncomeBuffer messageIncomeBuffer = new MessageIncomeBuffer();
+            // package forwarder
+            PackageForwarder packageForwarder = new PackageForwarder(
+                    messageIncomeBuffer);
             // plugin manager
-            PluginManager pluginManager = new PluginManager(null,
-                    commandContainer, null);
+            PluginManager pluginManager = new PluginManager(
+                    messageIncomeBuffer, commandContainer, packageForwarder);
             // Controller Manager
             ControllerManager controllerManager
                     = new ControllerManager(displayManager, commandContainer,
                             pluginManager);
+            // set controller manager reference in plugin manager
             pluginManager.setControllerManager(controllerManager);
 
             while (true)
             {
+                // update plugin manager so it can check if there is some
+                // messages from server
+                pluginManager.update();
+                // check if there is some new characters from user input
                 input.update();
+                // if input has got character
                 if (input.hasChar())
                 {
                     char ch = input.getChar();
 
+                    // if escape exit application
                     if (ch == 27)
                     {
                         break;
                     }
 
+                    // put char to controller manager
                     controllerManager.putChar(ch);
                 }
             }
@@ -76,6 +79,7 @@ public class ControllerMainTest
         {
             if (ioSet != null)
             {
+                // restore console to previous state
                 ioSet.getInput().close();
             }
         }

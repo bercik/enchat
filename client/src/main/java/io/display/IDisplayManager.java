@@ -19,7 +19,7 @@ public interface IDisplayManager
     
     public void setCommand(String newCommand);
     
-    public void setDisplay(IDisplay newDisplay, boolean saveCommandLine);
+    public void setDisplay(IDisplay newDisplay);
     
     public String getCommand();
 }

@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import plugin.IPlugin;
+import plugin.PluginManager;
 
 /**
  *
@@ -29,18 +30,34 @@ public class CommandContainerTest
     // classes used to test
     private static class TestPlugin implements IPlugin
     {
+        @Override
+        public int getId()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+        @Override
+        public void reset()
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void update(int error, String[] parameters)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void setPluginManager(PluginManager pluginManager)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
 
         @Override
         public void setId(int id)
         {
         }
-
-        @Override
-        public void getId()
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        
     }
     private static class TestController implements IController
     {
@@ -135,7 +152,7 @@ public class CommandContainerTest
         try
         {
             instance.registerCommand(id, command, plugin, controller,
-                    possibleStates);
+                    possibleStates, true);
             fail("registerCommand didn't throw NullCommandException");
         }
         catch (NullCommandException ex)
@@ -150,13 +167,13 @@ public class CommandContainerTest
             State.NOT_CONNECTED, State.CONNECTED
         };
         instance.registerCommand(id, command, plugin, controller,
-                possibleStates);
+                possibleStates, false);
 
         command = "test2";
         try
         {
             instance.registerCommand(id, command, plugin, controller,
-                    possibleStates);
+                    possibleStates, false);
             fail("registerCommand didn't throw IdAlreadyExistsException");
         }
         catch (IdAlreadyExistsException ex)
@@ -168,7 +185,7 @@ public class CommandContainerTest
         try
         {
             instance.registerCommand(id, command, plugin, controller,
-                    possibleStates);
+                    possibleStates, false);
             fail("registerCommand didn't throw CommandAlreadyExistsException");
         }
         catch (CommandAlreadyExistsException ex)
@@ -265,8 +282,9 @@ public class CommandContainerTest
         int expResult = -40;
         CommandContainer instance = new CommandContainer();
         IPlugin plugin = new TestPlugin();
-        instance.registerCommand(expResult, command, plugin, null, null);
-        int result = instance.getIdByString(instance.getCommandPrefix() +
+        instance.registerCommand(expResult, command, plugin, null, null, true);
+        Configuration conf = Configuration.getInstance();
+        int result = instance.getIdByString(conf.getCommandPrefix() +
                 command);
         assertEquals(expResult, result);
     }
@@ -290,21 +308,21 @@ public class CommandContainerTest
 
         id = 1;
         String command = "test1";
-        instance.registerCommand(id, command, plugin, null, null);
+        instance.registerCommand(id, command, plugin, null, null, true);
         expResult = true;
         result = instance.hasPlugin(id);
         assertEquals(expResult, result);
 
         id = 2;
         command = "test2";
-        instance.registerCommand(id, command, null, controller, null);
+        instance.registerCommand(id, command, null, controller, null, false);
         expResult = false;
         result = instance.hasPlugin(id);
         assertEquals(expResult, result);
 
         id = 3;
         command = "test3";
-        instance.registerCommand(id, command, plugin, controller, null);
+        instance.registerCommand(id, command, plugin, controller, null, true);
         expResult = true;
         result = instance.hasPlugin(id);
         assertEquals(expResult, result);
@@ -323,21 +341,21 @@ public class CommandContainerTest
 
         int id = 1;
         String command = "test1";
-        instance.registerCommand(id, command, plugin, null, null);
+        instance.registerCommand(id, command, plugin, null, null, false);
         boolean expResult = false;
         boolean result = instance.hasController(id);
         assertEquals(expResult, result);
 
         id = 2;
         command = "test2";
-        instance.registerCommand(id, command, null, controller, null);
+        instance.registerCommand(id, command, null, controller, null, true);
         expResult = true;
         result = instance.hasController(id);
         assertEquals(expResult, result);
 
         id = 3;
         command = "test3";
-        instance.registerCommand(id, command, plugin, controller, null);
+        instance.registerCommand(id, command, plugin, controller, null, false);
         expResult = true;
         result = instance.hasController(id);
         assertEquals(expResult, result);
@@ -354,7 +372,7 @@ public class CommandContainerTest
         IPlugin plugin = new TestPlugin();
         int id = 0;
         CommandContainer instance = new CommandContainer();
-        instance.registerCommand(id, command, plugin, null, null);
+        instance.registerCommand(id, command, plugin, null, null, true);
         boolean expResult = true;
         boolean result = instance.commandExists("/" + command);
         assertEquals(expResult, result);
@@ -371,7 +389,8 @@ public class CommandContainerTest
     public void testIsCommand()
     {
         System.out.println("isCommand");
-        String command = "/test";
+        Configuration conf = Configuration.getInstance();
+        String command = conf.getCommandPrefix() + "test";
         CommandContainer instance = new CommandContainer();
         boolean expResult = true;
         boolean result = instance.isCommand(command);
@@ -429,7 +448,7 @@ public class CommandContainerTest
         for (int i = 0; i < expResult.length; ++i)
         {
             instance.registerCommand(i, Integer.toString(i),null, expResult[i], 
-                    possibleStates);
+                    possibleStates, false);
         }
 
         IController[] result = instance.getAllControllers();
@@ -446,7 +465,7 @@ public class CommandContainerTest
         int id = 0;
         CommandContainer instance = new CommandContainer();
         IController expResult = new TestController();
-        instance.registerCommand(id, null, null, expResult, null);
+        instance.registerCommand(id, null, null, expResult, null, true);
         IController result = instance.getControllerById(id);
         assertEquals(expResult, result);
     }

@@ -20,15 +20,15 @@ import java.util.*;
 public class CommandContainer implements IPluginCommandContainer, 
         IControllerCommandContainer, ICommandContainer
 {
-    private static final String COMMAND_PREFIX = "/";
-    
     private final Map<String, Integer> sti = new HashMap<>();
     private final Map<Integer, IPlugin> itp = new HashMap<>();
     private final Map<Integer, IController> itc = new HashMap<>();
     private final Map<Integer, State[]> itps = new HashMap<>();
+    private final Map<Integer, Boolean> itbc = new HashMap<>();
     
     public void registerCommand(int id, String command, IPlugin plugin, 
-            IController controller, State[] possibleStates) 
+            IController controller, State[] possibleStates,
+            boolean blockConsole)
     {
         // check for exceptions
         if (plugin == null && controller == null)
@@ -58,6 +58,7 @@ public class CommandContainer implements IPluginCommandContainer,
         }
         
         itps.put(id, possibleStates);
+        itbc.put(id, blockConsole);
     }
     
     public void registerPlugin(int id, IPlugin plugin, State[] possibleStates) 
@@ -96,12 +97,6 @@ public class CommandContainer implements IPluginCommandContainer,
         itc.put(id, controller);
         itps.put(id, possibleStates);
     }
-
-    @Override
-    public String getCommandPrefix()
-    {
-        return COMMAND_PREFIX;
-    }
     
     @Override
     public IPlugin[] getAllPlugins()
@@ -118,7 +113,8 @@ public class CommandContainer implements IPluginCommandContainer,
     @Override
     public int getIdByString(String command)
     {
-        command = command.substring(COMMAND_PREFIX.length());
+        Configuration conf = Configuration.getInstance();
+        command = command.substring(conf.getCommandPrefix().length());
         return sti.get(command);
     }
 
@@ -137,14 +133,16 @@ public class CommandContainer implements IPluginCommandContainer,
     @Override
     public boolean commandExists(String command)
     {
-        command = command.substring(COMMAND_PREFIX.length());
+        Configuration conf = Configuration.getInstance();
+        command = command.substring(conf.getCommandPrefix().length());
         return sti.containsKey(command);
     }
 
     @Override
     public boolean isCommand(String command)
     {
-        return command.startsWith(COMMAND_PREFIX);
+        Configuration conf = Configuration.getInstance();
+        return command.startsWith(conf.getCommandPrefix());
     }
 
     @Override
@@ -154,6 +152,12 @@ public class CommandContainer implements IPluginCommandContainer,
         return Arrays.asList(possibleStates).contains(state);
     }
 
+    @Override
+    public boolean checkBlockConsole(int id)
+    {
+        return itbc.get(id);
+    }
+    
     @Override
     public IController[] getAllControllers()
     {

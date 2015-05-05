@@ -34,7 +34,11 @@ public class PackageForwarder implements Runnable{
         while(true) {
             try {
                 if(conn.isEmpty() == false) {
-                    NetworkMessageIncome networkMessageIncome = new NetworkMessageIncome();
+                    // won't compile
+                    //NetworkMessageIncome networkMessageIncome = new NetworkMessageIncome();
+                    // add by robert to compile
+                    NetworkMessageIncome networkMessageIncome
+                            = new NetworkMessageIncome(null, null);
                     networkMessageIncome.recv(conn);
                     messageIncomeBuffer.append(networkMessageIncome);
                 }
@@ -62,11 +66,11 @@ public class PackageForwarder implements Runnable{
     }
 
     public void connect() throws IOException, NoSuchAlgorithmException, InvalidKeyException, GeneratingPublicKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, ClassNotFoundException {
-        if(thread == null){
+        conn = new Connection();
+        if(thread == null) {
             thread = new Thread(this);
             thread.start();
         }
-        conn = new Connection();
     }
 
     public void send(int id, String[] parameters) throws InvalidKeySpecException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, IOException {

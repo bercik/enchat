@@ -16,9 +16,10 @@ public abstract class CommandLineController implements IController
 {
     protected int id;
     protected ControllerManager controllerManager = null;
-    
+
     private boolean showCommand;
     private boolean blockConsole;
+    private boolean checkCharRange;
     private String command;
     private String commandToReturn;
     private String prefix;
@@ -45,12 +46,17 @@ public abstract class CommandLineController implements IController
         blockConsole = bblockConsole;
     }
 
+    protected void setCheckCharRange(boolean ccheckCharRange)
+    {
+        checkCharRange = ccheckCharRange;
+    }
+
     /**
-     * Funkcja wywoływana gdy użytkownik naciśnie klawisz ENTER.
-     * Wewnątrz funkcji powinno znaleźć się wywołanie metody setCommand
-     * z odpowiednim parametrem (np. jeżeli chcemy, aby po wciśnięcu ENTER
-     * pole komendy było czyszczone powinniśmy przekazać parametr pusty string).
-     * 
+     * Funkcja wywoływana gdy użytkownik naciśnie klawisz ENTER. Wewnątrz
+     * funkcji powinno znaleźć się wywołanie metody setCommand z odpowiednim
+     * parametrem (np. jeżeli chcemy, aby po wciśnięcu ENTER pole komendy było
+     * czyszczone powinniśmy przekazać parametr pusty string).
+     *
      * @param input Komenda po wciśnięciu klawisza ENTER.
      */
     protected abstract void route(String input);
@@ -72,7 +78,7 @@ public abstract class CommandLineController implements IController
     {
         controllerManager = ccontrollerManager;
     }
-    
+
     @Override
     public final String getCommand()
     {
@@ -84,7 +90,7 @@ public abstract class CommandLineController implements IController
     {
         id = iid;
     }
-    
+
     @Override
     public int getId()
     {
@@ -96,7 +102,9 @@ public abstract class CommandLineController implements IController
     {
         showCommand = true;
         blockConsole = false;
+        checkCharRange = true;
         command = "";
+        commandToReturn = "";
         prefix = "";
     }
 
@@ -105,8 +113,8 @@ public abstract class CommandLineController implements IController
     {
         if (!blockConsole)
         {
-            boolean dispCommand = true;
-            
+            boolean dispCommand = false;
+
             if (ch == ENTER)
             {
                 commandToReturn = command;
@@ -122,19 +130,31 @@ public abstract class CommandLineController implements IController
             else if (ch != BACKSPACE)
             {
                 int wholeCommandLength = prefix.length() + command.length();
-                
-                if (ch >= MIN_CHAR && ch <= MAX_CHAR && 
-                        wholeCommandLength < MAX_COMMAND_LENGTH)
+
+                if (wholeCommandLength < MAX_COMMAND_LENGTH)
                 {
-                    command += ch;
-                    dispCommand = true;
+                    if (checkCharRange)
+                    {
+                        if (ch >= MIN_CHAR && ch <= MAX_CHAR)
+                        {
+                            command += ch;
+                            dispCommand = true;
+                        }
+                    }
+                    else
+                    {
+                        command += ch;
+                        dispCommand = true;
+                    }
                 }
             }
-            
+
             commandToReturn = command;
-            
+
             if (dispCommand)
+            {
                 displayCommand();
+            }
         }
     }
 

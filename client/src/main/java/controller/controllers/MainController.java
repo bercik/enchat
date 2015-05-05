@@ -24,7 +24,7 @@ public class MainController extends CommandLineController
     {
         super();
         
-        commandParser = new CommandParser(commandContainer);
+        commandParser = new CommandParser(commandContainer, this);
     }
 
     @Override
@@ -37,7 +37,6 @@ public class MainController extends CommandLineController
     @Override
     protected void route(String input)
     {
-        // TODO
         setCommand("");
         
         if (controllerManager.getAppState().equals(State.CONVERSATION))
@@ -50,12 +49,13 @@ public class MainController extends CommandLineController
     public void start(String previousCommand, String[] parameters)
     {
         setCommand("");
-        controllerManager.setMsg(previousCommand, false);
     }
 
     @Override
     public void updateError(int error)
     {
         // do nothing
+        // TEST
+        reset();
     }
 }

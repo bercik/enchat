@@ -29,7 +29,7 @@ import rsa.exceptions.GeneratingPublicKeyException;
 public abstract class CommandLineDisplay implements IDisplay
 {
     // wysokość lini komend, komunikatu
-    private static final int COMMAND_MESSAGE_HEIGHT = 5;
+    private static final int COMMAND_MESSAGE_HEIGHT = 4;
     // kolory
     protected static final IFormatter.Color COMMAND_FG_COLOR = 
             IFormatter.Color.YELLOW;
@@ -40,7 +40,60 @@ public abstract class CommandLineDisplay implements IDisplay
     private String command = "";
     protected IFormatter formatter = null;
     
-    public abstract String showBody();
+    protected abstract String showBody();
+    
+    protected String formatCommand(String command)
+    {
+        return formatCommand(command, true);
+    }
+    
+    protected String formatCommand(String command, boolean addPrefix)
+    {
+        return formatCommand(command, new String[0], addPrefix);
+    }
+    
+    protected String formatCommand(String command, String[] parameters)
+    {
+        return formatCommand(command, parameters, true);
+    }
+    
+    protected String formatCommand(String command, String[] parameters, 
+            boolean addPrefix)
+    {
+        if (addPrefix)
+        {
+            // we add prefix to command
+            Configuration conf = Configuration.getInstance();
+            command = conf.getCommandPrefix() + command;
+        }        
+        // add foreground color to command
+        String result = formatter.fg(COMMAND_FG_COLOR, command) + " ";
+        
+        // add background color to parameters
+        for (String param : parameters)
+        {
+            param = "[" + param + "]";
+            result += formatter.bg(PARAMETER_BG_COLOR, param) + " ";
+        }
+        
+        // subtract last space
+        result = result.substring(0, result.length() - 1);
+        // return result
+        return result;
+    }
+    
+    protected String formatCommand(String command, String[] parameters,
+            String description)
+    {
+        return formatCommand(command, parameters, description, true);
+    }
+    
+    protected String formatCommand(String command, String[] parameters,
+            String description, boolean addPrefix)
+    {
+        return formatCommand(command, parameters, addPrefix) + " - " + 
+                description;
+    }
     
     private int countHeight(String body)
     {
@@ -152,7 +205,7 @@ public abstract class CommandLineDisplay implements IDisplay
         whole += '\n' + msg + '\n';
         whole += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE,
                 indent(conf.getWidth()));
-        whole += command + '\n';
+        whole += '\n' + command;
         
         return whole;
     }

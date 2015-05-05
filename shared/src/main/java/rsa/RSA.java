@@ -99,8 +99,8 @@ public final class RSA {
     private final static String CIPHER_ALGORITHM_NAME = "RSA";
     private final static String SIGN_ALGORITHM_NAME = "SHA256withRSA";
     private final static String HASH_ALGORITHM_NAME = "SHA-256";
-    private final static String STRING_CODING = "UTF-8";
     
+    public final static String STRING_CODING = "UTF-8";
     
     private static class CheckError extends Exception {
         public CheckError(String message) { super(message); }
