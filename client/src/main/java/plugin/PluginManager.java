@@ -98,8 +98,16 @@ public class PluginManager
      */
     public void update()
     {
+        // sprawdzamy czy nie wystąpił żaden error
+        if (messageIncomeBuffer.isException())
+        {
+            Exception ex = messageIncomeBuffer.getException();
+            // jeżeli tak to wywołujemy odpowiednią funkcję
+            exceptionOccured();
+        }
+        
         // jeżeli są nowe wiadomości od serwera
-        if (messageIncomeBuffer.isAvailable())
+        else if (messageIncomeBuffer.isAvailable())
         {
             // pobieramy wiadomości
             List<NetworkMessageIncome> messages = messageIncomeBuffer.get();

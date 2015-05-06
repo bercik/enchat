@@ -46,6 +46,9 @@ public class MessageIncomeBuffer
     //funkcja ustawia wyjątek
     public synchronized void setException(Exception eexception)
     {
+        // automatycznie czyścimy bufor
+        buffer.clear();
+        // zapisujemy błąd
         exception = new Exception(eexception);
     }
 

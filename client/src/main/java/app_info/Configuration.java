@@ -1,14 +1,9 @@
 package app_info;
 
 import java.io.*;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.security.KeyFactory;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPublicKeySpec;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
 
@@ -17,85 +12,108 @@ import rsa.exceptions.GeneratingPublicKeyException;
  * @author mateusz
  * @version 1.0
  */
-public class Configuration {
+public final class Configuration
+{
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
-    private Configuration() throws IOException, GeneratingPublicKeyException {
+    private Configuration() throws IOException, GeneratingPublicKeyException
+    {
         width = 122;
         height = 36;
         loadFromFile();
     }
 
     //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
-    public static Configuration getInstance() {
-        if(instance == null) {
-            try {
+    public static Configuration getInstance()
+    {
+        if (instance == null)
+        {
+            try
+            {
                 instance = new Configuration();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ExceptionInInitializerError(ex);
             }
         }
-        
+
         return instance;
     }
 
-    public int getWidth() {
+    public int getWidth()
+    {
         return width;
     }
-    
-    public int getHeight() {
+
+    public int getHeight()
+    {
         return height;
     }
-    
-    public String getCommandPrefix() {
+
+    public String getCommandPrefix()
+    {
         return commandPrefix;
     }
-    
-    public String getServerAddress() {
+
+    public String getServerAddress()
+    {
         return serverAddress;
     }
-    
-    public int getPort() {
+
+    public int getPort()
+    {
         return port;
     }
-    
-    public PublicKeyInfo getServerPublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+    public PublicKeyInfo getServerPublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException
+    {
         return new PublicKeyInfo(serverPublicKeyInfo);
     }
 
-
-
     //funkcja ładuje informacje z pliku który uprzednio jest wyszukiwany przy pomocy
     //funkcji findFile
-    public void loadFromFile() throws IOException, GeneratingPublicKeyException {
-        //ten fragment kodu został zakomentowany do czasu kiedy zostanie napisana funkcja
-        //serwera która będzie zapisywać adres serwera i jego port do pliku
+    public void loadFromFile() throws IOException, GeneratingPublicKeyException
+    {
+        // TODO change that conf.txt file is in the same folder as .jar file
+        
+        // ugly code to read configuration text file
+        // it recognize path to .jar file or classes directory
+        // and than manipulate to get the path with conf.txt file
+        // conf.txt file is in the folder above target folder
+        URL location = Configuration.class.getProtectionDomain().getCodeSource().getLocation();
+        String path = location.getFile();
+        System.out.println(path);
 
-        this.findFile(fileName, root);
+        // jeżeli jesteśmy w IDE to ucinamy końcówkę, żeby być w tym samym
+        // folderze co plik .jar
+        String classes = "classes/";
+        if (path.endsWith(classes))
+        {
+            int end = path.length() - classes.length();
+            path = path.substring(0, end);
+        }
+        // inaczej jeżeli odpalamy plik .jar to odcinamy końcówkę z jego nazwą
+        else if (path.endsWith(".jar"))
+        {
+            int end = path.lastIndexOf('/');
+            path = path.substring(0, end + 1);
+        }
+        // wychodzimy z folder target
+        String target = "target/";
+        if (path.endsWith(target))
+        {
+            int end = path.length() - target.length();
+            path = path.substring(0, end);
+        }
 
-        //stworzenie strumienia do
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
+        System.out.println(path);
+        path += filePath;
+        System.out.println(path);
+
+        BufferedReader in = new BufferedReader(new FileReader(path));
 
         serverAddress = in.readLine();
-
         port = Integer.parseInt(in.readLine());
-
-    }
-
-    //funkcja szukająca naszego pliku
-    private void findFile(String name, File file) {
-        File[] list = file.listFiles();
-
-        if(list != null)
-            for(File fil : list) {
-                if(fil.isDirectory()) {
-                    findFile(name, fil);
-                }
-                else if(name.equalsIgnoreCase(fil.getName())) {
-                    path =  fil.getParentFile().toString() + "/" + name;
-                    break;
-                }
-            }
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
@@ -108,24 +126,17 @@ public class Configuration {
     private int height = 36;
 
     //zmienne te będą wczytywane z pliku
-    private static String serverAddress;
-    private static int port;
-    private static PublicKeyInfo serverPublicKeyInfo;
-
-    //zmienna pomocnicza przechowująca nazwę pliku w którym przechowujemy
-    //adres serwera, numer portu oraz modulus i exponent klucza publicznego serwera(wersja "żeby działało")
-    private String path = "file";
+    private String serverAddress;
+    private int port;
+    private PublicKeyInfo serverPublicKeyInfo;
 
     //składowa która przechowuje nazwę pliku w którym znajdują się informacje o porcie i adresie serwera
-    private static final String fileName = "ConfigurationEnchat.txt";
-    //miejsce od którego rozpoczynamy nasze poszukiwania pliku
-    private static final File root = new File("/home");
+    private static final String filePath = "data/conf.txt";
 
-
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, GeneratingPublicKeyException {
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, GeneratingPublicKeyException
+    {
         Configuration configuration = Configuration.getInstance();
         System.out.println("Adres załadowany z pliku : " + configuration.getServerAddress() + " oraz jego port : " + configuration.getPort());
         System.out.println("Szerokość konsoli : " + configuration.getWidth() + " oraz jest wysokosc : " + configuration.getHeight());
     }
-
 }
