@@ -43,8 +43,8 @@ public final class PublicKeyInfo {
             /*Generating public key*/
             publicKey = generatePublicKey(pubKeySpec);
 
-            System.out.println("Recv Modulus = " + modulus);
-            System.out.println("Recv Exponent = " + exponent);
+//            System.out.println("Recv Modulus = " + modulus);
+//            System.out.println("Recv Exponent = " + exponent);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,12 +74,12 @@ public final class PublicKeyInfo {
 
     public void send(DataOutputStream out) throws IOException {
        
-       System.out.println("Send Modulus = " + modulus);
+//       System.out.println("Send Modulus = " + modulus);
        byte[] array = modulus.toByteArray();
        out.writeInt(array.length);
        out.write(array);
        
-       System.out.println("Send Exponent = " + exponent);
+//       System.out.println("Send Exponent = " + exponent);
        array = exponent.toByteArray();
        out.writeInt(array.length);
        out.write(array);

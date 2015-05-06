@@ -38,6 +38,17 @@ public class Info
     {
         this.userName = userName;
     }
+
+    public String getInterlocutorName()
+    {
+        return interlocutorName;
+    }
+
+    public void setInterlocutorName(String interlocutorName)
+    {
+        this.interlocutorName = interlocutorName;
+    }
     
     private String userName = null;
+    private String interlocutorName = null;
 }

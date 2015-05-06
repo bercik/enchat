@@ -35,6 +35,24 @@ public enum State
         }
         throw new IncorrectStateException("Incorrect state !!! Was " + id + " expected: [0 - 3]");
     }
+    
+    @Override
+    public String toString()
+    {
+        switch (this)
+        {
+            case NOT_CONNECTED:
+                return "Niepołączony";
+            case CONNECTED:
+                return "Połączony";
+            case LOGGED:
+                return "Zalogowany";
+            case CONVERSATION:
+                return "Konwersacja";
+            default:
+                return "Nieznany stan";
+        }
+    }
 
     public int getID()
     {

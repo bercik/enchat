@@ -83,6 +83,20 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // state command
+        name = "state";
+        shortDescription = "Pokazuje aktualny stan aplikacji";
+        description = "Możliwe stany aplikacji to:\n" +
+                "Niepołączony - aplikacja nie jest połączona z serwerem\n" + 
+                "Połączony - aplikacja jest połączona z serwerem\n" +
+                "Zalogowany jako [username] - użytkownik jest zalogowany na "
+                + "serwerze\n" +
+                "Konwersacja [username] z [username] - obecnie prowadzona jest"
+                + " konwersacja";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // authors information
         name = "authors";
         shortDescription = "Wyświetla informację o autorach aplikacji";

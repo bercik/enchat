@@ -82,7 +82,6 @@ public final class Configuration
         // conf.txt file is in the folder above target folder
         URL location = Configuration.class.getProtectionDomain().getCodeSource().getLocation();
         String path = location.getFile();
-        System.out.println(path);
 
         // jeżeli jesteśmy w IDE to ucinamy końcówkę, żeby być w tym samym
         // folderze co plik .jar
@@ -106,9 +105,7 @@ public final class Configuration
             path = path.substring(0, end);
         }
 
-        System.out.println(path);
         path += filePath;
-        System.out.println(path);
 
         BufferedReader in = new BufferedReader(new FileReader(path));
 

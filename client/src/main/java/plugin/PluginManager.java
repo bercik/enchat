@@ -42,6 +42,11 @@ public class PluginManager
         }
     }
 
+    public State getAppState()
+    {
+        return controllerManager.getAppState();
+    }
+    
     public void updatePlugin(int id, String[] parameters)
     {
         IPlugin plugin = pluginCommandContainer.getPluginById(id);

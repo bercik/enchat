@@ -69,6 +69,7 @@ public class PackageForwarder implements Runnable{
         conn = new Connection();
         if(thread == null) {
             thread = new Thread(this);
+            thread.setDaemon(true);
             thread.start();
         }
     }
