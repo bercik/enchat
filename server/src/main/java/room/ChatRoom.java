@@ -1,9 +1,10 @@
 package room;
 
-import message.generarators.Clients_Message;
-import message.generarators.Conversationalist_Disconnected;
+import message.generators.Clients_Message;
+import message.generators.Conversationalist_Disconnected;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
+import responders.exceptions.ReactionException;
 import rsa.exceptions.EncryptionException;
 import user.User;
 
@@ -33,7 +34,7 @@ public class ChatRoom {
         for(User user : participants){
             if (user == toDisJoin){
                 try {
-                    sendMessageAs(user, Conversationalist_Disconnected.message(user));
+                    sendMessageAs(user, Conversationalist_Disconnected.message(user, toDisJoin.getNick()));
                 } catch (EncryptionException e) {
                     System.out.print("Informing about escaping conversation failed.");
                     e.printStackTrace();
@@ -50,8 +51,10 @@ public class ChatRoom {
                     MessageSender.sendMessage(user, message);
                 } catch (IOException e) {
                     try {
-                        MessageSender.sendMessage(sender, Clients_Message.deliveryFailed(user));
+                        MessageSender.sendMessage(sender, Clients_Message.message(sender, user.getNick()));
                     } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (EncryptionException e1) {
                         e1.printStackTrace();
                     }
                 }

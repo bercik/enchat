@@ -1,6 +1,5 @@
 package responders.implementations;
 
-import handlers.DisconnectHandler;
 import message.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
@@ -11,15 +10,15 @@ import user.UserState;
 /**
  * Created by tochur on 19.04.15.
  */
-public class DisconnectMessageHandler extends AbstractMessageHandler {
-
+public class ConversationalistDisconnectedMessageHandler extends AbstractMessageHandler {
     /**
-     * Constructor of DisconnectRequestHandler
+     * Constructor of handler
+     * Initialize permitted userState by invoking getPermittedStates in AbstractMessageHandler
      *
-     * @param sender - author of the message
-     * @param encrypted  - received message
+     * @param sender    - author of the message
+     * @param encrypted - received message
      */
-    public DisconnectMessageHandler(User sender, EncryptedMessage encrypted) {
+    public ConversationalistDisconnectedMessageHandler(User sender, EncryptedMessage encrypted) {
         super(sender, encrypted);
     }
 
@@ -35,11 +34,13 @@ public class DisconnectMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected void reaction() throws ReactionException {
-        DisconnectHandler.disconnect(sender);
+        sender.getRoom().remove(sender);
+        sender.setRoom(null);
+        sender.setState(UserState.LOGGED);
     }
 
     @Override
     protected UserState[] getPermittedUserStates() {
-        return new UserState[] {UserState.IN_ROOM, UserState.LOGGED, UserState.AFTER_KEY_EXCHANGE, UserState.CONNECTED_TO_SERVER };
+        return new UserState[] {UserState.IN_ROOM};
     }
 }

@@ -1,8 +1,8 @@
 package message.utils;
 
+import message.exceptions.MessageIdException;
 import message.types.EncryptedMessage;
 import message.types.Pack;
-import messages.IncorrectMessageId;
 import user.User;
 
 import java.io.DataInputStream;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by tochur on 17.04.15.
  *
- * It is responsible for reading the message from the user.
+ * It is responsible for reading the message from the stream.
  * Message from buffer is changed to EncryptedMessage object.
  * The message is read from the clients buffer.
  * Message format is:
@@ -32,7 +32,7 @@ public class MessageReader {
 
     private DataInputStream in;
 
-    public EncryptedMessage readMessage(User user) throws IOException, IncorrectMessageId {
+    public EncryptedMessage readMessage(User user) throws IOException, MessageIdException {
             //Reading message header
             in = user.getInputStream();
             id = in.readInt();

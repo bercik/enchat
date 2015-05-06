@@ -4,7 +4,7 @@ import containers.Logged;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generarators.Log_In;
+import message.generators.Log_In;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -14,7 +14,6 @@ import user.User;
 import user.UserData;
 import user.UserState;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 
 /**
@@ -69,14 +68,6 @@ public class LogInMessageHandler extends AbstractMessageHandler {
             answer = Log_In.toMuchUserLogged();
         } catch (AlreadyInCollection alreadyInCollection) {
             answer = Log_In.alreadyLogged();
-            logged.deleteUserIfExists(nick);
-            try {
-                logged.addUser(sender);
-                changeUserStateToLogged(sender, userData);
-                answer = Log_In.loggedSuccessfully();
-            } catch (Exception e) {
-                System.out.print("Failed to log user.");
-            }
         }
 
         /*Sending answer*/
