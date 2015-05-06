@@ -2,6 +2,8 @@ package app_info;
 
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
@@ -20,7 +22,7 @@ public class Configuration {
     private Configuration() throws IOException, GeneratingPublicKeyException {
         width = 122;
         height = 36;
-        loadFromFile(path);
+        loadFromFile();
     }
 
     //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
@@ -61,29 +63,39 @@ public class Configuration {
         return new PublicKeyInfo(serverPublicKeyInfo);
     }
 
-    /**
-     *
-     * @param path zmienna typu String określająca nazwę ścieżki gdzie znajduje się
-     *             plik w którym zawierają się informacje o adresie serwera, jego porcie
-     *             oraz o liczbach exponent i modulus potrzebnych do wygenerowania klucza
-     *             publicznego serwera
-     */
-    public void loadFromFile(String path) throws IOException, GeneratingPublicKeyException {
+
+
+    //funkcja ładuje informacje z pliku który uprzednio jest wyszukiwany przy pomocy
+    //funkcji findFile
+    public void loadFromFile() throws IOException, GeneratingPublicKeyException {
         //ten fragment kodu został zakomentowany do czasu kiedy zostanie napisana funkcja
         //serwera która będzie zapisywać adres serwera i jego port do pliku
-/*
-        File file = new File("file.txt");
-        String currentPath = file.getCanonicalPath();
 
-        System.out.println(currentPath);
+        this.findFile(fileName, root);
 
         //stworzenie strumienia do
-        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(currentPath), "UTF-8"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 
         serverAddress = in.readLine();
 
         port = Integer.parseInt(in.readLine());
-*/
+
+    }
+
+    //funkcja szukająca naszego pliku
+    private void findFile(String name, File file) {
+        File[] list = file.listFiles();
+
+        if(list != null)
+            for(File fil : list) {
+                if(fil.isDirectory()) {
+                    findFile(name, fil);
+                }
+                else if(name.equalsIgnoreCase(fil.getName())) {
+                    path =  fil.getParentFile().toString() + "/" + name;
+                    break;
+                }
+            }
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
@@ -102,37 +114,18 @@ public class Configuration {
 
     //zmienna pomocnicza przechowująca nazwę pliku w którym przechowujemy
     //adres serwera, numer portu oraz modulus i exponent klucza publicznego serwera(wersja "żeby działało")
-    private static final String path = "file.txt";
+    private String path = "file";
 
-/*
+    //składowa która przechowuje nazwę pliku w którym znajdują się informacje o porcie i adresie serwera
+    private static final String fileName = "ConfigurationEnchat.txt";
+    //miejsce od którego rozpoczynamy nasze poszukiwania pliku
+    private static final File root = new File("/home");
+
+
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, GeneratingPublicKeyException {
-        FileOutputStream outFile = new FileOutputStream("file.txt");
-        DataOutputStream out = new DataOutputStream(outFile);
-
-        //wysyłanie do pliku
-        byte[] byteArray = "122.123.0.1".getBytes();
-        out.writeInt(byteArray.length);
-        out.write(byteArray);
-
-        //zapisanie portu
-        out.writeInt(123);
-
-        //zapisywanie publicKeyInfo
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(new BigInteger("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"), new BigInteger("1234"));
-        PublicKey publicKey = keyFactory.generatePublic(pubKeySpec);
-        PublicKeyInfo publicKeyInfo = new PublicKeyInfo(publicKey);
-
-        publicKeyInfo.send(out);
-
-
-        Configuration conn = Configuration.getInstance();
-
-        conn.loadFromFile("file.txt");
-        System.out.println(Configuration.serverAddress);
-        System.out.println(conn.getPort());
-        System.out.println("Recv modulus = " + conn.getServerPublicKeyInfo().getModulus());
-        System.out.println("Recv exponent = " + conn.getServerPublicKeyInfo().getExponent());
+        Configuration configuration = Configuration.getInstance();
+        System.out.println("Adres załadowany z pliku : " + configuration.getServerAddress() + " oraz jego port : " + configuration.getPort());
+        System.out.println("Szerokość konsoli : " + configuration.getWidth() + " oraz jest wysokosc : " + configuration.getHeight());
     }
-*/
+
 }
