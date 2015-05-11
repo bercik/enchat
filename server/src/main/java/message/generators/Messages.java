@@ -11,8 +11,8 @@ public class Messages {
         return new Log_In();
     }
 
-    public Log_In signUp(){
-        return new Log_In();
+    public Sign_Up signUp(){
+        return new Sign_Up();
     }
 
     public Black_List blackList(){

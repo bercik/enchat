@@ -1,6 +1,6 @@
 package responders.implementations.lists;
 
-import message.generators.Black_List;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -22,8 +22,8 @@ public class BlackListMessageHandler extends AbstractMessageHandler {
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public BlackListMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public BlackListMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BlackListMessageHandler extends AbstractMessageHandler {
     protected void reaction() throws ReactionException {
         String[] nicks = sender.getData().getBlackList().getNicks().toArray(new String[0]);
         try {
-            EncryptedMessage answer = Black_List.blackList(sender, nicks);
+            EncryptedMessage answer = messages.blackList().create(sender, nicks);
             MessageSender.sendMessage(sender, answer);
         } catch (IOException e) {
             throw new ReactionException();

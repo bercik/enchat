@@ -1,5 +1,6 @@
 package responders;
 
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.types.Message;
 import message.utils.Encryption;
@@ -24,6 +25,8 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
     protected Message message;
     //Defines userStates which let him for sending this ind of message.
     protected UserState[] permittedStates;
+    //Object to create Messages
+    protected Messages messages;
 
     /**
      * Constructor of handler
@@ -31,10 +34,11 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @param sender - author of the message
      * @param encrypted - received message
      */
-    public AbstractMessageHandler(User sender, EncryptedMessage encrypted){
+    public AbstractMessageHandler(User sender, EncryptedMessage encrypted, Messages messages){
         this.sender = sender;
         this.encrypted = encrypted;
         this.permittedStates = getPermittedUserStates();
+        this.messages = messages;
     }
 
     /**

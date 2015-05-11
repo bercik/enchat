@@ -1,5 +1,6 @@
 package responders.implementations;
 
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
@@ -23,8 +24,8 @@ public class ClientMessageHandler extends AbstractMessageHandler {
      * @param sender    - author of the message
      * @param encrypted - received message
      */
-    public ClientMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public ClientMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override

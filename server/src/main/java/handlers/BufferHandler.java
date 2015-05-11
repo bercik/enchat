@@ -23,7 +23,6 @@ public class BufferHandler {
             if (! isEmpty(user.getInputStream())) {
                 MessageReader messageReader = new MessageReader();
                 EncryptedMessage encryptedMessage = messageReader.readMessage(user);
-                //Consider starting a new Thread
                 NewMessageHandler newMessageHandler = new NewMessageHandler(user, encryptedMessage);
                 new Thread(newMessageHandler).start();
             }

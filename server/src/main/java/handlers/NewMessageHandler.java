@@ -1,6 +1,8 @@
 package handlers;
 
+import message.generators.Messages;
 import message.types.EncryptedMessage;
+import message.types.Message;
 import messages.MessageId;
 import responders.*;
 import responders.exceptions.*;
@@ -50,29 +52,30 @@ public class NewMessageHandler implements Runnable {
     }
 
     private IMessageHandler getMessageResponder(MessageId messageId) throws NoHandlersFound {
+        Messages messages = new Messages();
         switch (messageId){
             case JUNK:
                 return new JunkMessageHandler();
             case LOG_IN:
-                return new LogInMessageHandler(user, message);
+                return new LogInMessageHandler(user, message, messages);
             case SIGN_UP:
-                return new SignUpMessageHandler(user, message);
+                return new SignUpMessageHandler(user, message, messages);
             case CONVERSATION_REQUEST:
-                return new ConversationRequestMessageHandler(user, message);
+                return new ConversationRequestMessageHandler(user, message, messages);
             case CLIENT_MESSAGE:
-                return new ClientMessageHandler(user, message);
+                return new ClientMessageHandler(user, message, messages);
             case CONVERSATIONALIST_DISCONNECTED:
-                return new ConversationalistDisconnectedMessageHandler(user, message);
+                return new ConversationalistDisconnectedMessageHandler(user, message, messages);
             case CLIENTS_LIST:
-                return new ClientListMessageHandler(user, message);
+                return new ClientListMessageHandler(user, message, messages);
             case BLACK_LIST:
-                return new BlackListMessageHandler(user, message);
+                return new BlackListMessageHandler(user, message, messages);
             case ADD_TO_BLACK_LIST:
-                return new AddToBlackListMessageHandler(user, message);
+                return new AddToBlackListMessageHandler(user, message, messages);
             case REMOVE_FROM_BLACK_LIST:
-                return new RemoveFromBlackListMessageHandler(user, message);
+                return new RemoveFromBlackListMessageHandler(user, message, messages);
             case DISCONNECT:
-                return new DisconnectMessageHandler(user, message);
+                return new DisconnectMessageHandler(user, message, messages);
         }
         throw new NoHandlersFound(messageId);
     }

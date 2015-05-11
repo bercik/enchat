@@ -2,8 +2,7 @@ package responders.implementations;
 
 import containers.Logged;
 import containers.exceptions.ElementNotFoundException;
-import message.generators.Conversation_Request;
-import message.generators.Incoming_Conversation;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -28,8 +27,8 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public ConversationRequestMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public ConversationRequestMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override
@@ -50,19 +49,19 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
 
         try {
             if (sender.getData().getBlackList().hasNick(nick)){
-                answer= Conversation_Request.onBlackList();
+                answer= messages.conversationRequest().onBlackList();
             } else {
                 userToConnect = Logged.getInstance().getUser(nick);
                 if (userToConnect.getData().getBlackList().hasNick(nick)){
-                    answer = Conversation_Request.notLogged();
+                    answer = messages.conversationRequest().notLogged();
                 }else {
                     try {
                         userToConnect.getRoom().add(sender);
-                        answer = Conversation_Request.connected();
-                        messageToUser = Incoming_Conversation.connected();
+                        answer = messages.conversationRequest().connected();
+                        messageToUser = messages.incomingConversation().connected();
                     } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
-                        answer = Conversation_Request.busyUser();
-                        messageToUser = Incoming_Conversation.roomOverloaded();
+                        answer = messages.conversationRequest().busyUser();
+                        messageToUser = messages.incomingConversation().roomOverloaded();
                     }
                     try {
                         MessageSender.sendMessage(userToConnect, messageToUser);
@@ -72,7 +71,7 @@ public class ConversationRequestMessageHandler extends AbstractMessageHandler {
                 }
             }
         } catch (ElementNotFoundException e) {
-            answer = Conversation_Request.notLogged();
+            answer = messages.conversationRequest().notLogged();
         }
 
         try {

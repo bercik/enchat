@@ -11,7 +11,7 @@ public class Sign_UpTest {
 
     @Test
     public void created_busy_login_message_is_Created_Correctly() throws Exception {
-        EncryptedMessage answer = Sign_Up.busyLogin();
+        EncryptedMessage answer = new Messages().signUp().busyLogin();
 
         assertThat(answer.getId(), is(MessageId.SIGN_UP));
         assertThat(answer.getErrorId(), is(MessageId.SIGN_UP.createErrorId(1)));

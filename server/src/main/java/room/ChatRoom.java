@@ -1,7 +1,7 @@
 package room;
 
 import message.MessageSender;
-import message.generators.Conversationalist_Disconnected;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import rsa.exceptions.EncryptionException;
 import user.User;
@@ -16,11 +16,13 @@ import java.util.Set;
 public class ChatRoom {
     private Set<User> participants = new HashSet<>();
     private MessageSender messageSender;
+    private Messages messages;
     private int maxSize;
 
-    public ChatRoom(MessageSender messageSender, int maxConversationalists){
+    public ChatRoom(MessageSender messageSender, int maxConversationalists, Messages messages){
         this.messageSender = messageSender;
         this.maxSize = maxConversationalists;
+        this.messages = messages;
     }
 
     /**
@@ -43,10 +45,10 @@ public class ChatRoom {
      */
     public void remove(User toDisJoin) throws EncryptionException, IOException {
         for(User user : participants){
-            if (user == toDisJoin){
+            if (user == toDisJoin) {
                 participants.remove(toDisJoin);
-            }else {
-                sendMessageAs(user, Conversationalist_Disconnected.message(user, toDisJoin.getNick()));
+                sendMessageAs(user, messages.conversationalistDisconnected().message(user, toDisJoin.getNick()));
+                break;
             }
         }
     }
@@ -58,7 +60,6 @@ public class ChatRoom {
      * @throws IOException - when failed to pass the message to other users.
      */
     public void sendMessageAs(User sender, EncryptedMessage message) throws IOException {
-        System.out.print("Sending Message as");
         for(User user : participants){
             if (user != sender){
                 messageSender.sendMessage(user.getOutStream(), message);

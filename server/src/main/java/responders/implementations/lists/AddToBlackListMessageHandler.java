@@ -4,7 +4,7 @@ import containers.BlackList;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generators.Add_To_Black_List;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -27,8 +27,8 @@ public class AddToBlackListMessageHandler extends AbstractMessageHandler {
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public AddToBlackListMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public AddToBlackListMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override
@@ -47,15 +47,15 @@ public class AddToBlackListMessageHandler extends AbstractMessageHandler {
         EncryptedMessage answer;
 
         if(Registered.getInstance().isLoginFree(nickToBlock)){
-            answer = Add_To_Black_List.userNotExists();
+            answer = messages.blackList().userNotExistsCannotAdd();
         } else {
             try {
                 blackList.add(nickToBlock);
-                answer = Add_To_Black_List.addedSuccessfully();
+                answer = messages.blackList().addedSuccessfully();
             } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
-                answer = Add_To_Black_List.toMuchOnList();
+                answer = messages.blackList().toMuchOnList();
             } catch (AlreadyInCollection alreadyInCollection) {
-                answer = Add_To_Black_List.alreadyAdded();
+                answer = messages.blackList().alreadyAdded();
             }
         }
 

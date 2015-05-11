@@ -3,6 +3,7 @@ package handlers;
 import containers.ActiveUsers;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
+import message.generators.Messages;
 import message.generators.Server_error;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
@@ -68,7 +69,7 @@ public class NewClientHandler implements Runnable{
             //Internal server error, 2 users got the same socket.
             alreadyInCollection.printStackTrace();
         } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
-            EncryptedMessage message = Server_error.serverOverloaded();
+            EncryptedMessage message = new Messages().serverError().serverOverloaded();
             MessageSender.sendMessage(newUser, message);
         }
     }

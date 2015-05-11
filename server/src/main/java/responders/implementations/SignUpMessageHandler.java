@@ -3,7 +3,7 @@ package responders.implementations;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generators.Sign_Up;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -36,8 +36,8 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
      * @param user - author of the message
      * @param encrypted  - received message
      */
-    public SignUpMessageHandler(User user, EncryptedMessage encrypted) {
-        super(user, encrypted);
+    public SignUpMessageHandler(User user, EncryptedMessage encrypted, Messages messages) {
+        super(user, encrypted, messages);
     }
 
     @Override
@@ -57,17 +57,17 @@ public class SignUpMessageHandler extends AbstractMessageHandler {
         EncryptedMessage answer;
 
         if ( !Validator.isLoginCorrect(login)){
-            answer = Sign_Up.incorrectLogin();
+            answer = messages.signUp().incorrectLogin();
         }else if( !Validator.isPasswordLengthCorrect(password)){
-            answer = Sign_Up.badPasswordLength();
+            answer = messages.signUp().badPasswordLength();
         }else{
             try {
                 Registered.getInstance().addNewClient(new UserData(login, password));
-                answer = Sign_Up.ok();
+                answer = messages.signUp().ok();
             } catch (AlreadyInCollection alreadyInCollection) {
-                answer = Sign_Up.busyLogin();
+                answer = messages.signUp().busyLogin();
             } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
-                answer = Sign_Up.toManyAccounts();
+                answer = messages.signUp().toManyAccounts();
             }
         }
 

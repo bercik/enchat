@@ -1,6 +1,7 @@
 package responders.implementations;
 
 import handlers.DisconnectHandler;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
@@ -19,8 +20,8 @@ public class DisconnectMessageHandler extends AbstractMessageHandler {
      * @param sender - author of the message
      * @param encrypted  - received message
      */
-    public DisconnectMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public DisconnectMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override

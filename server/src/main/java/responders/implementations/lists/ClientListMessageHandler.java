@@ -1,7 +1,7 @@
 package responders.implementations.lists;
 
 import containers.Logged;
-import message.generators.Logged_List;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -28,8 +28,8 @@ public class ClientListMessageHandler extends AbstractMessageHandler {
      * @param sender    - author of the message
      * @param encrypted - received message
      */
-    public ClientListMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public ClientListMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ClientListMessageHandler extends AbstractMessageHandler {
 
         EncryptedMessage answer = null;
         try {
-            answer = Logged_List.create(sender, available.toArray(new String[0]));
+            answer = messages.loggedList().create(sender, available.toArray(new String[0]));
         } catch (EncryptionException e) {
             throw new ReactionException();
         }

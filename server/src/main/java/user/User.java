@@ -1,6 +1,7 @@
 package user;
 
 import message.MessageSender;
+import message.generators.Messages;
 import room.ChatRoom;
 
 import java.io.DataInputStream;
@@ -86,10 +87,6 @@ public class User {
         return userData.getNick();
     }
 
-    public String getPassword(){
-        return userData.getPassword();
-    }
-
     public DataInputStream getInputStream() throws IOException {
         return in;
     }
@@ -104,7 +101,7 @@ public class User {
      */
     public ChatRoom getRoom() {
         if(room == null){
-            room = new ChatRoom(new MessageSender(), 2);
+            room = new ChatRoom(new MessageSender(), 2, new Messages());
         }
         return room;
     }
@@ -119,13 +116,11 @@ public class User {
 
     @Override
     public boolean equals(Object obj){
-        if (obj == null)
-            return false;
-        else if ( this.getClass().equals(obj.getClass())){
-            User user = (User) obj;
-            if (this.getData().equals(user.getData()))
-                return true;
-        }
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof User))return false;
+        User otherUser = (User)obj;
+        if ( this.getData().equals(otherUser.getData()) ) return true;
         return false;
     }
 }

@@ -36,7 +36,7 @@ public class Black_List {
         return new EncryptedMessage(HeaderGenerator.createHeader(addToBlackList, 0));
     }
 
-    public EncryptedMessage userNotExists(){
+    public EncryptedMessage userNotExistsCannotAdd(){
         return new EncryptedMessage(HeaderGenerator.createHeader(addToBlackList, 1));
     }
 
@@ -57,7 +57,7 @@ public class Black_List {
     }
 
     //When user with this name do not exists.
-    public EncryptedMessage notExists() {
+    public EncryptedMessage userNotExistsCannotRemove() {
         return new EncryptedMessage(HeaderGenerator.createHeader(removeFromBlackList, 2));
     }
 }

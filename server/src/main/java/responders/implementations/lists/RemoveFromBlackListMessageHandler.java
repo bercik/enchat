@@ -3,7 +3,7 @@ package responders.implementations.lists;
 import containers.BlackList;
 import containers.Registered;
 import containers.exceptions.ElementNotFoundException;
-import message.generators.Remove_From_Black_List;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -27,8 +27,8 @@ public class RemoveFromBlackListMessageHandler extends AbstractMessageHandler {
      * @param sender    - author of the message
      * @param encrypted - received message
      */
-    public RemoveFromBlackListMessageHandler(User sender, EncryptedMessage encrypted) {
-        super(sender, encrypted);
+    public RemoveFromBlackListMessageHandler(User sender, EncryptedMessage encrypted, Messages messages) {
+        super(sender, encrypted, messages);
     }
 
     @Override
@@ -47,13 +47,13 @@ public class RemoveFromBlackListMessageHandler extends AbstractMessageHandler {
         EncryptedMessage answer;
 
         if (Registered.getInstance().isLoginFree(toRemove)){
-            answer = Remove_From_Black_List.notExists();
+            answer = messages.blackList().userNotExistsCannotRemove();
         } else {
             try {
                 blackList.remove(toRemove);
-                answer = Remove_From_Black_List.removedSuccessfully();
+                answer = messages.blackList().removedSuccessfully();
             } catch (ElementNotFoundException elementNotFound) {
-                answer = Remove_From_Black_List.notOnList();
+                answer = messages.blackList().notOnList();
             }
         }
 

@@ -4,7 +4,7 @@ import containers.Logged;
 import containers.Registered;
 import containers.exceptions.AlreadyInCollection;
 import containers.exceptions.OverloadedCannotAddNew;
-import message.generators.Log_In;
+import message.generators.Messages;
 import message.types.EncryptedMessage;
 import message.utils.MessageSender;
 import responders.AbstractMessageHandler;
@@ -33,8 +33,8 @@ public class LogInMessageHandler extends AbstractMessageHandler {
      * @param user - author of the message
      * @param encrypted  - received message
      */
-    public LogInMessageHandler(User user, EncryptedMessage encrypted) {
-        super(user, encrypted);
+    public LogInMessageHandler(User user, EncryptedMessage encrypted, Messages messages) {
+        super(user, encrypted, messages);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class LogInMessageHandler extends AbstractMessageHandler {
         //Authorization
         boolean exist = Registered.getInstance().doesUserExist(nick, password);
         if ( !exist) {
-            answer = Log_In.badLoginOrPassword();
+            answer = messages.logIn().badLoginOrPassword();
         }
 
         //Add User to logged
@@ -63,11 +63,11 @@ public class LogInMessageHandler extends AbstractMessageHandler {
         try {
             logged.addUser(sender);
             changeUserStateToLogged(sender, userData);
-            answer = Log_In.loggedSuccessfully();
+            answer = messages.logIn().loggedSuccessfully();
         } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
-            answer = Log_In.toMuchUserLogged();
+            answer = messages.logIn().toMuchUserLogged();
         } catch (AlreadyInCollection alreadyInCollection) {
-            answer = Log_In.alreadyLogged();
+            answer = messages.logIn().alreadyLogged();
         }
 
         /*Sending answer*/
