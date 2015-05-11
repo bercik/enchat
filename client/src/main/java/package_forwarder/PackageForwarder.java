@@ -44,20 +44,28 @@ public class PackageForwarder implements Runnable{
                 }
 
             } catch (IOException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (NoSuchPaddingException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (NoSuchAlgorithmException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (IllegalBlockSizeException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (BadPaddingException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (SignatureException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (InvalidKeyException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             } catch (InvalidKeySpecException e) {
+                this.disconnect();
                 messageIncomeBuffer.setException(e);
             }
 
@@ -88,6 +96,14 @@ public class PackageForwarder implements Runnable{
 
         NetworkMessageOutcome networkMessageOutcome = new NetworkMessageOutcome(id, messageSignPairs);
         networkMessageOutcome.send(conn);
+    }
+
+    private void disconnect() {
+        try {
+            conn.close();
+        } catch (IOException e) {
+            messageIncomeBuffer.setException(e);
+        }
     }
 
     private Connection conn;
