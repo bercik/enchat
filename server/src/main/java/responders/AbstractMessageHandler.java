@@ -6,8 +6,11 @@ import message.utils.Encryption;
 import responders.exceptions.IncorrectUserStateException;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 import user.User;
 import user.UserState;
+
+import java.io.IOException;
 
 /**
  * Created by tochur on 24.04.15.
@@ -40,7 +43,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * @throws DecryptingException - when decryption failed.
      * @throws ReactionException - when reaction failed.
      */
-    public void handle() throws IncorrectUserStateException, DecryptingException, ReactionException {
+    public void handle() throws IncorrectUserStateException, EncryptionException, ReactionException, IOException {
         validateUserState();
         processMessage();
         createAncillaryVariables();
@@ -77,7 +80,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
      * Defines server reaction - response for incoming message.
      * @throws ReactionException
      */
-    protected abstract void reaction() throws ReactionException;
+    protected abstract void reaction() throws ReactionException, IOException, EncryptionException;
 
     /**
      * Prepares list of UserStates in which user is allowed to send this type of message

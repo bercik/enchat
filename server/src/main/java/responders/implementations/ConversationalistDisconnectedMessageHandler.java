@@ -4,8 +4,11 @@ import message.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 import user.User;
 import user.UserState;
+
+import java.io.IOException;
 
 /**
  * Created by tochur on 19.04.15.
@@ -33,7 +36,7 @@ public class ConversationalistDisconnectedMessageHandler extends AbstractMessage
     }
 
     @Override
-    protected void reaction() throws ReactionException {
+    protected void reaction() throws ReactionException, IOException, EncryptionException {
         sender.getRoom().remove(sender);
         sender.setRoom(null);
         sender.setState(UserState.LOGGED);

@@ -10,7 +10,10 @@ import responders.implementations.lists.BlackListMessageHandler;
 import responders.implementations.lists.ClientListMessageHandler;
 import responders.implementations.lists.RemoveFromBlackListMessageHandler;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 import user.User;
+
+import java.io.IOException;
 
 /**
  * Created by tochur on 17.04.15.
@@ -37,6 +40,10 @@ public class NewMessageHandler implements Runnable {
         } catch (ReactionException e) {
             e.printStackTrace();
         } catch (DecryptingException e) {
+            e.printStackTrace();
+        } catch (EncryptionException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -7,21 +7,21 @@ import messages.MessageId;
  * Created by tochur on 01.05.15.
  */
 public class Log_In {
-    private static MessageId messageId = MessageId.LOG_IN;
+    private MessageId logIn = MessageId.LOG_IN;
 
-    public static EncryptedMessage loggedSuccessfully(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 0));
+    public EncryptedMessage loggedSuccessfully(){
+        return new EncryptedMessage(HeaderGenerator.createHeader(logIn, 0));
     }
 
-    public static EncryptedMessage badLoginOrPassword(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 1));
+    public EncryptedMessage badLoginOrPassword(){
+        return new EncryptedMessage(HeaderGenerator.createHeader(logIn, 1));
     }
 
-    public static EncryptedMessage toMuchUserLogged(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 2));
+    public EncryptedMessage toMuchUserLogged(){
+        return new EncryptedMessage(HeaderGenerator.createHeader(logIn, 2));
     }
 
-    public static EncryptedMessage alreadyLogged(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 3));
+    public EncryptedMessage alreadyLogged(){
+        return new EncryptedMessage(HeaderGenerator.createHeader(logIn, 3));
     }
 }

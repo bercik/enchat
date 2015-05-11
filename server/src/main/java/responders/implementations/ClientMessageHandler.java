@@ -8,6 +8,8 @@ import rsa.exceptions.DecryptingException;
 import user.User;
 import user.UserState;
 
+import java.io.IOException;
+
 /**
  * Created by tochur on 19.04.15.
  */
@@ -36,7 +38,7 @@ public class ClientMessageHandler extends AbstractMessageHandler {
     }
 
     @Override
-    protected void reaction() throws ReactionException {
+    protected void reaction() throws ReactionException, IOException {
         chatRoom.sendMessageAs(sender, encrypted);
     }
 

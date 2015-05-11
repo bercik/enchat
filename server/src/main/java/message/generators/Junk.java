@@ -9,9 +9,9 @@ import messages.MessageId;
  * Let user to safety creating messages.
  */
 public class Junk {
-    private static MessageId messageId = MessageId.JUNK;
+    private MessageId junk = MessageId.JUNK;
 
-    public static EncryptedMessage ok(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 0));
+    public EncryptedMessage ok(){
+        return new EncryptedMessage(HeaderGenerator.createHeader(junk, 0));
     }
 }

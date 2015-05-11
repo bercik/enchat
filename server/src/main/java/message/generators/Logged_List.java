@@ -17,7 +17,7 @@ import java.util.Arrays;
  * Each nick is wrapped in own package.
  */
 public class Logged_List {
-    private static MessageId messageId = MessageId.CLIENTS_LIST;
+    private MessageId messageId = MessageId.CLIENTS_LIST;
 
     /**
      *
@@ -26,7 +26,7 @@ public class Logged_List {
      * @return - encryptedMessage
      * @throws EncryptionException - When encryption of the message failed
      */
-    public static EncryptedMessage loggedUserList(User receiver, String[] nicks) throws EncryptionException {
+    public EncryptedMessage create(User receiver, String[] nicks) throws EncryptionException {
         Header header = HeaderGenerator.createHeader(messageId, 0, nicks.length);
         Message message = new Message(header, Arrays.asList(nicks));
 

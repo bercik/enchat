@@ -12,7 +12,7 @@ import user.User;
  * Created by tochur on 01.05.15.
  */
 public class Clients_Message {
-    private static MessageId messageId = MessageId.CLIENT_MESSAGE;
+    private MessageId clientMessage = MessageId.CLIENT_MESSAGE;
 
     /**
      *
@@ -21,8 +21,8 @@ public class Clients_Message {
      * @return encrypted message, informing that sending message failed.
      * @throws EncryptionException - when during encrypting answer error happened.
      */
-    public static EncryptedMessage message(User user, String nick) throws EncryptionException{
-        Header header = HeaderGenerator.createHeader(messageId, 0, 1);
+    public EncryptedMessage message(User user, String nick) throws EncryptionException{
+        Header header = HeaderGenerator.createHeader(clientMessage, 0, 1);
         Message message = new Message(header, nick);
 
         return Encryption.encryptMessage(user, message);

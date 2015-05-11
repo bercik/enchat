@@ -1,5 +1,6 @@
 package user;
 
+import message.MessageSender;
 import room.ChatRoom;
 
 import java.io.DataInputStream;
@@ -103,7 +104,7 @@ public class User {
      */
     public ChatRoom getRoom() {
         if(room == null){
-            room = new ChatRoom(2);
+            room = new ChatRoom(new MessageSender(), 2);
         }
         return room;
     }

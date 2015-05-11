@@ -53,7 +53,7 @@ public class ClientListMessageHandler extends AbstractMessageHandler {
 
         EncryptedMessage answer = null;
         try {
-            answer = Logged_List.loggedUserList(sender, available.toArray(new String[0]));
+            answer = Logged_List.create(sender, available.toArray(new String[0]));
         } catch (EncryptionException e) {
             throw new ReactionException();
         }
