@@ -33,11 +33,6 @@ public class Server {
         new Thread(newMessageScanner).start();
     }
 
-    public void startListeningNewMessagesFromUser(){
-        NewMessageScanner newMessageScanner = new NewMessageScanner();
-        new Thread(newMessageScanner).start();
-    }
-
 
     /**
      * Creating new server instance (generating key, setting port, and writing configuration to file.
