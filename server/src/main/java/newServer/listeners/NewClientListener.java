@@ -3,6 +3,7 @@ package newServer.listeners;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import handlers.NewClientHandler;
+import newServer.listeners.INewClientListener;
 import newServer.network.Server;
 
 import java.io.IOException;
@@ -12,13 +13,13 @@ import java.net.Socket;
 /**
  * Created by tochur on 13.05.15.
  */
-public class NewClientListener implements Runnable, INewClientListener{
+public class NewClientListener implements Runnable, INewClientListener {
     private ServerSocket serverSocket;
 
     @Inject
-    public NewClientListener(ServerSocket serverSocket){
+    public NewClientListener(Server server){
         System.out.print("NEW CLIENT LISTENER");
-        this.serverSocket = serverSocket;
+        this.serverSocket = server.getSocket();
     }
 
     @Override

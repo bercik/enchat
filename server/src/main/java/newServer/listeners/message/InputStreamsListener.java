@@ -27,7 +27,7 @@ public class InputStreamsListener implements Runnable{
     private Map<Boolean, Integer> toModify = new HashMap<>();
 
     @Inject
-    public InputStreamsListener(Server server, StreamsHandler streamHandler){
+    public InputStreamsListener( StreamsHandler streamHandler){
         System.out.print("INPUT STREAM LISTENER");
         this.streamHandler = streamHandler;
     }
@@ -73,7 +73,7 @@ public class InputStreamsListener implements Runnable{
     private void updateClientsInputs(){
         for (Boolean add: toModify.keySet()){
             int ID = toModify.get(add);
-            if(add == true){
+            if( add ){
                 clientsInput.put(ID, toAdd.get(ID));
             }else {
                 clientsInput.remove(ID);
