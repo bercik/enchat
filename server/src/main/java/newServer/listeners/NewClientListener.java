@@ -1,7 +1,9 @@
-package view;
+package newServer.listeners;
 
-import controller.user.IUser;
+import com.google.inject.Inject;
+import com.google.inject.Provides;
 import handlers.NewClientHandler;
+import newServer.network.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,7 +15,9 @@ import java.net.Socket;
 public class NewClientListener implements Runnable, INewClientListener{
     private ServerSocket serverSocket;
 
-    public NewClientListener(ServerSocket serverSocket, IUser User){
+    @Inject
+    public NewClientListener(ServerSocket serverSocket){
+        System.out.print("NEW CLIENT LISTENER");
         this.serverSocket = serverSocket;
     }
 
@@ -31,5 +35,10 @@ public class NewClientListener implements Runnable, INewClientListener{
                 e.printStackTrace();
             }
         }
+    }
+
+    @Provides
+    ServerSocket getServerSocket(Server server){
+        return server.getSocket();
     }
 }

@@ -1,4 +1,4 @@
-package controller.server;
+package newServer.network;
 
 /**
  * Created by tochur on 13.05.15.

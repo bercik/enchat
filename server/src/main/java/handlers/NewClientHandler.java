@@ -22,10 +22,10 @@ import java.security.spec.InvalidKeySpecException;
 /**
  * Created by tochur on 18.04.15.
  *
- * Responsible for handling new clients that want to user server.
+ * Responsible for handling new clients that want to user newServer.
  *
  * This class Creates new Client object and adding it to ActiveUser collection.
- * That means that server will listen for messages from this user.
+ * That means that newServer will listen for messages from this user.
  */
 public class NewClientHandler implements Runnable{
     private KeyContainer keyContainer;
@@ -66,7 +66,7 @@ public class NewClientHandler implements Runnable{
         try {
             ActiveUsers.getInstance().addUser(newUser);
         } catch (AlreadyInCollection alreadyInCollection) {
-            //Internal server error, 2 users got the same socket.
+            //Internal newServer error, 2 users got the same socket.
             alreadyInCollection.printStackTrace();
         } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
             EncryptedMessage message = new Messages().serverError().serverOverloaded();
