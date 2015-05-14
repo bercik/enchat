@@ -11,7 +11,7 @@ import java.net.Socket;
 /**
  * Created by tochur on 16.04.15.
  *
- * This Handler manages new user, that are going to connect with server.
+ * This Handler manages new user, that are going to connect with newServer.
  * Responsible for creating Active user and adding him to ActiveUsers aggregate.
  */
 

@@ -21,7 +21,7 @@ public class Server {
         return this.keyContainer;
     }
 
-    /*This function let to run the server in standard way.*/
+    /*This function let to run the newServer in standard way.*/
     public void standardServerStart() throws IOException {
         //createConfFile("file.txt");
         /*Scanning for new clients*/
@@ -35,7 +35,7 @@ public class Server {
 
 
     /**
-     * Creating new server instance (generating key, setting port, and writing configuration to file.
+     * Creating new newServer instance (generating key, setting port, and writing configuration to file.
      * @throws InvalidKeySpecException
      * @throws NoSuchAlgorithmException
      */

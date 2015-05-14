@@ -10,7 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 public class StartServer {
     public static void main(String[] args) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
         Server server = Server.getInstance();
-        System.out.println("Starting server from main");
+        System.out.println("Starting newServer from main");
         server.standardServerStart();
     }
 }

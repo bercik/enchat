@@ -1,6 +1,6 @@
-package view;
+package newServer.listeners;
 
-import controller.ServerInjector;
+import newServer.ServerInjector;
 import controller.user.NewUser;
 import controller.user.NewUserPropagator;
 
@@ -9,7 +9,7 @@ import java.net.Socket;
 /**
  * Created by tochur on 13.05.15.
  *
- * This class is responsible for actualization state of users that can exchange information with server
+ * This class is responsible for actualization state of users that can exchange information with newServer
  */
 public class NewClientHandler implements Runnable {
     private Socket socket;

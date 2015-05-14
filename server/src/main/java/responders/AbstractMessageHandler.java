@@ -81,7 +81,7 @@ public abstract class AbstractMessageHandler implements IMessageHandler {
     protected abstract void createAncillaryVariables();
 
     /**
-     * Defines server reaction - response for incoming message.
+     * Defines newServer reaction - response for incoming message.
      * @throws ReactionException
      */
     protected abstract void reaction() throws ReactionException, IOException, EncryptionException;

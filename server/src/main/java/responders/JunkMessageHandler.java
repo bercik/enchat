@@ -6,6 +6,6 @@ package responders;
 public class JunkMessageHandler implements IMessageHandler {
     @Override
     public void handle() {
-        //Inform server that user still is still active
+        //Inform newServer that user still is still active
     }
 }

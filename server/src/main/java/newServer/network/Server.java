@@ -1,8 +1,8 @@
-package controller.server;
+package newServer.network;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import view.INewClientListener;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,24 +10,24 @@ import java.net.ServerSocket;
 /**
  * Created by tochur on 13.05.15.
  */
+@Singleton
 public class Server {
     private final int PORT;
     private ServerSocket serverSocket;
-    private INewClientListener newClientListener;
 
     @Inject
-    Server(@Named("PORT_NUMBER")Integer PORT, INewClientListener newClientListener){
+    Server(@Named("PORT_NUMBER")Integer PORT) throws ServerStartFailed {
         this.PORT = PORT;
-        this.newClientListener = newClientListener;
-    }
-
-    public void start() throws ServerStartFailed {
+        System.out.print("SERVER PORT:" + PORT);
         try {
             this.serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
-            throw new ServerStartFailed("Unable to start server on PORT: " + PORT +
+            throw new ServerStartFailed("Unable to start newServer on PORT: " + PORT +
                     " cheek weather port is not already engaged.");
         }
     }
 
+    public ServerSocket getSocket(){
+        return serverSocket;
+    }
 }

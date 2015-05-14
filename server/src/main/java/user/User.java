@@ -29,7 +29,7 @@ public class User {
     private UserState userState;
     /* Stream used for sending messages to user */
     private final DataInputStream in;
-    /* Stream used for reading messages that user send to server. */
+    /* Stream used for reading messages that user send to newServer. */
     private final DataOutputStream out;
 
     /* Socket let us exchange messages - after constructing it's not used, but probably reference is necessary (garbage collector) */
@@ -39,7 +39,7 @@ public class User {
 
 
     /**
-     * Creates the user that is able to exchange messages with server.
+     * Creates the user that is able to exchange messages with newServer.
      * @param socket - interface to user.
      * @throws IOException - Some IOException can always happen during stream creation.
      */
