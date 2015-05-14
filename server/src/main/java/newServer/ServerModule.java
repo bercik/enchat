@@ -1,9 +1,9 @@
 package newServer;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.google.inject.name.Names;
-import newServer.listeners.INewClientListener;
-import newServer.listeners.NewClientListener;
+import newServer.listeners.message.InputStreamsHandler;
 
 /**
  * Created by tochur on 13.05.15.
@@ -11,8 +11,11 @@ import newServer.listeners.NewClientListener;
 public class ServerModule extends AbstractModule {
     @Override
     protected void configure() {
+        /* SCOPES - SINGLETONS */
+        bind(InputStreamsHandler.class).in(Scopes.SINGLETON);
+
         /* IMPLEMENTATIONS */
-        bind(INewClientListener.class).to(NewClientListener.class);
+
 
         /* CONSTANTS */
             //Sets the port in which Server listen.

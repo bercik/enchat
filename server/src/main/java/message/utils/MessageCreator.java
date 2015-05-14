@@ -44,7 +44,7 @@ public class MessageCreator {
         try{
             MessageId messageId = MessageId.createMessageId(id);
             MessageId.ErrorId erId = messageId.createErrorId(errorId);
-            return new Header(messageId, erId, 0);
+            return new Header(messageId, erId, amount);
         }catch (IncorrectMessageId e){
             throw new MessageIdException();
         }

@@ -9,7 +9,6 @@ import message.types.EncryptedMessage;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Handler;
 
 /**
  * Created by tochur on 14.05.15.
