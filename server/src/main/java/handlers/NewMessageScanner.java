@@ -25,7 +25,7 @@ public class NewMessageScanner implements Runnable{
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ie) {
-                System.out.println("Interuuped exception");
+                System.out.println("Interuuped exceptions");
                 ie.printStackTrace();
             }
         }

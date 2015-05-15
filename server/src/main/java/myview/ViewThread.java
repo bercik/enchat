@@ -16,7 +16,7 @@ public class ViewThread implements Runnable{
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ie) {
-                stdOut.println("Interuuped exception");
+                stdOut.println("Interuuped exceptions");
                 ie.printStackTrace();
             }
         }

@@ -33,7 +33,7 @@ public class InputStreamsHandler implements Runnable{
      * @param streamHandler this class is responsible for:
      *                      - checking weather new bytes are available in input stream
      *                      - if so, takes responsibility for passing that info to controller
-     *                      or for handling exception.
+     *                      or for handling exceptions.
      */
     @Inject
     public InputStreamsHandler(StreamsHandler streamHandler){

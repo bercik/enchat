@@ -1,4 +1,4 @@
-package responders.exceptions;
+package controller.responders.exceptions;
 
 import message.types.EncryptedMessage;
 import user.User;
