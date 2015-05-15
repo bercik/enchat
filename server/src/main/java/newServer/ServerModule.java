@@ -7,12 +7,15 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import controller.utils.ServerKeyContainerCreationFailed;
+import controller.utils.ServerKeys;
 import newServer.listeners.message.InputStreamsHandler;
 import rsa.KeyContainer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 
 /**
@@ -23,6 +26,7 @@ public class ServerModule extends AbstractModule {
     protected void configure() {
         /* SCOPES - SINGLETONS */
         bind(InputStreamsHandler.class).in(Scopes.SINGLETON);
+        bind(KeyContainer.class).in(Singleton.class);
 
         /* IMPLEMENTATIONS */
         //bind(ServerSocket.class).annotatedWith(Names.named("CUSTOM")).toProvider(SeverSocketProvider.class);
@@ -32,6 +36,36 @@ public class ServerModule extends AbstractModule {
         bindConstant().annotatedWith(Names.named("PORT_NUMBER")).to(50000);
             //Amount of DataInputStreams, that are scanned by server
         bindConstant().annotatedWith(Names.named("MAX_ACTIVE_USER")).to(1000);
+    }
+
+    @Provides
+    @Named("Server")
+    PublicKey getPublicKey(KeyContainer keyContainer) {
+        try {
+            return keyContainer.getPublicKeyInfo().getPublicKey();
+        } catch (Exception e) {
+            throw new ServerKeyContainerCreationFailed();
+        }
+    }
+
+    @Provides
+    @Named("Server")
+    PrivateKey getPrivateKey(KeyContainer keyContainer) {
+        try {
+            return keyContainer.getPrivateKeyInfo().getPrivateKey();
+        } catch (Exception e) {
+            throw new ServerKeyContainerCreationFailed();
+        }
+    }
+
+    @Provides
+    PublicKey getPublicKey(ServerKeys serverKeys) {
+        return serverKeys.getPublicKey();
+    }
+
+    @Provides
+    PrivateKey getPrivateKey(ServerKeys serverKeys) {
+        return  serverKeys.getPrivateKey();
     }
 
     @Provides @Singleton
@@ -44,17 +78,6 @@ public class ServerModule extends AbstractModule {
         } catch (IOException e) {
             System.out.print("Not successful socket creation.");
             return null;
-        }
-    }
-    @Provides
-    KeyContainer getKeyContainer() {
-        try {
-            KeyContainer keyContainer = new KeyContainer();
-            return keyContainer;
-        } catch (NoSuchAlgorithmException e) {
-            throw new ServerKeyContainerCreationFailed();
-        } catch (InvalidKeySpecException e) {
-            throw new ServerKeyContainerCreationFailed();
         }
     }
 }

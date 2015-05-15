@@ -2,6 +2,7 @@ package controller.responders.impl;
 
 import com.google.inject.Inject;
 import controller.responders.IMessageResponder;
+import controller.utils.Encryption;
 import rsa.exceptions.DecryptingException;
 import rsa.exceptions.EncryptionException;
 
