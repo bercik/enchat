@@ -1,6 +1,6 @@
 package controller.responders;
 
-import message.types.EncryptedMessage;
+import message3.types.EncryptedMessage;
 
 /**
  * Created by tochur on 14.05.15.

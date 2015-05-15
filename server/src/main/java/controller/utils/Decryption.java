@@ -1,6 +1,9 @@
 package controller.utils;
 
 import com.google.inject.Inject;
+import message.types.EncryptedMessage;
+import message.types.Message;
+import message.types.Pack;
 import rsa.RSA;
 import rsa.exceptions.DecryptingException;
 
@@ -28,7 +31,7 @@ public class Decryption {
             List<Pack> packages = encrypted.getPackages();
             List<String> strings = new LinkedList<>();
             for(Pack pack: packages){
-                byte[] decrypted = decrypt(pack.getDataArray(), privateServerKey);
+                byte[] decrypted = decrypt(pack.getDataArray());
                 checkSign(pack.getSignArray(), decrypted, senderKey);
                 strings.add(new String(decrypted));
             }

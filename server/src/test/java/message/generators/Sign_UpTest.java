@@ -1,6 +1,7 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
+import message3.generators.Messages;
+import message3.types.EncryptedMessage;
 import messages.MessageId;
 import org.junit.Test;
 

@@ -1,7 +1,5 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
-
 /**
  * Created by tochur on 11.05.15.
  */

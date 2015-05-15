@@ -1,9 +1,9 @@
-package message.utils;
+package message3.utils;
 
-import message.exceptions.MessageIdException;
-import message.types.EncryptedMessage;
-import message.types.Header;
-import message.types.Pack;
+import message3.exceptions.MessageIdException;
+import message3.types.EncryptedMessage;
+import message3.types.Header;
+import message3.types.Pack;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 

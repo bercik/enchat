@@ -1,13 +1,11 @@
 package newServer.listeners.message;
 
-import message.types.EncryptedMessage;
-import message.types.Pack;
+import message3.types.EncryptedMessage;
+import message3.types.Pack;
 import messages.MessageId;
-import newServer.listeners.message.MessageReader;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
-import java.awt.event.KeyEvent;
 import java.io.*;
 
 import static org.hamcrest.core.Is.is;

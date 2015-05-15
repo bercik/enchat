@@ -1,8 +1,7 @@
 package handlers;
 
-import message.generators.Messages;
-import message.types.EncryptedMessage;
-import message.types.Message;
+import message3.generators.Messages;
+import message3.types.EncryptedMessage;
 import messages.MessageId;
 import responders.*;
 import responders.exceptions.*;

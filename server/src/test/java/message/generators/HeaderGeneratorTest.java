@@ -1,6 +1,7 @@
 package message.generators;
 
-import message.types.Header;
+import message3.generators.HeaderGenerator;
+import message3.types.Header;
 import messages.IncorrectErrorId;
 import messages.IncorrectMessageId;
 import messages.MessageId;

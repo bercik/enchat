@@ -1,24 +1,30 @@
 package newServer.listeners.message;
 
-import message.exceptions.MessageIdException;
-import message.types.EncryptedMessage;
-import message.types.Pack;
-import message.utils.MessageCreator;
-import messages.IncorrectMessageId;
-import model.ClientInput;
-import user.User;
+import message3.exceptions.MessageIdException;
+import message3.types.EncryptedMessage;
+import message3.types.Pack;
+import message3.utils.MessageCreator;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
- * Reads the message, decrypts it, and starts new (suitable) thread,
- * that is responsible for reacting for that message
+ * Created by tochur on 15.05.15.
  *
- * Created by tochur on 25.04.15.
+ *
+ * It is responsible for reading the message from the stream.
+ * Message from buffer is changed to EncryptedMessage object.
+ * The message is read from the DataInputStream.
+ * Message format is:
+ *      id      - (int32)
+ *      errorId  - (int32)
+ *      packageAmount - (int32)
+ *      dataArrayLength - (int32)
+ *      dataArray       - ( byte[byteArrayLength] )
+ *      signArrayLength - (int32)
+ *      signArray       - ( byte[signArrayLength] )
  */
 public class MessageReader {
     private int id;

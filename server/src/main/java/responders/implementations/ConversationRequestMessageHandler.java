@@ -2,9 +2,9 @@ package responders.implementations;
 
 import containers.Logged;
 import containers.exceptions.ElementNotFoundException;
-import message.generators.Messages;
-import message.types.EncryptedMessage;
-import message.utils.MessageSender;
+import message3.generators.Messages;
+import message3.types.EncryptedMessage;
+import message3.utils.MessageSender;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ToMuchUsersInThisRoom;

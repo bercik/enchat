@@ -1,7 +1,7 @@
 package responders.implementations;
 
-import message.generators.Messages;
-import message.types.EncryptedMessage;
+import message3.generators.Messages;
+import message3.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import room.ChatRoom;

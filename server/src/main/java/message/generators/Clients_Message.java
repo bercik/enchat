@@ -1,9 +1,9 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
-import message.types.Header;
-import message.types.Message;
 import message.utils.Encryption;
+import message3.types.EncryptedMessage;
+import message3.types.Header;
+import message3.types.Message;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
 import user.User;
@@ -19,7 +19,7 @@ public class Clients_Message {
      * @param user - author of the message
      * @param nick - nick of the user to whom sending message failed
      * @return encrypted message, informing that sending message failed.
-     * @throws EncryptionException - when during encrypting answer error happened.
+     * @throws rsa.exceptions.EncryptionException - when during encrypting answer error happened.
      */
     public EncryptedMessage message(User user, String nick) throws EncryptionException{
         Header header = HeaderGenerator.createHeader(clientMessage, 0, 1);

@@ -1,6 +1,6 @@
 package message.generators;
 
-import message.types.Header;
+import message3.types.Header;
 import messages.MessageId;
 
 /**

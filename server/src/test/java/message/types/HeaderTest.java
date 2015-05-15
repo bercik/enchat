@@ -1,5 +1,6 @@
 package message.types;
 
+import message3.types.Header;
 import messages.IncorrectErrorId;
 import messages.IncorrectMessageId;
 import messages.MessageId;

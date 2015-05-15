@@ -1,9 +1,9 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
-import message.types.Header;
-import message.types.Message;
 import message.utils.Encryption;
+import message3.types.EncryptedMessage;
+import message3.types.Header;
+import message3.types.Message;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
 import user.User;
@@ -24,7 +24,7 @@ public class Logged_List {
      * @param receiver - the ActiveUser that request for his blackList
      * @param nicks - nicks of logged users
      * @return - encryptedMessage
-     * @throws EncryptionException - When encryption of the message failed
+     * @throws rsa.exceptions.EncryptionException - When encryption of the message failed
      */
     public EncryptedMessage create(User receiver, String[] nicks) throws EncryptionException {
         Header header = HeaderGenerator.createHeader(messageId, 0, nicks.length);

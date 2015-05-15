@@ -1,10 +1,10 @@
 package message.types;
 
+import message3.types.Message;
 import messages.MessageId;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;

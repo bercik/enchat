@@ -1,9 +1,9 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
-import message.types.Header;
-import message.types.Message;
 import message.utils.Encryption;
+import message3.types.EncryptedMessage;
+import message3.types.Header;
+import message3.types.Message;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
 import user.User;

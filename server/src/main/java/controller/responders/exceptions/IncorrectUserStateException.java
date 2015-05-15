@@ -1,6 +1,6 @@
 package controller.responders.exceptions;
 
-import message.types.EncryptedMessage;
+import message3.types.EncryptedMessage;
 import user.User;
 
 /**

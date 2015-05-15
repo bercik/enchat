@@ -1,6 +1,6 @@
 package message.exceptions;
 
-import message.types.EncryptedMessage;
+import message3.types.EncryptedMessage;
 import user.User;
 
 import java.io.IOException;

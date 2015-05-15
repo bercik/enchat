@@ -2,6 +2,8 @@ package controller.utils;
 
 import com.google.inject.Inject;
 import message.types.EncryptedMessage;
+import message.types.Message;
+import message.types.Pack;
 import rsa.RSA;
 import rsa.exceptions.EncryptingException;
 import rsa.exceptions.EncryptionException;

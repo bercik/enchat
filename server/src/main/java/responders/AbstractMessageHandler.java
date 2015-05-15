@@ -1,8 +1,8 @@
 package responders;
 
-import message.generators.Messages;
-import message.types.EncryptedMessage;
-import message.types.Message;
+import message3.generators.Messages;
+import message3.types.EncryptedMessage;
+import message3.types.Message;
 import message.utils.Encryption;
 import responders.exceptions.IncorrectUserStateException;
 import responders.exceptions.ReactionException;

@@ -150,7 +150,7 @@ public class PluginManager
                 int id = message.getId();
                 // pobieramy error wiadomości
                 int error = message.getError();
-                // jeżeli zły MessageId to rzuci wyjątek runtime exception
+                // jeżeli zły MessageId to rzuci wyjątek runtime exceptions
                 // (sprawdza tylko czy prawidłowy)
                 MessageId messageId = MessageId.createMessageId(id);
                 // jeżeli zły ErrorId to rzuci wyjątkiem runtime excpetion

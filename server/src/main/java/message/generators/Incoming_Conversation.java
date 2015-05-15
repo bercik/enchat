@@ -1,6 +1,6 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
+import message3.types.EncryptedMessage;
 import messages.MessageId;
 
 /**

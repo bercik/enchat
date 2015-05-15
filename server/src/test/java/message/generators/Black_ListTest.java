@@ -1,21 +1,10 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
-import message.types.Message;
 import message.utils.Encryption;
-import messages.MessageId;
 import org.junit.Test;
-import room.ChatRoom;
-import user.User;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 public class Black_ListTest {

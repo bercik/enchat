@@ -1,8 +1,8 @@
 package room;
 
-import message.MessageSender;
-import message.generators.Messages;
-import message.types.EncryptedMessage;
+import message3.MessageSender;
+import message3.generators.Messages;
+import message3.types.EncryptedMessage;
 import rsa.exceptions.EncryptionException;
 import user.User;
 

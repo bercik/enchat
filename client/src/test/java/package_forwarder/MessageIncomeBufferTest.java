@@ -56,6 +56,6 @@ public class MessageIncomeBufferTest extends TestCase {
 
         }
         else
-            System.out.println("Null exception");
+            System.out.println("Null exceptions");
     }
 }

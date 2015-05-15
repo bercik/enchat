@@ -1,7 +1,7 @@
 package user;
 
-import message.MessageSender;
-import message.generators.Messages;
+import message3.MessageSender;
+import message3.generators.Messages;
 import room.ChatRoom;
 
 import java.io.DataInputStream;

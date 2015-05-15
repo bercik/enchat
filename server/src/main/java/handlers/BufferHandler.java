@@ -1,7 +1,7 @@
 package handlers;
 
-import message.exceptions.MessageIdException;
-import message.types.EncryptedMessage;
+import message3.exceptions.MessageIdException;
+import message3.types.EncryptedMessage;
 import message.utils.MessageReader;
 import messages.IncorrectMessageId;
 import user.User;
