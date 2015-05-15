@@ -2,8 +2,7 @@ package newServer;
 
 import com.google.inject.Injector;
 import newServer.listeners.ServerListeners;
-import newServer.network.Server;
-import newServer.network.ServerStartFailed;
+import newServer.listeners.ServerStartFailed;
 
 /**
  * Created by tochur on 13.05.15.

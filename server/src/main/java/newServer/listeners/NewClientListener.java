@@ -2,8 +2,9 @@ package newServer.listeners;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import controller.connecting.NewClientHandler;
-import newServer.network.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,21 +17,27 @@ import java.net.Socket;
  * After starting, it persistently waits for clients (passing accept) on ServerSocket.
  * When new clients connects to socket, it captures the newly created Socket, that
  * enables network communication, through http protocol.
+ * If you want to build server that listens on few ports, you should create ServerListeners
+ * using another new Injector with another PORT number.
  */
+@Singleton
 public class NewClientListener implements Runnable{
     private ServerSocket serverSocket;
     private NewClientHandler newClientHandler;
 
     /**
      * To Start listening for new Clients we need Server Instance
-     * @param server instance of Server.
+     * @param serverSocket instance of ServerSocket.
      * @param newClientHandler - class responsible for actualization state of users
      *                         that can exchange information with newServer
      */
     @Inject
-    public NewClientListener(Server server, NewClientHandler newClientHandler){
+    public NewClientListener(ServerSocket serverSocket, NewClientHandler newClientHandler) throws ServerStartFailed {
         System.out.print("NEW CLIENT LISTENER");
-        this.serverSocket = server.getSocket();
+        if(serverSocket == null){
+            throw new ServerStartFailed("Unable to start server on requested port");
+        }
+        this.serverSocket = serverSocket;
         this.newClientHandler = newClientHandler;
     }
 
@@ -49,10 +56,5 @@ public class NewClientListener implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
-
-    @Provides
-    ServerSocket getServerSocket(Server server){
-        return server.getSocket();
     }
 }

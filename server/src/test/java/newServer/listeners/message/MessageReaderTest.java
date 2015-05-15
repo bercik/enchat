@@ -3,6 +3,7 @@ package newServer.listeners.message;
 import message.types.EncryptedMessage;
 import message.types.Pack;
 import messages.MessageId;
+import newServer.listeners.message.MessageReader;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 

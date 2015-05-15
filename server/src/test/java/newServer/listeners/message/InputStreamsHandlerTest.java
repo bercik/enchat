@@ -1,5 +1,7 @@
 package newServer.listeners.message;
 
+import newServer.listeners.message.InputStreamsHandler;
+import newServer.listeners.message.StreamsHandler;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,6 +1,7 @@
 package newServer.listeners;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import newServer.listeners.message.InputStreamsHandler;
 
 /**
@@ -11,6 +12,7 @@ import newServer.listeners.message.InputStreamsHandler;
  *  - first to enable new user to connect with server
  *  - second to enable reading incoming messages from already connected users.
  */
+@Singleton
 public class ServerListeners {
     private final NewClientListener newClientListener;
     private final InputStreamsHandler newMessageScanner;
