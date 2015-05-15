@@ -6,10 +6,14 @@ import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import controller.utils.ServerKeyContainerCreationFailed;
 import newServer.listeners.message.InputStreamsHandler;
+import rsa.KeyContainer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  * Created by tochur on 13.05.15.
@@ -40,6 +44,17 @@ public class ServerModule extends AbstractModule {
         } catch (IOException e) {
             System.out.print("Not successful socket creation.");
             return null;
+        }
+    }
+    @Provides
+    KeyContainer getKeyContainer() {
+        try {
+            KeyContainer keyContainer = new KeyContainer();
+            return keyContainer;
+        } catch (NoSuchAlgorithmException e) {
+            throw new ServerKeyContainerCreationFailed();
+        } catch (InvalidKeySpecException e) {
+            throw new ServerKeyContainerCreationFailed();
         }
     }
 }

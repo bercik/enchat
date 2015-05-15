@@ -24,6 +24,7 @@ import java.net.Socket;
 public class NewClientListener implements Runnable{
     private ServerSocket serverSocket;
     private NewClientHandler newClientHandler;
+    private boolean working;
 
     /**
      * To Start listening for new Clients we need Server Instance
@@ -43,9 +44,14 @@ public class NewClientListener implements Runnable{
 
     @Override
     public void run() {
-
-        while (true) {
+        working = true;
+        while (working) {
             try {
+                if(!working){
+                    System.out.print("Closing...");
+                    serverSocket.close();
+                    return;
+                }
                 System.out.println("Waiting for new client");
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Got new client");
@@ -56,5 +62,9 @@ public class NewClientListener implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void stopListen(){
+        this.working = false;
     }
 }
