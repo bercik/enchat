@@ -5,32 +5,28 @@
  */
 package plugin.plugins;
 
+import io.display.IDisplay;
+import io.display.displays.UsersListDisplay;
 import plugin.IState;
 
 /**
  *
  * @author robert
  */
-public abstract class AuthenticationPlugin extends Plugin
+public class UsersListPlugin extends Plugin
 {
-    // TODO
-    // login and registration should be in 4 steps with random byte array
-    // given by server
-    
-    // state
-    IState currentState = new State1();
-    // login
-    protected String login;
-    // hash of password
-    private String password;
-    
-    protected abstract void deliverError(int error);
-    
+    private final String header;
+    private IState currentState = new State1();
+
+    public UsersListPlugin(String hheader)
+    {
+        header = hheader;
+    }
+
     @Override
     public void reset()
     {
         currentState = new State1();
-        login = password = "";
     }
 
     @Override
@@ -38,32 +34,33 @@ public abstract class AuthenticationPlugin extends Plugin
     {
         currentState = currentState.run(error, parameters);
     }
-    
+
     private class State1 implements IState
     {
         @Override
         public IState run(int error, String[] parameters)
         {
-            // zapisujemy login i hasło
-            login = parameters[0];
-            password = parameters[1];
-            
-            // wysyłamy paczkę do serwera
-            pluginManager.send(id, parameters);
-            
-            // zwracamy kolejny stan
+            // wysyłamy prośbę o listę użytkowników do serwera
+            pluginManager.send(id, new String[0]);
+
+            // zwraacmy kolejny stan
             return new State2();
         }
     }
-    
+
     private class State2 implements IState
     {
         @Override
         public IState run(int error, String[] parameters)
         {
-            // przesyłamy id błędu do klasy dziedziczącej
-            deliverError(error);
-            
+            // wyświetlamy listę użytkowników
+            IDisplay display = new UsersListDisplay(header, parameters);
+
+            pluginManager.setDisplay(id, display);
+
+            // przekazujemy error do controller
+            pluginManager.updateControllerError(error);
+
             // zwracamy pierwszy stan
             return new State1();
         }

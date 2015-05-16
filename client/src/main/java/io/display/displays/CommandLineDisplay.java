@@ -42,6 +42,16 @@ public abstract class CommandLineDisplay implements IDisplay
     
     protected abstract String showBody();
     
+    protected String centerString(String str)
+    {
+        Configuration conf = Configuration.getInstance();
+        int offset = (conf.getWidth() - str.length()) / 2;
+        String result = indent(offset);
+        result += str;
+        
+        return result;
+    }
+    
     protected String formatCommand(String command)
     {
         return formatCommand(command, true);

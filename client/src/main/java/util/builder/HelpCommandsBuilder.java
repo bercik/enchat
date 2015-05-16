@@ -38,6 +38,17 @@ public class HelpCommandsBuilder
                 parameters);
         helpCommands.addCommand(name, command);
         
+        // login command
+        name = "login";
+        shortDescription = "Umożliwia zalogowanie użytkownika na serwerze";
+        parameters = new Parameter[]
+        {
+            new Parameter("username", "nazwa użytkownika, 4-8 liter, cyfr lub"
+                    + " znaków podkreślenia"),
+        };
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // help command
         name = "help";
         shortDescription = "Wyświetla szczegółową pomoc o podanej komendzie";
@@ -94,6 +105,22 @@ public class HelpCommandsBuilder
         // logout command
         name = "logout";
         shortDescription = "Wylogowuje użytkownika z serwera";
+        description = "";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
+        // users list
+        name = "users";
+        shortDescription = "Wyświetla listę zalogowanych użytkowników";
+        description = "";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
+        // blacklist
+        name = "blacklist";
+        shortDescription = "Wyświetla czarną listę użytkownika";
         description = "";
         parameters = new Parameter[0];
         command = new Command(name, description, shortDescription, parameters);

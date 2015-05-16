@@ -20,6 +20,7 @@ import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
 import plugin.plugins.RegisterPlugin;
 import plugin.plugins.StatePlugin;
+import plugin.plugins.UsersListPlugin;
 
 /**
  *
@@ -84,6 +85,26 @@ public class CommandContainerBuilder
         // state
         commandContainer.registerCommand(Id.STATE_PLUGIN.getIntRepresentation(),
                 "state", new StatePlugin(), null, State.ALL, false);
+        
+        // logged users list
+        commandContainer.registerCommand(
+                MessageId.CLIENTS_LIST.getIntRepresentation(), 
+                "users", new UsersListPlugin("Zalogowani użytkownicy"), 
+                null, new State[]
+                {
+                    State.LOGGED,
+                    State.CONVERSATION
+                }, false);
+        
+        // blacklist
+        commandContainer.registerCommand(
+                MessageId.BLACK_LIST.getIntRepresentation(), 
+                "blacklist", new UsersListPlugin("Czarna lista"), 
+                null, new State[]
+                {
+                    State.LOGGED,
+                    State.CONVERSATION
+                }, false);
         
         return commandContainer;
     }
