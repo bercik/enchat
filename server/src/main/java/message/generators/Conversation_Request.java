@@ -1,6 +1,7 @@
 package message.generators;
 
-import message3.types.EncryptedMessage;
+import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
@@ -8,20 +9,25 @@ import messages.MessageId;
  */
 public class Conversation_Request {
     private MessageId conversationRequest = MessageId.CONVERSATION_REQUEST;
+    private EncryptedMessage encrypted;
 
-    public EncryptedMessage connected(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 0));
+    public UEMessage connected(Integer receiverID){
+        encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage notLogged(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 1));
+    public UEMessage notLogged(Integer receiverID){
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 1));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage busyUser(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 2));
+    public UEMessage busyUser(Integer receiverID){
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 2));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage onBlackList(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 4));
+    public UEMessage onBlackList(Integer receiverID){
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 4));
+        return new UEMessage(receiverID, encrypted);
     }
 }

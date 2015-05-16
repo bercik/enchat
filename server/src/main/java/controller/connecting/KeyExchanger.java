@@ -1,7 +1,7 @@
 package controller.connecting;
 
 import com.google.inject.Inject;
-import controller.utils.cypher.Encryption;
+import controller.utils.cypher.EncryptionUtil;
 import controller.user.Users;
 
 /**
@@ -10,7 +10,7 @@ import controller.user.Users;
 public class KeyExchanger {
 
     @Inject
-    public KeyExchanger(Encryption encryption, Users users){
+    public KeyExchanger(EncryptionUtil encryption, Users users){
 
     }
 }

@@ -1,6 +1,7 @@
 package message.generators;
 
-import message3.types.EncryptedMessage;
+import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
@@ -8,12 +9,15 @@ import messages.MessageId;
  */
 public class Incoming_Conversation {
     private MessageId incomingConversation = MessageId.INCOMING_CONVERSATION;
+    private EncryptedMessage encrypted;
 
-    public EncryptedMessage connected(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(incomingConversation, 0));
+    public UEMessage connected(Integer receiverID){
+        encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(incomingConversation, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage roomOverloaded(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(incomingConversation, 1));
+    public UEMessage roomOverloaded(Integer receiverID){
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(incomingConversation, 1));
+        return new UEMessage(receiverID, encrypted);
     }
 }

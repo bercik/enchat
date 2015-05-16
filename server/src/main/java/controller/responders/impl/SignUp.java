@@ -1,20 +1,17 @@
 package controller.responders.impl;
 
 import com.google.inject.Inject;
-import containers.ActiveUsers;
 import controller.responders.IMessageResponder;
-import controller.responders.exceptions.IncorrectUserStateException;
 import controller.utils.cypher.Decryption;
 import controller.utils.verifiers.state.StateVerifier;
 import message.exceptions.UnableToSendMessage;
-import message.types.EncryptedMessage;
+import message.generators.Sign_Up;
 import message.types.UEMessage;
 import message.types.UMessage;
 import model.containers.permanent.Registration;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.OverloadedCannotAddNew;
 import newServer.sender.MessageSender;
-import rsa.exceptions.DecryptingException;
 import rsa.exceptions.EncryptionException;
 
 import java.io.IOException;
@@ -24,23 +21,24 @@ import java.io.IOException;
  */
 public class SignUp implements IMessageResponder {
     private Decryption decryption;
+    private Sign_Up sign_up;
     private StateVerifier stateVerifier;
     private Registration registration;
     private MessageSender messageSender;
     private UEMessage ueMessage;
-    private ActiveUsers activeUsers;
 
-    private Integer ID;
+    private Integer authorID;
     private String nick;
     private String password;
     private UMessage message;
 
     @Inject
-    public SignUp(Decryption decryption, StateVerifier stateVerifier, Registration registration, MessageSender messageSender, ActiveUsers activeUsers){
+    public SignUp(Decryption decryption, StateVerifier stateVerifier, Registration registration, MessageSender messageSender, Sign_Up messages){
         this.decryption = decryption;
         this.stateVerifier = stateVerifier;
         this.registration = registration;
         this.messageSender = messageSender;
+        this.sign_up = messages;
     }
 
     @Override
@@ -56,15 +54,11 @@ public class SignUp implements IMessageResponder {
             message = decryption.decryptMessage(ueMessage);
             readInfo();
             registration.register(nick, password);
-            EncryptedMessage answer = encryption.encrypt(Message message, PublicKey senderKey);
-            messageSender.send(answer,Integer ID);
+            UEMessage answer = sign_up.ok(authorID);
+            messageSender.send(answer);
         }catch (EncryptionException e){
 
-        }catch (IncorrectUserStateException e){
-
         }catch (AlreadyInCollection e){
-
-        }catch (DecryptingException e){
 
         }catch (UnableToSendMessage e){
 
@@ -77,7 +71,7 @@ public class SignUp implements IMessageResponder {
     }
 
     private void readInfo(){
-        ID = message.get
+        authorID = message.getAuthorID();
         String[] strings = message.getPackages().toArray(new String[0]);
         this.nick = strings[0];
         this.password = strings[1];

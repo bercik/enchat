@@ -1,6 +1,7 @@
 package message.generators;
 
-import message3.types.EncryptedMessage;
+import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
@@ -8,15 +9,20 @@ import messages.MessageId;
  */
 public class Server_error {
     private MessageId serverError = MessageId.SERVER_ERROR;
-    public EncryptedMessage unableToEncrypt() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(serverError, 1));
+    private EncryptedMessage encrypted;
+
+    public UEMessage unableToEncrypt(Integer receiverID) {
+        encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(serverError, 1));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage unableToDecrypt() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(serverError, 2));
+    public UEMessage unableToDecrypt(Integer receiverID) {
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(serverError, 2));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage serverOverloaded() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(serverError, 3));
+    public UEMessage serverOverloaded(Integer receiverID) {
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(serverError, 3));
+        return new UEMessage(receiverID, encrypted);
     }
 }
