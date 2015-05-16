@@ -3,7 +3,6 @@ package containers;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.ElementNotFoundException;
 import model.exceptions.OverloadedCannotAddNew;
-import user.User;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -60,7 +59,7 @@ public class Logged {
      * It's used during logging for authorization.
      * @param nick - user login
      * @return - User - object that represents user with nick specified as a parameter.
-     * @throws ElementNotFoundException - when no user with this nick is logged.
+     * @throws model.exceptions.ElementNotFoundException - when no user with this nick is logged.
      */
     public User getUser(String nick) throws ElementNotFoundException {
         for( String dataName: logged.keySet()){
@@ -77,7 +76,7 @@ public class Logged {
     /**
      * Removes user from ActiveUsers
      * @param nick - user with this nick will be to removed
-     * @throws ElementNotFoundException - when user is not in ActiveUsers
+     * @throws model.exceptions.ElementNotFoundException - when user is not in ActiveUsers
      */
     public void deleteUser (String nick) throws ElementNotFoundException {
         if ( logged.remove(nick) == null )

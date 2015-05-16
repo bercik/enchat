@@ -1,6 +1,7 @@
 package message.generators;
 
-import message3.types.EncryptedMessage;
+import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
@@ -9,23 +10,28 @@ import messages.MessageId;
 public class Sign_Up {
     public MessageId signUp = MessageId.SIGN_UP;
 
-    public EncryptedMessage ok() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(signUp, 0));
+    public UEMessage ok(Integer receiverID) {
+        EncryptedMessage encrypted = new EncryptedMessage(HeaderGenerator.createHeader(signUp, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage busyLogin() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(signUp, 1));
+    public UEMessage busyLogin(Integer receiverID) {
+        EncryptedMessage encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(signUp, 1));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage incorrectLogin() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(signUp, 2));
+    public UEMessage incorrectLogin(Integer receiverID) {
+        EncryptedMessage encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(signUp, 2));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage badPasswordLength() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(signUp, 3));
+    public UEMessage badPasswordLength(Integer receiverID) {
+        EncryptedMessage encrypted = new EncryptedMessage(HeaderGenerator.createHeader(signUp, 3));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public EncryptedMessage toManyAccounts() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(signUp, 4));
+    public UEMessage toManyAccounts(Integer receiverID) {
+        EncryptedMessage encrypted = new EncryptedMessage(HeaderGenerator.createHeader(signUp, 4));
+        return new UEMessage(receiverID, encrypted);
     }
 }

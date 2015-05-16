@@ -1,15 +1,17 @@
 package controller.responders.impl;
 
 import com.google.inject.Inject;
-import containers.ActiveUsers;
 import controller.responders.IMessageResponder;
 import controller.responders.exceptions.IncorrectUserStateException;
 import controller.utils.cypher.Decryption;
-import controller.utils.verifiers.state.StateVerifier;
+import controller.utils.state.StateManager;
 import message.exceptions.UnableToSendMessage;
+import message.generators.Server_error;
+import message.generators.Sign_Up;
 import message.types.EncryptedMessage;
 import message.types.UEMessage;
 import message.types.UMessage;
+import messages.MessageId;
 import model.containers.permanent.Registration;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.OverloadedCannotAddNew;
@@ -24,23 +26,25 @@ import java.io.IOException;
  */
 public class SignUp implements IMessageResponder {
     private Decryption decryption;
-    private StateVerifier stateVerifier;
+    private Sign_Up sign_up;
+    private StateManager stateManager;
     private Registration registration;
     private MessageSender messageSender;
-    private UEMessage ueMessage;
-    private ActiveUsers activeUsers;
+    protected UEMessage ueMessage;
 
-    private Integer ID;
+    private Integer authorID;
     private String nick;
     private String password;
     private UMessage message;
+    private UEMessage answer;
 
     @Inject
-    public SignUp(Decryption decryption, StateVerifier stateVerifier, Registration registration, MessageSender messageSender, ActiveUsers activeUsers){
+    public SignUp(Decryption decryption, StateManager stateManager, MessageSender messageSender, Registration registration, Sign_Up messages){
         this.decryption = decryption;
-        this.stateVerifier = stateVerifier;
+        this.stateManager = stateManager;
         this.registration = registration;
         this.messageSender = messageSender;
+        this.sign_up = messages;
     }
 
     @Override
@@ -52,32 +56,31 @@ public class SignUp implements IMessageResponder {
     @Override
     public void run() {
         try{
-            stateVerifier.verify(ueMessage);
+            stateManager.verify(ueMessage);
             message = decryption.decryptMessage(ueMessage);
             readInfo();
             registration.register(nick, password);
-            EncryptedMessage answer = encryption.encrypt(Message message, PublicKey senderKey);
-            messageSender.send(answer,Integer ID);
-        }catch (EncryptionException e){
-
-        }catch (IncorrectUserStateException e){
-
-        }catch (AlreadyInCollection e){
-
-        }catch (DecryptingException e){
-
-        }catch (UnableToSendMessage e){
-
+            answer = sign_up.ok(authorID);
+        } catch(IncorrectUserStateException e){
+            //Do nothing just ignore the message
+        } catch (DecryptingException e){
+            answer = Server_error.unableToDecrypt(authorID);
+        } catch (AlreadyInCollection e){
+            answer = new Sign_Up().busyLogin(authorID);
         } catch (OverloadedCannotAddNew e) {
+            answer = new Sign_Up().toManyAccounts(authorID);
+        }
 
+        try{
+            messageSender.send(answer);
         } catch (IOException e) {
-
+            System.out.println("Failed to send message to user (answer for sign_Up).");
         }
 
     }
 
     private void readInfo(){
-        ID = message.get
+        authorID = message.getAuthorID();
         String[] strings = message.getPackages().toArray(new String[0]);
         this.nick = strings[0];
         this.password = strings[1];

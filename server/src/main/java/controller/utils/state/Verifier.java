@@ -1,4 +1,4 @@
-package controller.utils.verifiers.state;
+package controller.utils.state;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

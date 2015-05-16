@@ -1,10 +1,7 @@
 package newServer.listeners.message;
 
-import com.google.inject.Inject;
-
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by tochur on 14.05.15.

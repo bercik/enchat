@@ -1,6 +1,6 @@
 package responders.implementations;
 
-import containers.Logged;
+import model.containers.Logged;
 import containers.Registered;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.OverloadedCannotAddNew;

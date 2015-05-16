@@ -1,6 +1,7 @@
 package message.generators;
 
-import message3.types.EncryptedMessage;
+import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
@@ -11,7 +12,8 @@ import messages.MessageId;
 public class Junk {
     private MessageId junk = MessageId.JUNK;
 
-    public EncryptedMessage ok(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(junk, 0));
+    public UEMessage ok(Integer receiverID){
+        EncryptedMessage encrypted= new EncryptedMessage(HeaderGenerator.createHeader(junk, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 }

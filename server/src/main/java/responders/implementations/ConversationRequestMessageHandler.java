@@ -1,6 +1,6 @@
 package responders.implementations;
 
-import containers.Logged;
+import model.containers.Logged;
 import model.exceptions.ElementNotFoundException;
 import message3.generators.Messages;
 import message3.types.EncryptedMessage;

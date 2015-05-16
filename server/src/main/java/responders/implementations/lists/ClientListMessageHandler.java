@@ -1,6 +1,6 @@
 package responders.implementations.lists;
 
-import containers.Logged;
+import model.containers.Logged;
 import message3.generators.Messages;
 import message3.types.EncryptedMessage;
 import message3.utils.MessageSender;

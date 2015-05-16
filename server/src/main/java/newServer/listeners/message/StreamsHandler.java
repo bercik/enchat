@@ -3,8 +3,8 @@ package newServer.listeners.message;
 import com.google.inject.Inject;
 import controller.responders.IMessageResponder;
 import controller.responders.MessageRespondersFactory;
-import message3.exceptions.MessageIdException;
-import message3.types.EncryptedMessage;
+import message.exceptions.MessageIdException;
+import message.types.EncryptedMessage;
 
 import java.io.DataInputStream;
 import java.io.IOException;

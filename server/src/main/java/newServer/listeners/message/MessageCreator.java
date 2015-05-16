@@ -1,9 +1,7 @@
-package message3.utils;
+package newServer.listeners.message;
 
-import message3.exceptions.MessageIdException;
-import message3.types.EncryptedMessage;
-import message3.types.Header;
-import message3.types.Pack;
+import message.exceptions.MessageIdException;
+import message.types.*;
 import messages.IncorrectMessageId;
 import messages.MessageId;
 
