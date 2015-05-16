@@ -5,6 +5,8 @@
  */
 package plugin.plugins;
 
+import app_info.State;
+
 /**
  *
  * @author robert
@@ -20,6 +22,10 @@ public class DisconnectPlugin extends Plugin
     @Override
     public void update(int error, String[] parameters)
     {
-        // TODO
+        pluginManager.disconnect();
+        pluginManager.setAppState(State.NOT_CONNECTED);
+        String msg = "Rozłączono z serwerem";
+        pluginManager.setMsg(msg, false);
+        pluginManager.updateControllerError(0);
     }
 }

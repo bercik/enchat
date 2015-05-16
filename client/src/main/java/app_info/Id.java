@@ -22,6 +22,7 @@ public enum Id
     HELP_PLUGIN(),
     CALC_PLUGIN(),
     CONNECT_PLUGIN(),
+    DISCONNECT_PLUGIN(),
     STATE_PLUGIN();
 
     private static int idCounter = -1;

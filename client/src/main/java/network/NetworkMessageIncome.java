@@ -10,7 +10,6 @@ import java.util.List;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.swing.plaf.synth.SynthTextAreaUI;
 
 import rsa.RSA;
 
@@ -19,19 +18,19 @@ import rsa.RSA;
  * @author mateusz
  * @version 1.0
  */
-public class NetworkMessageIncome {
-
-    //////////////////////////////////////wszystko w tym obszarze służy do testów///////////////////////////////////////////////////
-    public NetworkMessageIncome(String fake1, String fake2) throws IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-        messageSignPair.add(new MessageSignPair(fake1.getBytes(), fake2.getBytes()));
+public class NetworkMessageIncome
+{
+    public NetworkMessageIncome()
+    {
     }
 
-    public NetworkMessageIncome() {}
-
-    public List<MessageSignPair> getMessageSignPair() {
+    public List<MessageSignPair> getMessageSignPair()
+    {
         return new ArrayList<>(messageSignPair);
     }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public int getError()
     {
         return error;
@@ -42,7 +41,11 @@ public class NetworkMessageIncome {
         return id;
     }
 
-    public void recv(Connection conn) throws IOException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, SignatureException {
+    public void recv(Connection conn) throws IOException, 
+            NoSuchAlgorithmException, NoSuchPaddingException, 
+            InvalidKeyException, IllegalBlockSizeException, 
+            BadPaddingException, InvalidKeySpecException, SignatureException
+    {
 
         //odbierane jes id wiadomosci
         id = conn.recvInt();
@@ -55,7 +58,8 @@ public class NetworkMessageIncome {
         //System.out.println (id + " " + error + " " + size);
 
         //pętla która wykonuje się tyle razy ile wysłano do nas paczek z wiadomościami
-        for(int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i)
+        {
 
             //tablica która odszyfrowuje wiadomość uprzednio zaszyfrowaną przez serwer naszym kluczem puplicznym
             byte[] decrypt = RSA.decrypt(conn.recvByteArray(), conn.getKeyPair().getPrivateKeyInfo().getPrivateKey());
@@ -68,8 +72,8 @@ public class NetworkMessageIncome {
             messageSignPair.get(i).checkSign(conn.getServerPublicKey().getPublicKey());
         }
     }
-    
-    private int error;
-    private int id;
-    private ArrayList<MessageSignPair> messageSignPair = new ArrayList<>();
+
+    private int error = 0;
+    private int id = 0;
+    private final ArrayList<MessageSignPair> messageSignPair = new ArrayList<>();
 }

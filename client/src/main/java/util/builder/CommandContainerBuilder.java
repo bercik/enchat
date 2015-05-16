@@ -14,6 +14,7 @@ import controller.controllers.RegisterController;
 import messages.MessageId;
 import plugin.plugins.CalcPlugin;
 import plugin.plugins.ConnectPlugin;
+import plugin.plugins.DisconnectPlugin;
 import plugin.plugins.HelpPlugin;
 import plugin.plugins.StatePlugin;
 
@@ -60,6 +61,14 @@ public class CommandContainerBuilder
                 new ConnectPlugin(), null, new State[]
                 {
                     State.NOT_CONNECTED
+                }, true);
+        
+        // disconnect
+        commandContainer.registerCommand(
+                Id.DISCONNECT_PLUGIN.getIntRepresentation(), "disconnect", 
+                new DisconnectPlugin(), null, new State[]
+                {
+                    State.CONNECTED
                 }, true);
         
         // state

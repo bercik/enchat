@@ -9,6 +9,7 @@ import java.util.List;
 import messages.MessageId;
 import network.MessageSignPair;
 import network.NetworkMessageIncome;
+import network.SendException;
 import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
 import rsa.RSA;
@@ -60,7 +61,7 @@ public class PluginManager
         {
             packageForwarder.send(id, parameters);
         }
-        catch (Exception ex)
+        catch (SendException ex)
         {
             exceptionOccured();
         }
@@ -69,6 +70,11 @@ public class PluginManager
     public void connect() throws Exception
     {
         packageForwarder.connect();
+    }
+    
+    public void disconnect()
+    {
+        packageForwarder.disconnect();
     }
 
     public void setMsg(String msg, boolean error)
@@ -170,6 +176,9 @@ public class PluginManager
         // z serwerem zostaje przerwane i całość wraca do stanu sprzed
         // połączenia)
         controllerManager.setAppState(State.NOT_CONNECTED);
+        String msg = "Nastąpiło przerwanie połączenia z serwerem w wyniku " + 
+                "wystąpienia wyjątku";
+        setMsg(msg, true);
         // resetujemy wszystkie pluginy
         for (IPlugin plugin : pluginCommandContainer.getAllPlugins())
         {

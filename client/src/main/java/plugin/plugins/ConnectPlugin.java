@@ -40,7 +40,9 @@ public class ConnectPlugin extends Plugin
         }
         finally
         {
-            pluginManager.setAppState(State.CONNECTED);
+            if (connect)
+                pluginManager.setAppState(State.CONNECTED);
+            
             pluginManager.updateControllerError(controllerError);
             pluginManager.setMsg(msg, !connect);
         }

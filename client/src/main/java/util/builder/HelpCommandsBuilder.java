@@ -83,6 +83,14 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // disconnect command
+        name = "disconnect";
+        shortDescription = "Rozłącza z serwerem";
+        description = "";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // state command
         name = "state";
         shortDescription = "Pokazuje aktualny stan aplikacji";
