@@ -2,8 +2,8 @@ package responders.implementations;
 
 import containers.Logged;
 import containers.Registered;
-import containers.exceptions.AlreadyInCollection;
-import containers.exceptions.OverloadedCannotAddNew;
+import model.exceptions.AlreadyInCollection;
+import model.exceptions.OverloadedCannotAddNew;
 import message3.generators.Messages;
 import message3.types.EncryptedMessage;
 import message3.utils.MessageSender;
@@ -12,7 +12,7 @@ import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.User;
 import user.UserData;
-import user.UserState;
+import model.UserState;
 
 import java.io.IOException;
 

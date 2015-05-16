@@ -1,8 +1,8 @@
 package responders.implementations.lists;
 
-import containers.BlackList;
+import model.containers.BlackList;
 import containers.Registered;
-import containers.exceptions.ElementNotFoundException;
+import model.exceptions.ElementNotFoundException;
 import message3.generators.Messages;
 import message3.types.EncryptedMessage;
 import message3.utils.MessageSender;
@@ -10,7 +10,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.User;
-import user.UserState;
+import model.UserState;
 
 import java.io.IOException;
 

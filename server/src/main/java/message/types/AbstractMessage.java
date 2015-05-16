@@ -6,7 +6,7 @@ import messages.MessageId;
  * Created by tochur on 30.04.15.
  */
 public class AbstractMessage implements IMessage {
-   private Header header;
+    Header header;
 
     public AbstractMessage(MessageId id, MessageId.ErrorId errorId, int dataAmount) {
         header = new Header(id, errorId, dataAmount);

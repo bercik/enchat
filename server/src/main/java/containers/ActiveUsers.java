@@ -1,8 +1,8 @@
 package containers;
 
-import containers.exceptions.AlreadyInCollection;
-import containers.exceptions.ElementNotFoundException;
-import containers.exceptions.OverloadedCannotAddNew;
+import model.exceptions.AlreadyInCollection;
+import model.exceptions.ElementNotFoundException;
+import model.exceptions.OverloadedCannotAddNew;
 import user.User;
 
 import java.net.Socket;

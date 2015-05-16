@@ -6,17 +6,18 @@ import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-import controller.utils.ServerKeyContainerCreationFailed;
-import controller.utils.ServerKeys;
+import controller.utils.cypher.ServerKeyContainerCreationFailed;
+import model.Account;
+import model.ServerKeys;
+import model.containers.permanent.Accounts;
 import newServer.listeners.message.InputStreamsHandler;
 import rsa.KeyContainer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
+import java.util.Map;
 
 /**
  * Created by tochur on 13.05.15.
@@ -36,6 +37,9 @@ public class ServerModule extends AbstractModule {
         bindConstant().annotatedWith(Names.named("PORT_NUMBER")).to(50000);
             //Amount of DataInputStreams, that are scanned by server
         bindConstant().annotatedWith(Names.named("MAX_ACTIVE_USER")).to(1000);
+            //Amount of Accounts, that may be created.
+        bindConstant().annotatedWith(Names.named("ACCOUNT_LIMIT")).to(1000);
+
     }
 
     @Provides
@@ -59,11 +63,18 @@ public class ServerModule extends AbstractModule {
     }
 
     @Provides
+    @Named("Accounts")Map<String, Account> getAccountsMap (Accounts accounts){
+        return accounts.getMap();
+    }
+
+
+    @Named("Server")
     PublicKey getPublicKey(ServerKeys serverKeys) {
         return serverKeys.getPublicKey();
     }
 
     @Provides
+    @Named("Server")
     PrivateKey getPrivateKey(ServerKeys serverKeys) {
         return  serverKeys.getPrivateKey();
     }

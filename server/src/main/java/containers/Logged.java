@@ -1,8 +1,8 @@
 package containers;
 
-import containers.exceptions.AlreadyInCollection;
-import containers.exceptions.ElementNotFoundException;
-import containers.exceptions.OverloadedCannotAddNew;
+import model.exceptions.AlreadyInCollection;
+import model.exceptions.ElementNotFoundException;
+import model.exceptions.OverloadedCannotAddNew;
 import user.User;
 
 import java.util.Collection;
@@ -42,8 +42,8 @@ public class Logged {
     /**
      * Adding new unique User to Logged group.
      * @param user - user to add.
-     * @throws containers.exceptions.OverloadedCannotAddNew - when newServer is overloaded.
-     * @throws containers.exceptions.AlreadyInCollection - when tried to add not unique user.
+     * @throws model.exceptions.OverloadedCannotAddNew - when newServer is overloaded.
+     * @throws model.exceptions.AlreadyInCollection - when tried to add not unique user.
      */
     public void addUser(User user) throws OverloadedCannotAddNew, AlreadyInCollection {
         if ( !( MAX_LOGGED_USER > logged.size() ) ){

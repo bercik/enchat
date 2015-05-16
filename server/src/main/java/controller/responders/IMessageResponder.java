@@ -1,10 +1,11 @@
 package controller.responders;
 
-import message3.types.EncryptedMessage;
+
+import message.types.UEMessage;
 
 /**
  * Created by tochur on 14.05.15.
  */
 public interface IMessageResponder extends Runnable{
-    public void serveEvent(EncryptedMessage encrypted);
+    public void serveEvent(UEMessage encryptedWrapped);
 }

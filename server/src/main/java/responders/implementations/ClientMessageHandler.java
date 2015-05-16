@@ -4,10 +4,10 @@ import message3.generators.Messages;
 import message3.types.EncryptedMessage;
 import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
-import room.ChatRoom;
+import controller.room.ChatRoom;
 import rsa.exceptions.DecryptingException;
 import user.User;
-import user.UserState;
+import model.UserState;
 
 import java.io.IOException;
 

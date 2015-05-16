@@ -1,7 +1,7 @@
 package user;
 
 import org.junit.Test;
-import room.ChatRoom;
+import controller.room.ChatRoom;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -17,7 +17,7 @@ public class UserTest {
 
         ChatRoom chatRoom = null;
         user.setRoom(chatRoom);
-        assertNotNull("Accessing room didn't create new ChatRoom when it was null", user.getRoom());
+        assertNotNull("Accessing controller.room didn't create new ChatRoom when it was null", user.getRoom());
     }
 
     @Test

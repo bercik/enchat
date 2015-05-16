@@ -1,5 +1,6 @@
 package message.generators;
 
+import controller.utils.cypher.Encryption;
 import message.utils.Encryption;
 import message3.types.EncryptedMessage;
 import message3.types.Header;

@@ -1,8 +1,8 @@
 package handlers;
 
 import containers.ActiveUsers;
-import containers.exceptions.AlreadyInCollection;
-import containers.exceptions.OverloadedCannotAddNew;
+import model.exceptions.AlreadyInCollection;
+import model.exceptions.OverloadedCannotAddNew;
 import message3.generators.Messages;
 import message3.types.EncryptedMessage;
 import message3.utils.MessageSender;

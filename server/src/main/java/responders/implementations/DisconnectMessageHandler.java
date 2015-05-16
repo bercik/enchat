@@ -7,7 +7,7 @@ import responders.AbstractMessageHandler;
 import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import user.User;
-import user.UserState;
+import model.UserState;
 
 /**
  * Created by tochur on 19.04.15.

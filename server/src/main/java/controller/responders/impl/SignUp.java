@@ -1,37 +1,61 @@
 package controller.responders.impl;
 
 import com.google.inject.Inject;
+import containers.ActiveUsers;
 import controller.responders.IMessageResponder;
-import controller.utils.Encryption;
+import controller.responders.exceptions.IncorrectUserStateException;
+import controller.utils.cypher.Decryption;
+import controller.utils.verifiers.state.StateVerifier;
+import message.exceptions.UnableToSendMessage;
+import message.types.EncryptedMessage;
+import message.types.UEMessage;
+import message.types.UMessage;
+import model.containers.permanent.Registration;
+import model.exceptions.AlreadyInCollection;
+import model.exceptions.OverloadedCannotAddNew;
+import newServer.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
 import rsa.exceptions.EncryptionException;
 
-import java.security.PublicKey;
+import java.io.IOException;
 
 /**
  * Created by tochur on 15.05.15.
  */
 public class SignUp implements IMessageResponder {
-    Encryption encryption;
-    StateVarifier stateVarifier;
-    Accounts accounts;
-    MessageSender messageSender;
-    EncryptedMessage encrypted;
+    private Decryption decryption;
+    private StateVerifier stateVerifier;
+    private Registration registration;
+    private MessageSender messageSender;
+    private UEMessage ueMessage;
+    private ActiveUsers activeUsers;
+
+    private Integer ID;
+    private String nick;
+    private String password;
+    private UMessage message;
 
     @Inject
-    public SignUp(Encryption encryption, StateVarifier stateVarifier, Accounts accounts, MessageSender messageSender){
-        this.encryption = encryption;
-        this.stateVarifier = stateVarifier;
-        this.accounts = accounts;
+    public SignUp(Decryption decryption, StateVerifier stateVerifier, Registration registration, MessageSender messageSender, ActiveUsers activeUsers){
+        this.decryption = decryption;
+        this.stateVerifier = stateVerifier;
+        this.registration = registration;
         this.messageSender = messageSender;
+    }
+
+    @Override
+    public void serveEvent(UEMessage ueMessage) {
+        this.ueMessage = ueMessage;
+        new Thread(this).start();
     }
 
     @Override
     public void run() {
         try{
-            Message message = encryption.encrypt(encrypted, PublicKey senderKey);
-            stateVarifier.isStateOk(UserState userState, MessageID messageID);
-            Account account = accounts.createNew(String nick, String password);
+            stateVerifier.verify(ueMessage);
+            message = decryption.decryptMessage(ueMessage);
+            readInfo();
+            registration.register(nick, password);
             EncryptedMessage answer = encryption.encrypt(Message message, PublicKey senderKey);
             messageSender.send(answer,Integer ID);
         }catch (EncryptionException e){
@@ -44,13 +68,18 @@ public class SignUp implements IMessageResponder {
 
         }catch (UnableToSendMessage e){
 
+        } catch (OverloadedCannotAddNew e) {
+
+        } catch (IOException e) {
+
         }
 
     }
 
-    @Override
-    public void serveEvent(EncryptedMessage encrypted) {
-        this.encrypted = encrypted;
-        new Thread(this).start();
+    private void readInfo(){
+        ID = message.get
+        String[] strings = message.getPackages().toArray(new String[0]);
+        this.nick = strings[0];
+        this.password = strings[1];
     }
 }

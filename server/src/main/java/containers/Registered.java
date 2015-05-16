@@ -1,7 +1,7 @@
 package containers;
 
-import containers.exceptions.AlreadyInCollection;
-import containers.exceptions.OverloadedCannotAddNew;
+import model.exceptions.AlreadyInCollection;
+import model.exceptions.OverloadedCannotAddNew;
 import user.UserData;
 
 import java.util.HashMap;
