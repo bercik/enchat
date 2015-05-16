@@ -16,6 +16,9 @@ import plugin.plugins.CalcPlugin;
 import plugin.plugins.ConnectPlugin;
 import plugin.plugins.DisconnectPlugin;
 import plugin.plugins.HelpPlugin;
+import plugin.plugins.LoginPlugin;
+import plugin.plugins.LogoutPlugin;
+import plugin.plugins.RegisterPlugin;
 import plugin.plugins.StatePlugin;
 
 /**
@@ -32,18 +35,25 @@ public class CommandContainerBuilder
         commandContainer.registerController(
                 Id.MAIN_CONTROLLER.getIntRepresentation(),
                 new MainController(commandContainer), State.ALL);
-        // login TODO change state to connected
+        // login
         commandContainer.registerCommand(
                 MessageId.LOG_IN.getIntRepresentation(),
-                "login", null, new LoginController(),
+                "login", new LoginPlugin(), new LoginController(),
                 new State[]
                 {
                     State.CONNECTED
                 }, true);
-        // register TODO change state to connected
+        // logout
+        commandContainer.registerCommand(
+                MessageId.LOGOUT.getIntRepresentation(), "logout",
+                new LogoutPlugin(), null, new State[]
+                {
+                    State.LOGGED
+                }, true);
+        // register
         commandContainer.registerCommand(
                 MessageId.SIGN_UP.getIntRepresentation(),
-                "register", null, new RegisterController(),
+                "register", new RegisterPlugin(), new RegisterController(),
                 new State[]
                 {
                     State.CONNECTED

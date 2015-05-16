@@ -6,10 +6,13 @@
 package controller.controllers;
 
 import app_info.Id;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import messages.MessageId;
+import rsa.RSA;
 import util.Authentication;
+import util.Hash;
 import util.StringFormatter;
 import util.exceptions.RunMethodNotImplementedException;
 
@@ -40,13 +43,14 @@ public class RegisterController extends CommandLineController
     @Override
     public void updateError(int error)
     {
-        // wyświetlamy komunikat o błędzie
-        MessageId.ErrorId errorId = MessageId.LOG_IN.createErrorId(error);
-        String msg = "Nieudana rejestracja: " + errorId.toString();
-        controllerManager.setMsg(msg, true);
-        // zmieniamy na MainController
-        controllerManager.setController(
-                Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+        if (error != MessageId.ErrorId.OK.getIntRepresentation())
+        {
+            // zmieniamy na MainController
+            controllerManager.setController(
+                    Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+        }
+
+        setBlockConsole(false);
     }
 
     private class State1 implements IState
@@ -139,8 +143,6 @@ public class RegisterController extends CommandLineController
         @Override
         public IState run(String param)
         {
-            // TODO
-
             String password = param;
 
             if (!firstPassword.equals(password))
@@ -154,8 +156,20 @@ public class RegisterController extends CommandLineController
 
             // blokujemy konsolę do czasu zakończenia działania przez register plugin
             setBlockConsole(true);
-            // TODO
+            // tworzymy skrót hasła
+            password = Hash.createPasswordHash(password, login);
+            // tworzymy tablicę parametrów
+            String[] parameters = new String[]
+            {
+                login,
+                password
+            };
+            // wyświetlamy wiadomość userowi
+            String msg = "Próbuję zarejestrować";
+            controllerManager.setMsg(msg, false);
             // uruchamiamy register plugin
+            controllerManager.startPlugin(
+                    MessageId.SIGN_UP.getIntRepresentation(), parameters);
 
             return new State1();
         }

@@ -6,6 +6,7 @@
 package main;
 
 import app_info.CommandContainer;
+import app_info.Id;
 import controller.ControllerManager;
 import io.IOSet;
 import io.IOSetFabric;
@@ -47,7 +48,10 @@ public class AppCore
                             pluginManager);
             // set controller manager reference in plugin manager
             pluginManager.setControllerManager(controllerManager);
-
+            // try to connect to server at start
+            pluginManager.updatePlugin(
+                    Id.CONNECT_PLUGIN.getIntRepresentation(), new String[0]);
+            
             while (true)
             {
                 // update plugin manager so it can check if there is some

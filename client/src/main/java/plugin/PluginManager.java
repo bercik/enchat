@@ -20,8 +20,6 @@ import sun.security.rsa.RSACore;
  */
 public class PluginManager
 {
-    // TODO
-
     private final PackageForwarder packageForwarder;
     private final MessageIncomeBuffer messageIncomeBuffer;
     private final IPluginCommandContainer pluginCommandContainer;

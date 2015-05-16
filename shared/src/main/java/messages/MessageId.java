@@ -16,12 +16,14 @@ public enum MessageId
     // BAD_LOGIN_OR_PASSWORD - zły login lub hasło
     // TOO_MUCH_USERS_LOGGED - za dużo zalogowanych użytkowników
     // ErrorId.ALREADY_LOGGED - nie moża być zalogowanym przy pomocy jednego loginu kilka razy, następuje wylogowanie z poprzedniej sesji.
-    LOG_IN(1, ErrorId.BAD_LOGIN_OR_PASSWORD, ErrorId.TOO_MUCH_USERS_LOGGED, ErrorId.ALREADY_LOGGED),
+    LOG_IN(1, ErrorId.BAD_LOGIN_OR_PASSWORD, ErrorId.TOO_MUCH_USERS_LOGGED, 
+            ErrorId.ALREADY_LOGGED),
     // rejestracja
     // BUSY_LOGIN - login zajęty
     // INCORRECT_LOGIN - nieprawidłowy login 
     // (zawiera inne znaki niż alfanumeryczne ASCII)
-    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, ErrorId.BAD_PASSWORD_LENGTH, ErrorId.TO_MUCH_REGISTERED),
+    SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, 
+            ErrorId.BAD_PASSWORD_LENGTH, ErrorId.TO_MUCH_REGISTERED),
     // żądanie konwersacji (klient -> serwer)
     // USER_NOT_LOGGED - użytkownik z którym chcemy rozmawiać jest niezalogowany
     // BUSY_USER - użytkownik z którym chcemy rozmawiać jest zajęty
@@ -53,11 +55,12 @@ public enum MessageId
     REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST, ErrorId.USER_NOT_EXIST),
     // rozłącz z serwerem
     DISCONNECT(12),
-    // klucz publiczny (do wyrzucenia) !!! IAgree. (tochur)
-    PUBLIC_KEY(13),
+    // wyloguj z serwera użytkownika
+    LOGOUT(13),
     // błąd serwera
     // MESSAGE_DECRYPTING_FAILED - nie udało się odszyfrować wiadomości
-    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED);
+    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, 
+            ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED);
 
     private int id;
     private EnumSet<ErrorId> errorIds;
@@ -75,10 +78,10 @@ public enum MessageId
         BAD_LOGIN_OR_PASSWORD(1),
         TOO_MUCH_USERS_LOGGED(2),
         ALREADY_LOGGED(3),
-        TO_MUCH_REGISTERED(4),
         BUSY_LOGIN(1),
         INCORRECT_LOGIN(2),
         BAD_PASSWORD_LENGTH(3),
+        TO_MUCH_REGISTERED(4),
         USER_NOT_LOGGED(1),
         BUSY_USER(2),
         CONVERSATION_WITH_ANOTHER_USER(3),

@@ -91,6 +91,14 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // logout command
+        name = "logout";
+        shortDescription = "Wylogowuje użytkownika z serwera";
+        description = "";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // state command
         name = "state";
         shortDescription = "Pokazuje aktualny stan aplikacji";

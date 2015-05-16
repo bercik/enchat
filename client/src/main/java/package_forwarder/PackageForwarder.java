@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import network.SendException;
 
 /**
@@ -52,10 +53,13 @@ public class PackageForwarder implements Runnable
             }
             catch (Exception e)
             {
-                if (!Thread.currentThread().isInterrupted())
+                synchronized (lock)
                 {
-                    this.disconnect();
-                    messageIncomeBuffer.setException(e);
+                    if (!disconnected)
+                    {
+                        conn.close();
+                        messageIncomeBuffer.setException(e);
+                    }
                 }
                 
                 return;
@@ -104,13 +108,25 @@ public class PackageForwarder implements Runnable
         }
     }
 
+    @SuppressWarnings("empty-statement")
     public void disconnect()
     {
-        thread.interrupt();
-        conn.close();
+        synchronized (lock)
+        {
+            disconnected = true;
+            thread.interrupt();
+            conn.close();
+        }
+        // wait until thread die
+        while (thread.isAlive()) ;
+        disconnected = false;
     }
 
     private Connection conn;
     private Thread thread;
     private final MessageIncomeBuffer messageIncomeBuffer;
+    
+    // thread synchronize
+    private final Object lock = new Object();
+    private boolean disconnected = false;
 }

@@ -8,6 +8,7 @@ package controller.controllers;
 import app_info.Id;
 import messages.MessageId;
 import util.Authentication;
+import util.Hash;
 import util.StringFormatter;
 
 /**
@@ -21,8 +22,6 @@ public class LoginController extends CommandLineController
     @Override
     protected void route(String input)
     {
-        // TODO
-
         String password = input;
         // sprawdzamy poprawność hasła
         if (!Authentication.isPasswordCorrect(password))
@@ -40,8 +39,20 @@ public class LoginController extends CommandLineController
 
         // blokujemy konsolę do czasu zakończenia działania przez login plugin
         setBlockConsole(true);
-        // TODO
+        // tworzymy skrót hasła
+        password = Hash.createPasswordHash(password, login);
+        // tworzymy tablicę parametrów
+        String[] parameters = new String[]
+        {
+            login,
+            password
+        };
+        // wyświetlamy wiadomość userowi
+        String msg = "Próbuję zalogować jako " + login;
+        controllerManager.setMsg(msg, false);
         // uruchamiamy login plugin
+        controllerManager.startPlugin(
+            MessageId.LOG_IN.getIntRepresentation(), parameters);
     }
 
     @Override
@@ -84,12 +95,13 @@ public class LoginController extends CommandLineController
     @Override
     public void updateError(int error)
     {
-        // wyświetlamy komunikat o błędzie
-        MessageId.ErrorId errorId = MessageId.LOG_IN.createErrorId(error);
-        String msg = "Nieudane logowanie: " + errorId.toString();
-        controllerManager.setMsg(msg, true);
-        // zmieniamy na MainController
-        controllerManager.setController(
-                Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+        if (error != MessageId.ErrorId.OK.getIntRepresentation())
+        {
+            // zmieniamy na MainController
+            controllerManager.setController(
+                    Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+        }
+
+        setBlockConsole(false);
     }
 }
