@@ -2,8 +2,6 @@ package message.types;
 
 import messages.MessageId;
 
-import java.util.List;
-
 /**
  * Created by tochur on 24.04.15.
  */

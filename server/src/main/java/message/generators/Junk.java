@@ -1,6 +1,7 @@
 package message.generators;
 
 import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
@@ -9,9 +10,10 @@ import messages.MessageId;
  * Let user to safety creating messages.
  */
 public class Junk {
-    private static MessageId messageId = MessageId.JUNK;
+    private MessageId junk = MessageId.JUNK;
 
-    public static EncryptedMessage ok(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 0));
+    public UEMessage ok(Integer receiverID){
+        EncryptedMessage encrypted= new EncryptedMessage(HeaderGenerator.createHeader(junk, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 }

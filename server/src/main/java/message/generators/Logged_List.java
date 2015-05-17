@@ -1,12 +1,13 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
+import com.google.inject.Inject;
+import controller.utils.cypher.Encryption;
 import message.types.Header;
 import message.types.Message;
-import message.utils.Encryption;
+import message.types.UEMessage;
+import message.types.UMessage;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
-import user.User;
 
 import java.util.Arrays;
 
@@ -17,19 +18,26 @@ import java.util.Arrays;
  * Each nick is wrapped in own package.
  */
 public class Logged_List {
-    private static MessageId messageId = MessageId.CLIENTS_LIST;
+    private MessageId messageId = MessageId.CLIENTS_LIST;
+    private Encryption encryption;
+
+    @Inject
+    public Logged_List(Encryption encryption){
+        this.encryption = encryption;
+    }
 
     /**
      *
-     * @param receiver - the ActiveUser that request for his blackList
+     * @param receiverID - the ActiveUser that request for his blackList
      * @param nicks - nicks of logged users
      * @return - encryptedMessage
-     * @throws EncryptionException - When encryption of the message failed
+     * @throws rsa.exceptions.EncryptionException - When encryption of the message failed
      */
-    public static EncryptedMessage loggedUserList(User receiver, String[] nicks) throws EncryptionException {
+    public UEMessage create(Integer receiverID, String[] nicks) throws EncryptionException {
         Header header = HeaderGenerator.createHeader(messageId, 0, nicks.length);
         Message message = new Message(header, Arrays.asList(nicks));
+        UMessage uMessage = new UMessage(receiverID, message);
 
-        return Encryption.encryptMessage(receiver, message);
+        return encryption.encryptMessage(uMessage);
     }
 }

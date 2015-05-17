@@ -1,31 +1,37 @@
 package message.generators;
 
 import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
  * Created by tochur on 01.05.15.
  */
 public class Sign_Up {
-    public static MessageId messageId = MessageId.SIGN_UP;
+    public MessageId signUp = MessageId.SIGN_UP;
 
-    public static EncryptedMessage ok() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 0));
+    public UEMessage ok(Integer receiverID) {
+        EncryptedMessage encrypted = new EncryptedMessage(HeaderGenerator.createHeader(signUp, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public static EncryptedMessage busyLogin() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 1));
+    public UEMessage busyLogin(Integer receiverID) {
+        EncryptedMessage encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(signUp, 1));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public static EncryptedMessage incorrectLogin() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 2));
+    public UEMessage incorrectLogin(Integer receiverID) {
+        EncryptedMessage encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(signUp, 2));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public static EncryptedMessage badPasswordLength() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 3));
+    public UEMessage badPasswordLength(Integer receiverID) {
+        EncryptedMessage encrypted = new EncryptedMessage(HeaderGenerator.createHeader(signUp, 3));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public static EncryptedMessage toManyAccounts() {
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 4));
+    public UEMessage toManyAccounts(Integer receiverID) {
+        EncryptedMessage encrypted = new EncryptedMessage(HeaderGenerator.createHeader(signUp, 4));
+        return new UEMessage(receiverID, encrypted);
     }
 }

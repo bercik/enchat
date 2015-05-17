@@ -1,19 +1,23 @@
 package message.generators;
 
 import message.types.EncryptedMessage;
+import message.types.UEMessage;
 import messages.MessageId;
 
 /**
  * Created by tochur on 02.05.15.
  */
 public class Incoming_Conversation {
-    private static MessageId messageId = MessageId.INCOMING_CONVERSATION;
+    private MessageId incomingConversation = MessageId.INCOMING_CONVERSATION;
+    private EncryptedMessage encrypted;
 
-    public static EncryptedMessage connected(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 0));
+    public UEMessage connected(Integer receiverID){
+        encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(incomingConversation, 0));
+        return new UEMessage(receiverID, encrypted);
     }
 
-    public static EncryptedMessage roomOverloaded(){
-        return new EncryptedMessage(HeaderGenerator.createHeader(messageId, 1));
+    public UEMessage roomOverloaded(Integer receiverID){
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(incomingConversation, 1));
+        return new UEMessage(receiverID, encrypted);
     }
 }

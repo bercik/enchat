@@ -1,30 +1,36 @@
 package message.generators;
 
-import message.types.EncryptedMessage;
-import message.types.Header;
-import message.types.Message;
-import message.utils.Encryption;
+import com.google.inject.Inject;
+import controller.utils.cypher.Encryption;
+import message.types.*;
+
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
-import user.User;
 
 /**
  * Created by tochur on 01.05.15.
  */
 public class Clients_Message {
-    private static MessageId messageId = MessageId.CLIENT_MESSAGE;
+    private MessageId clientMessage = MessageId.CLIENT_MESSAGE;
+    private Encryption encryption;
+
+    @Inject
+    public Clients_Message(Encryption encryption){
+        this.encryption = encryption;
+    }
 
     /**
      *
-     * @param user - author of the message
+     * @param receiverID - author of the message
      * @param nick - nick of the user to whom sending message failed
      * @return encrypted message, informing that sending message failed.
-     * @throws EncryptionException - when during encrypting answer error happened.
+     * @throws rsa.exceptions.EncryptionException - when during encrypting answer error happened.
      */
-    public static EncryptedMessage message(User user, String nick) throws EncryptionException{
-        Header header = HeaderGenerator.createHeader(messageId, 0, 1);
+    public UEMessage message(Integer receiverID, String nick) throws EncryptionException{
+        Header header = HeaderGenerator.createHeader(clientMessage, 0, 1);
         Message message = new Message(header, nick);
+        UMessage uMessage = new UMessage(receiverID, message);
 
-        return Encryption.encryptMessage(user, message);
+        return encryption.encryptMessage(uMessage);
     }
 }
