@@ -22,6 +22,7 @@ import model.exceptions.IncorrectNickOrPassword;
 import model.user.UserState;
 import newServer.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 
 import java.io.IOException;
 
@@ -82,7 +83,7 @@ public class ConversationRequest implements IMessageResponder {
 
             //creating answers (containing publicKeys)
             answer = conversation_request.connected(authorID, otherUserID, otherUserNick);
-            answer = conversation_request.connected(otherUserID, authorID, authorNick);
+            informAboutRequest = conversation_request.connected(otherUserID, authorID, authorNick);
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
         } catch(DecryptingException e) {
@@ -91,6 +92,8 @@ public class ConversationRequest implements IMessageResponder {
             e.printStackTrace();
         } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
             toMuchUsersInThisRoom.printStackTrace();
+        } catch (EncryptionException e) {
+            e.printStackTrace();
         }
 
         try{
