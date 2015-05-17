@@ -10,7 +10,9 @@ import model.exceptions.ElementNotFoundException;
 import model.exceptions.OverloadedCannotAddNew;
 import sun.nio.cs.ext.ISCII91;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Created by tochur on 17.05.15.
@@ -38,5 +40,10 @@ public class BlackListUtil {
             throw new UserNotExists();
         BlackList blackList = blackListAccessor.get(authorID);
         blackList.remove(nickToRemove);
+    }
+
+    public Collection<String> getBlackList(Integer authorID) throws NoSuchElementException {
+        BlackList blackList = blackListAccessor.get(authorID);
+        return blackList.getNicks();
     }
 }

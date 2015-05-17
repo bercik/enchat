@@ -16,14 +16,15 @@ import model.exceptions.ElementNotFoundException;
 import model.exceptions.OverloadedCannotAddNew;
 import newServer.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
+import rsa.exceptions.EncryptionException;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Created by tochur on 17.05.15.
  */
-public class AddToBlackList implements IMessageResponder {
-
+public class BlackList implements IMessageResponder{
     private UEMessage ueMessage;
     private UMessage uMessage;
     private UEMessage answer;
@@ -31,9 +32,8 @@ public class AddToBlackList implements IMessageResponder {
     private String nickToAdd;
 
     @Inject
-    public AddToBlackList(StateManager stateManager, Decryption decryption, MessageSender messageSender, BlackListUtil blackListUtil, Black_List messages){
+    public BlackList(StateManager stateManager, MessageSender messageSender, BlackListUtil blackListUtil, Black_List messages){
         this.stateManager = stateManager;
-        this.decryption = decryption;
         this.messageSender = messageSender;
         this.blackListUtil = blackListUtil;
         this.messages = messages;
@@ -49,20 +49,12 @@ public class AddToBlackList implements IMessageResponder {
     public void run() {
         try{
             stateManager.verify(ueMessage);
-            uMessage = decryption.decryptMessage(ueMessage);
-            readInfo();
-            blackListUtil.addToBlackList(authorID, nickToAdd);
-            answer = messages.addedSuccessfully(authorID);
+            Collection<String> userNicks = blackListUtil.getBlackList(authorID);
+            answer = messages.create(authorID, userNicks.toArray(new String[0]));
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
-        } catch(DecryptingException e) {
-            answer = Server_error.unableToDecrypt(authorID);
-        } catch (OverloadedCannotAddNew e) {
-            answer = messages.toMuchOnList(authorID);
-        } catch (AlreadyInCollection e) {
-            answer = messages.alreadyAdded(authorID);
-        } catch (UserNotExists e) {
-            answer = messages.userNotExistsCannotAdd(authorID);
+        } catch (EncryptionException e) {
+            answer = Server_error.unableToEncrypt(authorID);
         }
 
         try{
@@ -73,14 +65,7 @@ public class AddToBlackList implements IMessageResponder {
 
     }
 
-    private void readInfo(){
-        authorID = uMessage.getAuthorID();
-        String[] strings = uMessage.getPackages().toArray(new String[0]);
-        this.nickToAdd = strings[0];
-    }
-
     private StateManager stateManager;
-    private Decryption decryption;
     private MessageSender messageSender;
     private BlackListUtil blackListUtil;
     private Black_List messages;

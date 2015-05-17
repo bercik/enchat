@@ -2,6 +2,7 @@ package controller.responders.impl;
 
 import com.google.inject.Inject;
 import controller.responders.IMessageResponder;
+import controller.responders.exceptions.IncorrectUserStateException;
 import controller.utils.cypher.Decryption;
 import controller.utils.state.StateManager;
 import message.generators.Log_In;
@@ -52,7 +53,7 @@ public class LogIn implements IMessageResponder {
             account = authentication.authenticate(nick, password);
             stateManager.update(authorID, UserState.LOGGED);
             answer = log_in.loggedSuccessfully(authorID);
-        } catch(controller.responders.exceptions.IncorrectUserStateException e){
+        } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
         } catch(DecryptingException e) {
             answer = Server_error.unableToDecrypt(authorID);
