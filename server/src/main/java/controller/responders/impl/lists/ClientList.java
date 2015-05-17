@@ -7,7 +7,7 @@ import controller.utils.state.StateManager;
 import message.generators.Logged_List;
 import message.generators.Server_error;
 import message.types.UEMessage;
-import model.containers.LoggedManager;
+import model.containers.LoggedUtil;
 import newServer.sender.MessageSender;
 import rsa.exceptions.EncryptionException;
 
@@ -23,7 +23,7 @@ public class ClientList implements IMessageResponder{
     private Integer authorID;
 
     @Inject
-    public ClientList(StateManager stateManager, MessageSender messageSender, LoggedManager loggedManager, Logged_List messages){
+    public ClientList(StateManager stateManager, MessageSender messageSender, LoggedUtil loggedManager, Logged_List messages){
         this.stateManager = stateManager;
         this.messageSender = messageSender;
         this.loggedManager = loggedManager;
@@ -63,7 +63,7 @@ public class ClientList implements IMessageResponder{
 
     private StateManager stateManager;
     private MessageSender messageSender;
-    private LoggedManager loggedManager;
+    private LoggedUtil loggedManager;
     private Logged_List messages;
 
 }

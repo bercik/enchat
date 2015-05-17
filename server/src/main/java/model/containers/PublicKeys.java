@@ -1,6 +1,7 @@
 package model.containers;
 
 import com.google.inject.Singleton;
+import rsa.PublicKeyInfo;
 
 import java.security.PublicKey;
 import java.util.HashMap;

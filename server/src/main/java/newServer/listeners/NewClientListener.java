@@ -1,10 +1,8 @@
 package newServer.listeners;
 
 import com.google.inject.Inject;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-import controller.connecting.NewClientHandler;
+import controller.responders.NewClientHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;

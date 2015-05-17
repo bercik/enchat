@@ -1,4 +1,4 @@
-package controller.connecting;
+package controller.responders;
 
 import com.google.inject.Inject;
 import newServer.listeners.message.InputStreamsHandler;

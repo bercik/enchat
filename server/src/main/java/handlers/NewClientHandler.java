@@ -1,23 +1,5 @@
 package handlers;
 
-import containers.ActiveUsers;
-import model.exceptions.AlreadyInCollection;
-import model.exceptions.OverloadedCannotAddNew;
-import message3.generators.Messages;
-import message3.types.EncryptedMessage;
-import message3.utils.MessageSender;
-import rsa.KeyContainer;
-import rsa.PublicKeyInfo;
-import rsa.exceptions.GeneratingPublicKeyException;
-import server.Server;
-import user.User;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-
 /**
  * Created by tochur on 18.04.15.
  *
@@ -26,7 +8,7 @@ import java.security.spec.InvalidKeySpecException;
  * This class Creates new Client object and adding it to ActiveUser collection.
  * That means that newServer will listen for messages from this user.
  */
-public class NewClientHandler implements Runnable{
+/*public class NewClientHandler implements Runnable{
     private KeyContainer keyContainer;
     private Socket clientSocket;
 
@@ -47,7 +29,7 @@ public class NewClientHandler implements Runnable{
     }
 
     public void createConnection() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, GeneratingPublicKeyException {
-        /*Tworzę nowego użytkownika*/
+        //Tworzę nowego użytkownika
         User newUser = new User(clientSocket);
         //Wysłanie klucza publicznego
         keyContainer.getPublicKeyInfo().send(newUser.getOutStream());
@@ -72,4 +54,4 @@ public class NewClientHandler implements Runnable{
             MessageSender.sendMessage(newUser, message);
         }
     }
-}
+}*/

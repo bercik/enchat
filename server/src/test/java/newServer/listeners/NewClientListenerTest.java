@@ -1,7 +1,6 @@
 package newServer.listeners;
 
-import controller.connecting.NewClientHandler;
-import org.junit.After;
+import controller.responders.NewClientHandler;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,7 +8,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Objects;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;

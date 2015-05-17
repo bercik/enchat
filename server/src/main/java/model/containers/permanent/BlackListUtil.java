@@ -46,4 +46,8 @@ public class BlackListUtil {
         BlackList blackList = blackListAccessor.get(authorID);
         return blackList.getNicks();
     }
+
+    public boolean isOnBlackList(Integer ownerOfListId, String toCheck){
+        return blackListAccessor.get(ownerOfListId).hasNick(toCheck);
+    }
 }

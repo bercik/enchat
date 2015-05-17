@@ -8,8 +8,10 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import controller.utils.cypher.ServerKeyContainerCreationFailed;
 import model.Account;
+import model.ChatRoom;
 import model.ServerKeys;
 import model.containers.Logged;
+import model.containers.Rooms;
 import model.containers.permanent.Accounts;
 import newServer.listeners.message.InputStreamsHandler;
 import rsa.KeyContainer;
@@ -72,6 +74,11 @@ public class ServerModule extends AbstractModule {
     @Provides
     @Named("IDAccounts")Map<Integer, Account> getMapID_Accounts (Logged logged){
         return logged.getMap();
+    }
+
+    @Provides
+    @Named("IDRooms")Map<Integer, ChatRoom> getMapID_Accounts (Rooms rooms){
+        return rooms.getMap();
     }
 
     @Named("Server")
