@@ -10,8 +10,6 @@ import app_info.exceptions.IdAlreadyExistsException;
 import app_info.exceptions.NullCommandException;
 import controller.ControllerManager;
 import controller.IController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -61,12 +59,16 @@ public class CommandContainerTest
     }
     private static class TestController implements IController
     {
-
         @Override
         public void setId(int iid)
         {
         }
-        
+
+        @Override
+        public void putEscapeCharSequence(char[] escChSeq)
+        {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
         
         @Override
         public void putChar(char ch)

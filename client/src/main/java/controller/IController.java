@@ -13,6 +13,8 @@ public interface IController
 {
     public void putChar(char ch);
     
+    public void putEscapeCharSequence(char[] escChSeq);
+    
     /**
      * Metoda wywoływana za każdym razem gdy IController jest ustawiany
      * jako currentController w ControllerManager.

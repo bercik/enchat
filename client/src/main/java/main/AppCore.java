@@ -51,8 +51,9 @@ public class AppCore
             // try to connect to server at start
             pluginManager.updatePlugin(
                     Id.CONNECT_PLUGIN.getIntRepresentation(), new String[0]);
-            
-            while (true)
+
+            // działamy dopóki controller manager nie zarządzi, że koniec
+            while (!controllerManager.isAppEnd())
             {
                 // update plugin manager so it can check if there is some
                 // messages from server
@@ -64,14 +65,24 @@ public class AppCore
                 {
                     char ch = input.getChar();
 
-                    // if escape exit application
+                    // if escape
                     if (ch == 27)
                     {
-                        break;
+                        // get next 2 characters and pass to controller manager
+                        char[] escChSeq = new char[3];
+                        escChSeq[0] = ch;
+                        for (int i = 0; i < 2; ++i)
+                        {
+                            input.update();
+                            escChSeq[i+1] = input.getChar();
+                        }
+                        controllerManager.putEscapeCharSequence(escChSeq);
                     }
-
-                    // put char to controller manager
-                    controllerManager.putChar(ch);
+                    else
+                    {
+                        // put char to controller manager
+                        controllerManager.putChar(ch);
+                    }
                 }
             }
         }

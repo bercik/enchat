@@ -107,7 +107,7 @@ public abstract class CommandLineController implements IController
         commandToReturn = "";
         prefix = "";
     }
-
+    
     @Override
     public final void putChar(char ch)
     {

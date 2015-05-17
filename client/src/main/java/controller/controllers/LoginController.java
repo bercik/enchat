@@ -20,6 +20,18 @@ public class LoginController extends CommandLineController
     private String login;
 
     @Override
+    public void putEscapeCharSequence(char[] escChSeq)
+    {
+        // jeżeli escape to wracamy do main controller
+        if (escChSeq[0] == escChSeq[1] && escChSeq[1] == escChSeq[2])
+        {
+            controllerManager.setController(
+                Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+            controllerManager.setMsg("", true);
+        }
+    }
+    
+    @Override
     protected void route(String input)
     {
         String password = input;

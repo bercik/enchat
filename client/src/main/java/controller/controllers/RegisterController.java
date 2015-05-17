@@ -28,6 +28,18 @@ public class RegisterController extends CommandLineController
     private String firstPassword;
 
     @Override
+    public void putEscapeCharSequence(char[] escChSeq)
+    {
+        // jeżeli escape to wracamy do main controller
+        if (escChSeq[0] == escChSeq[1] && escChSeq[1] == escChSeq[2])
+        {
+            controllerManager.setController(
+                Id.MAIN_CONTROLLER.getIntRepresentation(), null);
+            controllerManager.setMsg("", true);
+        }
+    }
+
+    @Override
     protected void route(String input)
     {
         currentState = currentState.run(input);

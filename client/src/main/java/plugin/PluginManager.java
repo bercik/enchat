@@ -41,6 +41,11 @@ public class PluginManager
         }
     }
 
+    public void setAppEnd()
+    {
+        controllerManager.setAppEnd();
+    }
+    
     public State getAppState()
     {
         return controllerManager.getAppState();

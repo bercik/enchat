@@ -19,25 +19,45 @@ import io.display.displays.HelpDisplay;
 public class MainController extends CommandLineController
 {
     private final CommandParser commandParser;
+    private final CommandHistory commandHistory;
     
     public MainController(ICommandContainer commandContainer)
     {
         super();
         
         commandParser = new CommandParser(commandContainer, this);
+        commandHistory = new CommandHistory(this);
     }
-
+    
+    @Override
+    public final void putEscapeCharSequence(char[] escChSeq)
+    {
+        // TODO do usunięcia w finalnej wersjii (zastąpić komendą /exit)
+        // jeżeli escape wychodzimy z aplikacji
+        if (escChSeq[0] == escChSeq[1] && escChSeq[1] == escChSeq[2])
+        {
+            controllerManager.setAppEnd();
+        }
+        else
+        {
+            commandHistory.putEscapeCharSequence(escChSeq);
+        }
+    }
+    
     @Override
     public void setControllerManager(ControllerManager ccontrollerManager)
     {
         super.setControllerManager(ccontrollerManager);
         commandParser.setControllerManager(ccontrollerManager);
+        commandHistory.setControllerManager(ccontrollerManager);
     }
     
     @Override
     protected void route(String input)
     {
         setCommand("");
+        // dodajemy komendę do historii
+        commandHistory.addCommand(input);
         
         if (controllerManager.getAppState().equals(State.CONVERSATION))
             commandParser.parseConversation(input);
@@ -55,7 +75,6 @@ public class MainController extends CommandLineController
     public void updateError(int error)
     {
         // do nothing
-        // TEST
         reset();
     }
 }

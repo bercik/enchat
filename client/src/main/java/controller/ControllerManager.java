@@ -8,15 +8,12 @@ package controller;
 import app_info.IControllerCommandContainer;
 import app_info.Id;
 import app_info.State;
-import controller.controllers.MainController;
 import io.display.IDisplay;
 import io.display.IDisplayManager;
 import io.display.displays.ConnectedDisplay;
 import io.display.displays.LoggedDisplay;
 import io.display.displays.NonConnectedDisplay;
-import java.io.IOException;
 import plugin.PluginManager;
-import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *
@@ -24,6 +21,8 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public class ControllerManager
 {
+    // zmienna informująca czy mamy zakończyć działanie aplikacji
+    private boolean appEnd = false;
     private final IControllerCommandContainer controllerCommandContainer;
     private State appState;
     private final IDisplayManager displayManager;
@@ -51,6 +50,16 @@ public class ControllerManager
         {
             controller.setControllerManager(this);
         }
+    }
+    
+    public boolean isAppEnd()
+    {
+        return appEnd;
+    }
+    
+    public void setAppEnd()
+    {
+        appEnd = true;
     }
 
     public void startPlugin(int id, String[] parameters)
@@ -168,5 +177,10 @@ public class ControllerManager
     public void putChar(char ch)
     {
         currentController.putChar(ch);
+    }
+    
+    public void putEscapeCharSequence(char[] escChSeq)
+    {
+        currentController.putEscapeCharSequence(escChSeq);
     }
 }
