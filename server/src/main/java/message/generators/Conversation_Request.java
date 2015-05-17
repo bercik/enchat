@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import controller.utils.cypher.Encryption;
 import message.types.*;
 import messages.MessageId;
-import model.containers.PublicKeysManager;
+import model.containers.temporary.PublicKeysManager;
 import rsa.exceptions.EncryptionException;
 
 import java.security.PublicKey;

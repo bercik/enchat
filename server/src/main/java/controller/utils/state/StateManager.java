@@ -5,7 +5,7 @@ import controller.responders.exceptions.IncorrectUserStateException;
 import message.types.UEMessage;
 import messages.MessageId;
 import model.user.UserState;
-import model.containers.UserStates;
+import model.containers.temporary.UserStates;
 
 /**
  * Created by tochur on 16.05.15.

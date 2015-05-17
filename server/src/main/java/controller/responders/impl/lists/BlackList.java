@@ -7,7 +7,7 @@ import controller.utils.state.StateManager;
 import message.generators.Black_List;
 import message.generators.Server_error;
 import message.types.UEMessage;
-import model.containers.permanent.BlackListUtil;
+import model.containers.permanent.blacklist.BlackListUtil;
 import server.sender.MessageSender;
 import rsa.exceptions.EncryptionException;
 

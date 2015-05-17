@@ -1,4 +1,4 @@
-package model.containers;
+package model.containers.temporary;
 
 import model.ChatRoom;
 import model.exceptions.ElementNotFoundException;

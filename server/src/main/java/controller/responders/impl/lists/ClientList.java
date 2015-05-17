@@ -7,7 +7,7 @@ import controller.utils.state.StateManager;
 import message.generators.Logged_List;
 import message.generators.Server_error;
 import message.types.UEMessage;
-import model.containers.LoggedUtil;
+import model.containers.temporary.LoggedUtil;
 import server.sender.MessageSender;
 import rsa.exceptions.EncryptionException;
 

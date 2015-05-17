@@ -1,4 +1,4 @@
-package model.containers;
+package model.containers.temporary;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -33,7 +33,7 @@ public class LoggedUtil {
 
     public Integer getUserId(String nick) throws ElementNotFoundException {
         for(Integer id: IDAccounts.keySet()){
-            if(IDAccounts.get(id).equals(nick))
+            if(IDAccounts.get(id).getNick().equals(nick))
                 return id;
         }
         throw new ElementNotFoundException();

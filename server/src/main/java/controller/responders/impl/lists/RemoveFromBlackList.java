@@ -9,7 +9,7 @@ import message.generators.Black_List;
 import message.generators.Server_error;
 import message.types.UEMessage;
 import message.types.UMessage;
-import model.containers.permanent.BlackListUtil;
+import model.containers.permanent.blacklist.BlackListUtil;
 import model.exceptions.ElementNotFoundException;
 import server.sender.MessageSender;
 import rsa.exceptions.DecryptingException;

@@ -2,14 +2,10 @@ package controller.utils.cypher;
 
 import com.google.inject.Inject;
 import message.types.*;
-import model.containers.PublicKeys;
-import rsa.RSA;
+import model.containers.temporary.PublicKeys;
 import rsa.exceptions.DecryptingException;
 
-import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by tochur on 15.05.15.
@@ -25,7 +21,6 @@ public class Decryption {
     }
 
     public UMessage decryptMessage(UEMessage ueMessage) throws DecryptingException {
-        EncryptedMessage encrypted = ueMessage.getEncryptedMessage();
         Integer userID = ueMessage.getAuthorID();
         PublicKey senderKey = publicKeys.getKey(userID);
 

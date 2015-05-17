@@ -1,4 +1,4 @@
-package model.containers;
+package model.containers.temporary;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

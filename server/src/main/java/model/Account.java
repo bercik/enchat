@@ -1,6 +1,6 @@
 package model;
 
-import model.containers.BlackList;
+import model.containers.permanent.blacklist.BlackList;
 
 /**
  * Created by tochur on 16.05.15.

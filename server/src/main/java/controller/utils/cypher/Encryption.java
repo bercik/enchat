@@ -1,10 +1,9 @@
 package controller.utils.cypher;
 
 import com.google.inject.Inject;
-import message.types.EncryptedMessage;
 import message.types.UEMessage;
 import message.types.UMessage;
-import model.containers.PublicKeys;
+import model.containers.temporary.PublicKeys;
 import rsa.exceptions.EncryptionException;
 
 import java.security.PublicKey;

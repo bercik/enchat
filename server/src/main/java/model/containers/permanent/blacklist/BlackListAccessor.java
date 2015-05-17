@@ -1,10 +1,8 @@
-package model.containers.permanent;
+package model.containers.permanent.blacklist;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import model.Account;
-import model.containers.BlackList;
-import model.exceptions.ElementNotFoundException;
 
 import java.util.Map;
 import java.util.NoSuchElementException;

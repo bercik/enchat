@@ -1,4 +1,4 @@
-package model.containers;
+package model.containers.permanent.blacklist;
 
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.ElementNotFoundException;
@@ -20,14 +20,14 @@ public class BlackList {
     private final int MAX_SIZE;
 
     /**
-     * New BlackList is created with default max user size = 100.
+     * New blacklist is created with default max user size = 100.
      */
     public BlackList(){
         this(100);
     }
 
     /**
-     * New BlackList is created with default max user specified by parameter
+     * New blacklist is created with default max user specified by parameter
      * @param maxSize - max amount of users at blackList
      */
     public BlackList(int maxSize){

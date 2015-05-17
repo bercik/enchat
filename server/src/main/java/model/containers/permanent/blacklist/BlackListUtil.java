@@ -1,17 +1,13 @@
-package model.containers.permanent;
+package model.containers.permanent.blacklist;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import controller.responders.exceptions.UserNotExists;
-import model.Account;
-import model.containers.BlackList;
+import model.containers.permanent.Accounts;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.ElementNotFoundException;
 import model.exceptions.OverloadedCannotAddNew;
-import sun.nio.cs.ext.ISCII91;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
