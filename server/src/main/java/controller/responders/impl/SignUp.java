@@ -1,23 +1,20 @@
 package controller.responders.impl;
 
 import com.google.inject.Inject;
+import containers.ActiveUsers;
 import controller.responders.IMessageResponder;
 import controller.responders.exceptions.IncorrectUserStateException;
 import controller.utils.cypher.Decryption;
 import controller.utils.state.StateManager;
-import message.exceptions.UnableToSendMessage;
 import message.generators.Server_error;
 import message.generators.Sign_Up;
-import message.types.EncryptedMessage;
 import message.types.UEMessage;
 import message.types.UMessage;
-import messages.MessageId;
 import model.containers.permanent.Registration;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.OverloadedCannotAddNew;
 import newServer.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
-import rsa.exceptions.EncryptionException;
 
 import java.io.IOException;
 
