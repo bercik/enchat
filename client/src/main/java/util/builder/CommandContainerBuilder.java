@@ -12,6 +12,7 @@ import controller.controllers.LoginController;
 import controller.controllers.MainController;
 import controller.controllers.RegisterController;
 import messages.MessageId;
+import plugin.plugins.BlockPlugin;
 import plugin.plugins.CalcPlugin;
 import plugin.plugins.ConnectPlugin;
 import plugin.plugins.DisconnectPlugin;
@@ -20,6 +21,7 @@ import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
 import plugin.plugins.RegisterPlugin;
 import plugin.plugins.StatePlugin;
+import plugin.plugins.UnblockPlugin;
 import plugin.plugins.UsersListPlugin;
 
 /**
@@ -101,6 +103,24 @@ public class CommandContainerBuilder
                 MessageId.BLACK_LIST.getIntRepresentation(), 
                 "blacklist", new UsersListPlugin("Czarna lista"), 
                 null, new State[]
+                {
+                    State.LOGGED,
+                    State.CONVERSATION
+                }, false);
+        
+        // block
+        commandContainer.registerCommand(
+                MessageId.ADD_TO_BLACK_LIST.getIntRepresentation(), 
+                "block", new BlockPlugin(), null, new State[]
+                {
+                    State.LOGGED,
+                    State.CONVERSATION
+                }, false);
+        
+        // unblock
+        commandContainer.registerCommand(
+                MessageId.REMOVE_FROM_BLACK_LIST.getIntRepresentation(), 
+                "unblock", new UnblockPlugin(), null, new State[]
                 {
                     State.LOGGED,
                     State.CONVERSATION

@@ -121,8 +121,41 @@ public class HelpCommandsBuilder
         // blacklist
         name = "blacklist";
         shortDescription = "Wyświetla czarną listę użytkownika";
-        description = "";
+        description = "Czarna lista pozwala na wpisywanie użytkowników z "
+                + "którymi nie chcemy rozmawiać.\nJeżeli użytkownik wpisany "
+                + "na czarną listę będzie chciał z nami rozmawiać "
+                + "dostanie informację, że jesteśmy zajęci.\n" + 
+                "Aby wpisać użytkownika na czarną listę użyj komendy " + 
+                conf.getCommandPrefix() + "block\n" + 
+                "Aby usunąć użytkownika z czarnej listy użyj komendy " +
+                conf.getCommandPrefix() + "unblock\n";
         parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
+        // block
+        name = "block";
+        shortDescription = "Wpisuje użytkownika o podanym loginie na czarną "
+                + "listę";
+        description = "";
+        parameters = new Parameter[]
+        {
+            new Parameter("username", "nazwa użytkownika, którego chcemy "
+                    + "dodać na czarną listę")
+        };
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
+        // unblock
+        name = "unblock";
+        shortDescription = "Usuwa użytkownika o podanym loginie z czarnej "
+                + "listy";
+        description = "";
+        parameters = new Parameter[]
+        {
+            new Parameter("username", "nazwa użytkownika, którego chcemy "
+                    + "usunąć z czarnej listy")
+        };
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         

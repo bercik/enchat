@@ -99,10 +99,17 @@ public class HelpDisplay extends CommandLineDisplay
                 command.getParametersName(), command.getShortDescription()) + 
                 "\n";
         
-        for (Parameter param : command.getParameters())
+        if (command.getParameters().length > 0)
         {
-            result += formatter.bg(PARAMETER_BG_COLOR, param.getName()) + 
-                    " - " + param.getDescription() + "\n";
+            result += "\n";
+            result += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE, 
+                    "Parametry:") + "\n";
+
+            for (Parameter param : command.getParameters())
+            {
+                result += formatter.bg(PARAMETER_BG_COLOR, param.getName()) + 
+                        " - " + param.getDescription() + "\n";
+            }
         }
         
         // usuwamy ostatni znak końca lini

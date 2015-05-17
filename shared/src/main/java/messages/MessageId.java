@@ -1,7 +1,6 @@
 package messages;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 
 /**
@@ -62,8 +61,8 @@ public enum MessageId
     SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, 
             ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED);
 
-    private int id;
-    private EnumSet<ErrorId> errorIds;
+    private final int id;
+    private final EnumSet<ErrorId> errorIds;
 
     private MessageId(int id, ErrorId... eerrorIds){
         this.id = id;
@@ -97,7 +96,7 @@ public enum MessageId
         MESSAGE_ENCRYPTING_FAILED(2),
         SERVER_OVERLOADED(3);
 
-        private int id;
+        private final int id;
 
         private ErrorId(int iid)
         {
