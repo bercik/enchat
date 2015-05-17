@@ -9,6 +9,7 @@ import com.google.inject.name.Names;
 import controller.utils.cypher.ServerKeyContainerCreationFailed;
 import model.Account;
 import model.ServerKeys;
+import model.containers.Logged;
 import model.containers.permanent.Accounts;
 import newServer.listeners.message.InputStreamsHandler;
 import rsa.KeyContainer;
@@ -67,6 +68,11 @@ public class ServerModule extends AbstractModule {
         return accounts.getMap();
     }
 
+
+    @Provides
+    @Named("IDAccounts")Map<Integer, Account> getMapID_Accounts (Logged logged){
+        return logged.getMap();
+    }
 
     @Named("Server")
     PublicKey getPublicKey(ServerKeys serverKeys) {

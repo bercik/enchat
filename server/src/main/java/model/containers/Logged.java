@@ -1,13 +1,13 @@
 package model.containers;
 
 import com.google.inject.Singleton;
-import com.sun.deploy.util.*;
 import model.Account;
-import model.exceptions.AlreadyInCollection;
 import model.exceptions.ElementNotFoundException;
-import model.exceptions.OverloadedCannotAddNew;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tochur on 01.05.15.
@@ -41,4 +41,9 @@ public class Logged {
             throw new ElementNotFoundException();
     }
 
+    public Collection<Account> getAccounts(){
+        return Collections.unmodifiableCollection(logged.values());
+    }
+
+    public Map<Integer, Account> getMap() { return Collections.unmodifiableMap(logged); }
 }

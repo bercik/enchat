@@ -12,9 +12,7 @@ import model.Account;
 import model.UserState;
 import model.containers.permanent.Authentication;
 import model.exceptions.IncorrectNickOrPassword;
-import model.exceptions.OverloadedCannotAddNew;
 import newServer.sender.MessageSender;
-import responders.exceptions.IncorrectUserStateException;
 import rsa.exceptions.DecryptingException;
 
 import java.io.IOException;
