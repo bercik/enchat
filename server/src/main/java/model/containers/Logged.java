@@ -19,7 +19,8 @@ import java.util.Map;
 public class Logged {
 
     /*List of all logged capable to interact*/
-    private static Map<Integer, Account> logged = new HashMap<>();
+    private Map<Integer, Account> logged = new HashMap<>();
+    private Map<Integer, String> loggedNicks = new HashMap<>();
 
 
     /**
@@ -46,4 +47,6 @@ public class Logged {
     }
 
     public Map<Integer, Account> getMap() { return Collections.unmodifiableMap(logged); }
+
+    public Collection<String> getNicks(){ return  Collections.unmodifiableCollection(loggedNicks.values()); }
 }

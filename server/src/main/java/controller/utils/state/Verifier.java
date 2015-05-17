@@ -3,7 +3,7 @@ package controller.utils.state;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import messages.MessageId;
-import model.UserState;
+import model.user.UserState;
 
 /**
  * Created by tochur on 16.05.15.

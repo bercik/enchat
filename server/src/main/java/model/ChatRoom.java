@@ -1,9 +1,9 @@
-package controller.room;
+package model;
 
 
-import controller.user.User;
+import controller.room.ToMuchUsersInThisRoom;
+import model.user.User;
 import message.generators.Messages;
-import message.types.EncryptedMessage;
 import newServer.sender.MessageSender;
 import rsa.exceptions.EncryptionException;
 
@@ -29,7 +29,7 @@ public class ChatRoom {
     /**
      * Adds new user to ChatRoom,
      * @param newParticipant - user to add
-     * @throws ToMuchUsersInThisRoom - when no more participants are allowed.
+     * @throws controller.room.ToMuchUsersInThisRoom - when no more participants are allowed.
      */
     public void add(User newParticipant) throws ToMuchUsersInThisRoom {
         if ( maxSize > participants.size())

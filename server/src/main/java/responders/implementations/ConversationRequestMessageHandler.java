@@ -10,7 +10,7 @@ import responders.exceptions.ReactionException;
 import controller.room.ToMuchUsersInThisRoom;
 import rsa.exceptions.DecryptingException;
 import user.User;
-import model.UserState;
+import model.user.UserState;
 
 import java.io.IOException;
 

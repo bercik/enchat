@@ -10,7 +10,7 @@ import message.generators.Server_error;
 import message.types.UEMessage;
 import message.types.UMessage;
 import model.Account;
-import model.UserState;
+import model.user.UserState;
 import model.containers.permanent.Authentication;
 import model.exceptions.IncorrectNickOrPassword;
 import newServer.sender.MessageSender;
@@ -81,6 +81,6 @@ public class LogIn implements IMessageResponder {
     private Integer authorID;
     private String nick;
     private String password;
-    private Account account;
     private UEMessage answer;
+    private Account account;
 }

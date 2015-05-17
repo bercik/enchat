@@ -1,4 +1,4 @@
-package model;
+package model.user;
 
 /**
  * Created by tochur on 16.04.15.

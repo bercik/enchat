@@ -1,7 +1,7 @@
 package user;
 
 import org.junit.Test;
-import controller.room.ChatRoom;
+import model.ChatRoom;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

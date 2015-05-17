@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import controller.responders.exceptions.IncorrectUserStateException;
 import message.types.UEMessage;
 import messages.MessageId;
-import model.UserState;
+import model.user.UserState;
 import model.containers.UserStates;
 
 /**

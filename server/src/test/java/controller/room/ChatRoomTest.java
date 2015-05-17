@@ -4,6 +4,7 @@ import message3.MessageSender;
 import message3.generators.Conversationalist_Disconnected;
 import message3.generators.Messages;
 import message3.types.EncryptedMessage;
+import model.ChatRoom;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,8 +1,7 @@
-package controller.user;
+package model.user;
 
-import controller.room.ChatRoom;
+import model.ChatRoom;
 import model.Account;
-import model.UserState;
 
 import java.security.PublicKey;
 

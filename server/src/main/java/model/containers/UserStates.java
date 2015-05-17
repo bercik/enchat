@@ -1,7 +1,7 @@
 package model.containers;
 
 import com.google.inject.Singleton;
-import model.UserState;
+import model.user.UserState;
 
 import java.util.HashMap;
 import java.util.Map;

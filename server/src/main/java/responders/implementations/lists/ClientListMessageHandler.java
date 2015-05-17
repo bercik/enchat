@@ -9,7 +9,7 @@ import responders.exceptions.ReactionException;
 import rsa.exceptions.DecryptingException;
 import rsa.exceptions.EncryptionException;
 import user.User;
-import model.UserState;
+import model.user.UserState;
 
 import java.io.IOException;
 import java.util.Collection;

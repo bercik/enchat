@@ -2,7 +2,7 @@ package controller.utils.state;
 
 import com.google.inject.Singleton;
 import messages.MessageId;
-import model.UserState;
+import model.user.UserState;
 
 import java.util.HashMap;
 import java.util.Map;
