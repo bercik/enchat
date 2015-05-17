@@ -1,4 +1,4 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
 import java.io.DataInputStream;
 import java.io.IOException;

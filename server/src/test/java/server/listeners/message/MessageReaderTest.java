@@ -1,4 +1,4 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
 import message3.types.EncryptedMessage;
 import message3.types.Pack;

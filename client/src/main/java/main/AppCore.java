@@ -51,7 +51,7 @@ public class AppCore
             while (true)
             {
                 // update plugin manager so it can check if there is some
-                // messages from newServer
+                // messages from server
                 pluginManager.update();
                 // check if there is some new characters from user input
                 input.update();

@@ -1,7 +1,6 @@
 package controller.responders.impl;
 
 import com.google.inject.Inject;
-import containers.ActiveUsers;
 import controller.responders.IMessageResponder;
 import controller.responders.exceptions.IncorrectUserStateException;
 import controller.utils.cypher.Decryption;
@@ -13,7 +12,7 @@ import message.types.UMessage;
 import model.containers.permanent.Registration;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.OverloadedCannotAddNew;
-import newServer.sender.MessageSender;
+import server.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
 
 import java.io.IOException;

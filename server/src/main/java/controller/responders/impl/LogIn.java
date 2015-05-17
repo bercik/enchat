@@ -13,7 +13,7 @@ import model.Account;
 import model.user.UserState;
 import model.containers.permanent.Authentication;
 import model.exceptions.IncorrectNickOrPassword;
-import newServer.sender.MessageSender;
+import server.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
 
 import java.io.IOException;

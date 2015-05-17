@@ -1,7 +1,7 @@
 package controller.responders;
 
 import com.google.inject.Inject;
-import newServer.listeners.message.InputStreamsHandler;
+import server.listeners.message.InputStreamsHandler;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,7 +11,7 @@ import java.net.Socket;
 /**
  * Created by tochur on 13.05.15.
  *
- * This class is responsible for actualization state of users that can exchange information with newServer
+ * This class is responsible for actualization state of users that can exchange information with server
  *
  * !!!!!!!!!!!!! MODIFICATION NEEDED !!!!!!!!!!!! - add  model state change.
  */

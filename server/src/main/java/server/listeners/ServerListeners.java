@@ -1,8 +1,8 @@
-package newServer.listeners;
+package server.listeners;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import newServer.listeners.message.InputStreamsHandler;
+import server.listeners.message.InputStreamsHandler;
 
 /**
  * Created by tochur on 13.05.15.

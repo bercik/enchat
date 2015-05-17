@@ -1,4 +1,4 @@
-package newServer;
+package server;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

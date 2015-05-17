@@ -1,7 +1,5 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
-import newServer.listeners.message.InputStreamsHandler;
-import newServer.listeners.message.StreamsHandler;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,7 +8,6 @@ import java.io.DataInputStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.*;
 
 public class InputStreamsHandlerTest {

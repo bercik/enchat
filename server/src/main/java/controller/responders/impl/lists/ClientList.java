@@ -8,7 +8,7 @@ import message.generators.Logged_List;
 import message.generators.Server_error;
 import message.types.UEMessage;
 import model.containers.LoggedUtil;
-import newServer.sender.MessageSender;
+import server.sender.MessageSender;
 import rsa.exceptions.EncryptionException;
 
 import java.io.IOException;

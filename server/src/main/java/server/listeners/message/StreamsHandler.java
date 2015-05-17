@@ -1,4 +1,4 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
 import com.google.inject.Inject;
 import controller.responders.IMessageResponder;
@@ -6,7 +6,7 @@ import controller.responders.MessageRespondersFactory;
 import message.exceptions.MessageIdException;
 import message.types.EncryptedMessage;
 import message.types.UEMessage;
-import newServer.sender.ServerInjectorWrapper;
+import server.sender.ServerInjectorWrapper;
 
 import java.io.DataInputStream;
 import java.io.IOException;

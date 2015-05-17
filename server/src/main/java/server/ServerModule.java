@@ -1,4 +1,4 @@
-package newServer;
+package server;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -13,7 +13,7 @@ import model.ServerKeys;
 import model.containers.Logged;
 import model.containers.Rooms;
 import model.containers.permanent.Accounts;
-import newServer.listeners.message.InputStreamsHandler;
+import server.listeners.message.InputStreamsHandler;
 import rsa.KeyContainer;
 
 import java.io.IOException;

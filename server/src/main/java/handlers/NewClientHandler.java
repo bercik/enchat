@@ -3,10 +3,10 @@ package handlers;
 /**
  * Created by tochur on 18.04.15.
  *
- * Responsible for handling new clients that want to user newServer.
+ * Responsible for handling new clients that want to user server.
  *
  * This class Creates new Client object and adding it to ActiveUser collection.
- * That means that newServer will listen for messages from this user.
+ * That means that server will listen for messages from this user.
  */
 /*public class NewClientHandler implements Runnable{
     private KeyContainer keyContainer;
@@ -47,7 +47,7 @@ package handlers;
         try {
             ActiveUsers.getInstance().addUser(newUser);
         } catch (AlreadyInCollection alreadyInCollection) {
-            //Internal newServer error, 2 users got the same socket.
+            //Internal server error, 2 users got the same socket.
             alreadyInCollection.printStackTrace();
         } catch (OverloadedCannotAddNew overloadedCannotAddNew) {
             EncryptedMessage message = new Messages().serverError().serverOverloaded();

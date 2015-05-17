@@ -1,4 +1,4 @@
-package newServer.listeners;
+package server.listeners;
 
 /**
  * Created by tochur on 13.05.15.

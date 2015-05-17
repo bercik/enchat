@@ -1,4 +1,4 @@
-package newServer.listeners;
+package server.listeners;
 
 import java.io.IOException;
 import java.net.Socket;

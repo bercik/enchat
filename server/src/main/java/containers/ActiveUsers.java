@@ -43,7 +43,7 @@ public class ActiveUsers {
     /**
      * Adding new unique User to ActiveUsers
      * @param user - user to Add
-     * @throws OverloadedCannotAddNew - when newServer is overloaded.
+     * @throws OverloadedCannotAddNew - when server is overloaded.
      * @throws AlreadyInCollection - when tried to add not unique user.
      */
     public void addUser(User user) throws AlreadyInCollection, OverloadedCannotAddNew {

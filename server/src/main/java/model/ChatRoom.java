@@ -1,12 +1,6 @@
 package model;
 
 
-import controller.responders.exceptions.ToMuchUsersInThisRoom;
-import model.user.User;
-import newServer.sender.MessageSender;
-import rsa.exceptions.EncryptionException;
-
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 

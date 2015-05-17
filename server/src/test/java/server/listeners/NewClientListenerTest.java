@@ -1,4 +1,4 @@
-package newServer.listeners;
+package server.listeners;
 
 import controller.responders.NewClientHandler;
 import org.junit.Before;

@@ -12,9 +12,8 @@ import message.types.UEMessage;
 import message.types.UMessage;
 import model.containers.permanent.BlackListUtil;
 import model.exceptions.AlreadyInCollection;
-import model.exceptions.ElementNotFoundException;
 import model.exceptions.OverloadedCannotAddNew;
-import newServer.sender.MessageSender;
+import server.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
 
 import java.io.IOException;

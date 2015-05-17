@@ -1,7 +1,6 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.io.DataInputStream;
 import java.util.HashMap;

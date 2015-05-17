@@ -20,7 +20,7 @@ public class Logged {
     public static final Integer MAX_LOGGED_USER = 1000;
     //Reference to Singleton object
     private static Logged instance;
-    /*List of all logged capable to interact with newServer (CONNECTED_TO_SERVER, LOGGED or CONNECTED_WITH_OTHER,)*/
+    /*List of all logged capable to interact with server (CONNECTED_TO_SERVER, LOGGED or CONNECTED_WITH_OTHER,)*/
     private static Map<String, User> logged = new HashMap<>();
 
     /**
@@ -41,7 +41,7 @@ public class Logged {
     /**
      * Adding new unique User to Logged group.
      * @param user - user to add.
-     * @throws model.exceptions.OverloadedCannotAddNew - when newServer is overloaded.
+     * @throws model.exceptions.OverloadedCannotAddNew - when server is overloaded.
      * @throws model.exceptions.AlreadyInCollection - when tried to add not unique user.
      */
     public void addUser(User user) throws OverloadedCannotAddNew, AlreadyInCollection {

@@ -1,4 +1,4 @@
-package newServer.sender;
+package server.sender;
 
 import com.google.inject.Singleton;
 

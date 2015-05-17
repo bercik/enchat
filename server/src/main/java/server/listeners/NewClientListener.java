@@ -1,4 +1,4 @@
-package newServer.listeners;
+package server.listeners;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -28,7 +28,7 @@ public class NewClientListener implements Runnable{
      * To Start listening for new Clients we need Server Instance
      * @param serverSocket instance of ServerSocket.
      * @param newClientHandler - class responsible for actualization state of users
-     *                         that can exchange information with newServer
+     *                         that can exchange information with server
      */
     @Inject
     public NewClientListener(ServerSocket serverSocket, NewClientHandler newClientHandler) throws ServerStartFailed {

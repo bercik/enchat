@@ -1,13 +1,10 @@
 package controller.responders;
 
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import controller.responders.impl.LogIn;
 import controller.responders.impl.SignUp;
 import messages.MessageId;
-import newServer.ServerInjector;
-import newServer.sender.ServerInjectorWrapper;
 
 /**
  * Created by tochur on 14.05.15.

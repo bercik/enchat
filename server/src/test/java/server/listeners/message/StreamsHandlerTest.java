@@ -1,8 +1,6 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class StreamsHandlerTest {
 

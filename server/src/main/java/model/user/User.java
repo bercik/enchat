@@ -21,7 +21,7 @@ public class User {
 
 
     /**
-     * Creates the user that is able to exchange messages with newServer.
+     * Creates the user that is able to exchange messages with server.
      * @param ID - integer - unique amongst all connected users.
      * @param publicKey - receiver from stream.
      */

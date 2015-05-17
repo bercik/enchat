@@ -1,8 +1,8 @@
-package newServer;
+package server;
 
 import com.google.inject.Injector;
-import newServer.listeners.ServerListeners;
-import newServer.listeners.ServerStartFailed;
+import server.listeners.ServerListeners;
+import server.listeners.ServerStartFailed;
 
 /**
  * Created by tochur on 13.05.15.

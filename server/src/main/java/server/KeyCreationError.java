@@ -1,4 +1,4 @@
-package newServer;
+package server;
 
 /**
  * Created by tochur on 17.05.15.

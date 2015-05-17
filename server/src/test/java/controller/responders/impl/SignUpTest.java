@@ -5,12 +5,11 @@ import controller.utils.state.StateManager;
 import message.generators.Sign_Up;
 import message.types.UEMessage;
 import model.containers.permanent.Registration;
-import newServer.sender.MessageSender;
+import server.sender.MessageSender;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;

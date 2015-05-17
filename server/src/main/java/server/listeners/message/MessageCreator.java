@@ -1,4 +1,4 @@
-package newServer.listeners.message;
+package server.listeners.message;
 
 import message.exceptions.MessageIdException;
 import message.types.*;
