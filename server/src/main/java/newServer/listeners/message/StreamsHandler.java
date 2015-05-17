@@ -5,6 +5,8 @@ import controller.responders.IMessageResponder;
 import controller.responders.MessageRespondersFactory;
 import message.exceptions.MessageIdException;
 import message.types.EncryptedMessage;
+import message.types.UEMessage;
+import newServer.sender.ServerInjectorWrapper;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -23,10 +25,14 @@ public class StreamsHandler {
     private StreamScanner streamScanner;
     MessageReader messageReader;
     MessageRespondersFactory factory;
+    ServerInjectorWrapper injectorWrapper;
 
     @Inject
-    public StreamsHandler(StreamScanner streamScanner, MessageReader messageReader, MessageRespondersFactory factory){
+    public StreamsHandler(StreamScanner streamScanner, MessageReader messageReader, MessageRespondersFactory factory, ServerInjectorWrapper injectorWrapper){
         this.streamScanner = streamScanner;
+        this.messageReader = messageReader;
+        this.factory = factory;
+        this.injectorWrapper = injectorWrapper;
     }
 
     public void handle(Map<Integer, DataInputStream> clientsInput) {
@@ -35,9 +41,10 @@ public class StreamsHandler {
             DataInputStream inputStream = clientsInput.get(ID);
             try {
                 if ( streamScanner.canRead(inputStream) ) {
-                    EncryptedMessage encryptedMessage = messageReader.readFromStream(inputStream);
-                    IMessageResponder responder = factory.create(encryptedMessage.getId());
-                    new Thread(responder).start();
+                    EncryptedMessage encrypted = messageReader.readFromStream(inputStream);
+                    UEMessage ueMessage = new UEMessage(ID, encrypted);
+                    IMessageResponder responder = factory.create(encrypted.getId(), injectorWrapper.getServerInjector());
+                    responder.serveEvent(ueMessage);
                 }
             } catch (IOException e) {
                 //Send info to controller, that failed to read.
