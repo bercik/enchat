@@ -7,10 +7,7 @@ import model.Account;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.OverloadedCannotAddNew;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by tochur on 16.05.15.
@@ -43,7 +40,7 @@ public class Accounts {
 
     public Map<String, Account> getMap() { return Collections.unmodifiableMap(accounts); }
 
-    public Set<String> getNicks(){ return accounts.keySet(); }
+    public Collection<String> getNicks(){ return Collections.unmodifiableCollection(accounts.keySet()); }
 
     public int getAmount(){
         return accounts.size();
