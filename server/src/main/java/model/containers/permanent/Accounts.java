@@ -47,6 +47,6 @@ public class Accounts {
     }
 
     public int getLimit(){
-        return accounts.size();
+        return ACCOUNT_LIMIT;
     }
 }
