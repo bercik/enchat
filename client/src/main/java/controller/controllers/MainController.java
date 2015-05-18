@@ -48,7 +48,6 @@ public class MainController extends CommandLineController
     {
         super.setControllerManager(ccontrollerManager);
         commandParser.setControllerManager(ccontrollerManager);
-        commandHistory.setControllerManager(ccontrollerManager);
     }
 
     @Override

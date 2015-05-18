@@ -69,7 +69,7 @@ public abstract class CommandLineController implements IController
 
     protected void setCommand(String newCommand)
     {
-        command = newCommand;
+        command = commandToReturn = newCommand;
         displayCommand();
     }
 

@@ -2,6 +2,7 @@ package io.input;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,10 +15,8 @@ public final class LinuxNonBlockingInput implements IInput
     // klasa dekodująca wejściowe bajty na UTF-8
     private final UTFHolder uTFHolder;
 
-    // nowo wczytany znak
-    private char ch;
-    // czy mamy nowo wczytany znak
-    private boolean hasCh = false;
+    // bufor wczytanych znaków (głównie dla celów debugowania)
+    private final LinkedList<Character> charBuffer = new LinkedList<>();
     // specjalny klawisz (np. ESC, ARROW_UP, ...)
     private Key specialKey;
     // czy mamy specjalny klawisz
@@ -67,14 +66,9 @@ public final class LinuxNonBlockingInput implements IInput
                 }
                 else
                 {
-                    ch = readCh;
-                    hasCh = true;
                     // read all characters remaining in stream
-                    while (System.in.available() != 0)
-                        System.in.read();
-                    
-                    // stop loop execution
-                    break;
+                    // and stores them in buffer
+                    charBuffer.addLast(readCh);
                 }
                 
                 first = false;
@@ -115,14 +109,13 @@ public final class LinuxNonBlockingInput implements IInput
     @Override
     public boolean hasChar()
     {
-        return hasCh;
+        return charBuffer.size() > 0;
     }
 
     @Override
     public char getChar()
     {
-        hasCh = false;
-        return ch;
+        return charBuffer.removeFirst();
     }
 
     @Override
