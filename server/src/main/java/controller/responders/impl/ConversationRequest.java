@@ -3,10 +3,13 @@ package controller.responders.impl;
 import com.google.inject.Inject;
 import controller.responders.IMessageResponder;
 import controller.responders.exceptions.IncorrectUserStateException;
+import controller.responders.exceptions.OnBlackList;
 import controller.responders.exceptions.ToMuchUsersInThisRoom;
+import controller.responders.exceptions.UserNotLogged;
 import controller.utils.cypher.Decryption;
 import controller.utils.state.StateManager;
 import message.generators.Conversation_Request;
+import message.generators.Incoming_Conversation;
 import message.generators.Server_error;
 import message.types.UEMessage;
 import message.types.UMessage;
@@ -32,9 +35,10 @@ public class ConversationRequest implements IMessageResponder {
     private LoggedUtil loggedUtil;
     private RoomManager roomManager;
     private Conversation_Request conversation_request;
+    private Incoming_Conversation incoming_conversation;
 
     @Inject
-    public ConversationRequest(Decryption decryption, StateManager stateManager, MessageSender messageSender, BlackListUtil blackListUtil, LoggedUtil loggedUtil, RoomManager roomManager, Conversation_Request conversation_request){
+    public ConversationRequest(Decryption decryption, StateManager stateManager, MessageSender messageSender, BlackListUtil blackListUtil, LoggedUtil loggedUtil, RoomManager roomManager, Conversation_Request conversation_request, Incoming_Conversation incoming_conversation){
         this.decryption = decryption;
         this.stateManager = stateManager;
         this.messageSender = messageSender;
@@ -42,6 +46,7 @@ public class ConversationRequest implements IMessageResponder {
         this.loggedUtil = loggedUtil;
         this.roomManager = roomManager;
         this.conversation_request = conversation_request;
+        this.incoming_conversation = incoming_conversation;
     }
 
     @Override
@@ -55,15 +60,19 @@ public class ConversationRequest implements IMessageResponder {
         try{
             stateManager.verify(ueMessage);
             uMessage = decryption.decryptMessage(ueMessage);
+
+            //Reads the nick of user to connect.
             readInfo();
 
             //Checks weather user is logged
             otherUserID = loggedUtil.getUserId(otherUserNick);
-            loggedUtil.isLogged(otherUserID);
+            if (!loggedUtil.isLogged(otherUserID))
+                throw new UserNotLogged();
 
             //Checks weather author(user that requested conversation) is not on black list
             authorNick = loggedUtil.getUserNick(authorID);
-            blackListUtil.isOnBlackList(otherUserID, authorNick);
+            if( blackListUtil.isOnBlackList(otherUserID, authorNick))
+                throw new OnBlackList();
 
             //Checks weather user is not busy
             if ( !roomManager.isFree(otherUserID))
@@ -72,27 +81,34 @@ public class ConversationRequest implements IMessageResponder {
             //Creating connection
             roomManager.startConversation(authorID, otherUserID);
 
-            //Informing interested people
+            //State Change
             stateManager.update(authorID, UserState.IN_ROOM);
             stateManager.update(otherUserID, UserState.IN_ROOM);
 
-            //creating answers (containing publicKeys)
+            //Informing interested people creating answers (containing publicKeys)
             answer = conversation_request.connected(authorID, otherUserID, otherUserNick);
-            informAboutRequest = conversation_request.connected(otherUserID, authorID, authorNick);
+            informationAboutRequest = conversation_request.connected(otherUserID, authorID, authorNick);
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
         } catch(DecryptingException e) {
             answer = Server_error.unableToDecrypt(authorID);
         } catch (ElementNotFoundException e) {
-            e.printStackTrace();
+            answer = conversation_request.notLogged(authorID);
         } catch (ToMuchUsersInThisRoom toMuchUsersInThisRoom) {
-            toMuchUsersInThisRoom.printStackTrace();
+            answer = conversation_request.busyUser(authorID);
+            informationAboutRequest = incoming_conversation.youWereBusy(otherUserID, authorNick);
         } catch (EncryptionException e) {
-            e.printStackTrace();
+            answer = Server_error.unableToEncrypt(authorID);
+        } catch (UserNotLogged userNotLogged) {
+            answer = conversation_request.notLogged(authorID);
+        } catch (OnBlackList onBlackList) {
+            answer = conversation_request.onBlackList(authorID);
         }
 
         try{
             messageSender.send(answer);
+            if (informationAboutRequest != null)
+                messageSender.send(informationAboutRequest);
         } catch (IOException e) {
             System.out.println("Unable to send message to user - answer for Log In request.");
         }
@@ -112,5 +128,5 @@ public class ConversationRequest implements IMessageResponder {
     private String authorNick;
     private String otherUserNick;
     private UEMessage answer;
-    private UEMessage informAboutRequest;
+    private UEMessage informationAboutRequest;
 }

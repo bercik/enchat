@@ -59,6 +59,7 @@ public class SignUp implements IMessageResponder {
             answer = sign_up.ok(authorID);
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
+            System.out.print("Incorrect state");
         } catch (DecryptingException e){
             answer = Server_error.unableToDecrypt(authorID);
         } catch (AlreadyInCollection e){

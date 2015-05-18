@@ -4,10 +4,9 @@ import com.google.inject.Inject;
 import controller.utils.cypher.Encryption;
 import message.types.*;
 import messages.MessageId;
-import model.containers.temporary.PublicKeysManager;
+import model.exceptions.ElementNotFoundException;
 import rsa.exceptions.EncryptionException;
 
-import java.security.PublicKey;
 import java.util.Arrays;
 
 /**
@@ -15,20 +14,20 @@ import java.util.Arrays;
  */
 public class Conversation_Request {
     private final MessageId conversationRequest = MessageId.CONVERSATION_REQUEST;
-    private final Integer packagesAmount = 3;
+    private final Integer packagesAmount = 5;
     private EncryptedMessage encrypted;
     private Encryption encryption;
-    private PublicKeysManager publicKeysManager;
+    private KeyPackageSupplier keyPackageSupplier;
 
     @Inject
-    public Conversation_Request(PublicKeysManager publicKeysManager, Encryption encryption){
-        this.publicKeysManager = publicKeysManager;
+    public Conversation_Request(Encryption encryption, KeyPackageSupplier keyPackageSupplier){
         this.encryption = encryption;
+        this.keyPackageSupplier = keyPackageSupplier;
     }
 
-    public UEMessage connected(Integer receiverID, Integer otherID, String newConversationalistNick) throws EncryptionException {
+    public UEMessage connected(Integer receiverID, Integer keyOwnerID, String newConversationalistNick) throws EncryptionException, ElementNotFoundException {
         Header header = HeaderGenerator.createHeader(conversationRequest, 0, packagesAmount);
-        String[] toSend = prepareInfo(receiverID, otherID, newConversationalistNick);
+        String[] toSend = keyPackageSupplier.supply(keyOwnerID, newConversationalistNick);
         Message message = new Message(header, Arrays.asList(toSend));
         UMessage uMessage = new UMessage(receiverID, message);
 
@@ -48,20 +47,5 @@ public class Conversation_Request {
     public UEMessage onBlackList(Integer receiverID){
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(conversationRequest, 4));
         return new UEMessage(receiverID, encrypted);
-    }
-
-
-    private String[] prepareInfo(Integer receiverID, Integer otherID, String newConversationalistNick) {
-        String[] array = new String[3];
-        array[0] = newConversationalistNick;
-
-        PublicKey publicKey = publicKeysManager.getKey(otherID);
-
-
-
-
-
-
-        return null;
     }
 }

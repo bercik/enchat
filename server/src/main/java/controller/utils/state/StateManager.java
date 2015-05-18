@@ -6,6 +6,7 @@ import message.types.UEMessage;
 import messages.MessageId;
 import model.user.UserState;
 import model.containers.temporary.UserStates;
+import model.user.Verifier;
 
 /**
  * Created by tochur on 16.05.15.

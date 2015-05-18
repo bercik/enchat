@@ -1,9 +1,8 @@
 package message.generators;
 
-import com.google.inject.Inject;
-import controller.utils.cypher.Encryption;
-import message.types.*;
-
+import message.types.EncryptedMessage;
+import message.types.Header;
+import message.types.UEMessage;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
 
@@ -12,25 +11,11 @@ import rsa.exceptions.EncryptionException;
  */
 public class Clients_Message {
     private MessageId clientMessage = MessageId.CLIENT_MESSAGE;
-    private Encryption encryption;
 
-    @Inject
-    public Clients_Message(Encryption encryption){
-        this.encryption = encryption;
-    }
+    public UEMessage message(Integer receiverID){
+        Header header = HeaderGenerator.createHeader(clientMessage, 1, 0);
+        EncryptedMessage encryptedMessage = new EncryptedMessage(header);
 
-    /**
-     *
-     * @param receiverID - author of the message
-     * @param nick - nick of the user to whom sending message failed
-     * @return encrypted message, informing that sending message failed.
-     * @throws rsa.exceptions.EncryptionException - when during encrypting answer error happened.
-     */
-    public UEMessage message(Integer receiverID, String nick) throws EncryptionException{
-        Header header = HeaderGenerator.createHeader(clientMessage, 0, 1);
-        Message message = new Message(header, nick);
-        UMessage uMessage = new UMessage(receiverID, message);
-
-        return encryption.encryptMessage(uMessage);
+        return new UEMessage(receiverID, encryptedMessage);
     }
 }

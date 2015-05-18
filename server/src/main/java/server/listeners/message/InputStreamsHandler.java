@@ -54,7 +54,7 @@ public class InputStreamsHandler implements Runnable{
             updateClientsInputs();
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException ie) {
                 System.out.println("Interrupted Exception");
                 ie.printStackTrace();

@@ -1,6 +1,7 @@
 package model.containers.temporary;
 
 import com.google.inject.Singleton;
+import model.ClientPublicKeyInfo;
 
 import java.security.PublicKey;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
 @Singleton
 public class PublicKeys {
     // Maps the client ID with it's States
-    private Map<Integer, PublicKey> keys = new HashMap<>();
+    private Map<Integer, ClientPublicKeyInfo> keys = new HashMap<>();
 
 
     /**
@@ -21,17 +22,28 @@ public class PublicKeys {
      * @return
      */
     public  PublicKey getKey(Integer ID){
+        return keys.get(ID).getPublicKey();
+    }
+
+    public ClientPublicKeyInfo getClientPublicKeyInfo(Integer ID){
         return keys.get(ID);
     }
 
+    /**
+     *
+     * @param ID
+     * @param clientPublicKeyInfo
+     */
+    public void addKey(Integer ID, ClientPublicKeyInfo clientPublicKeyInfo){
+        keys.put(ID, clientPublicKeyInfo);
+    }
 
     /**
-     * Add new record or replace record, that was before.
-     * @param ID
-     * @param publicKey
+     *
+     * @return
      */
-    public void addKey(Integer ID, PublicKey publicKey){
-        keys.put(ID, publicKey);
+    public Map<Integer, ClientPublicKeyInfo> getMap() {
+        return keys;
     }
 
     /**
@@ -45,9 +57,5 @@ public class PublicKeys {
 
     public int getRecordsAmount(){
         return keys.size();
-    }
-
-    public Map<Integer, PublicKey> getMap() {
-        return keys;
     }
 }

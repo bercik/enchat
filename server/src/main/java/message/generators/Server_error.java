@@ -25,4 +25,9 @@ public class Server_error {
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(serverError, 3));
         return new UEMessage(receiverID, encrypted);
     }
+
+    public static UEMessage other(Integer receiverID) {
+        encrypted = new EncryptedMessage(HeaderGenerator.createHeader(serverError, 4));
+        return new UEMessage(receiverID, encrypted);
+    }
 }

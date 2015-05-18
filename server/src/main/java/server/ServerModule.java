@@ -9,14 +9,17 @@ import com.google.inject.name.Names;
 import controller.utils.cypher.ServerKeyContainerCreationFailed;
 import model.Account;
 import model.ChatRoom;
+import model.ClientPublicKeyInfo;
 import model.containers.permanent.Accounts;
 import model.containers.temporary.Logged;
 import model.containers.temporary.PublicKeys;
+import model.containers.temporary.PublicKeysManager;
 import model.containers.temporary.Rooms;
 import rsa.KeyContainer;
 import server.listeners.message.InputStreamsHandler;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -77,7 +80,7 @@ public class ServerModule extends AbstractModule {
     }
 
     @Provides
-    @Named("IDPublicKeys")Map<Integer, PublicKey> getMapID_Accounts (PublicKeys publicKeys){
+    @Named("IDPublicKeys")Map<Integer, ClientPublicKeyInfo> getMapID_Accounts (PublicKeys publicKeys){
         return publicKeys.getMap();
     }
 

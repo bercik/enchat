@@ -28,4 +28,12 @@ public class Conversationalist_Disconnected {
 
         return encryption.encryptMessage(uMessage);
     }
+
+    public UEMessage messageAnonymous(Integer id) {
+        try {
+            return message(id, "Unknown");
+        } catch (EncryptionException e) {
+            return null;
+        }
+    }
 }

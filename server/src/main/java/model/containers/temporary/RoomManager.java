@@ -2,8 +2,12 @@ package model.containers.temporary;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import message.generators.Conversationalist_Disconnected;
 import model.ChatRoom;
+import server.sender.MessageSender;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -29,21 +33,49 @@ public class RoomManager {
         //creating Room
         ChatRoom chatRoom = new ChatRoom(authorID, otherUserID);
         //Creating connection usersToRoom
+            //Adding to base
         IDRooms.put(authorID, chatRoom);
         IDRooms.put(otherUserID, chatRoom);
+            //
     }
 
     /**
-     * Sends the message to all users in Room, except the sender.
-     * @param sender - user that sends the data.
-     * @param message - message to propagate
-     * @throws java.io.IOException - when failed to pass the message to other users.
+     * Method, that removes user from room, and returns Collection of ID's of users from room.
+     * @param authorID
+     * @return
      */
-    /*public void sendMessageAs(User sender, EncryptedMessage message) throws IOException {
-        for(User user : participants){
-            if (user != sender){
-                messageSender.sendMessage(user.getOutStream(), message);
+    public Collection<Integer> leaveRoom(Integer authorID) {
+        ChatRoom chatRoom = IDRooms.get(authorID);
+        IDRooms.remove(authorID);
+
+        return chatRoom.getParticipantsIDs();
+    }
+
+    /**
+     * Returns all users in room without user with ID passed as parameter
+     * @param ID
+     * @return
+     */
+    public Collection<Integer> getConversationalists(Integer ID) {
+        ChatRoom chatRoom = IDRooms.get(ID);
+        //Not allowed in Java 1.7 Collection<Integer> conversationalists = chatRoom.getParticipantsIDs().stream().filter(id -> id != ID).collect(Collectors.toSet());
+        Collection<Integer> conversationalists = new HashSet<>();
+        for(Integer i: chatRoom.getParticipantsIDs()){
+            if(i != ID)
+                conversationalists.add(i);
+        }
+
+        return chatRoom.getParticipantsIDs();
+    }
+
+    public void leaveRoomAndTryToInform(MessageSender messageSender, Integer authorID, String authorNick,  Conversationalist_Disconnected conversationalist_disconnected) {
+        Collection<Integer> toInform = getConversationalists(authorID);
+        for(Integer id: toInform){
+            try {
+                messageSender.send(conversationalist_disconnected.message(id, authorNick));
+            } catch (Exception e) {
+               //Nice try but nothing can be made.
             }
         }
-    }*/
+    }
 }

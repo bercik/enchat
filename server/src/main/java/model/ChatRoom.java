@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,10 @@ public class ChatRoom {
                 break;
             }
         }
+    }
+
+    public Collection<Integer> getParticipantsIDs(){
+        return participantsIDs;
     }
 
     /**
