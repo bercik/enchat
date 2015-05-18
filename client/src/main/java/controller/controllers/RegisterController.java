@@ -6,11 +6,8 @@
 package controller.controllers;
 
 import app_info.Id;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-import java.util.List;
+import io.input.Key;
 import messages.MessageId;
-import rsa.RSA;
 import util.Authentication;
 import util.Hash;
 import util.StringFormatter;
@@ -28,10 +25,10 @@ public class RegisterController extends CommandLineController
     private String firstPassword;
 
     @Override
-    public void putEscapeCharSequence(char[] escChSeq)
+    public void putSpecialKey(Key key)
     {
         // jeżeli escape to wracamy do main controller
-        if (escChSeq[0] == escChSeq[1] && escChSeq[1] == escChSeq[2])
+        if (key == Key.ESC)
         {
             controllerManager.setController(
                 Id.MAIN_CONTROLLER.getIntRepresentation(), null);

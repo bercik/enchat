@@ -28,6 +28,10 @@ public interface IInput
     
     public boolean hasChar();
     
+    public Key getSpecialKey();
+    
+    public boolean hasSpecialKey();
+    
     public void update() throws IOException;
     
     public void close();

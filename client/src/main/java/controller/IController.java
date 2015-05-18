@@ -5,6 +5,8 @@
  */
 package controller;
 
+import io.input.Key;
+
 /**
  *
  * @author robert
@@ -13,7 +15,7 @@ public interface IController
 {
     public void putChar(char ch);
     
-    public void putEscapeCharSequence(char[] escChSeq);
+    public void putSpecialKey(Key key);
     
     /**
      * Metoda wywoływana za każdym razem gdy IController jest ustawiany

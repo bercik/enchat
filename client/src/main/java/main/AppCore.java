@@ -12,6 +12,7 @@ import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
 import io.input.IInput;
+import io.input.Key;
 import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
 import plugin.PluginManager;
@@ -63,26 +64,17 @@ public class AppCore
                 // if input has got character
                 if (input.hasChar())
                 {
+                    // get char
                     char ch = input.getChar();
-
-                    // if escape
-                    if (ch == 27)
-                    {
-                        // get next 2 characters and pass to controller manager
-                        char[] escChSeq = new char[3];
-                        escChSeq[0] = ch;
-                        for (int i = 0; i < 2; ++i)
-                        {
-                            input.update();
-                            escChSeq[i+1] = input.getChar();
-                        }
-                        controllerManager.putEscapeCharSequence(escChSeq);
-                    }
-                    else
-                    {
-                        // put char to controller manager
-                        controllerManager.putChar(ch);
-                    }
+                    // put char to controller manager
+                    controllerManager.putChar(ch);
+                }
+                else if (input.hasSpecialKey())
+                {
+                    // get special key
+                    Key key = input.getSpecialKey();
+                    // put special key to controller manager
+                    controllerManager.putSpecialKey(key);
                 }
             }
         }

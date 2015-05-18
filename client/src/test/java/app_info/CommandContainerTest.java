@@ -10,6 +10,7 @@ import app_info.exceptions.IdAlreadyExistsException;
 import app_info.exceptions.NullCommandException;
 import controller.ControllerManager;
 import controller.IController;
+import io.input.Key;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -65,7 +66,7 @@ public class CommandContainerTest
         }
 
         @Override
-        public void putEscapeCharSequence(char[] escChSeq)
+        public void putSpecialKey(Key key)
         {
             throw new UnsupportedOperationException("Not supported yet.");
         }
