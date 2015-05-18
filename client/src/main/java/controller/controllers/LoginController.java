@@ -6,6 +6,7 @@
 package controller.controllers;
 
 import app_info.Id;
+import io.input.Key;
 import messages.MessageId;
 import util.Authentication;
 import util.Hash;
@@ -20,10 +21,10 @@ public class LoginController extends CommandLineController
     private String login;
 
     @Override
-    public void putEscapeCharSequence(char[] escChSeq)
+    public void putSpecialKey(Key key)
     {
         // jeżeli escape to wracamy do main controller
-        if (escChSeq[0] == escChSeq[1] && escChSeq[1] == escChSeq[2])
+        if (key == Key.ESC)
         {
             controllerManager.setController(
                 Id.MAIN_CONTROLLER.getIntRepresentation(), null);

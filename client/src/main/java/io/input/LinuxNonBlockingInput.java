@@ -1,6 +1,8 @@
 package io.input;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,7 +10,7 @@ public final class LinuxNonBlockingInput implements IInput
 {
     // poprzednia konfifuracja konsoli
     private String ttyConfig;
-    
+
     // klasa dekodująca wejściowe bajty na UTF-8
     private final UTFHolder uTFHolder;
 
@@ -16,19 +18,28 @@ public final class LinuxNonBlockingInput implements IInput
     private char ch;
     // czy mamy nowo wczytany znak
     private boolean hasCh = false;
-    
-    public LinuxNonBlockingInput() 
+    // specjalny klawisz (np. ESC, ARROW_UP, ...)
+    private Key specialKey;
+    // czy mamy specjalny klawisz
+    private boolean hasSpecialKey = false;
+
+    public LinuxNonBlockingInput()
             throws IOException, InterruptedException
     {
         uTFHolder = new UTFHolder();
-        
+
         setTerminalToCBreak();
     }
-    
+
     @Override
     public void update() throws IOException
     {
-        if (System.in.available() != 0)
+        // zmienne pomocnicze
+        boolean first = true;
+        boolean isEscChSeq = false;
+        List<Character> escChSeq = new ArrayList<>();
+        
+        while (System.in.available() != 0)
         {
             byte c = (byte)System.in.read();
             try
@@ -40,28 +51,80 @@ public final class LinuxNonBlockingInput implements IInput
                 Logger.getLogger(LinuxNonBlockingInput.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
-            
+
             if (uTFHolder.getReady())
             {
-                ch = uTFHolder.getChar();
-                hasCh = true;
+                char readCh = uTFHolder.getChar();
+                
+                if (isEscChSeq)
+                {
+                    escChSeq.add(readCh);
+                }
+                else if (first && readCh == Key.ESCAPE_CHAR)
+                {
+                    isEscChSeq = true;
+                    escChSeq.add(readCh);
+                }
+                else
+                {
+                    ch = readCh;
+                    hasCh = true;
+                    // read all characters remaining in stream
+                    while (System.in.available() != 0)
+                        System.in.read();
+                    
+                    // stop loop execution
+                    break;
+                }
+                
+                first = false;
+            }
+        }
+        
+        // jeżeli przechwyciliśmy sekwencję bajtów po klawiszu esc
+        if (isEscChSeq)
+        {
+            // musimy skonwertować listę Character do tablicy char
+            char[] array = new char[escChSeq.size()];
+            for (int i = 0; i < array.length; ++i)
+                array[i] = escChSeq.get(i);
+            // pobieramy jaki to klawisz
+            Key key = Key.getKey(array);
+            // jeżeli znany klawisz to ustawiamy, że wczytano specjalny klaiwsz
+            if (key != Key.UNKNOWN)
+            {
+                specialKey = key;
+                hasSpecialKey = true;
             }
         }
     }
-    
+
+    @Override
+    public Key getSpecialKey()
+    {
+        hasSpecialKey = false;
+        return specialKey;
+    }
+
+    @Override
+    public boolean hasSpecialKey()
+    {
+        return hasSpecialKey;
+    }
+
     @Override
     public boolean hasChar()
     {
         return hasCh;
     }
-    
+
     @Override
     public char getChar()
     {
         hasCh = false;
         return ch;
     }
-    
+
     @Override
     public void close()
     {
@@ -74,7 +137,7 @@ public final class LinuxNonBlockingInput implements IInput
             System.err.println("Exception restoring tty config");
         }
     }
-    
+
     private void setTerminalToCBreak()
             throws IOException, InterruptedException
     {

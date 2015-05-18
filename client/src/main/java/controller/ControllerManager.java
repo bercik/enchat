@@ -13,6 +13,7 @@ import io.display.IDisplayManager;
 import io.display.displays.ConnectedDisplay;
 import io.display.displays.LoggedDisplay;
 import io.display.displays.NonConnectedDisplay;
+import io.input.Key;
 import plugin.PluginManager;
 
 /**
@@ -179,8 +180,8 @@ public class ControllerManager
         currentController.putChar(ch);
     }
     
-    public void putEscapeCharSequence(char[] escChSeq)
+    public void putSpecialKey(Key key)
     {
-        currentController.putEscapeCharSequence(escChSeq);
+        currentController.putSpecialKey(key);
     }
 }

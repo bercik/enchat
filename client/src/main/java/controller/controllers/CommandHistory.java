@@ -6,6 +6,7 @@
 package controller.controllers;
 
 import controller.ControllerManager;
+import io.input.Key;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,19 +38,19 @@ public class CommandHistory
         currentCommand = commands.size();
     }
 
-    public void putEscapeCharSequence(char[] escChSeq)
+    public void putSpecialKey(Key key)
     {
-        // strzałka w górę
-        if (escChSeq[0] == 27 && escChSeq[1] == 91 && escChSeq[2] == 65)
+        switch (key)
         {
-            arrowUp();
+            // strzałka w górę
+            case ARROW_UP:
+                arrowUp();
+                break;
+            // strzałka w dół
+            case ARROW_DOWN:
+                arrowDown();
+                break;
         }
-        // strzałka w dół
-        else if (escChSeq[0] == 27 && escChSeq[1] == 91 && escChSeq[2] == 66)
-        {
-            arrowDown();
-        }
-        // inaczej nie robimy nic
     }
 
     private void arrowUp()

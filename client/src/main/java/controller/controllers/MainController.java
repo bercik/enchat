@@ -5,12 +5,11 @@
  */
 package controller.controllers;
 
+import app_info.Configuration;
 import app_info.ICommandContainer;
-import app_info.Id;
 import app_info.State;
 import controller.ControllerManager;
-import io.display.displays.ConnectedDisplay;
-import io.display.displays.HelpDisplay;
+import io.input.Key;
 
 /**
  *
@@ -20,30 +19,30 @@ public class MainController extends CommandLineController
 {
     private final CommandParser commandParser;
     private final CommandHistory commandHistory;
-    
+
     public MainController(ICommandContainer commandContainer)
     {
         super();
-        
+
         commandParser = new CommandParser(commandContainer, this);
         commandHistory = new CommandHistory(this);
     }
-    
+
     @Override
-    public final void putEscapeCharSequence(char[] escChSeq)
+    public final void putSpecialKey(Key key)
     {
         // TODO do usunięcia w finalnej wersjii (zastąpić komendą /exit)
         // jeżeli escape wychodzimy z aplikacji
-        if (escChSeq[0] == escChSeq[1] && escChSeq[1] == escChSeq[2])
+        if (key == Key.ESC)
         {
             controllerManager.setAppEnd();
         }
         else
         {
-            commandHistory.putEscapeCharSequence(escChSeq);
+            commandHistory.putSpecialKey(key);
         }
     }
-    
+
     @Override
     public void setControllerManager(ControllerManager ccontrollerManager)
     {
@@ -51,18 +50,31 @@ public class MainController extends CommandLineController
         commandParser.setControllerManager(ccontrollerManager);
         commandHistory.setControllerManager(ccontrollerManager);
     }
-    
+
     @Override
     protected void route(String input)
     {
         setCommand("");
-        // dodajemy komendę do historii
-        commandHistory.addCommand(input);
-        
+
         if (controllerManager.getAppState().equals(State.CONVERSATION))
+        {
+            // jeżeli to komenda (zaczyna się od odpowiedniego prefixu) to 
+            // dodajemy do historii dzięki temu unikamy sytuacji gdzie treść 
+            // rozmowy jest zapisywana w historii
+            Configuration conf = Configuration.getInstance();
+            if (input.startsWith(conf.getCommandPrefix()))
+                commandHistory.addCommand(input);
+            
+            // parsujemy komendę
             commandParser.parseConversation(input);
+        }
         else
+        {
+            // dodajemy komendę do historii
+            commandHistory.addCommand(input);
+            // parsujemy komendę
             commandParser.parseDefault(input);
+        }
     }
 
     @Override
