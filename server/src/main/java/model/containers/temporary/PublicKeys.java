@@ -14,6 +14,7 @@ public class PublicKeys {
     // Maps the client ID with it's States
     private Map<Integer, PublicKey> keys = new HashMap<>();
 
+
     /**
      * Add exception
      * @param ID
@@ -44,5 +45,9 @@ public class PublicKeys {
 
     public int getRecordsAmount(){
         return keys.size();
+    }
+
+    public Map<Integer, PublicKey> getMap() {
+        return keys;
     }
 }

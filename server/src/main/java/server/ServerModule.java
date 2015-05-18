@@ -11,6 +11,7 @@ import model.Account;
 import model.ChatRoom;
 import model.containers.permanent.Accounts;
 import model.containers.temporary.Logged;
+import model.containers.temporary.PublicKeys;
 import model.containers.temporary.Rooms;
 import rsa.KeyContainer;
 import server.listeners.message.InputStreamsHandler;
@@ -73,6 +74,11 @@ public class ServerModule extends AbstractModule {
     @Provides
     @Named("IDAccounts")Map<Integer, Account> getMapID_Accounts (Logged logged){
         return logged.getMap();
+    }
+
+    @Provides
+    @Named("IDPublicKeys")Map<Integer, PublicKey> getMapID_Accounts (PublicKeys publicKeys){
+        return publicKeys.getMap();
     }
 
     @Provides
