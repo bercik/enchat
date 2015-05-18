@@ -76,6 +76,9 @@ public class AppCore
                     // put special key to controller manager
                     controllerManager.putSpecialKey(key);
                 }
+                
+                // sleep for 1 ms to prevent all CPU usage
+                Thread.sleep(0, 100);
             }
         }
         catch (Exception ex)
