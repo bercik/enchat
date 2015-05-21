@@ -1,6 +1,7 @@
 package controller.utils.cypher;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import message.types.*;
 import rsa.RSA;
 import rsa.exceptions.EncryptingException;
@@ -20,7 +21,7 @@ public class EncryptionUtil {
     private PrivateKey serverPrivateKey;
 
     @Inject
-    public EncryptionUtil(PrivateKey serverPrivateKey){
+    public EncryptionUtil(@Named("Server")PrivateKey serverPrivateKey){
         this.serverPrivateKey = serverPrivateKey;
     }
 
