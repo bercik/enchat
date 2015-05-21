@@ -52,14 +52,9 @@ public class RegisterController extends CommandLineController
     @Override
     public void updateError(int error)
     {
-        if (error != MessageId.ErrorId.OK.getIntRepresentation())
-        {
-            // zmieniamy na MainController
-            controllerManager.setController(
-                    Id.MAIN_CONTROLLER.getIntRepresentation(), null);
-        }
-
-        setBlockConsole(false);
+        // zmieniamy na MainController
+        controllerManager.setController(
+            Id.MAIN_CONTROLLER.getIntRepresentation(), null);
     }
 
     private class State1 implements IState

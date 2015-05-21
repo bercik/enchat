@@ -18,18 +18,12 @@ public class CommandHistory
 {
     private final List<String> commands = new LinkedList<>();
     private int currentCommand = 0;
-    private ControllerManager controllerManager;
     private final CommandLineController commandLineController;
 
     // klasa musi być w tej samej paczce co tworzący ją controller
     CommandHistory(CommandLineController ccommandLineController)
     {
         commandLineController = ccommandLineController;
-    }
-
-    public void setControllerManager(ControllerManager ccontrollerManager)
-    {
-        controllerManager = ccontrollerManager;
     }
 
     public void addCommand(String command)
@@ -60,7 +54,9 @@ public class CommandHistory
             if (currentCommand - 1 >= 0)
                 --currentCommand;
 
-            commandLineController.setCommand(commands.get(currentCommand));
+            String currComm = commands.get(currentCommand);
+            if (!currComm.equals(commandLineController.getCommand()))
+                commandLineController.setCommand(currComm);
         }
     }
 
@@ -69,12 +65,16 @@ public class CommandHistory
         if (currentCommand + 1 < commands.size())
         {
             ++currentCommand;
-            commandLineController.setCommand(commands.get(currentCommand));
+            
+            String currComm = commands.get(currentCommand);
+            if (!currComm.equals(commandLineController.getCommand()))
+                commandLineController.setCommand(currComm);
         }
         else
         {
             currentCommand = commands.size();
-            commandLineController.setCommand("");
+            if (!commandLineController.getCommand().equals(""))
+                commandLineController.setCommand("");
         }
     }
 }
