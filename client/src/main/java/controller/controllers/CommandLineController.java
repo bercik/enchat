@@ -7,6 +7,7 @@ package controller.controllers;
 
 import controller.ControllerManager;
 import controller.IController;
+import io.input.Key;
 
 /**
  *
@@ -35,6 +36,16 @@ public abstract class CommandLineController implements IController
         reset();
     }
 
+    @Override
+    public void putSpecialKey(Key key)
+    {
+        if (key == Key.DELETE)
+        {
+            // clear command
+            setCommandPermanently("");
+        }
+    }
+    
     protected void setPrefix(String pprefix)
     {
         prefix = pprefix;
@@ -69,10 +80,16 @@ public abstract class CommandLineController implements IController
 
     protected void setCommand(String newCommand)
     {
-        command = commandToReturn = newCommand;
+        command = newCommand;
         displayCommand();
     }
 
+    protected void setCommandPermanently(String newCommand)
+    {
+        command = commandToReturn = newCommand;
+        displayCommand();
+    }
+    
     @Override
     public void setControllerManager(ControllerManager ccontrollerManager)
     {

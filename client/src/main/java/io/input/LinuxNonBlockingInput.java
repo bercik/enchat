@@ -81,7 +81,11 @@ public final class LinuxNonBlockingInput implements IInput
             // musimy skonwertować listę Character do tablicy char
             char[] array = new char[escChSeq.size()];
             for (int i = 0; i < array.length; ++i)
+            {
                 array[i] = escChSeq.get(i);
+                // odkomentuj poniższe, żeby zobaczyć sekwencję kodów klawisza
+                // System.out.println((int)array[i]);
+            }
             // pobieramy jaki to klawisz
             Key key = Key.getKey(array);
             // jeżeli znany klawisz to ustawiamy, że wczytano specjalny klaiwsz

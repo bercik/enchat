@@ -31,6 +31,8 @@ public class MainController extends CommandLineController
     @Override
     public final void putSpecialKey(Key key)
     {
+        // wywołujemy metodę klasy bazowej
+        super.putSpecialKey(key);
         // TODO do usunięcia w finalnej wersjii (zastąpić komendą /exit)
         // jeżeli escape wychodzimy z aplikacji
         if (key == Key.ESC)

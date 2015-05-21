@@ -16,6 +16,7 @@ public enum Key
     ESC,
     ARROW_UP(91, 65),
     ARROW_DOWN(91, 66),
+    DELETE(91, 51, 126),
     UNKNOWN;
 
     // escape character

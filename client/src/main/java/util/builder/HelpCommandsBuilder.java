@@ -184,6 +184,18 @@ public class HelpCommandsBuilder
         Information information = new Information(name, description, 
                 shortDescription);
         helpCommands.addInformation(name, information);
+        // keys information
+        name = "keys";
+        shortDescription = "Wyświetla informacje o klawiszach specjalnych";
+        description = "Klawisze specjalne w aplikacji enChat:\n" + 
+                "ESCAPE - wyłącza program lub wychodzi z komendy logowania i "
+                + "rejestracji\n" +
+                "DELETE - usuwa całą linię komend (działa także podczas "
+                + "wpisywania hasła)\n" + 
+                "STRZAŁKI GÓRA/DÓŁ - umożliwia przeglądanie historii "
+                + "wpisywanych komend";
+        information = new Information(name, description, shortDescription);
+        helpCommands.addInformation(name, information);
         
         return helpCommands;
     }

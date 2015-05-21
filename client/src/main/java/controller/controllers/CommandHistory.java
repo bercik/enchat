@@ -56,7 +56,7 @@ public class CommandHistory
 
             String currComm = commands.get(currentCommand);
             if (!currComm.equals(commandLineController.getCommand()))
-                commandLineController.setCommand(currComm);
+                commandLineController.setCommandPermanently(currComm);
         }
     }
 
@@ -68,13 +68,13 @@ public class CommandHistory
             
             String currComm = commands.get(currentCommand);
             if (!currComm.equals(commandLineController.getCommand()))
-                commandLineController.setCommand(currComm);
+                commandLineController.setCommandPermanently(currComm);
         }
         else
         {
             currentCommand = commands.size();
             if (!commandLineController.getCommand().equals(""))
-                commandLineController.setCommand("");
+                commandLineController.setCommandPermanently("");
         }
     }
 }

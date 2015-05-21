@@ -27,6 +27,8 @@ public class RegisterController extends CommandLineController
     @Override
     public void putSpecialKey(Key key)
     {
+        // wywołujemy metodę klasy bazowej
+        super.putSpecialKey(key);
         // jeżeli escape to wracamy do main controller
         if (key == Key.ESC)
         {
