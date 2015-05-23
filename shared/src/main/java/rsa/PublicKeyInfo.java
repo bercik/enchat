@@ -8,6 +8,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
 /**
@@ -16,6 +17,24 @@ import java.security.spec.RSAPublicKeySpec;
  * @version 1.0
  */
 public final class PublicKeyInfo {
+
+    /**Do testów jednostkowych**/
+    public PublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        publicKey = keyPair.getPublic();
+
+        KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+        RSAPublicKeySpec rsaPublicKeySpec = keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+
+        modulus = rsaPublicKeySpec.getModulus();
+        exponent = rsaPublicKeySpec.getPublicExponent();
+        System.out.println("Modulus in constructor      : " + modulus.toString());
+        System.out.println("Exponent in constructor     : " + exponent.toString());
+    }
+    /**************************/
 
     public PublicKeyInfo(PublicKeyInfo publicKeyInfo) throws NoSuchAlgorithmException, InvalidKeySpecException {
         modulus = publicKeyInfo.getModulus();
