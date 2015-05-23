@@ -15,7 +15,24 @@ import java.security.spec.RSAPrivateCrtKeySpec;
  * @version 1.0
  */
 final public class PrivateKeyInfo {
-    
+
+    /*Do testów jednostkowych*/
+    public PrivateKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        //wygenerowanie klucza prywatnego
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        privateKey = keyPair.getPrivate();
+
+        KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+        RSAPrivateCrtKeySpec rsaPrivateCrtKeySpec = keyFactory.getKeySpec(privateKey, RSAPrivateCrtKeySpec.class);
+        modulus = rsaPrivateCrtKeySpec.getModulus();
+        exponent = rsaPrivateCrtKeySpec.getPrivateExponent();
+
+        System.out.println("Modulus in PrivateKeyInfo constructor  : " + modulus.toString());
+        System.out.println("Exponent in PrivateKeyInfo constructor : " + exponent.toString());
+    }
     
     public PrivateKeyInfo(PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
