@@ -12,8 +12,8 @@ import network.NetworkMessageIncome;
 import network.SendException;
 import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
+import rsa.PublicKeyInfo;
 import rsa.RSA;
-import sun.security.rsa.RSACore;
 
 /**
  * @author robert
@@ -41,6 +41,13 @@ public class PluginManager
         }
     }
 
+    public void setInterlocutorPublicKeyInfo(
+            PublicKeyInfo interlocutorPublicKeyInfo)
+    {
+        packageForwarder.setInterlocutorPublicKeyInfo(
+                interlocutorPublicKeyInfo);
+    }
+    
     public void setAppEnd()
     {
         controllerManager.setAppEnd();

@@ -28,6 +28,7 @@ public enum MessageId
     // BUSY_USER - użytkownik z którym chcemy rozmawiać jest zajęty
     // (prowadzi rozmowę albo wpisał nas na czarną listę)
     // CONVERSATION_WITH_ANOTHER_USER - prowadzimy aktualnie rozmowę z kimś innym
+    // ON_BLACK_LIST - użytkownik jest na naszej czarnej liście
     CONVERSATION_REQUEST(3, ErrorId.USER_NOT_LOGGED, ErrorId.BUSY_USER, 
             ErrorId.CONVERSATION_WITH_ANOTHER_USER, ErrorId.ON_BLACK_LIST),
     // przychodzące połączenie (serwer -> klient)
@@ -52,7 +53,7 @@ public enum MessageId
     // usuń użytkownika z czarnej listy
     // USER_NOT_ON_BLACKLIST - użytkownik nie znajduje się na czarnej liście
     REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST, ErrorId.USER_NOT_EXIST),
-    // rozłącz z serwerem
+    // rozłącz z serwerem ( // TODELETE - niepotrzebne, do usunięcia )
     DISCONNECT(12),
     // wyloguj z serwera użytkownika
     LOGOUT(13),

@@ -13,14 +13,13 @@ import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 import network.SendException;
+import rsa.PublicKeyInfo;
 
 /**
- * @author mateusz
+ * @author mateusz, robert
  * @version 1.0
  */
 public class PackageForwarder implements Runnable
@@ -47,7 +46,7 @@ public class PackageForwarder implements Runnable
                     // add by robert to compile
                     NetworkMessageIncome networkMessageIncome
                             = new NetworkMessageIncome();
-                    networkMessageIncome.recv(conn);
+                    networkMessageIncome.recv(conn, interlocutorPublicKeyInfo);
                     messageIncomeBuffer.append(networkMessageIncome);
                 }
             }
@@ -94,12 +93,14 @@ public class PackageForwarder implements Runnable
             for (int i = 0; i < parameters.length; ++i)
             {
                 message = parameters[i].getBytes();
-                signMessage = RSA.sign(message, conn.getKeyPair().getPrivateKeyInfo().getPrivateKey());
+                signMessage = RSA.sign(message, 
+                        conn.getKeyPair().getPrivateKeyInfo().getPrivateKey());
                 messageSignPairs.add(new MessageSignPair(message, signMessage));
             }
 
-            NetworkMessageOutcome networkMessageOutcome = new NetworkMessageOutcome(id, messageSignPairs);
-            networkMessageOutcome.send(conn);
+            NetworkMessageOutcome networkMessageOutcome = 
+                    new NetworkMessageOutcome(id, messageSignPairs);
+            networkMessageOutcome.send(conn, interlocutorPublicKeyInfo);
         }
         catch (Exception ex)
         {
@@ -122,6 +123,15 @@ public class PackageForwarder implements Runnable
         disconnected = false;
     }
 
+    public void setInterlocutorPublicKeyInfo(
+            PublicKeyInfo iinterlocutorPublicKeyInfo)
+    {
+        interlocutorPublicKeyInfo = iinterlocutorPublicKeyInfo;
+    }
+    
+    // publiczny klucz osoby z którą prowadzimy konwersację
+    PublicKeyInfo interlocutorPublicKeyInfo;
+    
     private Connection conn;
     private Thread thread;
     private final MessageIncomeBuffer messageIncomeBuffer;

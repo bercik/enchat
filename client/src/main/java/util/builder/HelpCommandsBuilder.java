@@ -173,6 +173,31 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // talk command
+        name = "talk";
+        shortDescription = "Próbuje nawiązać konwersację z użytkownikiem o "
+                + "podanym loginie";
+        description = "Nawiązuje rozmowę z innym użytkownikiem jeżeli:\n" +
+                "-jest zalogowany\n" + 
+                "-nie rozmawia z nikim innym\n" + 
+                "-nie jesteśmy wpisani na jego czarną listę\n" + 
+                "-nie wpisaliśmy go na swoją czarną listę";
+        parameters = new Parameter[]
+        {
+            new Parameter("username", "nazwa użytkownika z którym chcemy "
+                    + "nawiązać konwersację")
+        };
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
+        // endtalk command
+        name = "endtalk";
+        shortDescription = "Zakańcza konwersację";
+        description = "";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+    
         // authors information
         name = "authors";
         shortDescription = "Wyświetla informację o autorach aplikacji";

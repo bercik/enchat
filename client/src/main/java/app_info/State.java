@@ -42,15 +42,15 @@ public enum State
         switch (this)
         {
             case NOT_CONNECTED:
-                return "Niepołączony";
+                return "niepołączony";
             case CONNECTED:
-                return "Połączony";
+                return "połączony";
             case LOGGED:
-                return "Zalogowany";
+                return "zalogowany";
             case CONVERSATION:
-                return "Konwersacja";
+                return "konwersacja";
             default:
-                return "Nieznany stan";
+                return "nieznany stan";
         }
     }
 
