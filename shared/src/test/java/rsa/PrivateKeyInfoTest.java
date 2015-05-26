@@ -15,20 +15,20 @@ public class PrivateKeyInfoTest {
 
     @Test
     public void testGetModulusAndExponent() throws Exception {
-        System.out.println("getModulus() and getExponent() functions test : ");
+        System.out.println("getModulus() and getExponent() functions test");
         //stworzenie obiektu klasy PrivateKeyInfo
         PrivateKeyInfo privateKeyInfo = new PrivateKeyInfo();
 
         //Jeżeli liczby modulus i exponent w konstuktorze klasy PrivateKeyInfo będą takie same
         //jak liczby otrzymane przez funkcje getModulus() i getExponent() to test poprawny
-        System.out.println("Modulus in test function  : " + privateKeyInfo.getModulus().toString());
-        System.out.println("Exponent in test function : " + privateKeyInfo.getExponent().toString());
-        System.out.println("\n");
+        assertEquals("Wartości modulus się nie zgadzają", privateKeyInfo.getModulus(), privateKeyInfo.getField("modulus"));
+        assertEquals("Wartości exponent się nie zgadzają", privateKeyInfo.getExponent(), privateKeyInfo.getField("exponent"));
+
     }
 
     @Test
     public void testGetPrivateKey() throws Exception {
-        System.out.println("getPrivateKey() functions test : ");
+        System.out.println("getPrivateKey() functions test");
         //stworzenie obiektu klasy PrivateKeyInfo
         PrivateKeyInfo privateKeyInfo = new PrivateKeyInfo();
 
@@ -39,8 +39,7 @@ public class PrivateKeyInfoTest {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         RSAPrivateCrtKeySpec rsaPrivateCrtKeySpec = keyFactory.getKeySpec(privateKey, RSAPrivateCrtKeySpec.class);
 
-        System.out.println("Modulus in test function  : " + rsaPrivateCrtKeySpec.getModulus().toString());
-        System.out.println("Exponent in test function : " + rsaPrivateCrtKeySpec.getPrivateExponent().toString());
-        System.out.println("\n");
+        assertEquals("Wartości modulus się nie zgadzają", rsaPrivateCrtKeySpec.getModulus(), privateKeyInfo.getField("modulus"));
+        assertEquals("Wartości exponent się nie zgadzają", rsaPrivateCrtKeySpec.getPrivateExponent(), privateKeyInfo.getField("exponent"));
     }
 }
