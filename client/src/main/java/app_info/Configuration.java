@@ -1,6 +1,7 @@
 package app_info;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -14,6 +15,13 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public final class Configuration
 {
+    /*Do testów jednostkowych. Funkcja potrzebna aby dostać się do pól prywatnych*/
+    public Object getField(String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        Field field = this.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(this);
+    }
+    /****************************************************************************/
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
     private Configuration() throws IOException, GeneratingPublicKeyException
     {
@@ -129,11 +137,4 @@ public final class Configuration
 
     //składowa która przechowuje nazwę pliku w którym znajdują się informacje o porcie i adresie serwera
     private static final String filePath = "data/conf.txt";
-
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, GeneratingPublicKeyException
-    {
-        Configuration configuration = Configuration.getInstance();
-        System.out.println("Adres załadowany z pliku : " + configuration.getServerAddress() + " oraz jego port : " + configuration.getPort());
-        System.out.println("Szerokość konsoli : " + configuration.getWidth() + " oraz jest wysokosc : " + configuration.getHeight());
-    }
 }
