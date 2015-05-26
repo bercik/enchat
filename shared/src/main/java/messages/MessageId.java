@@ -14,13 +14,16 @@ public enum MessageId
     // logowanie
     // BAD_LOGIN_OR_PASSWORD - zły login lub hasło
     // TOO_MUCH_USERS_LOGGED - za dużo zalogowanych użytkowników
-    // ErrorId.ALREADY_LOGGED - nie moża być zalogowanym przy pomocy jednego loginu kilka razy, następuje wylogowanie z poprzedniej sesji.
+    // ALREADY_LOGGED - nie moża być zalogowanym przy pomocy jednego loginu 
+    // kilka razy, następuje wylogowanie z poprzedniej sesji.
     LOG_IN(1, ErrorId.BAD_LOGIN_OR_PASSWORD, ErrorId.TOO_MUCH_USERS_LOGGED, 
             ErrorId.ALREADY_LOGGED),
     // rejestracja
     // BUSY_LOGIN - login zajęty
     // INCORRECT_LOGIN - nieprawidłowy login 
     // (zawiera inne znaki niż alfanumeryczne ASCII)
+    // BAD_PASSWORD_LENGTH - zła długość hasła
+    // TO_MUCH_REGISTERED - za dużo zarejestrowanych użytkowników na serwerze
     SIGN_UP(2, ErrorId.BUSY_LOGIN, ErrorId.INCORRECT_LOGIN, 
             ErrorId.BAD_PASSWORD_LENGTH, ErrorId.TO_MUCH_REGISTERED),
     // żądanie konwersacji (klient -> serwer)
@@ -59,6 +62,8 @@ public enum MessageId
     LOGOUT(13),
     // błąd serwera
     // MESSAGE_DECRYPTING_FAILED - nie udało się odszyfrować wiadomości
+    // MESSAGE_ENCRYPTING_FAILED - nie udało się zaszyfrować wiadomości
+    // SERVER_OVERLOADED - serwer przeciążony
     SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, 
             ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED);
 

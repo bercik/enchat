@@ -1,14 +1,12 @@
 package rsa;
 
 import rsa.exceptions.GeneratingPublicKeyException;
-import rsa.exceptions.ReadingPublicKeyInfoException;
 import rsa.services.PublicKeyReader;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
 /**
@@ -16,10 +14,14 @@ import java.security.spec.RSAPublicKeySpec;
  * @author mateusz
  * @version 1.0
  */
-public final class PublicKeyInfo {
+public final class PublicKeyInfo
+{
 
-    /**Do testów jednostkowych**/
-    public PublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    /**
+     * Do testów jednostkowych*
+     */
+    public PublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException
+    {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -27,34 +29,44 @@ public final class PublicKeyInfo {
         publicKey = keyPair.getPublic();
 
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
-        RSAPublicKeySpec rsaPublicKeySpec = keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+        RSAPublicKeySpec rsaPublicKeySpec = keyFactory.getKeySpec(publicKey, 
+                RSAPublicKeySpec.class);
 
         modulus = rsaPublicKeySpec.getModulus();
         exponent = rsaPublicKeySpec.getPublicExponent();
         System.out.println("Modulus in constructor      : " + modulus.toString());
         System.out.println("Exponent in constructor     : " + exponent.toString());
     }
-    /**************************/
 
-    public PublicKeyInfo(PublicKeyInfo publicKeyInfo) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    /**
+     * ***********************
+     */
+
+    public PublicKeyInfo(PublicKeyInfo publicKeyInfo) throws 
+            NoSuchAlgorithmException, InvalidKeySpecException
+    {
         modulus = publicKeyInfo.getModulus();
         exponent = publicKeyInfo.getExponent();
         publicKey = publicKeyInfo.getPublicKey();
     }
-    
-    
-    public PublicKeyInfo(PublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+    public PublicKeyInfo(PublicKey publicKey) throws NoSuchAlgorithmException, 
+            InvalidKeySpecException
+    {
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
-        RSAPublicKeySpec pubKeySpec = keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
-            
+        RSAPublicKeySpec pubKeySpec = keyFactory.getKeySpec(publicKey, 
+                RSAPublicKeySpec.class);
+
         modulus = pubKeySpec.getModulus();
         exponent = pubKeySpec.getPublicExponent();
-            
-        publicKey = keyFactory.generatePublic(pubKeySpec);
+
+        this.publicKey = keyFactory.generatePublic(pubKeySpec);
     }
 
-    public PublicKeyInfo(DataInputStream in) throws GeneratingPublicKeyException {
-        try{
+    public PublicKeyInfo(DataInputStream in) throws GeneratingPublicKeyException
+    {
+        try
+        {
             modulus = PublicKeyReader.scanForModulus(in);
             exponent = PublicKeyReader.scanForExponent(in);
             RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(modulus, exponent);
@@ -64,91 +76,126 @@ public final class PublicKeyInfo {
 
 //            System.out.println("Recv Modulus = " + modulus);
 //            System.out.println("Recv Exponent = " + exponent);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
             throw new GeneratingPublicKeyException("Cannot generate public key");
         }
     }
 
-    private PublicKey generatePublicKey(RSAPublicKeySpec pubKeySpec) throws GeneratingPublicKeyException {
+    public PublicKeyInfo(byte[] modulus, byte[] exponent) 
+            throws GeneratingPublicKeyException
+    {
+        try
+        {
+            BigInteger modulusBI = new BigInteger(modulus);
+            BigInteger exponentBI = new BigInteger(exponent);
+            RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(
+                    modulusBI, exponentBI);
+
+            /*Generating public key*/
+            publicKey = generatePublicKey(pubKeySpec);
+
+//            System.out.println("Recv Modulus = " + modulus);
+//            System.out.println("Recv Exponent = " + exponent);
+        }
+        catch (Exception e)
+        {
+            throw new GeneratingPublicKeyException("Cannot generate public key");
+        }
+    }
+
+    private PublicKey generatePublicKey(RSAPublicKeySpec pubKeySpec) 
+            throws GeneratingPublicKeyException
+    {
         KeyFactory keyFactory = null;
-        try {
+        try
+        {
             /*Setting encrypting algorithm*/
             keyFactory = KeyFactory.getInstance(ALGORITHM);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        }
+        catch (NoSuchAlgorithmException e)
+        {
             throw new GeneratingPublicKeyException("Unknown algorithm");
         }
 
-        try {
+        try
+        {
             /*Public key constructing*/
-            PublicKey publicKey = keyFactory.generatePublic(pubKeySpec);
-            return publicKey;
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
+            PublicKey localPublicKey = keyFactory.generatePublic(pubKeySpec);
+            return localPublicKey;
+        }
+        catch (InvalidKeySpecException e)
+        {
             throw new GeneratingPublicKeyException("Unknown algorithm");
         }
     }
 
-    public void send(DataOutputStream out) throws IOException {
-       
+    public void send(DataOutputStream out) throws IOException
+    {
+
 //       System.out.println("Send Modulus = " + modulus);
-       byte[] array = modulus.toByteArray();
-       out.writeInt(array.length);
-       out.write(array);
-       
+        byte[] array = modulus.toByteArray();
+        out.writeInt(array.length);
+        out.write(array);
+
 //       System.out.println("Send Exponent = " + exponent);
-       array = exponent.toByteArray();
-       out.writeInt(array.length);
-       out.write(array);
+        array = exponent.toByteArray();
+        out.writeInt(array.length);
+        out.write(array);
     }
-     
-    public PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+    public PublicKey getPublicKey() throws NoSuchAlgorithmException,
+            InvalidKeySpecException
+    {
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
         RSAPublicKeySpec spec = new RSAPublicKeySpec(modulus, exponent);
         return keyFactory.generatePublic(spec);
     }
-    
-    public BigInteger getModulus() {
+
+    public BigInteger getModulus()
+    {
         return new BigInteger(modulus.toString());
     }
-    
-    public BigInteger getExponent() {
+
+    public BigInteger getExponent()
+    {
         return new BigInteger(exponent.toString());
     }
-    
-   /**
-     * Są to dwie bardzo duże liczby z których składa się klucz publiczny i prywatny
-     * -klucz publiczny składa się z liczby modolus i publicznego exponentu
-     * -klucz prywatny składa się z tej samej liczby modulus i prywantego exponentu
-     * UWAGA DLA TESTERÓW : jeżeli będziecie chcieli sprawdzić czy klucze zostały
-     * wygenerowane poprawnie, wystarczy sprawdzić czy liczby modulus w kluczu
-     * publicznym i prywatnym są sobie równe.
+
+    /**
+     * Są to dwie bardzo duże liczby z których składa się klucz publiczny i
+     * prywatny -klucz publiczny składa się z liczby modolus i publicznego
+     * exponentu -klucz prywatny składa się z tej samej liczby modulus i
+     * prywantego exponentu UWAGA DLA TESTERÓW : jeżeli będziecie chcieli
+     * sprawdzić czy klucze zostały wygenerowane poprawnie, wystarczy sprawdzić
+     * czy liczby modulus w kluczu publicznym i prywatnym są sobie równe.
      */
     private BigInteger modulus;
     private BigInteger exponent;
-    
+
     private PublicKey publicKey;
     private static final String ALGORITHM = "RSA";
 
-/*
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException, ClassNotFoundException, GeneratingPublicKeyException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
-        KeyPair keyPair = keyPairGenerator.genKeyPair();
+    /*
+     public static void main(String[] args) throws NoSuchAlgorithmException, 
+        InvalidKeySpecException, IOException, ClassNotFoundException, 
+        GeneratingPublicKeyException {
+     KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+     keyPairGenerator.initialize(2048);
+     KeyPair keyPair = keyPairGenerator.genKeyPair();
         
-        PublicKey key = keyPair.getPublic();
+     PublicKey key = keyPair.getPublic();
         
-        PublicKeyInfo pubKeyInfo = new PublicKeyInfo(key);
+     PublicKeyInfo pubKeyInfo = new PublicKeyInfo(key);
         
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        DataOutputStream o = new DataOutputStream(out);
-        pubKeyInfo.send(o);
+     ByteArrayOutputStream out = new ByteArrayOutputStream();
+     DataOutputStream o = new DataOutputStream(out);
+     pubKeyInfo.send(o);
         
-        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-        DataInputStream i = new DataInputStream(in);
-        PublicKeyInfo pubKetInfo1 = new PublicKeyInfo(i);
-    }
-*/
+     ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+     DataInputStream i = new DataInputStream(in);
+     PublicKeyInfo pubKetInfo1 = new PublicKeyInfo(i);
+     }
+     */
 }
