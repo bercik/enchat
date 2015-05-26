@@ -4,6 +4,7 @@ import rsa.exceptions.GeneratingPublicKeyException;
 import rsa.services.PublicKeyReader;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -34,8 +35,12 @@ public final class PublicKeyInfo
 
         modulus = rsaPublicKeySpec.getModulus();
         exponent = rsaPublicKeySpec.getPublicExponent();
-        System.out.println("Modulus in constructor      : " + modulus.toString());
-        System.out.println("Exponent in constructor     : " + exponent.toString());
+    }
+
+    public Object getField(String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        Field field = this.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(this);
     }
 
     /**

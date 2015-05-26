@@ -12,10 +12,13 @@ import java.io.PrintWriter;
 public class ConfigurationTest extends TestCase {
 
     public void testConfiguration() throws Exception {
+        System.out.println("Configuration test");
         //test funkcji w klasie Configuration
         Configuration configuration = Configuration.getInstance();
-        System.out.println("Adres załadowany z pliku : " + configuration.getServerAddress() + " oraz jego port : " + configuration.getPort());
-        System.out.println("Szerokość konsoli : " + configuration.getWidth() + " oraz jest wysokosc : " + configuration.getHeight());
-
+        assertEquals("Referencje obiektów klasy Configuration niepoprawne",configuration.getField("instance") ,configuration);
+        assertEquals("Wysokość kosnoli niepoprawna", 36, configuration.getHeight());
+        assertEquals("Szerokość konsoli niepoprawna", 122, configuration.getWidth());
+        assertEquals("Adres serwera niepoprawny", configuration.getField("serverAddress"), configuration.getServerAddress());
+        assertEquals("Port niepoprawny", configuration.getField("port"), configuration.getPort());
     }
 }

@@ -1,5 +1,6 @@
 package rsa;
 
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -29,10 +30,13 @@ final public class PrivateKeyInfo {
         RSAPrivateCrtKeySpec rsaPrivateCrtKeySpec = keyFactory.getKeySpec(privateKey, RSAPrivateCrtKeySpec.class);
         modulus = rsaPrivateCrtKeySpec.getModulus();
         exponent = rsaPrivateCrtKeySpec.getPrivateExponent();
-
-        System.out.println("Modulus in PrivateKeyInfo constructor  : " + modulus.toString());
-        System.out.println("Exponent in PrivateKeyInfo constructor : " + exponent.toString());
     }
+    public Object getField(String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        Field field = this.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(this);
+    }
+    /*************************/
     
     public PrivateKeyInfo(PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
 

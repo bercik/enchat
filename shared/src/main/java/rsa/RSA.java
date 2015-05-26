@@ -123,7 +123,7 @@ public final class RSA
 
     public final static String STRING_CODING = "UTF-8";
 
-    private static class CheckError extends Exception
+    static class CheckError extends Exception
     {
         public CheckError(String message)
         {
