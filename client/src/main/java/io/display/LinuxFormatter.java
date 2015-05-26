@@ -26,7 +26,7 @@ public class LinuxFormatter implements IFormatter
             case BLACK:
                 return addSpecialAttribute(target, 30);
             case RED:
-                return addSpecialAttribute(target, 31);
+                return addSpecialAttribute(target, 91);
             case GREEN:
                 return addSpecialAttribute(target, 32);
             case YELLOW:
