@@ -21,6 +21,7 @@ import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
 import plugin.plugins.RegisterPlugin;
 import plugin.plugins.StatePlugin;
+import plugin.plugins.TalkPlugin;
 import plugin.plugins.UnblockPlugin;
 import plugin.plugins.UsersListPlugin;
 
@@ -125,6 +126,18 @@ public class CommandContainerBuilder
                     State.LOGGED,
                     State.CONVERSATION
                 }, false);
+        
+        // -----------Conversation commands and plugins------------------------
+        
+        // talk
+        commandContainer.registerCommand(
+                MessageId.CONVERSATION_REQUEST.getIntRepresentation(), 
+                "talk", new TalkPlugin(), null, new State[]
+                {
+                    State.LOGGED
+                }, false);
+        
+        // ---------end of conversation commands and plugins-------------------
         
         return commandContainer;
     }

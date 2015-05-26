@@ -121,7 +121,7 @@ public abstract class CommandLineDisplay implements IDisplay
         return counter;
     }
     
-    private String indent(int i)
+    protected String indent(int i)
     {
         StringBuilder result = new StringBuilder();
         for (int j = 0; j < i; ++j)
