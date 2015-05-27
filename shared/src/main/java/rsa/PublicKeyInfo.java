@@ -19,31 +19,6 @@ public final class PublicKeyInfo
 {
 
     /**
-     * Do testów jednostkowych*
-     */
-    public PublicKeyInfo() throws NoSuchAlgorithmException, InvalidKeySpecException
-    {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-        keyPairGenerator.initialize(2048);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-        publicKey = keyPair.getPublic();
-
-        KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
-        RSAPublicKeySpec rsaPublicKeySpec = keyFactory.getKeySpec(publicKey, 
-                RSAPublicKeySpec.class);
-
-        modulus = rsaPublicKeySpec.getModulus();
-        exponent = rsaPublicKeySpec.getPublicExponent();
-    }
-
-    public Object getField(String fieldName) throws NoSuchFieldException, IllegalAccessException {
-        Field field = this.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(this);
-    }
-
-    /**
      * ***********************
      */
 
