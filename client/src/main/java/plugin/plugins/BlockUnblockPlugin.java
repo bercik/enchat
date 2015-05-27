@@ -5,7 +5,6 @@
  */
 package plugin.plugins;
 
-import messages.MessageId;
 import plugin.IState;
 import util.Authentication;
 import util.StringFormatter;

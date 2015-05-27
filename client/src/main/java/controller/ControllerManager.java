@@ -11,10 +11,12 @@ import app_info.State;
 import io.display.IDisplay;
 import io.display.IDisplayManager;
 import io.display.displays.ConnectedDisplay;
+import io.display.displays.ConversationDisplay;
 import io.display.displays.LoggedDisplay;
 import io.display.displays.NonConnectedDisplay;
 import io.input.Key;
 import plugin.PluginManager;
+import util.conversation.Conversation;
 
 /**
  *
@@ -29,15 +31,17 @@ public class ControllerManager
     private final IDisplayManager displayManager;
     private IController currentController;
     private final PluginManager pluginManager;
+    private final Conversation conversation;
 
     public ControllerManager(IDisplayManager ddisplayManager,
             IControllerCommandContainer ccontrollerCommandContainer,
-            PluginManager ppluginManager)
+            PluginManager ppluginManager, Conversation cconversation)
     {
         // unchanging references to some core objects
         pluginManager = ppluginManager;
         controllerCommandContainer = ccontrollerCommandContainer;
         displayManager = ddisplayManager;
+        conversation = cconversation;
         // starting settings
         appState = State.NOT_CONNECTED;
         // this will be changed by CommandContainer get of
@@ -153,10 +157,13 @@ public class ControllerManager
             case LOGGED:
                 displayManager.setDisplay(new LoggedDisplay());
                 break;
-            default:
-                // do nothing. In case of Conversation display should be 
-                // changed by proper plugin
+            case CONVERSATION:
+                displayManager.setDisplay(new ConversationDisplay(conversation));
                 break;
+            default:
+                String msg = "Nieobsłużony stan aplikacji: " + 
+                        newAppState.toString();
+                throw new RuntimeException(msg);
         }
     }
 

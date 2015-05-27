@@ -6,25 +6,13 @@
 package controller;
 
 import app_info.CommandContainer;
-import app_info.Id;
-import app_info.State;
-import controller.controllers.CommandLineController;
-import controller.controllers.LoginController;
-import controller.controllers.MainController;
-import controller.controllers.RegisterController;
 import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
-import io.display.displays.HelpDisplay;
 import io.input.IInput;
-import messages.MessageId;
 import plugin.PluginManager;
 import util.builder.CommandContainerBuilder;
-import util.builder.HelpCommandsBuilder;
-import util.help.Command;
-import util.help.HelpCommands;
-import util.help.Information;
-import util.help.Parameter;
+import util.conversation.Conversation;
 
 /**
  *
@@ -42,14 +30,16 @@ public class ControllerMainTest
             IDisplayManager displayManager = ioSet.getDisplayManager();
             IInput input = ioSet.getInput();
             // Command Container
-            CommandContainer commandContainer = CommandContainerBuilder.build();
+            Conversation conv = new Conversation();
+            CommandContainer commandContainer = 
+                    CommandContainerBuilder.build(conv);
             // plugin manager
             PluginManager pluginManager = new PluginManager(null,
                     commandContainer, null);
             // Controller Manager
             ControllerManager controllerManager
                     = new ControllerManager(displayManager, commandContainer,
-                            pluginManager);
+                            pluginManager, conv);
             pluginManager.setControllerManager(controllerManager);
 
             while (true)

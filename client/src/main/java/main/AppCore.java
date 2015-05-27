@@ -17,6 +17,7 @@ import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
 import plugin.PluginManager;
 import util.builder.CommandContainerBuilder;
+import util.conversation.Conversation;
         
 /**
  *
@@ -33,8 +34,11 @@ public class AppCore
             ioSet = IOSetFabric.getIOSet();
             IDisplayManager displayManager = ioSet.getDisplayManager();
             IInput input = ioSet.getInput();
+            // conversation object which holds conversation messages
+            Conversation conversation = new Conversation();
             // Command Container
-            CommandContainer commandContainer = CommandContainerBuilder.build();
+            CommandContainer commandContainer = 
+                    CommandContainerBuilder.build(conversation);
             // message income buffer
             MessageIncomeBuffer messageIncomeBuffer = new MessageIncomeBuffer();
             // package forwarder
@@ -46,7 +50,7 @@ public class AppCore
             // Controller Manager
             ControllerManager controllerManager
                     = new ControllerManager(displayManager, commandContainer,
-                            pluginManager);
+                            pluginManager, conversation);
             // set controller manager reference in plugin manager
             pluginManager.setControllerManager(controllerManager);
             // try to connect to server at start

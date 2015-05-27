@@ -21,9 +21,9 @@ public class LoginPlugin extends AuthenticationPlugin
         MessageId messageId = MessageId.createMessageId(id);
         MessageId.ErrorId errorId = messageId.createErrorId(error);
         pluginManager.updateControllerError(error);
-        
+
         String msg;
-        
+
         switch (errorId)
         {
             case OK:

@@ -15,8 +15,10 @@ import messages.MessageId;
 import plugin.plugins.BlockPlugin;
 import plugin.plugins.CalcPlugin;
 import plugin.plugins.ConnectPlugin;
+import plugin.plugins.ConversationIncomePlugin;
 import plugin.plugins.DisconnectPlugin;
 import plugin.plugins.HelpPlugin;
+import plugin.plugins.JunkPlugin;
 import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
 import plugin.plugins.RegisterPlugin;
@@ -24,6 +26,11 @@ import plugin.plugins.StatePlugin;
 import plugin.plugins.TalkPlugin;
 import plugin.plugins.UnblockPlugin;
 import plugin.plugins.UsersListPlugin;
+import util.conversation.Conversation;
+
+
+// każda komenda, która może zmienić stan aplikacji (np. connect, login, talk)
+// powinna blokować konsolę do czasu wykonania swojej czynności
 
 /**
  *
@@ -31,7 +38,7 @@ import plugin.plugins.UsersListPlugin;
  */
 public class CommandContainerBuilder
 {
-    public static CommandContainer build()
+    public static CommandContainer build(Conversation conversation)
     {
         CommandContainer commandContainer = new CommandContainer();
         
@@ -127,15 +134,27 @@ public class CommandContainerBuilder
                     State.CONVERSATION
                 }, false);
         
+        // junk
+        commandContainer.registerPlugin(MessageId.JUNK.getIntRepresentation(),
+                new JunkPlugin(), State.ALL);
+        
         // -----------Conversation commands and plugins------------------------
         
         // talk
         commandContainer.registerCommand(
                 MessageId.CONVERSATION_REQUEST.getIntRepresentation(), 
-                "talk", new TalkPlugin(), null, new State[]
+                "talk", new TalkPlugin(conversation), null, new State[]
                 {
                     State.LOGGED
-                }, false);
+                }, false); // TODO change to true
+        
+        // conversation income
+        commandContainer.registerPlugin(
+                MessageId.INCOMING_CONVERSATION.getIntRepresentation(), 
+                new ConversationIncomePlugin(conversation), new State[]
+                {
+                    State.CONVERSATION
+                });
         
         // ---------end of conversation commands and plugins-------------------
         
