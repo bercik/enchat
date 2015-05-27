@@ -23,8 +23,10 @@ public class LinuxFormatter implements IFormatter
     {
         switch (color)
         {
+            // 3x is normal color
+            // 9x is high intensity (brighter) color
             case BLACK:
-                return addSpecialAttribute(target, 30);
+                return addSpecialAttribute(target, 90);
             case RED:
                 return addSpecialAttribute(target, 91);
             case GREEN:
@@ -32,13 +34,13 @@ public class LinuxFormatter implements IFormatter
             case YELLOW:
                 return addSpecialAttribute(target, 33);
             case BLUE:
-                return addSpecialAttribute(target, 34);
+                return addSpecialAttribute(target, 94);
             case MAGENTA:
-                return addSpecialAttribute(target, 35);
+                return addSpecialAttribute(target, 95);
             case CYAN:
-                return addSpecialAttribute(target, 36);
+                return addSpecialAttribute(target, 96);
             case WHITE:
-                return addSpecialAttribute(target, 37);
+                return addSpecialAttribute(target, 97);
         }
         return target;
     }
