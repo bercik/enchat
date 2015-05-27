@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by tochur on 18.04.15.
  *
  * The only entrance for incoming messages from connected users.
- *  (It's like the panel, available buttons - messages.)
+ *  (It's like the panel, messages are available buttons)
  * This class is responsible for cheeking weather new bytes appeared in
  * any of DataInputStreams that this class holds.
  * When it happens it call MessageReader, that tries to construct Message

@@ -40,7 +40,7 @@ public class Accounts {
 
     public Map<String, Account> getMap() { return Collections.unmodifiableMap(accounts); }
 
-    public Collection<String> getNicks(){ return Collections.unmodifiableCollection(accounts.keySet()); }
+    public Set<String> getNicks(){ return Collections.unmodifiableSet(accounts.keySet()); }
 
     public int getAmount(){
         return accounts.size();

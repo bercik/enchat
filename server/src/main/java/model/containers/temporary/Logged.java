@@ -1,5 +1,6 @@
 package model.containers.temporary;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import model.Account;
 import model.exceptions.ElementNotFoundException;
@@ -19,8 +20,14 @@ import java.util.Map;
 public class Logged {
 
     /*List of all logged capable to interact*/
-    private Map<Integer, Account> logged = new HashMap<>();
-    private Map<Integer, String> loggedNicks = new HashMap<>();
+    private Map<Integer, Account> logged;
+    private Map<Integer, String> loggedNicks;
+
+    @Inject
+    public Logged(){
+        this.logged = new HashMap<>();
+        this.loggedNicks = new HashMap<>();
+    }
 
 
     /**
@@ -28,8 +35,9 @@ public class Logged {
      * @param ID
      * @param account
      */
-    public void addNew(Integer ID, Account account){
+    void addNew(Integer ID, Account account){
         logged.put(ID, account);
+        loggedNicks.put(ID, account.getNick());
     }
 
     /**
@@ -37,9 +45,17 @@ public class Logged {
      * @param ID
      * @throws ElementNotFoundException
      */
-    public void remove (Integer ID) throws ElementNotFoundException {
+    void remove (Integer ID) throws ElementNotFoundException {
         if ( logged.remove(ID) == null )
             throw new ElementNotFoundException();
+    }
+
+    Map<Integer, String> getIDNickMap(){
+        return loggedNicks;
+    }
+
+    public String getNick(Integer id){
+        return loggedNicks.get(id);
     }
 
     public Collection<Account> getAccounts(){

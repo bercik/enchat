@@ -35,6 +35,7 @@ public class PublicKeys {
      * @param clientPublicKeyInfo
      */
     public void addKey(Integer ID, ClientPublicKeyInfo clientPublicKeyInfo){
+        System.out.println("Adding value with id: " + ID);
         keys.put(ID, clientPublicKeyInfo);
     }
 

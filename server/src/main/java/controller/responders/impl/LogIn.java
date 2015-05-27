@@ -10,6 +10,7 @@ import message.generators.Server_error;
 import message.types.UEMessage;
 import message.types.UMessage;
 import model.Account;
+import model.containers.temporary.LoggedUtil;
 import model.user.UserState;
 import model.containers.permanent.Authentication;
 import model.exceptions.IncorrectNickOrPassword;
@@ -27,14 +28,16 @@ public class LogIn implements IMessageResponder {
     private MessageSender messageSender;
     private Log_In log_in;
     private Authentication authentication;
+    private LoggedUtil loggedUtil;
 
     @Inject
-    public LogIn(Decryption decryption, StateManager stateManager,Authentication authentication, MessageSender messageSender, Log_In messages){
+    public LogIn(Decryption decryption, StateManager stateManager,Authentication authentication, MessageSender messageSender, Log_In messages, LoggedUtil loggedUtil){
         this.decryption = decryption;
         this.stateManager = stateManager;
         this.authentication = authentication;
         this.messageSender = messageSender;
         this.log_in = messages;
+        this.loggedUtil = loggedUtil;
     }
 
     @Override
@@ -51,7 +54,9 @@ public class LogIn implements IMessageResponder {
             readInfo();
             //May save info.
             account = authentication.authenticate(nick, password);
+
             stateManager.update(authorID, UserState.LOGGED);
+            loggedUtil.add(authorID, account);
             answer = log_in.loggedSuccessfully(authorID);
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message

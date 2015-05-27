@@ -3,6 +3,7 @@ package controller.utils.cypher;
 import com.google.inject.Inject;
 import message.types.*;
 import model.containers.temporary.PublicKeys;
+import model.containers.temporary.PublicKeysManager;
 import rsa.exceptions.DecryptingException;
 
 import java.security.PublicKey;
@@ -12,17 +13,17 @@ import java.security.PublicKey;
  */
 public class Decryption {
     DecryptionUtil decryptionUtil;
-    PublicKeys publicKeys;
+    PublicKeysManager publicKeysManager;
 
     @Inject
-    public Decryption(DecryptionUtil decryptionUtil, PublicKeys publicKeys){
+    public Decryption(DecryptionUtil decryptionUtil, PublicKeysManager publicKeysManager){
         this.decryptionUtil = decryptionUtil;
-        this.publicKeys = publicKeys;
+        this.publicKeysManager = publicKeysManager;
     }
 
     public UMessage decryptMessage(UEMessage ueMessage) throws DecryptingException {
         Integer userID = ueMessage.getAuthorID();
-        PublicKey senderKey = publicKeys.getKey(userID);
+        PublicKey senderKey = publicKeysManager.getKey(userID);
 
         return decryptionUtil.decryptMessage(ueMessage, senderKey);
     }
