@@ -15,13 +15,6 @@ import rsa.exceptions.GeneratingPublicKeyException;
  */
 public final class Configuration
 {
-    /*Do testów jednostkowych. Funkcja potrzebna aby dostać się do pól prywatnych*/
-    public Object getField(String fieldName) throws NoSuchFieldException, IllegalAccessException {
-        Field field = this.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(this);
-    }
-    /****************************************************************************/
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
     private Configuration() throws IOException, GeneratingPublicKeyException
     {
