@@ -52,8 +52,11 @@ public class SignUp implements IMessageResponder {
     @Override
     public void run() {
         try{
+            //Checking user state
             stateManager.verify(ueMessage);
+            //Preparing message
             message = decryption.decryptMessage(ueMessage);
+            //getting info from message
             readInfo();
             registration.register(nick, password);
             answer = sign_up.ok(authorID);
@@ -78,8 +81,11 @@ public class SignUp implements IMessageResponder {
 
     private void readInfo(){
         authorID = message.getAuthorID();
+        System.out.println("Author ID: " + authorID);
         String[] strings = message.getPackages().toArray(new String[0]);
         this.nick = strings[0];
         this.password = strings[1];
+        System.out.print("nick: " + this.nick);
+        System.out.print("password: " + this.password);
     }
 }

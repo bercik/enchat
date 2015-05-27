@@ -29,10 +29,12 @@ public class PublicKeysManager {
 
 
     public PublicKey getKey(Integer otherID) {
+        System.out.println("Getting value with key: " + otherID);
         return publicKeys.getKey(otherID);
     }
 
     public void addKey(Integer ID, PublicKey publicKey, BigInteger modulus, BigInteger exponent){
         ClientPublicKeyInfo clientPublicKeyInfo = new ClientPublicKeyInfo(publicKey, modulus, exponent);
-        publicKeys.addKey(ID, clientPublicKeyInfo); }
+        publicKeys.addKey(ID, clientPublicKeyInfo);
+    }
 }

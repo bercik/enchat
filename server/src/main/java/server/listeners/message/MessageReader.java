@@ -31,7 +31,6 @@ public class MessageReader {
     private int id;
     private int errorId;
     private int packageAmount;
-    private ArrayList<Pack> packs = new ArrayList<Pack>();
     private EncryptedMessage encryptedMessage;
 
     /**
@@ -48,7 +47,7 @@ public class MessageReader {
      * @throws EOFException - when received message is harmed (data are not completed)
      */
     public EncryptedMessage readFromStream(DataInputStream in) throws IOException, MessageIdException, EOFException {
-
+        ArrayList<Pack> packs = new ArrayList<Pack>();
         //Reading message header
         id = in.readInt();
         errorId = in.readInt();

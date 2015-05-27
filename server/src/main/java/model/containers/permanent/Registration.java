@@ -7,6 +7,8 @@ import model.exceptions.OverloadedCannotAddNew;
 
 /**
  * Created by tochur on 16.05.15.
+ *
+ * Controller class, with supervise the process of adding new users accounts to system.
  */
 public class Registration {
     private Accounts accounts;
@@ -17,7 +19,7 @@ public class Registration {
     }
 
     /**
-     *
+     * This method should be atomic operation.
      * @param nick
      * @param password
      * @throws OverloadedCannotAddNew
@@ -36,7 +38,6 @@ public class Registration {
 
 
     /** ReadOnly
-     * This method is deprecated and will be removed soon.
      * @param nick - user login
      * @return answer
      */

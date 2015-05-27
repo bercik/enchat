@@ -1,12 +1,16 @@
 package server.listeners;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import controller.responders.NewClientHandler;
+import controller.responders.impl.ConversationRequest;
+import server.sender.ServerInjectorWrapper;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Created by tochur on 13.05.15.
@@ -21,48 +25,64 @@ import java.net.Socket;
 @Singleton
 public class NewClientListener implements Runnable{
     private ServerSocket serverSocket;
-    private NewClientHandler newClientHandler;
-    private boolean working;
+    private boolean working = false;
 
     /**
      * To Start listening for new Clients we need Server Instance
      * @param serverSocket instance of ServerSocket.
-     * @param newClientHandler - class responsible for actualization state of users
-     *                         that can exchange information with server
      */
     @Inject
-    public NewClientListener(ServerSocket serverSocket, NewClientHandler newClientHandler) throws ServerStartFailed {
-        System.out.print("NEW CLIENT LISTENER");
+    public NewClientListener(ServerSocket serverSocket) throws ServerStartFailed {
+        System.out.println("NEW CLIENT LISTENER");
         if(serverSocket == null){
             throw new ServerStartFailed("Unable to start server on requested port");
         }
         this.serverSocket = serverSocket;
-        this.newClientHandler = newClientHandler;
     }
 
     @Override
     public void run() {
-        working = true;
+        this.working = true;
         while (working) {
             try {
-                if(!working){
-                    System.out.print("Closing...");
-                    serverSocket.close();
-                    return;
-                }
                 System.out.println("Waiting for new client");
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Got new client");
-                newClientHandler.setParameters(clientSocket);
-                //Starting new Thread, that handles new Client
-                new Thread(newClientHandler).start();
+
+
+                //Creating new client handler object
+                NewClientHandler newClientHandler = createNewClientHandler();
+                handleNewClient(newClientHandler, clientSocket);
+            } catch (SocketException e){
+                if(!working){
+                    System.out.println("New Client Listener ended it's work, correctly.");
+                }else{
+                    e.printStackTrace();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void stopListen(){
-        this.working = false;
+    protected void handleNewClient(NewClientHandler newClientHandler, Socket clientSocket){
+        newClientHandler.setParameters(clientSocket);
+        new Thread(newClientHandler).start();
+    }
+
+    protected NewClientHandler createNewClientHandler(){
+        Injector injector = new ServerInjectorWrapper().getServerInjector();
+        return injector.getInstance(NewClientHandler.class);
+    }
+
+    /* When server is closing this method release socket resources. */
+    private void releaseResources() throws IOException {
+        System.out.println("New Client Listener closing...");
+        working = false;
+        serverSocket.close();
+    }
+
+    public void stopListen() throws IOException {
+        releaseResources();
     }
 }

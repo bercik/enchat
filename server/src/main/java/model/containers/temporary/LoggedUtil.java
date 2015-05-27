@@ -12,41 +12,42 @@ import java.util.Set;
 
 /**
  * Created by tochur on 17.05.15.
+ *
+ * This it the only one class that can modify collection of logged clients.
+ * This collection may be accessed using Logged interface but not modified.
  */
 public class LoggedUtil {
-    private Map<Integer, Account> IDAccounts;
+    private Logged logged;
 
     @Inject
-    public LoggedUtil(@Named("IDAccounts") Map<Integer, Account> IDAccounts) {
-        this.IDAccounts = IDAccounts;
+    public LoggedUtil(Logged logged) {
+        this.logged = logged;
     }
 
     public Collection<String> getNicks() {
-        Collection<Account> accounts = IDAccounts.values();
-        Set<String> nicks = new HashSet<>();
-        for (Account account : accounts) {
-            nicks.add(account.getNick());
-        }
-
-        return nicks;
+        return logged.getNicks();
     }
 
     public Integer getUserId(String nick) throws ElementNotFoundException {
-        for(Integer id: IDAccounts.keySet()){
-            if(IDAccounts.get(id).getNick().equals(nick))
+        Map<Integer, String> loggedMap = logged.getIDNickMap();
+        for(Integer id: loggedMap.keySet()){
+            if(loggedMap.get(id).equals(nick));
                 return id;
         }
         throw new ElementNotFoundException();
     }
 
     public String getUserNick(Integer id) throws ElementNotFoundException {
-        Account account;
-        if ((account = IDAccounts.get(id)) == null)
-            throw new ElementNotFoundException();
-        return account.getNick();
+        return logged.getNick(id);
     }
 
     public boolean isLogged(Integer ID) {
-        return IDAccounts.containsKey(ID);
+        if (logged.getNick(ID) == null)
+            return false;
+        return true;
+    }
+
+    public void add(Integer authorID, Account account) {
+        logged.addNew(authorID, account);
     }
 }

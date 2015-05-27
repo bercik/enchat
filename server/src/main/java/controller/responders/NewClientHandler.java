@@ -2,7 +2,6 @@ package controller.responders;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import model.containers.temporary.PublicKeys;
 import model.containers.temporary.PublicKeysManager;
 import model.containers.temporary.UserStates;
 import model.user.UserState;
@@ -25,21 +24,19 @@ import java.security.spec.InvalidKeySpecException;
  *
  * This class is responsible for actualization state of users that can exchange information with server
  *
- * !!!!!!!!!!!!! MODIFICATION NEEDED !!!!!!!!!!!! - add  model state change.
  */
 public class NewClientHandler implements Runnable {
     private Socket clientSocket;
-    private PublicKey publicKey;
     private PublicKeysManager publicKeysManager;
     private OutStreams outStreams;
     private UserStates userStates;
     private static Integer ID = 0;
 
-    private InputStreamsHandler inputStreamsListener;
+    private InputStreamsHandler inputStreamshandler;
 
     @Inject
-    public NewClientHandler(InputStreamsHandler inputStreamsListener,@Named("Server") PublicKey publicKey, PublicKeysManager publicKeysManager, OutStreams outStreams, UserStates userStates){
-        this.inputStreamsListener = inputStreamsListener;
+    public NewClientHandler(InputStreamsHandler inputStreamshandler,@Named("Server") PublicKey publicKey, PublicKeysManager publicKeysManager, OutStreams outStreams, UserStates userStates){
+        this.inputStreamshandler = inputStreamshandler;
         this.publicKey = publicKey;
         this.publicKeysManager = publicKeysManager;
         this.outStreams = outStreams;
@@ -53,26 +50,17 @@ public class NewClientHandler implements Runnable {
     @Override
     public void run() {
         try{
-            DataInputStream inputStream = new DataInputStream( clientSocket.getInputStream());
-            DataOutputStream outputStream = new DataOutputStream( clientSocket.getOutputStream());
+            System.out.println("Connecting new client with id: " + ID);
+            int newClientID = ID++;
 
-            inputStreamsListener.addStreamToScan(ID, inputStream);
+            //Creating streams
+            setUpStreams();
 
             //Wysłanie klucza publicznego
-            PublicKeyInfo publicKeyInfo = new PublicKeyInfo(publicKey);
-            publicKeyInfo.send(outputStream);
+            exchangePublicKeys();
 
-            PublicKeyInfo clientPublicKeyInfo = new PublicKeyInfo(inputStream);
-            BigInteger modulus =  clientPublicKeyInfo.getModulus();
-            BigInteger exponent = clientPublicKeyInfo.getExponent();
-
-            PublicKey publicKey = clientPublicKeyInfo.getPublicKey();
-
-            publicKeysManager.addKey(ID, publicKey, modulus, exponent);
-            outStreams.addStream(ID, outputStream);
-            userStates.updateState(ID, UserState.CONNECTED_TO_SERVER);
-
-            ID++;
+            //Updating model
+            updateModel(newClientID);
         } catch (IOException e) {
             System.out.println("Enable to open streams on new client socket. Connection rejected.");
             e.printStackTrace();
@@ -85,4 +73,33 @@ public class NewClientHandler implements Runnable {
         }
 
     }
+
+    protected void exchangePublicKeys() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, GeneratingPublicKeyException {
+        PublicKeyInfo publicKeyInfo = new PublicKeyInfo(publicKey);
+        publicKeyInfo.send(outputStream);
+
+        PublicKeyInfo clientPublicKeyInfo = new PublicKeyInfo(inputStream);
+        modulus =  clientPublicKeyInfo.getModulus();
+        exponent = clientPublicKeyInfo.getExponent();
+
+        publicKey = clientPublicKeyInfo.getPublicKey();
+    }
+
+    protected void setUpStreams() throws IOException {
+        inputStream = new DataInputStream( clientSocket.getInputStream());
+        outputStream = new DataOutputStream( clientSocket.getOutputStream());
+    }
+
+    protected void updateModel(int newID){
+        inputStreamshandler.addStreamToScan(newID, inputStream);
+        publicKeysManager.addKey(newID, publicKey, modulus, exponent);
+        outStreams.addStream(newID, outputStream);
+        userStates.updateState(newID, UserState.CONNECTED_TO_SERVER);
+    }
+
+    private BigInteger modulus;
+    private BigInteger exponent;
+    private PublicKey publicKey;
+    DataInputStream inputStream;
+    DataOutputStream outputStream;
 }
