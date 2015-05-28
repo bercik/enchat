@@ -47,6 +47,10 @@ public abstract class StartConversationPlugin extends Plugin
         }
         catch (Exception ex)
         {
+            // wyświetlamy informację o błędzie użytkownikowi
+            String msg = "Nie udało się nawiązać konwersacji z użytkownikiem "
+                    + username + " z powodu błędu w odczycie klucza publicznego";
+            pluginManager.setMsg(msg, true);
             return;
         }
         // ustawiamy klucz rozmówcy
