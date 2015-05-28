@@ -15,7 +15,7 @@ import util.conversation.Conversation;
  */
 public class ConversationIncomePlugin extends StartConversationPlugin
 {
-    private IState currentState;
+    private IState currentState = new State1();
 
     public ConversationIncomePlugin(Conversation conv)
     {
