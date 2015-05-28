@@ -39,10 +39,14 @@ public abstract class CommandLineController implements IController
     @Override
     public void putSpecialKey(Key key)
     {
-        if (key == Key.DELETE)
+        // jeżeli konsola nie jest zablokowana
+        if (!blockConsole)
         {
-            // clear command
-            setCommandPermanently("");
+            if (key == Key.DELETE)
+            {
+                // clear command
+                setCommandPermanently("");
+            }
         }
     }
     
@@ -185,5 +189,10 @@ public abstract class CommandLineController implements IController
         }
 
         controllerManager.setCommand(newCommand);
+    }
+    
+    protected boolean getBlockConsole()
+    {
+        return blockConsole;
     }
 }

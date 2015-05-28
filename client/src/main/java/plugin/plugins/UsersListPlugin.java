@@ -16,11 +16,13 @@ import plugin.IState;
 public class UsersListPlugin extends Plugin
 {
     private final String header;
+    private final String message;
     private IState currentState = new State1();
 
-    public UsersListPlugin(String hheader)
+    public UsersListPlugin(String hheader, String mmessage)
     {
         header = hheader;
+        message = mmessage;
     }
 
     @Override
@@ -40,6 +42,8 @@ public class UsersListPlugin extends Plugin
         @Override
         public IState run(int error, String[] parameters)
         {
+            // wyświetlamy wiadomość użytkownikowi
+            pluginManager.setMsg(message, false);
             // wysyłamy prośbę o listę użytkowników do serwera
             pluginManager.send(id, new String[0]);
 

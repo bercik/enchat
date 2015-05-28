@@ -39,7 +39,9 @@ public class MainController extends CommandLineController
         {
             controllerManager.setAppEnd();
         }
-        else
+        // inaczej jeżeli konsola nie jest zablokowana to przekazujemy do
+        // command history
+        else if (!getBlockConsole())
         {
             commandHistory.putSpecialKey(key);
         }

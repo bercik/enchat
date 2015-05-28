@@ -21,6 +21,8 @@ import plugin.plugins.HelpPlugin;
 import plugin.plugins.JunkPlugin;
 import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
+import plugin.plugins.MessageIncomePlugin;
+import plugin.plugins.MessageOutcomePlugin;
 import plugin.plugins.RegisterPlugin;
 import plugin.plugins.StatePlugin;
 import plugin.plugins.TalkPlugin;
@@ -96,25 +98,32 @@ public class CommandContainerBuilder
         commandContainer.registerCommand(Id.STATE_PLUGIN.getIntRepresentation(),
                 "state", new StatePlugin(), null, State.ALL, false);
         
+        // lists
+        String header;
+        String message;
         // logged users list
+        header = "Zalogowani użytkownicy";
+        message = "Pobieram listę zalogowanych użytkowników";
         commandContainer.registerCommand(
                 MessageId.CLIENTS_LIST.getIntRepresentation(), 
-                "users", new UsersListPlugin("Zalogowani użytkownicy"), 
+                "users", new UsersListPlugin(header, message), 
                 null, new State[]
                 {
                     State.LOGGED,
                     State.CONVERSATION
-                }, false);
+                }, true);
         
         // blacklist
+        header = "Czarna lista";
+        message = "Pobieram czarną listę użytkowników";
         commandContainer.registerCommand(
                 MessageId.BLACK_LIST.getIntRepresentation(), 
-                "blacklist", new UsersListPlugin("Czarna lista"), 
+                "blacklist", new UsersListPlugin(header, message), 
                 null, new State[]
                 {
                     State.LOGGED,
                     State.CONVERSATION
-                }, false);
+                }, true);
         
         // block
         commandContainer.registerCommand(
@@ -155,6 +164,23 @@ public class CommandContainerBuilder
                 {
                     State.CONVERSATION
                 });
+        
+        // client message
+        commandContainer.registerPlugin(
+                MessageId.CLIENT_MESSAGE.getIntRepresentation(),
+                new MessageOutcomePlugin(conversation), new State[]
+                {
+                    State.CONVERSATION
+                });
+        
+        // server message
+        commandContainer.registerPlugin(
+                MessageId.SERVER_MESSAGE.getIntRepresentation(), 
+                new MessageIncomePlugin(conversation), new State[]
+                {
+                    State.CONVERSATION
+                });
+        
         
         // ---------end of conversation commands and plugins-------------------
         

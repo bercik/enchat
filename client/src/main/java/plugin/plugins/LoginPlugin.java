@@ -46,6 +46,10 @@ public class LoginPlugin extends AuthenticationPlugin
                 msg = "Jesteś już zalogowany";
                 pluginManager.setMsg(msg, true);
                 break;
+            default:
+                msg = "Nieobsłużony error " + errorId.toString() + " w "
+                        + messageId.toString();
+                throw new RuntimeException(msg);
         }
     }
 }
