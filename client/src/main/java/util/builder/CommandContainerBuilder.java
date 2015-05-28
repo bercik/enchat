@@ -96,25 +96,32 @@ public class CommandContainerBuilder
         commandContainer.registerCommand(Id.STATE_PLUGIN.getIntRepresentation(),
                 "state", new StatePlugin(), null, State.ALL, false);
         
+        // lists
+        String header;
+        String message;
         // logged users list
+        header = "Zalogowani użytkownicy";
+        message = "Pobieram listę zalogowanych użytkowników";
         commandContainer.registerCommand(
                 MessageId.CLIENTS_LIST.getIntRepresentation(), 
-                "users", new UsersListPlugin("Zalogowani użytkownicy"), 
+                "users", new UsersListPlugin(header, message), 
                 null, new State[]
                 {
                     State.LOGGED,
                     State.CONVERSATION
-                }, false);
+                }, true);
         
         // blacklist
+        header = "Czarna lista";
+        message = "Pobieram czarną listę użytkowników";
         commandContainer.registerCommand(
                 MessageId.BLACK_LIST.getIntRepresentation(), 
-                "blacklist", new UsersListPlugin("Czarna lista"), 
+                "blacklist", new UsersListPlugin(header, message), 
                 null, new State[]
                 {
                     State.LOGGED,
                     State.CONVERSATION
-                }, false);
+                }, true);
         
         // block
         commandContainer.registerCommand(

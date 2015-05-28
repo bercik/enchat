@@ -25,13 +25,14 @@ public enum Id
     DISCONNECT_PLUGIN(),
     STATE_PLUGIN();
 
-    private static int idCounter = -1;
+    // bez znaczenia co tu damy i tak będzie 0
+    private static int idCounter = 0;
 
     // ugly workaround
 
     private static int getIdCounter()
     {
-        return idCounter--;
+        return --idCounter;
     }
 
     private int id;

@@ -29,7 +29,7 @@ public class TalkPlugin extends StartConversationPlugin
     @Override
     public void reset()
     {
-        // do nothing
+        currentState = new State1();
     }
 
     @Override
