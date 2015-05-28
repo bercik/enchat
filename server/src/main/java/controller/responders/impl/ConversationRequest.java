@@ -76,8 +76,7 @@ public class ConversationRequest implements IMessageResponder {
             createConnection();
 
             //Informing interested people creating answers (containing publicKeys)
-            answer = conversation_request.connected(authorID, otherUserID, otherUserNick);
-            informationAboutRequest = conversation_request.connected(otherUserID, authorID, authorNick);
+            createAnswers();
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
         } catch(DecryptingException e) {
@@ -147,6 +146,12 @@ public class ConversationRequest implements IMessageResponder {
         //State Change
         stateManager.update(authorID, UserState.IN_ROOM);
         stateManager.update(otherUserID, UserState.IN_ROOM);
+    }
+
+    /*Creates the answers when all terms was fulfilled */
+    protected void createAnswers() throws EncryptionException {
+        answer = conversation_request.connected(authorID, otherUserID, otherUserNick);
+        informationAboutRequest = incoming_conversation.connected(authorID, authorNick, otherUserID);
     }
 
     private void readInfo(){

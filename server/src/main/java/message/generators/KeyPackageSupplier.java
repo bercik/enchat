@@ -18,10 +18,17 @@ public class KeyPackageSupplier {
         this.publicKeysManager = publicKeysManager;
     }
 
+    /**
+     * Prepares info about the user that was just connected. In succeeding array fields are:
+     *  [nick, modulus_I_Part], [modulus_II_Part], [exponent_I_Part], [exponent_II_Part].
+     * @param keySourceID - id of the user whose public key info is sending
+     * @param sourceUserNick - nick of the user whose public key info is sending
+     * @return Array with info about user, necessary to lead encrypted conversation.
+     * @throws ElementNotFoundException
+     */
+    public String[] supply(Integer keySourceID, String sourceUserNick) throws ElementNotFoundException {
 
-    public String[] supply(Integer keyOwnerID, String newConversationalistNick) throws ElementNotFoundException {
-
-        ClientPublicKeyInfo publicKeyInfo = publicKeysManager.getClientPublicKeyInfo(keyOwnerID);
+        ClientPublicKeyInfo publicKeyInfo = publicKeysManager.getClientPublicKeyInfo(keySourceID);
         BigInteger modulus = publicKeyInfo.getModulus();
         BigInteger exponent = publicKeyInfo.getExponent();
 
@@ -46,7 +53,7 @@ public class KeyPackageSupplier {
         }
 
         String[] array = new String[5];
-        array[0] = newConversationalistNick;
+        array[0] = sourceUserNick;
         array[1] = modFirst;
         array[2] = modSecond;
         array[3] = expFirst;
