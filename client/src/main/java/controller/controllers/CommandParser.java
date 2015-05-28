@@ -9,6 +9,7 @@ import app_info.Configuration;
 import app_info.ICommandContainer;
 import controller.ControllerManager;
 import java.util.Arrays;
+import messages.MessageId;
 
 /**
  *
@@ -107,9 +108,12 @@ public class CommandParser
         // inaczej traktujemy jako wiadomość
         else
         {
-            // TODO
-            // something like this
-            // pluginManager.startPlugin(MessageId.Conversation, msg)
+            // blokujemy konsolę
+            controller.setBlockConsole(true);
+            // uruchamiamy odpowiedni plugin
+            controllerManager.startPlugin(
+                    MessageId.CLIENT_MESSAGE.getIntRepresentation(), 
+                    new String[]{ input });
         }
     }
     

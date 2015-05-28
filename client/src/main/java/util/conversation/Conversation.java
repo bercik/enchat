@@ -15,6 +15,9 @@ import org.joda.time.LocalTime;
  */
 public class Conversation
 {
+    // maksymalna ilość wiadomości w liście
+    private static final int MAX_MESSAGES = 100;
+    // wiadomości
     LinkedList<Message> messages = new LinkedList<>();
     
     public void start()
@@ -38,6 +41,11 @@ public class Conversation
         {
             Message m = new Message(message, username, LocalTime.now());
             messages.add(m);
+            
+            if (messages.size() > MAX_MESSAGES)
+            {
+                messages.removeFirst();
+            }
         }
         // inaczej dołączamy do istniejącej ostatniej już
         else

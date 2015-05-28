@@ -21,6 +21,8 @@ import plugin.plugins.HelpPlugin;
 import plugin.plugins.JunkPlugin;
 import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
+import plugin.plugins.MessageIncomePlugin;
+import plugin.plugins.MessageOutcomePlugin;
 import plugin.plugins.RegisterPlugin;
 import plugin.plugins.StatePlugin;
 import plugin.plugins.TalkPlugin;
@@ -162,6 +164,23 @@ public class CommandContainerBuilder
                 {
                     State.CONVERSATION
                 });
+        
+        // client message
+        commandContainer.registerPlugin(
+                MessageId.CLIENT_MESSAGE.getIntRepresentation(),
+                new MessageOutcomePlugin(conversation), new State[]
+                {
+                    State.CONVERSATION
+                });
+        
+        // server message
+        commandContainer.registerPlugin(
+                MessageId.SERVER_MESSAGE.getIntRepresentation(), 
+                new MessageIncomePlugin(conversation), new State[]
+                {
+                    State.CONVERSATION
+                });
+        
         
         // ---------end of conversation commands and plugins-------------------
         

@@ -22,16 +22,16 @@ public class RegisterPlugin extends AuthenticationPlugin
         MessageId messageId = MessageId.createMessageId(id);
         MessageId.ErrorId errorId = messageId.createErrorId(error);
         pluginManager.updateControllerError(error);
-        
+
         String msg;
-        
+
         switch (errorId)
         {
             case OK:
                 Configuration conf = Configuration.getInstance();
-                msg = "Zarejestrowałeś się jako: " + login + ". " + 
-                        "Aby się zalogować wpisz " + conf.getCommandPrefix() + 
-                        "login";
+                msg = "Zarejestrowałeś się jako: " + login + ". "
+                        + "Aby się zalogować wpisz " + conf.getCommandPrefix()
+                        + "login";
                 pluginManager.setMsg(msg, false);
                 break;
             case BUSY_LOGIN:
@@ -51,6 +51,10 @@ public class RegisterPlugin extends AuthenticationPlugin
                         + " Cię wcisnąć, spróbuj ponownie później";
                 pluginManager.setMsg(msg, true);
                 break;
+            default:
+                msg = "Nieobsłużony error " + errorId.toString() + " w "
+                        + messageId.toString();
+                throw new RuntimeException(msg);
         }
     }
 }
