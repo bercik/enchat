@@ -38,7 +38,9 @@ public class ConversationRequest implements IMessageResponder {
     private Incoming_Conversation incoming_conversation;
 
     @Inject
-    public ConversationRequest(Decryption decryption, StateManager stateManager, MessageSender messageSender, BlackListUtil blackListUtil, LoggedUtil loggedUtil, RoomManager roomManager, Conversation_Request conversation_request, Incoming_Conversation incoming_conversation){
+    public ConversationRequest(Decryption decryption, StateManager stateManager, MessageSender messageSender,
+                               BlackListUtil blackListUtil, LoggedUtil loggedUtil, RoomManager roomManager,
+                               Conversation_Request conversation_request, Incoming_Conversation incoming_conversation){
         this.decryption = decryption;
         this.stateManager = stateManager;
         this.messageSender = messageSender;
@@ -65,25 +67,13 @@ public class ConversationRequest implements IMessageResponder {
             readInfo();
 
             //Checks weather user is logged
-            otherUserID = loggedUtil.getUserId(otherUserNick);
-            if (!loggedUtil.isLogged(otherUserID))
-                throw new UserNotLogged();
+            isUserLogged();
 
             //Checks weather author(user that requested conversation) is not on black list
-            authorNick = loggedUtil.getUserNick(authorID);
-            if( blackListUtil.isOnBlackList(otherUserID, authorNick))
-                throw new OnBlackList();
+            isNotOnBlackList();
 
-            //Checks weather user is not busy
-            if ( !roomManager.isFree(otherUserID))
-                throw new ToMuchUsersInThisRoom();
-
-            //Creating connection
-            roomManager.startConversation(authorID, otherUserID);
-
-            //State Change
-            stateManager.update(authorID, UserState.IN_ROOM);
-            stateManager.update(otherUserID, UserState.IN_ROOM);
+            //Creating connection between users - model modification.
+            createConnection();
 
             //Informing interested people creating answers (containing publicKeys)
             answer = conversation_request.connected(authorID, otherUserID, otherUserNick);
@@ -113,6 +103,50 @@ public class ConversationRequest implements IMessageResponder {
             System.out.println("Unable to send message to user - answer for Log In request.");
         }
 
+    }
+
+    /**
+     * If user that message author is not connected, throws exception
+     * @throws UserNotLogged - when is not logged.
+     */
+    protected void isUserLogged() throws UserNotLogged {
+        //get of the user
+        try{
+            otherUserID = loggedUtil.getUserId(otherUserNick);
+            if (!loggedUtil.isLogged(otherUserID))
+                throw new UserNotLogged();
+        }catch (ElementNotFoundException e){
+            throw new UserNotLogged();
+        }
+    }
+
+    /**
+     * Checks weather user can talk now
+     * @throws OnBlackList - when requester is on black list
+     * @throws UserNotLogged - when user is not logged
+     */
+    protected void isNotOnBlackList() throws OnBlackList, UserNotLogged {
+        try{
+            authorNick = loggedUtil.getUserNick(authorID);
+            if( blackListUtil.isOnBlackList(otherUserID, authorNick))
+                throw new OnBlackList();
+        }catch (ElementNotFoundException e){
+            throw new UserNotLogged();
+        }
+
+    }
+
+    /**
+     * Creates connection between users.
+     * @throws ToMuchUsersInThisRoom - when user is busy - cannot connect with him
+     */
+    protected void createConnection() throws ToMuchUsersInThisRoom {
+        //Creating connection
+        roomManager.startConversation(authorID, otherUserID);
+
+        //State Change
+        stateManager.update(authorID, UserState.IN_ROOM);
+        stateManager.update(otherUserID, UserState.IN_ROOM);
     }
 
     private void readInfo(){
