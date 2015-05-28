@@ -5,10 +5,7 @@ import com.google.inject.Singleton;
 import model.Account;
 import model.exceptions.ElementNotFoundException;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by tochur on 01.05.15.
@@ -48,6 +45,7 @@ public class Logged {
     void remove (Integer ID) throws ElementNotFoundException {
         if ( logged.remove(ID) == null )
             throw new ElementNotFoundException();
+        loggedNicks.remove(ID);
     }
 
     Map<Integer, String> getIDNickMap(){
@@ -56,6 +54,10 @@ public class Logged {
 
     public String getNick(Integer id){
         return loggedNicks.get(id);
+    }
+
+    public Set<Integer> getIDs(){
+        return loggedNicks.keySet();
     }
 
     public Collection<Account> getAccounts(){

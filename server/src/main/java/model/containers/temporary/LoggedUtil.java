@@ -28,6 +28,8 @@ public class LoggedUtil {
         return logged.getNicks();
     }
 
+    public Collection<Integer> getIDs() { return logged.getIDs(); }
+
     public Integer getUserId(String nick) throws ElementNotFoundException {
         Map<Integer, String> loggedMap = logged.getIDNickMap();
         for(Integer id: loggedMap.keySet()){
@@ -49,5 +51,13 @@ public class LoggedUtil {
 
     public void add(Integer authorID, Account account) {
         logged.addNew(authorID, account);
+    }
+
+    public void remove(Integer id){
+        try {
+            logged.remove(id);
+        } catch (ElementNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -12,6 +12,8 @@ import message.types.UEMessage;
 import message.types.UMessage;
 import model.Account;
 import model.containers.permanent.Authentication;
+import model.containers.temporary.LoggedUtil;
+import model.containers.temporary.RoomManager;
 import model.exceptions.IncorrectNickOrPassword;
 import model.user.UserState;
 import rsa.exceptions.DecryptingException;
@@ -26,12 +28,16 @@ public class LogOut implements IMessageResponder {
     private StateManager stateManager;
     private MessageSender messageSender;
     private Log_Out logout;
+    private LoggedUtil loggedUtil;
+    private RoomManager roomManager;
 
     @Inject
-    public LogOut(StateManager stateManager, MessageSender messageSender, Log_Out logout){
+    public LogOut(StateManager stateManager, MessageSender messageSender, Log_Out logout, LoggedUtil loggedUtil, RoomManager roomManager){
         this.stateManager = stateManager;
         this.messageSender = messageSender;
         this.logout = logout;
+        this.loggedUtil = loggedUtil;
+        this.roomManager = roomManager;
     }
 
     @Override
@@ -48,6 +54,8 @@ public class LogOut implements IMessageResponder {
 
             readInfo();
 
+            updateModel();
+
             stateManager.update(authorID, UserState.CONNECTED_TO_SERVER);
             answer = logout.logoutSuccessful(authorID);
         } catch(IncorrectUserStateException e){
@@ -61,6 +69,12 @@ public class LogOut implements IMessageResponder {
             System.out.println("Unable to send message to user - answer for Log out request.");
         }
 
+    }
+
+    public void updateModel(){
+        roomManager.leaveRoom(authorID);
+        //removing from logged
+        loggedUtil.remove(authorID);
     }
 
     private void readInfo(){
