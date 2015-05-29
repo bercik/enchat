@@ -49,7 +49,7 @@ public class ConversationIncomePlugin extends StartConversationPlugin
                 case OK:
                     // wywołujemy metodę klasy bazowej odpowiedzialną za
                     // zainicjalizowanie konwersacji
-                    StartConversation(parameters);
+                    startConversation(parameters);
                     break;
                 case IM_BUSY:
                     msg = "Użytkownik " + parameters[0] + " próbował się z "

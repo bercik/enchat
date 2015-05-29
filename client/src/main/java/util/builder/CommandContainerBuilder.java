@@ -16,7 +16,9 @@ import plugin.plugins.BlockPlugin;
 import plugin.plugins.CalcPlugin;
 import plugin.plugins.ConnectPlugin;
 import plugin.plugins.ConversationIncomePlugin;
+import plugin.plugins.ConversationalistDisconnectedPlugin;
 import plugin.plugins.DisconnectPlugin;
+import plugin.plugins.EndTalkPlugin;
 import plugin.plugins.HelpPlugin;
 import plugin.plugins.JunkPlugin;
 import plugin.plugins.LoginPlugin;
@@ -181,6 +183,22 @@ public class CommandContainerBuilder
                     State.CONVERSATION
                 });
         
+        // endtalk
+        commandContainer.registerCommand(
+                MessageId.END_TALK.getIntRepresentation(), 
+                "endtalk", new EndTalkPlugin(conversation), null, new State[]
+                {
+                    State.CONVERSATION
+                }, true);
+        
+        // conversationalist disconnected
+        commandContainer.registerPlugin(
+                MessageId.CONVERSATIONALIST_DISCONNECTED.getIntRepresentation(),
+                new ConversationalistDisconnectedPlugin(conversation),
+                new State[]
+                {
+                    State.CONVERSATION
+                });
         
         // ---------end of conversation commands and plugins-------------------
         

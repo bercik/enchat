@@ -96,7 +96,7 @@ public class TalkPlugin extends StartConversationPlugin
                 case OK:
                     // wywołujemy metodę klasy bazowej odpowiedzialną za
                     // zainicjalizowanie konwersacji
-                    StartConversation(parameters);
+                    startConversation(parameters);
                     break;
                 case USER_NOT_LOGGED:
                     msg = "Użytkownik " + username + " jest niezalogowany";

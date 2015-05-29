@@ -42,29 +42,31 @@ public enum MessageId
     CLIENT_MESSAGE(5, ErrorId.FAILED),
     // wiadomość od serwera (serwer -> klient)
     SERVER_MESSAGE(6),
-    // zakończenie rozmowy
+    // zakończenie rozmowy serwer->klient
     CONVERSATIONALIST_DISCONNECTED(7),
+    // zakończenie rozmowy klient->serwer
+    END_TALK(8),
     // prośba o listę zalogowanych użytkowników
-    CLIENTS_LIST(8),
+    CLIENTS_LIST(9),
     // prośba o moją czarną listę
-    BLACK_LIST(9),
+    BLACK_LIST(10),
     // dodanie użytkownika do czarnej listy
     // USER_DOESNT_EXIST - użytkownik nie istnieje
     // TOO_MUCH_USERS_ON_BLACKLIST - posiadamy za dużo osób na czarnej liście
-    ADD_TO_BLACK_LIST(10, ErrorId.USER_DOESNT_EXIST, 
+    ADD_TO_BLACK_LIST(11, ErrorId.USER_DOESNT_EXIST, 
             ErrorId.TOO_MUCH_USERS_ON_BLACKLIST, ErrorId.ALREADY_ADDED),
     // usuń użytkownika z czarnej listy
     // USER_NOT_ON_BLACKLIST - użytkownik nie znajduje się na czarnej liście
-    REMOVE_FROM_BLACK_LIST(11, ErrorId.USER_NOT_ON_BLACKLIST, ErrorId.USER_NOT_EXIST),
+    REMOVE_FROM_BLACK_LIST(12, ErrorId.USER_NOT_ON_BLACKLIST, ErrorId.USER_NOT_EXIST),
     // rozłącz z serwerem ( // TODELETE - niepotrzebne, do usunięcia )
-    DISCONNECT(12),
+    DISCONNECT(13),
     // wyloguj z serwera użytkownika
-    LOGOUT(13),
+    LOGOUT(14),
     // błąd serwera
     // MESSAGE_DECRYPTING_FAILED - nie udało się odszyfrować wiadomości
     // MESSAGE_ENCRYPTING_FAILED - nie udało się zaszyfrować wiadomości
     // SERVER_OVERLOADED - serwer przeciążony
-    SERVER_ERROR(14, ErrorId.MESSAGE_DECRYPTING_FAILED, 
+    SERVER_ERROR(15, ErrorId.MESSAGE_DECRYPTING_FAILED, 
             ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED);
 
     private final int id;

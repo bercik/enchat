@@ -24,7 +24,7 @@ public abstract class StartConversationPlugin extends Plugin
         conv = cconv;
     }
 
-    protected void StartConversation(String[] params)
+    protected void startConversation(String[] params)
     {
         // wyciągamy parametry do lokalnych referencji
         String username = params[0];
@@ -58,14 +58,14 @@ public abstract class StartConversationPlugin extends Plugin
                 interlocutorPublicKeyInfo);
         // inicjalizujemy konwersację
         conv.start();
+        // ustawiamy nazwę rozmówcy globalnie
+        Info info = Info.getInstance();
+        info.setInterlocutorName(username);
         // zmieniamy stan aplikacji
         pluginManager.setAppState(State.CONVERSATION);
         // wyświetlamy informację użytkownikowi
         String msg = "Udało się nawiązać konwersację z użytkownikiem "
                 + username;
         pluginManager.setMsg(msg, false);
-        // ustawiamy nazwę rozmówcy globalnie
-        Info info = Info.getInstance();
-        info.setInterlocutorName(username);
     }
 }
