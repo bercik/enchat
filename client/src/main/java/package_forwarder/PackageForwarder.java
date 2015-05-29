@@ -49,6 +49,11 @@ public class PackageForwarder implements Runnable
                     networkMessageIncome.recv(conn, interlocutorPublicKeyInfo);
                     messageIncomeBuffer.append(networkMessageIncome);
                 }
+                else
+                {
+                    // sleep 1 ms
+                    Thread.sleep(1);
+                }
             }
             catch (Exception e)
             {
