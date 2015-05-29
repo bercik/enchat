@@ -4,8 +4,12 @@ import com.google.inject.Inject;
 import model.ClientPublicKeyInfo;
 import model.containers.temporary.PublicKeysManager;
 import model.exceptions.ElementNotFoundException;
+import rsa.RSA;
+import rsa.exceptions.EncryptingException;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * Created by tochur on 18.05.15.
@@ -26,38 +30,44 @@ public class KeyPackageSupplier {
      * @return Array with info about user, necessary to lead encrypted conversation.
      * @throws ElementNotFoundException
      */
-    public String[] supply(Integer keySourceID, String sourceUserNick) throws ElementNotFoundException {
+    public String[] supply(Integer keySourceID, String sourceUserNick) throws ElementNotFoundException, EncryptingException {
 
         ClientPublicKeyInfo publicKeyInfo = publicKeysManager.getClientPublicKeyInfo(keySourceID);
         BigInteger modulus = publicKeyInfo.getModulus();
         BigInteger exponent = publicKeyInfo.getExponent();
 
-        String mod = modulus.toString();
-        String exp = exponent.toString();
 
-        String modFirst = "";
-        String modSecond = "";
-        String expFirst = "";
-        String expSecond = "";
+        byte[] modulusByte= modulus.toByteArray();
+        byte[] exponentByte= exponent.toByteArray();
 
-        int length = mod.length();
+        byte[] modFirst = new byte[0];
+        byte[] modSecond = new byte[0];
+        byte[] expFirst = new byte[0];
+        byte[] expSecond = new byte[0];
+
+        int length = modulusByte.length;
         if (length > 0){
-            modFirst = mod.substring(0, length/2);
-            modSecond = mod.substring(length/2, length);
+            modFirst = Arrays.copyOfRange(modulusByte, 0, length/2);
+            modSecond = Arrays.copyOfRange(modulusByte, length/2, length);
         }
 
-        length = exp.length();
+        length = exponentByte.length;
         if(length > 0){
-            expFirst = exp.substring(0, length/2);
-            expSecond = exp.substring(length/2, length);
+            expFirst = Arrays.copyOfRange(exponentByte, 0, length/2);
+            expSecond = Arrays.copyOfRange(exponentByte, length/2, length);
         }
 
         String[] array = new String[5];
         array[0] = sourceUserNick;
-        array[1] = modFirst;
-        array[2] = modSecond;
-        array[3] = expFirst;
-        array[4] = expSecond;
+        try{
+            array[1] = new String(modFirst, RSA.STRING_CODING);
+            array[2] = new String(modSecond, RSA.STRING_CODING);
+            array[3] = new String(expFirst, RSA.STRING_CODING);
+            array[4] = new String(expSecond, RSA.STRING_CODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new EncryptingException();
+        }
+
 
         return array;
     }

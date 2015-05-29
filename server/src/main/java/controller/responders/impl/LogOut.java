@@ -57,18 +57,10 @@ public class LogOut implements IMessageResponder {
             updateModel();
 
             stateManager.update(authorID, UserState.CONNECTED_TO_SERVER);
-            answer = logout.logoutSuccessful(authorID);
         } catch(IncorrectUserStateException e){
             e.printStackTrace();
             System.out.println("Incorrect user state");
         }
-
-        try{
-            messageSender.send(answer);
-        } catch (IOException e) {
-            System.out.println("Unable to send message to user - answer for Log out request.");
-        }
-
     }
 
     public void updateModel(){

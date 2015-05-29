@@ -75,7 +75,7 @@ public class RoomManager {
                 conversationalists.add(i);
         }
 
-        return chatRoom.getParticipantsIDs();
+        return conversationalists;
     }
 
     public void leaveRoomAndTryToInform(MessageSender messageSender, Integer authorID, String authorNick,  Conversationalist_Disconnected conversationalist_disconnected) {
