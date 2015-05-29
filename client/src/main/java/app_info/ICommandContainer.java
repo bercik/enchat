@@ -11,6 +11,8 @@ package app_info;
  */
 public interface ICommandContainer
 {
+    public String[] getAllCommands();
+    
     public int getIdByString(String command);
     
     public boolean hasPlugin(int id);

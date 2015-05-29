@@ -68,4 +68,14 @@ public class HelpCommands
         
         return allCommands;
     }
+    
+    public String[] getAllCommandsStrings()
+    {
+        return stc.keySet().toArray(new String[0]);
+    }
+    
+    public String[] getAllInformationsStrings()
+    {
+        return sti.keySet().toArray(new String[0]);
+    }
 }

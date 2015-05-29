@@ -5,7 +5,6 @@
  */
 package controller.controllers;
 
-import controller.ControllerManager;
 import io.input.Key;
 import java.util.LinkedList;
 import java.util.List;

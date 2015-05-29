@@ -39,6 +39,12 @@ public class RegisterController extends CommandLineController
     }
 
     @Override
+    protected void tabPressed()
+    {
+        // do nothing
+    }
+
+    @Override
     protected void route(String input)
     {
         currentState = currentState.run(input);

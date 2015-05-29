@@ -41,6 +41,8 @@ public final class LinuxNonBlockingInput implements IInput
         while (System.in.available() != 0)
         {
             byte c = (byte)System.in.read();
+            // odkomentuj poniższe, aby zobaczyć sekwencję zwracanych bajtów
+            //System.out.println((int)c);
             try
             {
                 uTFHolder.addByte(c);

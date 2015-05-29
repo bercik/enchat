@@ -33,6 +33,12 @@ public class LoginController extends CommandLineController
             controllerManager.setMsg("", true);
         }
     }
+
+    @Override
+    protected void tabPressed()
+    {
+        // do nothing
+    }
     
     @Override
     protected void route(String input)

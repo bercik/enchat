@@ -19,6 +19,7 @@ public class MainController extends CommandLineController
 {
     private final CommandParser commandParser;
     private final CommandHistory commandHistory;
+    private final CommandAutocompletion commandAutocompletion;
 
     public MainController(ICommandContainer commandContainer)
     {
@@ -26,6 +27,8 @@ public class MainController extends CommandLineController
 
         commandParser = new CommandParser(commandContainer, this);
         commandHistory = new CommandHistory(this);
+        commandAutocompletion = 
+                new CommandAutocompletion(commandContainer, this);
     }
 
     @Override
@@ -48,10 +51,17 @@ public class MainController extends CommandLineController
     }
 
     @Override
+    protected void tabPressed()
+    {
+        commandAutocompletion.complete();
+    }
+
+    @Override
     public void setControllerManager(ControllerManager ccontrollerManager)
     {
         super.setControllerManager(ccontrollerManager);
         commandParser.setControllerManager(ccontrollerManager);
+        commandAutocompletion.setControllerManager(ccontrollerManager);
     }
 
     @Override

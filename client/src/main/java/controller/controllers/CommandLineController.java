@@ -27,6 +27,8 @@ public abstract class CommandLineController implements IController
 
     private static final int BACKSPACE = 127;
     private static final int ENTER = 10;
+    private static final int TAB = 9;
+    
     private static final int MIN_CHAR = 32;
     private static final int MAX_CHAR = 2047;
     private static final int MAX_COMMAND_LENGTH = 120;
@@ -49,6 +51,8 @@ public abstract class CommandLineController implements IController
             }
         }
     }
+    
+    protected abstract void tabPressed();
     
     protected void setPrefix(String pprefix)
     {
@@ -142,6 +146,10 @@ public abstract class CommandLineController implements IController
                 command = "";
                 route(commandToReturn);
                 dispCommand = false;
+            }
+            else if (ch == TAB)
+            {
+                tabPressed();
             }
             else if (ch == BACKSPACE && command.length() > 0)
             {

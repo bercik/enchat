@@ -99,6 +99,12 @@ public class CommandContainer implements IPluginCommandContainer,
     }
     
     @Override
+    public String[] getAllCommands()
+    {
+        return sti.keySet().toArray(new String[0]);
+    }
+    
+    @Override
     public IPlugin[] getAllPlugins()
     {
         return itp.values().toArray(new IPlugin[0]);
