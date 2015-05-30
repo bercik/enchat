@@ -5,10 +5,6 @@
  */
 package io.display;
 
-import io.display.IDisplay;
-import java.io.IOException;
-import rsa.exceptions.GeneratingPublicKeyException;
-
 /**
  *
  * @author robert

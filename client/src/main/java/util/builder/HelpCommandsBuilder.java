@@ -198,6 +198,21 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
     
+        // weather
+        name = "weather";
+        shortDescription = "Wyświetla pogodę i prognozę dla podanego miasta";
+        description = "Pogoda jest pobierana z serwisu Yahoo! Weather.\n" + 
+                "Można wpisywać zarówno polskie jak i angielskie nazwy "
+                + "miast, w przypadku gdy pasować będzie więcej niż jedno "
+                + "zostanie\nzwrócona pogoda dla pierwszego pasującego";
+        parameters = new Parameter[]
+        {
+            new Parameter("town_name", "Nazwa miasta, w którym chcemy "
+                    + "wyświetlić pogodę")
+        };
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // authors information
         name = "authors";
         shortDescription = "Wyświetla informację o autorach aplikacji";

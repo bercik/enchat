@@ -30,6 +30,7 @@ import plugin.plugins.StatePlugin;
 import plugin.plugins.TalkPlugin;
 import plugin.plugins.UnblockPlugin;
 import plugin.plugins.UsersListPlugin;
+import plugin.plugins.WeatherPlugin;
 import util.conversation.Conversation;
 
 
@@ -148,6 +149,11 @@ public class CommandContainerBuilder
         // junk
         commandContainer.registerPlugin(MessageId.JUNK.getIntRepresentation(),
                 new JunkPlugin(), State.ALL);
+        
+        // weather
+        commandContainer.registerCommand(
+                Id.WEATHER_PLUGIN.getIntRepresentation(), "weather", 
+                new WeatherPlugin(), null, State.ALL, false);
         
         // -----------Conversation commands and plugins------------------------
         

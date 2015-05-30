@@ -23,7 +23,8 @@ public enum Id
     CALC_PLUGIN(),
     CONNECT_PLUGIN(),
     DISCONNECT_PLUGIN(),
-    STATE_PLUGIN();
+    STATE_PLUGIN(),
+    WEATHER_PLUGIN();
 
     // bez znaczenia co tu damy i tak będzie 0
     private static int idCounter = 0;

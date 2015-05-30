@@ -24,6 +24,8 @@ public class CalcPlugin extends Plugin
     @Override
     public void update(int error, String[] parameters)
     {
+        // updatujemy controller error
+        pluginManager.updateControllerError(error);
         // sprawdzamy czy przekazano parametr do komendy
         if (parameters.length == 0)
         {
