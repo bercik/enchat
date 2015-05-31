@@ -207,8 +207,9 @@ public class HelpCommandsBuilder
                 + "zostanie\nzwrócona pogoda dla pierwszego pasującego";
         parameters = new Parameter[]
         {
-            new Parameter("town_name", "Nazwa miasta, w którym chcemy "
-                    + "wyświetlić pogodę")
+            new Parameter("town_name", "Nazwa miasta, dla którego chcemy "
+                    + "wyświetlić pogodę. Może być kilku członowa oddzielona "
+                    + "spacjami")
         };
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);

@@ -36,7 +36,13 @@ public class WeatherPlugin extends Plugin
         }
         
         // pobieramy nazwę miasta do lokalnej referencji
-        String townName = parameters[0];
+        String townName = "";
+        for (String par : parameters)
+        {
+            townName += par + " ";
+        }
+        // usuwamy ostatnią spację z nazwy miasta
+        townName = townName.substring(0, townName.length() - 1);
         
         // pobieramy i wyświetlamy pogodę albo wiadomość o błędzie
         Weather weather = new Weather();
