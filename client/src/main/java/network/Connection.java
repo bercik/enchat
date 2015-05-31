@@ -8,7 +8,9 @@ import rsa.exceptions.GeneratingPublicKeyException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import javax.crypto.BadPaddingException;
@@ -36,7 +38,12 @@ public class Connection
 
         //inicjalizacja zminnej socket która inicjalizuje połączenie między klientem a
         //serwerem
-        socket = new Socket(conn.getServerAddress(), conn.getPort());
+        SocketAddress sockaddr = new InetSocketAddress(conn.getServerAddress(),
+                conn.getPort());
+        // Create your socket
+        socket = new Socket();
+        // Connect with 5 s timeout
+        socket.connect(sockaddr, TIMEOUT);
 
         //pobranie strumieniu z socketu
         out = new DataOutputStream(socket.getOutputStream());
@@ -144,6 +151,9 @@ public class Connection
     {
         return in.available() <= 0;
     }
+    
+    // timeout w ms
+    private static final int TIMEOUT = 5000;
 
     private final PublicKeyInfo serverPublicKey;
     private final KeyContainer keyPair;
