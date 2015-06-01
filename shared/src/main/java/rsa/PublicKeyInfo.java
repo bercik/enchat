@@ -4,7 +4,6 @@ import rsa.exceptions.GeneratingPublicKeyException;
 import rsa.services.PublicKeyReader;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -78,6 +77,23 @@ public final class PublicKeyInfo
 
 //            System.out.println("Recv Modulus = " + modulus);
 //            System.out.println("Recv Exponent = " + exponent);
+        }
+        catch (Exception e)
+        {
+            throw new GeneratingPublicKeyException("Cannot generate public key");
+        }
+    }
+    
+    public PublicKeyInfo(BigInteger modulusBigInteger, 
+            BigInteger exponentBigInteger) throws GeneratingPublicKeyException
+    {
+        try
+        {
+            RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(
+                    modulusBigInteger, exponentBigInteger);
+
+            /*Generating public key*/
+            publicKey = generatePublicKey(pubKeySpec);
         }
         catch (Exception e)
         {

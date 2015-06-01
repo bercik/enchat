@@ -7,6 +7,7 @@ package plugin.plugins;
 
 import app_info.Info;
 import app_info.State;
+import java.math.BigInteger;
 import rsa.PublicKeyInfo;
 import rsa.RSA;
 import util.conversation.Conversation;
@@ -28,22 +29,43 @@ public abstract class StartConversationPlugin extends Plugin
     {
         // wyciągamy parametry do lokalnych referencji
         String username = params[0];
-        // modulus i exponent zostały podzielone na dwie części każdy, ponieważ
-        // nie zmieściłiby się w limicie zaszyfrowanej wiadomości wynikającym
-        // z algorytmu SHA-256 (RSA).
-        String modulusString = params[1] + params[2];
-        String exponentString = params[3] + params[4];
+        // modulus i exponent zostały zamienione na stringa każdy i wysłane
+        // znak po znaku (każdy znak to cyfra), a oddzielone są znakiem ';'
+        String modulusString = "";
+        String exponentString = "";
+        
+        // zmienna pomocnicza
+        boolean isModulus = true;
+        
+        for (int i = 1; i < params.length; ++i)
+        {
+            if (params[i].equals(";"))
+            {
+                isModulus = false;
+                continue;
+            }
+            
+            if (isModulus)
+            {
+                modulusString += params[i];
+            }
+            else
+            {
+                exponentString += params[i];
+            }
+        }
+        
         // klucz publiczny rozmówcy
         PublicKeyInfo interlocutorPublicKeyInfo;
         try
         {
-            // zamieniamy stringi na tablicę bajtów
-            byte[] modulusBytes = modulusString.getBytes(RSA.STRING_CODING);
-            byte[] exponentBytes = exponentString.getBytes(RSA.STRING_CODING);
+            // zamieniamy stringi na big inty
+            BigInteger modulus = new BigInteger(modulusString);
+            BigInteger exponent = new BigInteger(exponentString);
 
             // tworzymy publiczny klucz osoby z którą będziemy rozmawiać
             interlocutorPublicKeyInfo = 
-                    new PublicKeyInfo(modulusBytes, exponentBytes);
+                    new PublicKeyInfo(modulus, exponent);
         }
         catch (Exception ex)
         {
