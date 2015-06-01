@@ -7,19 +7,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.math.BigInteger;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class KeyPackageSupplierTest {
+public class KeyPackageSupplierTest
+{
     private static PublicKeysManager publicKeysManager;
     private static ClientPublicKeyInfo clientPublicKeyInfo;
 
-
     @BeforeClass
-    public static void init() throws ElementNotFoundException {
+    public static void init() throws ElementNotFoundException
+    {
         clientPublicKeyInfo = mock(ClientPublicKeyInfo.class);
         when(clientPublicKeyInfo.getModulus()).thenReturn(new BigInteger("12345678901234567890"));
         when(clientPublicKeyInfo.getExponent()).thenReturn(new BigInteger("123456789012345678901"));
@@ -27,18 +28,37 @@ public class KeyPackageSupplierTest {
         when(publicKeysManager.getClientPublicKeyInfo(anyInt())).thenReturn(clientPublicKeyInfo);
     }
 
+    public byte[] concat(byte[] a, byte[] b)
+    {
+        int aLen = a.length;
+        int bLen = b.length;
+        byte[] c = new byte[aLen + bLen];
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+        return c;
+    }
+
     @Test
-    public void testSupply() throws Exception {
+    public void testSupply() throws Exception
+    {
+        BigInteger expModulus = new BigInteger("12345678901234567890");
+        BigInteger expExponent = new BigInteger("123456789012345678901");
+        
         KeyPackageSupplier keyPackageSupplier = new KeyPackageSupplier(publicKeysManager);
-        String[] array =  keyPackageSupplier.supply(1, "whatever");
+        String[] array = keyPackageSupplier.supply(1, "whatever");
 
+        byte[] array1 = array[1].getBytes("UTF-8");
+        byte[] array2 = array[2].getBytes("UTF-8");
+        byte[] array3 = array[3].getBytes("UTF-8");
+        byte[] array4 = array[4].getBytes("UTF-8");
 
-        //BigInteger first_exp = new BigInteger(array[1].getBytes());
+        byte[] modulus = concat(array1, array2);
+        byte[] exponent = concat(array3, array4);
+        
+        BigInteger modBigInteger = new BigInteger(modulus);
+        BigInteger expBigInteger = new BigInteger(exponent);
 
-       /* assertEquals("whatever", array[0]);
-        assertEquals("1234567890", array[1]);
-        assertEquals("1234567890", array[2]);
-        assertEquals("1234567890", array[3]);
-        assertEquals("12345678901", array[4]);*/
+//        assertEquals(expModulus, modBigInteger);
+//        assertEquals(expExponent, expBigInteger);
     }
 }
