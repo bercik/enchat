@@ -43,6 +43,47 @@ public class KeyPackageSupplierTest
     {
         BigInteger expModulus = new BigInteger("12345678901234567890");
         BigInteger expExponent = new BigInteger("123456789012345678901");
+
+        KeyPackageSupplier keyPackageSupplier = new KeyPackageSupplier(publicKeysManager);
+        String[] array = keyPackageSupplier.supply(1, "whatever");
+
+
+        // wyciągamy parametry do lokalnych referencji
+        String username = array[0];
+        // modulus i exponent zostały zamienione na stringa każdy i wysłane
+        // znak po znaku (każdy znak to cyfra), a oddzielone są znakiem ;
+        String modulusString = "";
+        String exponentString = "";
+
+        // zmienna pomocnicza
+        boolean isModulus = true;
+
+        for (int i = 1; i < array.length; ++i){
+            if (array[i].equals(";")){
+                isModulus = false;
+                continue;
+            }
+
+            if (isModulus){
+                modulusString += array[i];
+            }
+            else{
+                exponentString += array[i];
+            }
+        }
+
+        BigInteger modBigInteger = new BigInteger(modulusString);
+        BigInteger expBigInteger = new BigInteger(exponentString);
+
+        assertEquals(expModulus, modBigInteger);
+        assertEquals(expExponent, expBigInteger);
+    }
+
+   /* @Test
+    public void testSupply() throws Exception
+    {
+        BigInteger expModulus = new BigInteger("12345678901234567890");
+        BigInteger expExponent = new BigInteger("123456789012345678901");
         
         KeyPackageSupplier keyPackageSupplier = new KeyPackageSupplier(publicKeysManager);
         String[] array = keyPackageSupplier.supply(1, "whatever");
@@ -60,5 +101,5 @@ public class KeyPackageSupplierTest
 
 //        assertEquals(expModulus, modBigInteger);
 //        assertEquals(expExponent, expBigInteger);
-    }
+    }*/
 }
