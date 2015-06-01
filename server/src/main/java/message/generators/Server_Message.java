@@ -1,10 +1,9 @@
 package message.generators;
 
-import com.google.inject.Inject;
-import controller.utils.cypher.Encryption;
-import message.types.*;
+import message.types.EncryptedMessage;
+import message.types.Header;
+import message.types.UEMessage;
 import messages.MessageId;
-import rsa.exceptions.EncryptionException;
 
 /**
  * Created by tochur on 18.05.15.
@@ -18,5 +17,11 @@ public class Server_Message {
         Header header = HeaderGenerator.createHeader(serverMessage, 0, ueMessage.getPackageAmount());
 
         return new EncryptedMessage(header, ueMessage.getPackages());
+    }
+
+    public UEMessage confirmation(Integer authorID) {
+        Header header = HeaderGenerator.createHeader(serverMessage, 0, 0);
+
+        return new UEMessage(authorID, new EncryptedMessage(header));
     }
 }

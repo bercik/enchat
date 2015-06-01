@@ -12,7 +12,14 @@ import rsa.exceptions.EncryptionException;
 public class Clients_Message {
     private MessageId clientMessage = MessageId.CLIENT_MESSAGE;
 
-    public UEMessage message(Integer receiverID){
+    public UEMessage ok(Integer receiverID){
+        Header header = HeaderGenerator.createHeader(clientMessage, 0, 0);
+        EncryptedMessage encryptedMessage = new EncryptedMessage(header);
+
+        return new UEMessage(receiverID, encryptedMessage);
+    }
+
+    public UEMessage failedToDeliver(Integer receiverID){
         Header header = HeaderGenerator.createHeader(clientMessage, 1, 0);
         EncryptedMessage encryptedMessage = new EncryptedMessage(header);
 

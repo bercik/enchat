@@ -24,15 +24,17 @@ public class UserMessage implements IMessageResponder {
     private MessageSender messageSender;
     private Server_Message serverMessage;
     private Clients_Message clientsMessage;
+    private Server_Message server_message;
     private RoomManager roomManager;
 
     @Inject
-    public UserMessage(StateManager stateManager, MessageSender messageSender, RoomManager roomManager, Server_Message serverMessage, Clients_Message clientsMessage){
+    public UserMessage(StateManager stateManager, MessageSender messageSender, RoomManager roomManager, Server_Message serverMessage, Clients_Message clientsMessage, Server_Message server_message){
         this.stateManager = stateManager;
         this.messageSender = messageSender;
         this.roomManager = roomManager;
         this.serverMessage = serverMessage;
         this.clientsMessage = clientsMessage;
+        this.server_message = server_message;
     }
 
 
@@ -63,22 +65,23 @@ public class UserMessage implements IMessageResponder {
                     messageSender.send(new UEMessage(id, EModMessage));
                 }catch (IOException e){
                     //Odeśłij wiadomość donadawcy o niepowodzeniu.
-                    //answer = clientsMessage.message(authorID);
+                    answer = clientsMessage.failedToDeliver(authorID);
                 }
             }
         } catch (IncorrectUserStateException e) {
             System.out.println("Got incorrect message (WRONG USER STATE)");
         } catch (NoOneActiveInConversation noOneActiveInConversation) {
-            answer = clientsMessage.message(authorID);
+            //answer = clientsMessage.message(authorID);
         }
 
-        /*if (answer != null){
+        if (answer == null){
+            answer = clientsMessage.ok(authorID);
             try {
                 messageSender.send(answer);
             } catch (IOException e) {
                 System.out.println("Failed to inform user about errors.");
             }
-        }*/
+        }
     }
 
     private void readInfo(){
