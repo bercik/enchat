@@ -158,6 +158,7 @@ public class ConversationRequest implements IMessageResponder {
         authorID = uMessage.getAuthorID();
         String[] strings = uMessage.getPackages().toArray(new String[0]);
         this.otherUserNick = strings[0];
+        this.otherUserID = loggedUtil.getUserId(otherUserNick);
     }
 
     private UEMessage ueMessage;
