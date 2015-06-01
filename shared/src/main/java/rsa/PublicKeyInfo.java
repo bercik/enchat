@@ -71,6 +71,9 @@ public final class PublicKeyInfo
             BigInteger exponentBI = new BigInteger(exponent);
             RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(
                     modulusBI, exponentBI);
+            
+            this.modulus = pubKeySpec.getModulus();
+            this.exponent = pubKeySpec.getPublicExponent();
 
             /*Generating public key*/
             publicKey = generatePublicKey(pubKeySpec);
@@ -92,6 +95,9 @@ public final class PublicKeyInfo
             RSAPublicKeySpec pubKeySpec = new RSAPublicKeySpec(
                     modulusBigInteger, exponentBigInteger);
 
+            this.modulus = pubKeySpec.getModulus();
+            this.exponent = pubKeySpec.getPublicExponent();
+            
             /*Generating public key*/
             publicKey = generatePublicKey(pubKeySpec);
         }

@@ -234,7 +234,8 @@ public class HelpCommandsBuilder
                 "DELETE - usuwa całą linię komend (działa także podczas "
                 + "wpisywania hasła)\n" + 
                 "STRZAŁKI GÓRA/DÓŁ - umożliwia przeglądanie historii "
-                + "wpisywanych komend";
+                + "wpisywanych komend\n" + 
+                "TAB - autouzupełnianie komend i helpa";
         information = new Information(name, description, shortDescription);
         helpCommands.addInformation(name, information);
         
