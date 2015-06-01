@@ -73,7 +73,10 @@ public class PluginManager
         }
         catch (SendException ex)
         {
-            exceptionOccured();
+            // TODELETE
+            throw new RuntimeException(ex);
+            // odkomentować
+            //exceptionOccured();
         }
     }
 
@@ -123,8 +126,11 @@ public class PluginManager
         if (messageIncomeBuffer.isException())
         {
             Exception ex = messageIncomeBuffer.getException();
+            // TODELETE
+            throw new RuntimeException(ex);
+            // odkomentować
             // jeżeli tak to wywołujemy odpowiednią funkcję
-            exceptionOccured();
+            //exceptionOccured();
         }
         
         // jeżeli są nowe wiadomości od serwera

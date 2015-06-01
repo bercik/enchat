@@ -141,7 +141,7 @@ public enum MessageId
             }
         }
         throw new IncorrectMessageId("Incorrect message id !!! Was: " + id
-                + " expected: [0 - 13]");
+                + " expected: [0 - 15]");
     }
 
     public int getIntRepresentation()
