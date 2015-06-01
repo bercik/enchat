@@ -7,6 +7,7 @@ import controller.responders.exceptions.NoOneActiveInConversation;
 import controller.utils.state.StateManager;
 import message.generators.Clients_Message;
 import message.generators.Server_Message;
+import message.types.EncryptedMessage;
 import message.types.UEMessage;
 import model.containers.temporary.RoomManager;
 import server.sender.MessageSender;
@@ -47,19 +48,22 @@ public class UserMessage implements IMessageResponder {
             //Verify user state
             stateManager.verify(ueMessage);
 
+            readInfo();
+
             //Check weather is anyone in his room
-            Collection<Integer> othersInRoom =roomManager.getConversationalists(authorID);
+            Collection<Integer> othersInRoom = roomManager.getConversationalists(authorID);
             if (othersInRoom.size() == 0)
                 throw new NoOneActiveInConversation();
 
             //Message to pass to all other people in room.
-            toPass = serverMessage.message(ueMessage);
+            EModMessage = serverMessage.message(ueMessage);
 
             for(Integer id: othersInRoom){
                 try{
-                    messageSender.send(toPass);
+                    messageSender.send(new UEMessage(id, EModMessage));
                 }catch (IOException e){
-                    answer = clientsMessage.message(authorID);
+                    //Odeśłij wiadomość donadawcy o niepowodzeniu.
+                    //answer = clientsMessage.message(authorID);
                 }
             }
         } catch (IncorrectUserStateException e) {
@@ -68,13 +72,13 @@ public class UserMessage implements IMessageResponder {
             answer = clientsMessage.message(authorID);
         }
 
-        if (answer != null){
+        /*if (answer != null){
             try {
                 messageSender.send(answer);
             } catch (IOException e) {
                 System.out.println("Failed to inform user about errors.");
             }
-        }
+        }*/
     }
 
     private void readInfo(){
@@ -83,6 +87,10 @@ public class UserMessage implements IMessageResponder {
 
     private Integer authorID;
     private UEMessage ueMessage;
+    //The message to sender if some errors heppened
     private UEMessage answer;
+    //Message with replaced header
+    private EncryptedMessage EModMessage;
+    //Message with replaced header, and with suitable destination user Id.
     private UEMessage toPass;
 }

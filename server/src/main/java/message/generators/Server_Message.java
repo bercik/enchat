@@ -14,10 +14,9 @@ import rsa.exceptions.EncryptionException;
 public class Server_Message {
     private MessageId serverMessage = MessageId.SERVER_MESSAGE;
 
-    public UEMessage message(UEMessage ueMessage) {
+    public EncryptedMessage message(UEMessage ueMessage) {
         Header header = HeaderGenerator.createHeader(serverMessage, 0, ueMessage.getPackageAmount());
-        EncryptedMessage encrypted = new EncryptedMessage(header, ueMessage.getPackages());
 
-        return new UEMessage(ueMessage.getAuthorID(), encrypted);
+        return new EncryptedMessage(header, ueMessage.getPackages());
     }
 }
