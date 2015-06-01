@@ -14,7 +14,6 @@ import java.util.Arrays;
  */
 public class Incoming_Conversation {
     private MessageId incomingConversation = MessageId.INCOMING_CONVERSATION;
-    private final Integer packagesAmount = 5;
     private Encryption encryption;
     private KeyPackageSupplier keyPackageSupplier;
 
@@ -32,8 +31,8 @@ public class Incoming_Conversation {
      * @return - encrypted and tagged with receiver id message.
      */
     public UEMessage connected(Integer requesterID, String requesterNick, Integer receiverID) throws EncryptionException {
-        Header header = HeaderGenerator.createHeader(incomingConversation, 0, packagesAmount);
         String[] toSend = keyPackageSupplier.supply(requesterID, requesterNick);
+        Header header = HeaderGenerator.createHeader(incomingConversation, 0, toSend.length);
         Message message = new Message(header, Arrays.asList(toSend));
         UMessage uMessage = new UMessage(receiverID, message);
 

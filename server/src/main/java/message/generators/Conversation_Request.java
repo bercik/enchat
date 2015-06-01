@@ -14,7 +14,6 @@ import java.util.Arrays;
  */
 public class Conversation_Request {
     private final MessageId conversationRequest = MessageId.CONVERSATION_REQUEST;
-    private final Integer packagesAmount = 5;
     private EncryptedMessage encrypted;
     private Encryption encryption;
     private KeyPackageSupplier keyPackageSupplier;
@@ -26,8 +25,8 @@ public class Conversation_Request {
     }
 
     public UEMessage connected(Integer receiverID, Integer keyOwnerID, String newConversationalistNick) throws EncryptionException, ElementNotFoundException {
-        Header header = HeaderGenerator.createHeader(conversationRequest, 0, packagesAmount);
         String[] toSend = keyPackageSupplier.supply(keyOwnerID, newConversationalistNick);
+        Header header = HeaderGenerator.createHeader(conversationRequest, 0, toSend.length);
         Message message = new Message(header, Arrays.asList(toSend));
         UMessage uMessage = new UMessage(receiverID, message);
 

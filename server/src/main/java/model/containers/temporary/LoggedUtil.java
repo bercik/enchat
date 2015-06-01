@@ -33,7 +33,7 @@ public class LoggedUtil {
     public Integer getUserId(String nick) throws ElementNotFoundException {
         Map<Integer, String> loggedMap = logged.getIDNickMap();
         for(Integer id: loggedMap.keySet()){
-            if(loggedMap.get(id).equals(nick));
+            if(loggedMap.get(id).equals(nick))
                 return id;
         }
         throw new ElementNotFoundException();
