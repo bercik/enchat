@@ -19,8 +19,6 @@ package io.display.displays;
 import app_info.Configuration;
 import io.display.IDisplay;
 import io.display.IFormatter;
-import java.io.IOException;
-import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *
@@ -29,7 +27,7 @@ import rsa.exceptions.GeneratingPublicKeyException;
 public abstract class CommandLineDisplay implements IDisplay
 {
     // wysokość lini komend, komunikatu
-    private static final int COMMAND_MESSAGE_HEIGHT = 4;
+    protected static final int COMMAND_MESSAGE_HEIGHT = 4;
     // kolory
     protected static final IFormatter.Color COMMAND_FG_COLOR = 
             IFormatter.Color.YELLOW;
@@ -105,7 +103,7 @@ public abstract class CommandLineDisplay implements IDisplay
                 description;
     }
     
-    private int countHeight(String body)
+    protected int countHeight(String body)
     {
         return countNumberOfOccurence(body, '\n') + 1;
     }
