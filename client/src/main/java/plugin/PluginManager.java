@@ -115,6 +115,11 @@ public class PluginManager
         controllerManager = ccontrollerManager;
     }
 
+    public void switchDisplayToMain()
+    {
+        controllerManager.switchDisplayToMain();
+    }
+    
     /**
      * Metoda wywoływana za każdym obiegiem pętli głównej programu. Sprawdza czy
      * są jakieś nowe paczki od serwera w MessageIncomeBuffer i jeżeli tak to

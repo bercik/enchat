@@ -23,6 +23,7 @@ import plugin.plugins.HelpPlugin;
 import plugin.plugins.JunkPlugin;
 import plugin.plugins.LoginPlugin;
 import plugin.plugins.LogoutPlugin;
+import plugin.plugins.MScreenPlugin;
 import plugin.plugins.MessageIncomePlugin;
 import plugin.plugins.MessageOutcomePlugin;
 import plugin.plugins.RegisterPlugin;
@@ -154,6 +155,11 @@ public class CommandContainerBuilder
         commandContainer.registerCommand(
                 Id.WEATHER_PLUGIN.getIntRepresentation(), "weather", 
                 new WeatherPlugin(), null, State.ALL, false);
+        
+        // mscreen
+        commandContainer.registerCommand(
+                Id.MSCREEN_PLUGIN.getIntRepresentation(), "mscreen", 
+                new MScreenPlugin(), null, State.ALL, false);
         
         // -----------Conversation commands and plugins------------------------
         

@@ -214,6 +214,18 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // mscreen
+        name = "mscreen";
+        shortDescription = "Powraca do głównego ekranu dla danego stanu "
+                + "aplikacji";
+        description = "Kazdy stan aplikacji ma swój ekran główny do którego "
+                + "można wrócić w każdym momencie dzięki tej komendzie.\n" + 
+                "Przykładowo jeżeli podczas konwersacji weszliśmy do helpa, "
+                + "możemy do niej wrócić poprzez wpisanie tej komendy";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // authors information
         name = "authors";
         shortDescription = "Wyświetla informację o autorach aplikacji";

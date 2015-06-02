@@ -146,7 +146,13 @@ public class ControllerManager
         // change controller
         setController(Id.MAIN_CONTROLLER.getIntRepresentation(), null);
         // change to proper display depends on app state
-        switch (newAppState)
+        switchDisplayToMain();
+    }
+
+    public void switchDisplayToMain()
+    {
+        // change to proper display depends on app state
+        switch (appState)
         {
             case NOT_CONNECTED:
                 displayManager.setDisplay(new NonConnectedDisplay());
@@ -162,11 +168,11 @@ public class ControllerManager
                 break;
             default:
                 String msg = "Nieobsłużony stan aplikacji: " + 
-                        newAppState.toString();
+                        appState.toString();
                 throw new RuntimeException(msg);
         }
     }
-
+    
     public String getCommand()
     {
         return displayManager.getCommand();
