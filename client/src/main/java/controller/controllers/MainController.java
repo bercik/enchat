@@ -36,15 +36,9 @@ public class MainController extends CommandLineController
     {
         // wywołujemy metodę klasy bazowej
         super.putSpecialKey(key);
-        // TODO do usunięcia w finalnej wersjii (zastąpić komendą /exit)
-        // jeżeli escape wychodzimy z aplikacji
-        if (key == Key.ESC)
-        {
-            controllerManager.setAppEnd();
-        }
         // inaczej jeżeli konsola nie jest zablokowana to przekazujemy do
         // command history
-        else if (!getBlockConsole())
+        if (!getBlockConsole())
         {
             commandHistory.putSpecialKey(key);
         }

@@ -226,6 +226,14 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // exit
+        name = "exit";
+        shortDescription = "Zakańcza działanie aplikacji";
+        description = "";
+        parameters = new Parameter[0];
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // authors information
         name = "authors";
         shortDescription = "Wyświetla informację o autorach aplikacji";

@@ -19,6 +19,7 @@ import plugin.plugins.ConversationIncomePlugin;
 import plugin.plugins.ConversationalistDisconnectedPlugin;
 import plugin.plugins.DisconnectPlugin;
 import plugin.plugins.EndTalkPlugin;
+import plugin.plugins.ExitPlugin;
 import plugin.plugins.HelpPlugin;
 import plugin.plugins.JunkPlugin;
 import plugin.plugins.LoginPlugin;
@@ -160,6 +161,10 @@ public class CommandContainerBuilder
         commandContainer.registerCommand(
                 Id.MSCREEN_PLUGIN.getIntRepresentation(), "mscreen", 
                 new MScreenPlugin(), null, State.ALL, false);
+        
+        // exit
+        commandContainer.registerCommand(Id.EXIT_PLUGIN.getIntRepresentation(), 
+                "exit", new ExitPlugin(), null, State.ALL, true);
         
         // -----------Conversation commands and plugins------------------------
         
