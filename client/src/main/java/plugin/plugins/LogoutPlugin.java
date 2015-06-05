@@ -23,6 +23,7 @@ public class LogoutPlugin extends Plugin
     public void update(int error, String[] parameters)
     {
         pluginManager.send(id, new String[0]);
+        pluginManager.setPasswordHash(null);
         pluginManager.setAppState(State.CONNECTED);
         String msg = "Wylogowano z serwera";
         pluginManager.setMsg(msg, false);

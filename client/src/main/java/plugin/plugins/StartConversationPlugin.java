@@ -9,7 +9,6 @@ import app_info.Info;
 import app_info.State;
 import java.math.BigInteger;
 import rsa.PublicKeyInfo;
-import rsa.RSA;
 import util.conversation.Conversation;
 
 /**
@@ -79,7 +78,7 @@ public abstract class StartConversationPlugin extends Plugin
         pluginManager.setInterlocutorPublicKeyInfo(
                 interlocutorPublicKeyInfo);
         // inicjalizujemy konwersację
-        conv.start();
+        conv.start(pluginManager.getPasswordHash());
         // ustawiamy nazwę rozmówcy globalnie
         Info info = Info.getInstance();
         info.setInterlocutorName(username);

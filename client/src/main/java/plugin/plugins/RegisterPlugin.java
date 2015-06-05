@@ -17,6 +17,12 @@ import messages.MessageId;
 public class RegisterPlugin extends AuthenticationPlugin
 {
     @Override
+    protected void deliverPasswordHash(String passwordHash)
+    {
+        // do nothing
+    }
+    
+    @Override
     protected void deliverError(int error)
     {
         MessageId messageId = MessageId.createMessageId(id);

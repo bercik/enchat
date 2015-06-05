@@ -5,6 +5,7 @@
  */
 package plugin.plugins;
 
+import messages.MessageId;
 import plugin.IState;
 
 /**
@@ -25,6 +26,7 @@ public abstract class AuthenticationPlugin extends Plugin
     private String password;
 
     protected abstract void deliverError(int error);
+    protected abstract void deliverPasswordHash(String passwordHash);
 
     @Override
     public void reset()
@@ -61,6 +63,8 @@ public abstract class AuthenticationPlugin extends Plugin
         @Override
         public IState run(int error, String[] parameters)
         {
+            // przesyłamy hasło do klasy dziedziczącej
+            deliverPasswordHash(password);
             // przesyłamy id błędu do klasy dziedziczącej
             deliverError(error);
 

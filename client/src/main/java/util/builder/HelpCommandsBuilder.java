@@ -249,8 +249,7 @@ public class HelpCommandsBuilder
         name = "keys";
         shortDescription = "Wyświetla informacje o klawiszach specjalnych";
         description = "Klawisze specjalne w aplikacji enChat:\n" + 
-                "ESCAPE - wyłącza program lub wychodzi z komendy logowania i "
-                + "rejestracji\n" +
+                "ESCAPE - wychodzi z komendy logowania i rejestracji\n" +
                 "DELETE - usuwa całą linię komend (działa także podczas "
                 + "wpisywania hasła)\n" + 
                 "STRZAŁKI GÓRA/DÓŁ - umożliwia przeglądanie historii "
