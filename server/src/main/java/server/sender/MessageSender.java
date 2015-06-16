@@ -20,7 +20,7 @@ public class MessageSender {
     Emitter emitter;
 
     @Inject
-    MessageSender(OutStreams outStreams, Emitter emitter){
+    public MessageSender(OutStreams outStreams, Emitter emitter){
         this.outStreams = outStreams;
         this.emitter = emitter;
     }

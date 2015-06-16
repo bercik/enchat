@@ -32,6 +32,9 @@ public class Verifier {
         permissions.put(MessageId.CLIENTS_LIST, atLeastConnected());
         permissions.put(MessageId.LOGOUT, atLeastLogged());
         permissions.put(MessageId.CONVERSATIONALIST_DISCONNECTED, InRoom());
+        //Ryniak patch begin
+        permissions.put(MessageId.END_TALK, InRoom());
+        //Ryniak patch end
     }
 
     public boolean verify(UserState state, MessageId messageId){
