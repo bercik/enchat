@@ -18,7 +18,10 @@ import util.conversation.Message;
  */
 public class ConversationDisplay extends CommandLineDisplay
 {
-    private Conversation conv;
+    // wysokość nagłówka (rozmowa z ..., ciągła linia)
+    private static final int HEADER_HEIGHT = 2;
+    
+    private final Conversation conv;
     
     private static final IFormatter.Color OUR_COLOR = IFormatter.Color.CYAN;
     private static final IFormatter.Color INTERLOCUTOR_COLOR = 
@@ -36,23 +39,69 @@ public class ConversationDisplay extends CommandLineDisplay
         Info info = Info.getInstance();
         Configuration conf = Configuration.getInstance();
         
-        // wyświetl nagłówek
-        String header = "Rozmowa z " + info.getInterlocutorName() + "\n";
-        String body = centerString(formatter.bg(INTERLOCUTOR_COLOR, header));
+        // stwórz nagłówek
+        String header = "Rozmowa z " + info.getInterlocutorName();
+        header = centerString(formatter.bg(INTERLOCUTOR_COLOR, header)) + "\n";
         // linia
-        body += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE, 
+        header += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE, 
                 indent(conf.getWidth())) + "\n";
         
+        // ciało
+        String body = "";
         // wiadomości
         for (Message m : conv.getMessages())
         {
             body += showMessage(m) + "\n";
         }
         
-        // usuń ostatni znak nowej lini
-        body = body.substring(0, body.length() - 1);
+        // usuń ostatni znak nowej lini jeżeli dodano jakieś wiadomości
+        if (conv.getMessages().size() > 0)
+        {
+            body = body.substring(0, body.length() - 1);
+        }
+        // utnij jeżeli wychodzi poza dostępny obszar
+        body = trim(body);
         
-        return body;
+        // zwróc połączenie nagłówka i ciała
+        return header + body;
+    }
+    
+    private String trim(String body)
+    {
+        Configuration conf = Configuration.getInstance();
+        
+        int bodyHeight = countHeight(body);
+        int availableHeight = conf.getHeight() - 
+                (HEADER_HEIGHT + COMMAND_MESSAGE_HEIGHT);
+        
+        int diff = availableHeight - bodyHeight;
+        
+        if (diff < 0)
+        {
+            int toTrim = Math.abs(diff);
+            
+            return body.substring(searchNthOccurence(body, '\n', toTrim) + 1);
+        }
+        else
+        {
+            return body;
+        }
+    }
+    
+    private int searchNthOccurence(String str, Character search, int n)
+    {
+        for (int i = 0; i < str.length(); ++i)
+        {
+            char ch = str.charAt(i);
+            
+            if (ch == search)
+            {
+                if (--n == 0)
+                    return i;
+            }
+        }
+        
+        return -1;
     }
     
     private String showMessage(Message message)

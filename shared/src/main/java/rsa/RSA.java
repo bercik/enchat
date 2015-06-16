@@ -9,7 +9,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.security.spec.InvalidKeySpecException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -36,7 +35,10 @@ public final class RSA
      * @throws java.security.InvalidKeyException wyjątek rzucany gdy klucz jest
      * niesprawny (np. gdy ma nieodpowiednia długość itp)
      */
-    public static byte[] encrypt(byte[] toEncrypt, Key key) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException
+    public static byte[] encrypt(byte[] toEncrypt, Key key) 
+            throws InvalidKeyException, NoSuchPaddingException, 
+            NoSuchAlgorithmException, BadPaddingException,
+            IllegalBlockSizeException
     {
         Cipher rsa = Cipher.getInstance(CIPHER_ALGORITHM_NAME);
         rsa.init(Cipher.ENCRYPT_MODE, key);
@@ -56,7 +58,9 @@ public final class RSA
      * @throws java.security.InvalidKeyException wyjątek rzucany gdy klucz jest
      * niesprawny (np. gdy ma nieodpowiednia długość itp)
      */
-    public static byte[] decrypt(byte[] toDecrypt, Key key) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
+    public static byte[] decrypt(byte[] toDecrypt, Key key) 
+            throws NoSuchAlgorithmException, NoSuchPaddingException, 
+            InvalidKeyException, IllegalBlockSizeException, BadPaddingException
     {
         Cipher rsa = Cipher.getInstance(CIPHER_ALGORITHM_NAME);
         rsa.init(Cipher.DECRYPT_MODE, key);
@@ -121,6 +125,7 @@ public final class RSA
     private final static String SIGN_ALGORITHM_NAME = "SHA256withRSA";
     private final static String HASH_ALGORITHM_NAME = "SHA-256";
 
+    public final static String CONVERSATION_SAVE_ALGORITHM_NAME = "AES";
     public final static String STRING_CODING = "UTF-8";
 
     static class CheckError extends Exception

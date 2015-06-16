@@ -26,7 +26,7 @@ public class Accounts {
     }
 
 
-    void addAccount(String nick, Account account){
+    public void addAccount(String nick, Account account){
         accounts.put(nick, account);
     }
 

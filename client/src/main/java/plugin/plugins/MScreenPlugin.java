@@ -5,13 +5,11 @@
  */
 package plugin.plugins;
 
-import app_info.State;
-
 /**
  *
  * @author robert
  */
-public class LogoutPlugin extends Plugin
+public class MScreenPlugin extends Plugin
 {
     @Override
     public void reset()
@@ -22,11 +20,7 @@ public class LogoutPlugin extends Plugin
     @Override
     public void update(int error, String[] parameters)
     {
-        pluginManager.send(id, new String[0]);
-        pluginManager.setPasswordHash(null);
-        pluginManager.setAppState(State.CONNECTED);
-        String msg = "Wylogowano z serwera";
-        pluginManager.setMsg(msg, false);
-        pluginManager.updateControllerError(0);
+        pluginManager.updateControllerError(error);
+        pluginManager.switchDisplayToMain();
     }
 }

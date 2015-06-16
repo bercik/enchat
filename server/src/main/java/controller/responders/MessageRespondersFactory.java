@@ -40,6 +40,11 @@ public class MessageRespondersFactory {
                 return injector.getInstance(Disconnect.class);
             case LOGOUT:
                 return injector.getInstance(LogOut.class);
+            //Ryniak patch begin
+            case END_TALK:
+                return injector.getInstance(EndConversation.class);
+            //Ryniak patch end
+            
         }
         return null;
     }

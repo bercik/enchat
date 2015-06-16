@@ -5,6 +5,7 @@
  */
 package util.conversation;
 
+import app_info.Info;
 import java.util.LinkedList;
 import java.util.List;
 import org.joda.time.LocalTime;
@@ -15,19 +16,51 @@ import org.joda.time.LocalTime;
  */
 public class Conversation
 {
+    // rozszerzenie plików z zapisanymi rozmowami
+    private static final String FILE_EXT = ".cv";
     // maksymalna ilość wiadomości w liście
     private static final int MAX_MESSAGES = 100;
     // wiadomości
     LinkedList<Message> messages = new LinkedList<>();
     
-    public void start()
+    public void start(String passwordHash)
     {
-        // TODO różne czynności (np. odczytanie ostatnich rozmów)
+        // info
+        Info info = Info.getInstance();
+        // tworzymy nazwę pliku (nasz_login-login_rozmówcy.cv)
+        String fileName = info.getUserName() + "-" + 
+                info.getInterlocutorName() + FILE_EXT;
+        // próbujemy odczytać rozmowę
+        ConversationFileReader reader = new ConversationFileReader();
+        try
+        {
+            List<Message> returned = reader.read(fileName, passwordHash);
+            messages.addAll(returned);
+        }
+        catch (ConversationFileReadException ex)
+        {
+            // do nothing
+        }
     }
     
-    public void end()
+    public void end(String passwordHash)
     {
-        // TODO różne czynności (np. zapisanie ostatnich rozmów)
+        // info
+        Info info = Info.getInstance();
+        // tworzymy nazwę pliku (nasz_login-login_rozmówcy.cv)
+        String fileName = info.getUserName() + "-" + 
+                info.getInterlocutorName() + FILE_EXT;
+        // zapisujemy rozmowę
+        ConversationFileSaver saver = new ConversationFileSaver();
+        try
+        {
+            saver.save(messages, fileName, passwordHash);
+        }
+        catch (ConversationFileSaveException ex)
+        {
+            // do nothing TODELETE
+            throw new RuntimeException(ex);
+        }
         // na końcu czyścimy listę wiadomości
         messages.clear();
     }

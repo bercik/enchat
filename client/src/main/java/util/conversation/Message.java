@@ -26,6 +26,15 @@ public class Message
         this.dateTo = dateFrom;
     }
     
+    public Message(String message, String username, LocalTime dateFrom, 
+            LocalTime dateTo)
+    {
+        this.message = message;
+        this.username = username;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+    }
+    
     public void append(String newMessage, LocalTime date)
     {
         // dodajemy wiadomość

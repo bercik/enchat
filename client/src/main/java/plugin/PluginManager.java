@@ -24,6 +24,8 @@ public class PluginManager
     private final MessageIncomeBuffer messageIncomeBuffer;
     private final IPluginCommandContainer pluginCommandContainer;
     private ControllerManager controllerManager;
+    
+    private String passwordHash;
 
     public PluginManager(MessageIncomeBuffer mmessageIncomeBuffer,
             IPluginCommandContainer ppluginCommandContainer,
@@ -80,6 +82,16 @@ public class PluginManager
         }
     }
 
+    public String getPasswordHash()
+    {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash)
+    {
+        this.passwordHash = passwordHash;
+    }
+    
     public void connect() throws Exception
     {
         packageForwarder.connect();
@@ -115,6 +127,11 @@ public class PluginManager
         controllerManager = ccontrollerManager;
     }
 
+    public void switchDisplayToMain()
+    {
+        controllerManager.switchDisplayToMain();
+    }
+    
     /**
      * Metoda wywoływana za każdym obiegiem pętli głównej programu. Sprawdza czy
      * są jakieś nowe paczki od serwera w MessageIncomeBuffer i jeżeli tak to

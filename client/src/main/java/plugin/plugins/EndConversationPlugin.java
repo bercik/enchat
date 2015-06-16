@@ -27,7 +27,7 @@ public abstract class EndConversationPlugin extends Plugin
         // info
         Info info = Info.getInstance();
         // zakańczamy konwersację
-        conv.end();
+        conv.end(pluginManager.getPasswordHash());
         //zmieniamy stan aplikacji
         pluginManager.setAppState(State.LOGGED);
         // wyświetlamy wiadomość użytkownikowi
