@@ -41,10 +41,12 @@ public class KeyPackageSupplier {
 
         String message = modulus.toString() + ";" + exponent.toString();
 
-        String[] messageList = new String[message.length() + 1];
+        Integer keyParts = new Double(Math.ceil((double)message.length() / 240)).intValue();
+        String[] messageList = new String[keyParts + 1];
         messageList[0] = sourceUserNick;
-        for(int i = 1; i<message.length() + 1; i++){
-            messageList[i] = (String.valueOf(message.charAt(i - 1)));
+        for(int i = 0; i<(messageList.length - 1); i++){
+            int endIndex = message.length() > (i+1)*240?(i+1)*240:message.length();
+            messageList[i+1] = message.substring(i*240, endIndex);
         }
 
         return messageList;
