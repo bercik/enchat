@@ -2,10 +2,7 @@ package message.generators;
 
 import com.google.inject.Inject;
 import controller.utils.cypher.Encryption;
-import message.types.Header;
-import message.types.Message;
-import message.types.UEMessage;
-import message.types.UMessage;
+import message.types.*;
 import messages.MessageId;
 import rsa.exceptions.EncryptionException;
 
@@ -21,7 +18,12 @@ public class Conversationalist_Disconnected {
         this.encryption = encryption;
     }
 
-    public UEMessage message(Integer receiverID, String disconnectedNick) throws EncryptionException{
+    public UEMessage message(Integer receiverID){
+        Header header = HeaderGenerator.createHeader(conversationalistDisconnected, 0, 0);
+        return new UEMessage(receiverID, new EncryptedMessage(header));
+    }
+
+    /*public UEMessage message(Integer receiverID, String disconnectedNick) throws EncryptionException{
         Header header = HeaderGenerator.createHeader(conversationalistDisconnected, 0, 1);
         Message message = new Message(header, disconnectedNick);
         UMessage uMessage = new UMessage(receiverID, message);
@@ -35,5 +37,5 @@ public class Conversationalist_Disconnected {
         } catch (EncryptionException e) {
             return null;
         }
-    }
+    }*/
 }

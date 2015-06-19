@@ -59,20 +59,16 @@ public class ChatRoom {
         participantsIDs.add(userID);
     }
 
-
-    /**
-     * Returns an readOnly collection of userIDs that are in this room.
-     * @return - readOnly collection of userIDs in Room.
-     */
-    public synchronized Collection<Integer> getParticipantsIDs(){
-        return Collections.unmodifiableCollection(participantsIDs);
-    }
-
     /**
      * How many users take part in conversation (are in ChatRoom)
      * @return - amount of users.
      */
     public synchronized int getParticipantsAmount(){
         return participantsIDs.size();
+    }
+
+
+    public Collection<Integer> getParticipantsIDs() {
+        return Collections.unmodifiableCollection(participantsIDs);
     }
 }

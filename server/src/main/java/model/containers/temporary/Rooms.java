@@ -1,6 +1,7 @@
 package model.containers.temporary;
 
 import com.google.inject.Singleton;
+import controller.responders.exceptions.ToMuchUsersInThisRoom;
 import model.ChatRoom;
 import model.exceptions.ElementNotFoundException;
 
@@ -55,20 +56,37 @@ public class Rooms {
     }
 
     /**
-     * Checks weather user is in room
-     * @param userID - id of user to check
-     * @return true when user is assigned to any ChatRoom, otherwise false
-     */
-    public synchronized boolean isUserInRoom(Integer userID){
-        return rooms.containsKey(userID);
-    }
-
-    /**
      * Returns the ChatRoom that is associated with user with specified id
      * @param userID - value that identifies user in system.
      * @return - if user with userID(param) is in room returns room otherwise null.
      */
     public synchronized ChatRoom getUserRoom(Integer userID){
         return rooms.get(userID);
+    }
+
+    /**
+     * //TODO this is not thread safety (we should check weather user didn't logout in the meaning time.
+     * Method that lets to create new Conversation it is thread safety.
+     * @param authorID - id of the user that requested for chat
+     * @param otherUserID - id of the requested conversationalist.
+     * @throws ToMuchUsersInThisRoom - when
+     */
+    public synchronized void createConversation(Integer authorID, Integer otherUserID) throws ToMuchUsersInThisRoom {
+        if(isUserInRoom(otherUserID) == true)
+            throw new ToMuchUsersInThisRoom();
+        //New ChatRoom creation.
+        ChatRoom chatRoom = new ChatRoom(authorID, otherUserID);
+        //Update of the Rooms collection
+        rooms.put(authorID, chatRoom);
+        rooms.put(otherUserID, chatRoom);
+    }
+
+    /**
+     * Checks weather user is in room
+     * @param userID - id of user to check
+     * @return true when user is assigned to any ChatRoom, otherwise false
+     */
+    public boolean isUserInRoom(Integer userID){
+        return rooms.containsKey(userID);
     }
 }

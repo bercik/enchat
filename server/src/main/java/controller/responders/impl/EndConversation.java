@@ -54,35 +54,29 @@ public class EndConversation implements IMessageResponder {
 
             readInfo();
             authorNick = loggedUtil.getUserNick(authorID);
-            //May save info.
+            //Removing user from Room and other user also
             otherUsers = roomManager.leaveRoom(authorID);
 
-
-            //Updating user states
+            //Updates the user states
             stateManager.update(authorID, UserState.LOGGED);
             stateManager.update(otherUsers, UserState.LOGGED);
-            
+
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
         } catch (ElementNotFoundException e) {
             System.out.println("User nick not found exception.");
             e.printStackTrace();
+            otherUsers = null;
         }
 
         try{
             if(otherUsers != null){
                 for(Integer id: otherUsers){
-                    try {
-                        messageSender.send(conversationalist_disconnected.message(id, authorNick));
-                    } catch (EncryptionException e) {
-                        messageSender.send(conversationalist_disconnected.messageAnonymous(id));
-                    }
+                    messageSender.send(conversationalist_disconnected.message(id));
                 }
             }
-
-
         } catch (IOException e) {
-            System.out.println("Unable to send message to user - answer for Log In request.");
+            System.out.println("Unable to send message to user.");
         }
     }
 

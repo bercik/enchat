@@ -6,11 +6,10 @@ import com.google.inject.name.Named;
 import controller.responders.exceptions.ToMuchUsersInThisRoom;
 import message.generators.Conversationalist_Disconnected;
 import model.ChatRoom;
+import model.exceptions.ElementNotFoundException;
 import server.sender.MessageSender;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Singleton object.
@@ -36,60 +35,44 @@ public class RoomManager {
 
     /**
      * Checks weather user with ID is free (not in room)
-     * @param userID
-     * @return
+     * //TODO it's not thread safety. when you use this info outside synchronized
      */
-    public synchronized boolean isFree(Integer userID) {
+    /*public synchronized boolean isFree(Integer userID) {
         return rooms.isUserInRoom(userID);
-    }
+    }*/
 
     /**
      * Tries to Start the conversation between users with specified ids.
      * If the person is engaged it throws exception.
      * @param authorID - the user that request the conversation
-     * @param otherUserID - user that is demanding by author.
+     * @param otherUserID - user that is demanded by author.
      * @throws ToMuchUsersInThisRoom - when other user is talking currently
      */
     public void startConversation(Integer authorID, Integer otherUserID) throws ToMuchUsersInThisRoom {
-        if(rooms.isUserInRoom(otherUserID)) {
-            throw new ToMuchUsersInThisRoom();
-        }
-        //creating Room
-        ChatRoom chatRoom = new ChatRoom(authorID, otherUserID);
-        //Creating connection usersToRoom - Adding to base
-        rooms.addNew(authorID, chatRoom);
-        rooms.addNew(otherUserID, chatRoom);
+        rooms.createConversation(authorID, otherUserID);
     }
 
     /**
      * Method, that removes user from room, and returns Collection of ID's of users from room.
+     * Removes also the association of user and his room.
+     * If in room only one user stayed he is also removed from room
      * @param authorID - the user that leaves the room
      * @return - collection of users ID that are still in room
+     * @throws ElementNotFoundException - when no association with ChatRoom was found
      */
-    public Collection<Integer> leaveRoom(Integer authorID) {
-        rooms.remove(authorID);
-
-        if( rooms.isUserInRoom(authorID)){
-            ChatRoom chatRoom = rooms.getUserRoom(authorID);
-            rooms.remove(authorID);
-
-            return chatRoom.getParticipantsIDs();
-        }
-        return null;
-    }
-
-
-    /**
-     * Method, that removes user from room, and returns Collection of ID's of users from room.
-     * @return - collection of users ID that are still in room
-     */
-    public void leaveRoom(Collection<Integer> usersIDs) {
-        for(Integer userID: usersIDs){
-            if( rooms.isUserInRoom(userID)){
-                ChatRoom chatRoom = rooms.getUserRoom(userID);
-                rooms.remove(userID);
+    public synchronized Collection<Integer> leaveRoom(Integer authorID) throws ElementNotFoundException{
+        ChatRoom chatRoom = rooms.remove(authorID);
+        chatRoom.remove(authorID);
+        Collection<Integer> others = chatRoom.getParticipantsIDs();
+        if(others.size() == 1){
+            for(Integer otherId: others){
+                Collection<Integer> toInform = Arrays.asList(new Integer[] {otherId});
+                chatRoom = rooms.remove(otherId);
+                chatRoom.remove(otherId);
+                return toInform;
             }
         }
+        return others;
     }
 
     /**
@@ -113,7 +96,7 @@ public class RoomManager {
         Collection<Integer> toInform = getConversationalists(authorID);
         for(Integer id: toInform){
             try {
-                messageSender.send(conversationalist_disconnected.message(id, authorNick));
+                messageSender.send(conversationalist_disconnected.message(id));
             } catch (Exception e) {
                //Nice try but nothing can be made.
             }
