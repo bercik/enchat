@@ -84,11 +84,6 @@ public class ServerModule extends AbstractModule {
         return publicKeys.getMap();
     }
 
-    @Provides
-    @Named("IDRooms")Map<Integer, ChatRoom> getMapID_Accounts (Rooms rooms){
-        return rooms.getMap();
-    }
-
     @Provides @Singleton
     ServerSocket getServerSocket(@Named("PORT_NUMBER")Integer PORT){
         System.out.println("Socket from provider: " + PORT);

@@ -1,6 +1,7 @@
 package model.containers.temporary;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import controller.responders.exceptions.ToMuchUsersInThisRoom;
 import message.generators.Conversationalist_Disconnected;
@@ -12,19 +13,33 @@ import java.util.HashSet;
 import java.util.Map;
 
 /**
+ * Singleton object.
+ * Manages Rooms.
+ * Interface for chats managing.
+ *
  * Created by tochur on 17.05.15.
  */
+@Singleton
 public class RoomManager {
     private Rooms rooms;
 
+    /**
+     * Creates new Room Manager this object should not be created with constructor (from code),
+     * since is a Singleton object guaranteed by "Guice" framework.
+     * @param rooms - collection of rooms.
+     */
     @Inject
     public RoomManager(Rooms rooms) {
         this.rooms = rooms;
     }
 
 
-    /*Checks weather user with ID is free (not in room) */
-    public boolean isFree(Integer userID) {
+    /**
+     * Checks weather user with ID is free (not in room)
+     * @param userID
+     * @return
+     */
+    public synchronized boolean isFree(Integer userID) {
         return rooms.isUserInRoom(userID);
     }
 
@@ -52,6 +67,8 @@ public class RoomManager {
      * @return - collection of users ID that are still in room
      */
     public Collection<Integer> leaveRoom(Integer authorID) {
+        rooms.remove(authorID);
+
         if( rooms.isUserInRoom(authorID)){
             ChatRoom chatRoom = rooms.getUserRoom(authorID);
             rooms.remove(authorID);
@@ -59,6 +76,20 @@ public class RoomManager {
             return chatRoom.getParticipantsIDs();
         }
         return null;
+    }
+
+
+    /**
+     * Method, that removes user from room, and returns Collection of ID's of users from room.
+     * @return - collection of users ID that are still in room
+     */
+    public void leaveRoom(Collection<Integer> usersIDs) {
+        for(Integer userID: usersIDs){
+            if( rooms.isUserInRoom(userID)){
+                ChatRoom chatRoom = rooms.getUserRoom(userID);
+                rooms.remove(userID);
+            }
+        }
     }
 
     /**

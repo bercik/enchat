@@ -57,14 +57,10 @@ public class EndConversation implements IMessageResponder {
             //May save info.
             otherUsers = roomManager.leaveRoom(authorID);
 
+
+            //Updating user states
             stateManager.update(authorID, UserState.LOGGED);
-            
-            //Ryniak patch begin
-            for(Integer userID : otherUsers)
-            {
-                stateManager.update(userID, UserState.LOGGED);
-            }
-            //Ryniak patch end
+            stateManager.update(otherUsers, UserState.LOGGED);
             
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message

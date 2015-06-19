@@ -8,6 +8,8 @@ import model.user.UserState;
 import model.containers.temporary.UserStates;
 import model.user.Verifier;
 
+import java.util.Collection;
+
 /**
  * Created by tochur on 16.05.15.
  *
@@ -33,5 +35,14 @@ public class StateManager {
 
     public void update(Integer ID, UserState newUserState){
         userStates.updateState(ID, newUserState);
+    }
+
+    public void update(Collection<Integer> IDs, UserState newUserState){
+        //Ryniak patch begin
+        for(Integer userID : IDs){
+            userStates.updateState(userID, UserState.LOGGED);
+        }
+        //Ryniak patch end
+        //tochur, moved this path from responder to function.
     }
 }
