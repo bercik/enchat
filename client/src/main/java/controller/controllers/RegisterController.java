@@ -94,7 +94,7 @@ public class RegisterController extends CommandLineController
                         + Integer.toString(Authentication.MIN_LOGIN_LENGTH) + "-"
                         + Integer.toString(Authentication.MAX_LOGIN_LENGTH)
                         + " znaków i składa się z samych liter, cyfr lub"
-                        + " znaku podkreślenia";
+                        + " znaków podkreślenia";
                 controllerManager.setMsg(msg, true);
                 controllerManager.setController(
                         Id.MAIN_CONTROLLER.getIntRepresentation(), null);
