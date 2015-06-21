@@ -1,5 +1,6 @@
 package app_info;
 
+import app_info.exceptions.BadConfigurationFileException;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -7,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
+import sun.net.util.IPAddressUtil;
 
 /**
  *
@@ -16,7 +18,8 @@ import rsa.exceptions.GeneratingPublicKeyException;
 public final class Configuration
 {
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
-    private Configuration() throws IOException, GeneratingPublicKeyException
+    private Configuration() throws IOException, GeneratingPublicKeyException, 
+            BadConfigurationFileException
     {
         width = 122;
         height = 36;
@@ -73,52 +76,61 @@ public final class Configuration
 
     //funkcja ładuje informacje z pliku który uprzednio jest wyszukiwany przy pomocy
     //funkcji findFile
-    public void loadFromFile() throws IOException, GeneratingPublicKeyException
+    public void loadFromFile() throws IOException, GeneratingPublicKeyException, BadConfigurationFileException
     {
-        // TODO change that conf.txt file is in the same folder as .jar file
-        
         // ugly code to read configuration text file
         // it recognize path to .jar file or classes directory
         // and than manipulate to get the path with conf.txt file
         // conf.txt file is in the folder above target folder
         URL location = Configuration.class.getProtectionDomain().getCodeSource().getLocation();
-        String path = location.getFile();
+        String jarPath = location.getFile();
+        jarPath = jarPath.substring(0, jarPath.lastIndexOf('/'));
+        String filePath = jarPath + FILE_PATH;
 
-        // jeżeli jesteśmy w IDE to ucinamy końcówkę, żeby być w tym samym
-        // folderze co plik .jar
-        String classes = "classes/";
-        if (path.endsWith(classes))
+        // create directorys if necessary
+        File file = new File(filePath);
+        file.getParentFile().mkdirs();
+        if (file.createNewFile())
         {
-            int end = path.length() - classes.length();
-            path = path.substring(0, end);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
+            {
+                writer.write(DEFAULT_SERVER_ADDRESS);
+                writer.write("\n");
+                writer.write(Integer.toString(DEFAULT_PORT));
+                writer.write("\n");
+
+                port = DEFAULT_PORT;
+                serverAddress = DEFAULT_SERVER_ADDRESS;
+            }
         }
-        // inaczej jeżeli odpalamy plik .jar to odcinamy końcówkę z jego nazwą
-        else if (path.endsWith(".jar"))
+        else
         {
-            int end = path.lastIndexOf('/');
-            path = path.substring(0, end + 1);
+            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+            {
+                try
+                {
+                    serverAddress = reader.readLine();
+                    port = Integer.parseInt(reader.readLine());
+                }
+                catch (Exception ex)
+                {
+                    throw new BadConfigurationFileException(ex);
+                }
+                
+                if (serverAddress == null || 
+                        !IPAddressUtil.isIPv4LiteralAddress(serverAddress))
+                {
+                    throw new BadConfigurationFileException();
+                }
+            }
         }
-        // wychodzimy z folder target
-        String target = "target/";
-        if (path.endsWith(target))
-        {
-            int end = path.length() - target.length();
-            path = path.substring(0, end);
-        }
-
-        path += filePath;
-
-        BufferedReader in = new BufferedReader(new FileReader(path));
-
-        serverAddress = in.readLine();
-        port = Integer.parseInt(in.readLine());
     }
 
     //zmienna którą w razie potrzeby będziemy zwracać
     private static Configuration instance = null;
 
     // prefiks każdej komendy
-    private String commandPrefix = "/";
+    private final String commandPrefix = "/";
     //rozmiar naszej konsoli
     private int width = 122;
     private int height = 36;
@@ -128,6 +140,11 @@ public final class Configuration
     private int port;
     private PublicKeyInfo serverPublicKeyInfo;
 
-    //składowa która przechowuje nazwę pliku w którym znajdują się informacje o porcie i adresie serwera
-    private static final String filePath = "data/conf.txt";
+    // domyślne wartości
+    private static final int DEFAULT_PORT = 50000;
+    private static final String DEFAULT_SERVER_ADDRESS = "127.0.0.1";
+
+    //składowa która przechowuje nazwę pliku w którym znajdują się informacje 
+    // o porcie i adresie serwera
+    private static final String FILE_PATH = "/data/conf.txt";
 }

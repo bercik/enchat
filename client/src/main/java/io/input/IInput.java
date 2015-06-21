@@ -24,6 +24,8 @@ import java.io.IOException;
  */
 public interface IInput
 {
+    public void init() throws IOException, InterruptedException;
+    
     public char getChar();
     
     public boolean hasChar();

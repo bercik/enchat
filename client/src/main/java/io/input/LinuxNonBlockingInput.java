@@ -23,10 +23,12 @@ public final class LinuxNonBlockingInput implements IInput
     private boolean hasSpecialKey = false;
 
     public LinuxNonBlockingInput()
-            throws IOException, InterruptedException
     {
         uTFHolder = new UTFHolder();
+    }
 
+    public void init() throws IOException, InterruptedException
+    {
         setTerminalToCBreak();
     }
 
@@ -37,7 +39,7 @@ public final class LinuxNonBlockingInput implements IInput
         boolean first = true;
         boolean isEscChSeq = false;
         List<Character> escChSeq = new ArrayList<>();
-        
+
         while (System.in.available() != 0)
         {
             byte c = (byte)System.in.read();
@@ -56,7 +58,7 @@ public final class LinuxNonBlockingInput implements IInput
             if (uTFHolder.getReady())
             {
                 char readCh = uTFHolder.getChar();
-                
+
                 if (isEscChSeq)
                 {
                     escChSeq.add(readCh);
@@ -72,11 +74,11 @@ public final class LinuxNonBlockingInput implements IInput
                     // and stores them in buffer
                     charBuffer.addLast(readCh);
                 }
-                
+
                 first = false;
             }
         }
-        
+
         // jeżeli przechwyciliśmy sekwencję bajtów po klawiszu esc
         if (isEscChSeq)
         {
