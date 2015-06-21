@@ -67,4 +67,17 @@ public class Logged {
     public Map<Integer, Account> getMap() { return Collections.unmodifiableMap(logged); }
 
     public Collection<String> getNicks(){ return  Collections.unmodifiableCollection(loggedNicks.values()); }
+
+    /**
+     * Returns the id of the user with specified nick. If no user with specified nick is logged return null
+     * @param nick - login of the user that id is searched
+     * @return id of the user with specified nick. If no user with specified nick is logged return null
+     */
+    public Integer getUserID(String nick){
+        for (Map.Entry<Integer, String> pair : loggedNicks.entrySet()){
+            if(pair.getValue().equals(nick))
+                return pair.getKey();
+        }
+        return null;
+    }
 }

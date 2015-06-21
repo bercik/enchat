@@ -91,7 +91,7 @@ public class ConversationRequest implements IMessageResponder {
         } catch (UserNotLogged userNotLogged) {
             answer = conversation_request.notLogged(authorID);
         } catch (OnBlackList onBlackList) {
-            answer = conversation_request.onBlackList(authorID);
+            answer = conversation_request.notLogged(authorID);
         }
 
         try{

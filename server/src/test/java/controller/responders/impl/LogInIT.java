@@ -27,11 +27,7 @@ import messages.MessageId;
 import model.Account;
 import model.containers.permanent.Accounts;
 import model.containers.permanent.Authentication;
-import model.containers.temporary.Logged;
-import model.containers.temporary.LoggedUtil;
-import model.containers.temporary.PublicKeys;
-import model.containers.temporary.PublicKeysManager;
-import model.containers.temporary.UserStates;
+import model.containers.temporary.*;
 import model.user.UserState;
 import model.user.Verifier;
 import org.junit.After;
@@ -122,8 +118,8 @@ public class LogInIT {
         
         //Initialize LoggedUtil
         LoggedUtil loggedUtil = new LoggedUtil(new Logged());
-        
-        LogIn logIn = new LogIn(decryption, stateManager,authentication, messageSender, messages,loggedUtil);
+
+        LogIn logIn = new LogIn(decryption, stateManager,authentication, messageSender, messages, null, null,loggedUtil, null);
         
         logIn.serveEvent(ueMessage);
         //logIn.run();
@@ -142,8 +138,14 @@ public class LogInIT {
 
     }
 
-    @Test
-    public void testLogIn_doubleLogin() throws Exception {
+    //TODO update of the test
+    /*
+    * tochur
+    * New convention. When client successfully went thought authentication, but another is logged with the same nick
+      * another is logged out.
+    * */
+    //@Test
+    /*public void testLogIn_doubleLogin() throws Exception {
         System.out.println("testLogIn_doubleLogin()");
         
         //Initialize Decription
@@ -203,7 +205,7 @@ public class LogInIT {
         LoggedUtil loggedUtil = new LoggedUtil(new Logged());
         loggedUtil.add(userID, account1);
         
-        LogIn logIn = new LogIn(decryption, stateManager,authentication, messageSender, messages,loggedUtil);
+        LogIn logIn = new LogIn(decryption, stateManager,authentication, messageSender, messages, null ,null,loggedUtil, null);
         
         logIn.serveEvent(ueMessage);
         //logIn.run();
@@ -222,7 +224,7 @@ public class LogInIT {
         
   
 
-    }
+    }*/
     
     @Test
     public void testLogIn_wrongPass() throws Exception {
@@ -283,7 +285,7 @@ public class LogInIT {
         //Initialize LoggedUtil
         LoggedUtil loggedUtil = new LoggedUtil(new Logged());
         
-        LogIn logIn = new LogIn(decryption, stateManager,authentication, messageSender, messages,loggedUtil);
+        LogIn logIn = new LogIn(decryption, stateManager,authentication, messageSender, messages, null, null,loggedUtil, null);
         
         logIn.serveEvent(ueMessage);
         //logIn.run();

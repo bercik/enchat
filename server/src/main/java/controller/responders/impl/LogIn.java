@@ -5,12 +5,17 @@ import controller.responders.IMessageResponder;
 import controller.responders.exceptions.IncorrectUserStateException;
 import controller.utils.cypher.Decryption;
 import controller.utils.state.StateManager;
+import message.generators.Conversationalist_Disconnected;
 import message.generators.Log_In;
+import message.generators.Another_User_Logged;
 import message.generators.Server_error;
 import message.types.UEMessage;
 import message.types.UMessage;
 import model.Account;
 import model.containers.temporary.LoggedUtil;
+import model.containers.temporary.RoomManager;
+import model.exceptions.ElementNotFoundException;
+import model.exceptions.UserWithNickAlreadyLogged;
 import model.user.UserState;
 import model.containers.permanent.Authentication;
 import model.exceptions.IncorrectNickOrPassword;
@@ -18,6 +23,8 @@ import server.sender.MessageSender;
 import rsa.exceptions.DecryptingException;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 /**
  * Created by tochur on 16.05.15.
@@ -27,17 +34,25 @@ public class LogIn implements IMessageResponder {
     private StateManager stateManager;
     private MessageSender messageSender;
     private Log_In log_in;
+    private Another_User_Logged another_user_logged;
+    private Conversationalist_Disconnected conversationalist_disconnected;
     private Authentication authentication;
     private LoggedUtil loggedUtil;
+    private RoomManager roomManager;
 
     @Inject
-    public LogIn(Decryption decryption, StateManager stateManager,Authentication authentication, MessageSender messageSender, Log_In messages, LoggedUtil loggedUtil){
+    public LogIn(Decryption decryption, StateManager stateManager,Authentication authentication, MessageSender messageSender,
+                 Log_In messages, Another_User_Logged another_user_logged, Conversationalist_Disconnected conversationalist_disconnected,
+                 LoggedUtil loggedUtil, RoomManager roomManager){
         this.decryption = decryption;
         this.stateManager = stateManager;
         this.authentication = authentication;
         this.messageSender = messageSender;
         this.log_in = messages;
+        this.another_user_logged = another_user_logged;
         this.loggedUtil = loggedUtil;
+        this.roomManager = roomManager;
+        this.conversationalist_disconnected = conversationalist_disconnected;
     }
 
     @Override
@@ -56,7 +71,11 @@ public class LogIn implements IMessageResponder {
             account = authentication.authenticate(nick, password);
 
             stateManager.update(authorID, UserState.LOGGED);
-            loggedUtil.add(authorID, account);
+            try{
+                loggedUtil.add(authorID, account);
+            }catch (UserWithNickAlreadyLogged userWithNickAlreadyLogged) {
+                cleanOldAccount(userWithNickAlreadyLogged.getUserID());
+            }
             answer = log_in.loggedSuccessfully(authorID);
         } catch(IncorrectUserStateException e){
             //Do nothing just ignore the message
@@ -72,6 +91,26 @@ public class LogIn implements IMessageResponder {
             System.out.println("Unable to send message to user - answer for Log In request.");
         }
 
+    }
+
+    private void cleanOldAccount(Integer idToDel) {
+        try {
+            try{
+                Collection<Integer> othersInRoom = roomManager.leaveRoom(idToDel);
+                messageSender.send(conversationalist_disconnected.message(idToDel));
+                if(othersInRoom != null){
+                    for(Integer id: othersInRoom){
+                        messageSender.send(conversationalist_disconnected.message(id));
+                    }
+                }
+            }catch (ElementNotFoundException e){
+                //That's OK
+            }
+            messageSender.send(another_user_logged.ok(idToDel));
+            loggedUtil.remove(idToDel);
+        }catch (IOException e){
+            //Cannot do more
+        }
     }
 
     private void readInfo(){

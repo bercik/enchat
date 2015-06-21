@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import model.Account;
 import model.exceptions.ElementNotFoundException;
+import model.exceptions.UserWithNickAlreadyLogged;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -49,8 +50,13 @@ public class LoggedUtil {
         return true;
     }
 
-    public void add(Integer authorID, Account account) {
+    public void add(Integer authorID, Account account)throws UserWithNickAlreadyLogged {
+        //Getting the id of the account, that is logged already with specified nick
+        Integer loggedBefore = logged.getUserID(account.getNick());
         logged.addNew(authorID, account);
+        if(loggedBefore != null){
+            throw new UserWithNickAlreadyLogged(loggedBefore);
+        }
     }
 
     public void remove(Integer id){

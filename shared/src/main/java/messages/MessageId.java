@@ -67,7 +67,9 @@ public enum MessageId
     // MESSAGE_ENCRYPTING_FAILED - nie udało się zaszyfrować wiadomości
     // SERVER_OVERLOADED - serwer przeciążony
     SERVER_ERROR(15, ErrorId.MESSAGE_DECRYPTING_FAILED, 
-            ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED);
+            ErrorId.MESSAGE_ENCRYPTING_FAILED, ErrorId.SERVER_OVERLOADED),
+
+    ANOTHER_USER_LOGGER(15);
 
     private final int id;
     private final EnumSet<ErrorId> errorIds;

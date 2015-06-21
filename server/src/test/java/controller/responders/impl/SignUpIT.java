@@ -9,14 +9,6 @@ import controller.utils.cypher.Decryption;
 import controller.utils.cypher.DecryptionUtil;
 import controller.utils.cypher.EncryptionUtil;
 import controller.utils.state.StateManager;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import message.generators.Log_In;
 import message.generators.Sign_Up;
 import message.types.Header;
 import message.types.Message;
@@ -27,25 +19,26 @@ import model.Account;
 import model.containers.permanent.Accounts;
 import model.containers.permanent.Authentication;
 import model.containers.permanent.Registration;
-import model.containers.temporary.Logged;
-import model.containers.temporary.LoggedUtil;
 import model.containers.temporary.PublicKeys;
 import model.containers.temporary.PublicKeysManager;
 import model.containers.temporary.UserStates;
 import model.user.UserState;
 import model.user.Verifier;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
 import rsa.KeyContainer;
 import rsa.PrivateKeyInfo;
 import rsa.PublicKeyInfo;
 import server.sender.Emitter;
 import server.sender.MessageSender;
 import server.sender.OutStreams;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -305,8 +298,18 @@ public class SignUpIT {
         assertEquals(UserState.CONNECTED_TO_SERVER, userStates.getUserState(user2ID));
         assertEquals(false,accounts.containKey(user2Nick));
     }
-    
-    @Test
+
+
+    /*
+    Commented by tochur
+    Server was not responsible for validation the syntactical correctness or login and password.
+    Client weather login and password fulfill all needments.
+    Consider that when you throw this responsibility for client, you receive additional flexibility,
+    you can compile a few clients version with different requirements about nick and password and all of them
+    can connect to one server.
+
+    */
+    /*@Test
     public void testSignUp_badLogin() throws Exception  {
        System.out.println("testSignUp_badLogin");
 
@@ -397,6 +400,6 @@ public class SignUpIT {
         assertEquals(MessageId.SIGN_UP.createErrorId(3),MessageId.createMessageId(messageID).createErrorId(errorID));
         assertEquals(UserState.CONNECTED_TO_SERVER, userStates.getUserState(user2ID));
         assertEquals(false,accounts.containKey(user2Nick));
-    }
+    }*/
     
 }
