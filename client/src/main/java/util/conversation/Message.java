@@ -14,8 +14,8 @@ import org.joda.time.*;
 public class Message
 {
     private String message;
-    private String username;
-    private LocalTime dateFrom;
+    private final String username;
+    private final LocalTime dateFrom;
     private LocalTime dateTo;
 
     public Message(String message, String username, LocalTime dateFrom)

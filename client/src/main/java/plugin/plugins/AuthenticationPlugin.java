@@ -5,7 +5,6 @@
  */
 package plugin.plugins;
 
-import messages.MessageId;
 import plugin.IState;
 
 /**

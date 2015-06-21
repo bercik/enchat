@@ -77,11 +77,11 @@ public abstract class StartConversationPlugin extends Plugin
         // ustawiamy klucz rozmówcy
         pluginManager.setInterlocutorPublicKeyInfo(
                 interlocutorPublicKeyInfo);
-        // inicjalizujemy konwersację
-        conv.start(pluginManager.getPasswordHash());
         // ustawiamy nazwę rozmówcy globalnie
         Info info = Info.getInstance();
         info.setInterlocutorName(username);
+        // inicjalizujemy konwersację
+        conv.start(pluginManager.getPasswordHash());
         // zmieniamy stan aplikacji
         pluginManager.setAppState(State.CONVERSATION);
         // wyświetlamy informację użytkownikowi

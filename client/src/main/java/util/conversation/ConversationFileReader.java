@@ -28,7 +28,7 @@ import rsa.RSA;
  */
 public class ConversationFileReader
 {
-    private static final String PATH = "conversations/";
+    private static final String PATH = "/conversations/";
 
     // <-- struktura konwersacji -->
     // ilość wiadomości (int)
@@ -57,6 +57,7 @@ public class ConversationFileReader
 
             String jarPath = ConversationFileReader.class.getProtectionDomain().
                     getCodeSource().getLocation().getPath();
+            jarPath = jarPath.substring(0, jarPath.lastIndexOf('/'));
             String folderPath = jarPath + PATH;
             String filePath = folderPath + fileName;
 

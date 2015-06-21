@@ -174,7 +174,7 @@ public class CommandContainerBuilder
                 "talk", new TalkPlugin(conversation), null, new State[]
                 {
                     State.LOGGED
-                }, false); // TODO change to true
+                }, true);
         
         // conversation income
         commandContainer.registerPlugin(

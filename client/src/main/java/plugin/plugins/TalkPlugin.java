@@ -54,9 +54,10 @@ public class TalkPlugin extends StartConversationPlugin
                     // wyświetlamy informację o źle wpisanym loginie
                     String msg = "Login " + username + " jest nieprawidłowy";
                     pluginManager.setMsg(msg, true);
+                    pluginManager.updateControllerError(error);
                     return new State1();
                 }
-                
+
                 // informacja (potrzebna do pobrania naszej nazwy użytkownika
                 Info info = Info.getInstance();
                 // sprawdzamy czy nie próbujemy rozmawiać z samym sobą
@@ -64,9 +65,10 @@ public class TalkPlugin extends StartConversationPlugin
                 {
                     String msg = "Nie możesz nawiązać konwersacji z samym sobą";
                     pluginManager.setMsg(msg, true);
+                    pluginManager.updateControllerError(error);
                     return new State1();
                 }
-                
+
                 // wyświetlamy informację użytkownikowi
                 String msg = "Próbuję nawiązać konwersację z " + username;
                 pluginManager.setMsg(msg, false);
@@ -124,8 +126,8 @@ public class TalkPlugin extends StartConversationPlugin
                 case ON_BLACK_LIST:
                     Configuration conf = Configuration.getInstance();
                     msg = "Użytkownik " + username + " znajduje się na "
-                            + "Twojej czarnej liście. Odblokuj go (komenda " + 
-                            conf.getCommandPrefix() + "unblock)" + ", aby móc "
+                            + "Twojej czarnej liście. Odblokuj go (komenda "
+                            + conf.getCommandPrefix() + "unblock)" + ", aby móc "
                             + "z nim rozmawiać";
                     pluginManager.setMsg(msg, true);
                     break;
