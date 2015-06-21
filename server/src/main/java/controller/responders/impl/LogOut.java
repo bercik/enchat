@@ -3,23 +3,14 @@ package controller.responders.impl;
 import com.google.inject.Inject;
 import controller.responders.IMessageResponder;
 import controller.responders.exceptions.IncorrectUserStateException;
-import controller.utils.cypher.Decryption;
 import controller.utils.state.StateManager;
-import message.generators.Log_In;
-import message.generators.Log_Out;
-import message.generators.Server_error;
+import message.generators.Another_User_Logged;
 import message.types.UEMessage;
-import message.types.UMessage;
-import model.Account;
-import model.containers.permanent.Authentication;
 import model.containers.temporary.LoggedUtil;
 import model.containers.temporary.RoomManager;
-import model.exceptions.IncorrectNickOrPassword;
+import model.exceptions.ElementNotFoundException;
 import model.user.UserState;
-import rsa.exceptions.DecryptingException;
 import server.sender.MessageSender;
-
-import java.io.IOException;
 
 /**
  * Created by tochur on 18.05.15.
@@ -27,12 +18,12 @@ import java.io.IOException;
 public class LogOut implements IMessageResponder {
     private StateManager stateManager;
     private MessageSender messageSender;
-    private Log_Out logout;
+    private Another_User_Logged logout;
     private LoggedUtil loggedUtil;
     private RoomManager roomManager;
 
     @Inject
-    public LogOut(StateManager stateManager, MessageSender messageSender, Log_Out logout, LoggedUtil loggedUtil, RoomManager roomManager){
+    public LogOut(StateManager stateManager, MessageSender messageSender, Another_User_Logged logout, LoggedUtil loggedUtil, RoomManager roomManager){
         this.stateManager = stateManager;
         this.messageSender = messageSender;
         this.logout = logout;
@@ -64,7 +55,12 @@ public class LogOut implements IMessageResponder {
     }
 
     public void updateModel(){
-        roomManager.leaveRoom(authorID);
+        try{
+            roomManager.leaveRoom(authorID);
+        }catch (ElementNotFoundException e){
+            //Do nothing, cause this operation is not permitted by client - only for safety reasons
+        }
+
         //removing from logged
         loggedUtil.remove(authorID);
     }

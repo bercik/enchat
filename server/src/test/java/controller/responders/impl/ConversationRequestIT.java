@@ -198,7 +198,7 @@ public class ConversationRequestIT {
         ConversationRequest conversationRequest = new ConversationRequest(decryption, stateManager, messageSender, blackListUtil, loggedUtil,roomManager, conversation_request, incoming_conversation);
         conversationRequest.serveEvent(ueMessage);
         //logIn.run();
-        Thread.sleep(22000);
+        Thread.sleep(2000);
 
         
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
@@ -318,7 +318,7 @@ public class ConversationRequestIT {
         ConversationRequest conversationRequest = new ConversationRequest(decryption, stateManager, messageSender, blackListUtil, loggedUtil,roomManager, conversation_request, incoming_conversation);
         conversationRequest.serveEvent(ueMessage);
         //logIn.run();
-        Thread.sleep(20000);
+        Thread.sleep(2000);
 
         
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
@@ -436,7 +436,7 @@ public class ConversationRequestIT {
         ConversationRequest conversationRequest = new ConversationRequest(decryption, stateManager, messageSender, blackListUtil, loggedUtil,roomManager, conversation_request, incoming_conversation);
         conversationRequest.serveEvent(ueMessage);
         //logIn.run();
-        Thread.sleep(20000);
+        Thread.sleep(2000);
 
         
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
@@ -450,7 +450,11 @@ public class ConversationRequestIT {
         assertEquals(UserState.LOGGED,userStates.getUserState(userID));
     }
     
-    
+//Path by tochur
+/* This code must be removed, because verifies weather server send message with error CONVERSATION_WITH_ANOTHER_USER.
+    Take into consideration, that the preceding test cheeks weather server send message with error BUSY_USER (in the same situation)
+    The message with error CONVERSATION_WITH_ANOTHER_USE, will never be available in the system it should be removed
+
      @Test
     public void testConversationRequest_conversationWithAnotherUser() throws Exception {
         System.out.println("testConversationRequest_conversationWithAnotherUser");
@@ -537,6 +541,9 @@ public class ConversationRequestIT {
         Rooms rooms = new Rooms();
         ChatRoom chatRoom = new ChatRoom(userID,user2ID);
         rooms.addNew(userID, chatRoom);
+        //Edited by tochur one line missing you didn't associated second user with ChatRoom
+        rooms.addNew(user2ID, chatRoom);
+        //End of tochur edition
         RoomManager roomManager = new RoomManager(rooms);
         
   
@@ -555,7 +562,7 @@ public class ConversationRequestIT {
         ConversationRequest conversationRequest = new ConversationRequest(decryption, stateManager, messageSender, blackListUtil, loggedUtil,roomManager, conversation_request, incoming_conversation);
         conversationRequest.serveEvent(ueMessage);
         //logIn.run();
-        Thread.sleep(20000);
+        Thread.sleep(2000);
 
         
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
@@ -567,7 +574,7 @@ public class ConversationRequestIT {
         assertEquals(MessageId.CONVERSATION_REQUEST, MessageId.createMessageId(messageID));
         assertEquals(MessageId.CONVERSATION_REQUEST.createErrorId(3), MessageId.createMessageId(messageID).createErrorId(errorID));
         assertEquals(UserState.LOGGED,userStates.getUserState(userID));
-    }
+    }*/
 
     
 }

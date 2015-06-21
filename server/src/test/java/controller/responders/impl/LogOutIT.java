@@ -9,15 +9,11 @@ import controller.utils.cypher.Decryption;
 import controller.utils.cypher.DecryptionUtil;
 import controller.utils.cypher.EncryptionUtil;
 import controller.utils.state.StateManager;
-import java.io.ByteArrayInputStream;
+
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import message.generators.Log_In;
-import message.generators.Log_Out;
+
+import message.generators.Another_User_Logged;
 import message.types.Header;
 import message.types.Message;
 import message.types.UEMessage;
@@ -131,7 +127,7 @@ public class LogOutIT {
         MessageSender messageSender = new MessageSender(outStreams, emitter);
         
         //Initialize Log_In
-        Log_Out messages = new Log_Out();
+        Another_User_Logged messages = new Another_User_Logged();
         
         //Initialize LoggedUtil
                 Logged logged = new Logged();

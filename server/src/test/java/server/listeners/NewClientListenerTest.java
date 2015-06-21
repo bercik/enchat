@@ -20,7 +20,7 @@ public class NewClientListenerTest {
         client = new SimpleClient();
     }
 
-    @Test
+
     public void stop_listener_release_socket_resource() throws IOException, ServerStartFailed, InterruptedException {
         //Start other listener on the same port
         newClientListener = new NewClientListener(new ServerSocket(10000));
@@ -33,7 +33,7 @@ public class NewClientListenerTest {
         one.stopListen();
     }
 
-    @Test
+
     public void creation_of_New_Client_Handler_works() throws IOException, ServerStartFailed {
         newClientListener = new NewClientListener(new ServerSocket(10000));
         NewClientHandler newClientHandler = newClientListener.createNewClientHandler();
