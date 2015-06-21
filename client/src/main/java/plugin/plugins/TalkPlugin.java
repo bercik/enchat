@@ -6,6 +6,7 @@
 package plugin.plugins;
 
 import app_info.Configuration;
+import app_info.Info;
 import messages.MessageId;
 import plugin.IState;
 import util.Authentication;
@@ -55,7 +56,17 @@ public class TalkPlugin extends StartConversationPlugin
                     pluginManager.setMsg(msg, true);
                     return new State1();
                 }
-
+                
+                // informacja (potrzebna do pobrania naszej nazwy użytkownika
+                Info info = Info.getInstance();
+                // sprawdzamy czy nie próbujemy rozmawiać z samym sobą
+                if (username.equals(info.getUserName()))
+                {
+                    String msg = "Nie możesz nawiązać konwersacji z samym sobą";
+                    pluginManager.setMsg(msg, true);
+                    return new State1();
+                }
+                
                 // wyświetlamy informację użytkownikowi
                 String msg = "Próbuję nawiązać konwersację z " + username;
                 pluginManager.setMsg(msg, false);
