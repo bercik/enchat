@@ -9,13 +9,19 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author Created by tochur on 16.05.15.
- *
  * Util for sending encrypted message to specified DataOutputStream
+ *
+ * @author Created by tochur on 16.05.15.
  */
 @Singleton
 public class Emitter {
 
+    /**
+     * Emits the message passed as a parameter.
+     * @param out DataOutputStream, stream where the message will be placed.
+     * @param encrypted EncryptedMessage, message that will be send.
+     * @throws IOException when there was problem with socket.
+     */
     public void emit(DataOutputStream out, EncryptedMessage encrypted) throws IOException {
         out.writeInt(encrypted.getId().getIntRepresentation());
         out.writeInt(encrypted.getErrorId().getIntRepresentation());

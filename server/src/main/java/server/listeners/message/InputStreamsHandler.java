@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Created by tochur on 18.04.15.
- *
  * The only entrance for incoming messages from connected users.
  *  (It's like the panel, messages are available buttons)
  * This class is responsible for cheeking weather new bytes appeared in
  * any of DataInputStreams that this class holds.
  * When it happens it call MessageReader, that tries to construct Message
  * from bytes from input stream.
+ *
+ *  * @author Created by tochur on 18.04.15.
  */
 
 public class InputStreamsHandler implements Runnable{
@@ -36,7 +36,6 @@ public class InputStreamsHandler implements Runnable{
      */
     @Inject
     public InputStreamsHandler(StreamsHandler streamHandler){
-        System.out.println("INPUT STREAMS HANDLER CONSTRUCTOR");
         this.streamHandler = streamHandler;
     }
 
@@ -101,6 +100,10 @@ public class InputStreamsHandler implements Runnable{
         toAdd.clear();
     }
 
+    /**
+     * Returns an amount of currently scanned Streams.
+     * @return Integer, amount of currently scanned Streams.
+     */
     public int getScannedStreamsAmount(){
         return clientsInput.size();
     }

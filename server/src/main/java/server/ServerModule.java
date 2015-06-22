@@ -26,9 +26,15 @@ import java.security.PublicKey;
 import java.util.Map;
 
 /**
+ * ServerModule is the class that hold configuration info for Guice.
+ * Tells Guice how to create objects, and defined providers.
+ *
  * @author Created by tochur on 13.05.15.
  */
 public class ServerModule extends AbstractModule {
+    /**
+     * Configuration function
+     */
     @Override
     protected void configure() {
         /* SCOPES - SINGLETONS */

@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Created by tochur on 16.05.15.
- *
  * Associate OutputStreams with ID of user, which is unique value,
  * assigned to user during creating connection with server.
  *
+ * @author Created by tochur on 16.05.15.
  */
 @Singleton
 public class OutStreams {
@@ -36,10 +35,19 @@ public class OutStreams {
         clientsOutput.remove(ID);
     }
 
+    /**
+     * Returns the DataOutputStream associated with the user with specified id.
+     * @param ID Integer, id of the user whose Stream we want to get.
+     * @return DataOutputStream, output stream - connection to the user with id passed as parameter.
+     */
     public DataOutputStream getStream(Integer ID){
         return clientsOutput.get(ID);
     }
 
+    /**
+     * Returns the amount of Streams hold in this container.
+     * @return amount of Streams in this container.
+     */
     public int getOutputStreamsAmount(){
         return clientsOutput.size();
     }

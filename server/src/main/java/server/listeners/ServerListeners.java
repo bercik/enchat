@@ -5,12 +5,12 @@ import com.google.inject.Singleton;
 import server.listeners.message.InputStreamsHandler;
 
 /**
- * @author Created by tochur on 13.05.15.
- *
  * This class opens server inputs.
  * When method start() is called server begin 2 threads:
  *  - first to enable new user to connect with server
  *  - second to enable reading incoming messages from already connected users.
+ *
+ *  * @author Created by tochur on 13.05.15.
  */
 @Singleton
 public class ServerListeners {
@@ -29,6 +29,9 @@ public class ServerListeners {
         this.newMessageScanner = newMessageScanner;
     }
 
+    /**
+     * Starts server (message and client) listeners.
+     */
     public void start(){
         new Thread(newClientListener).start();
         new Thread(newMessageScanner).start();
