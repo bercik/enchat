@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
+ * Responder, that handles BLACK_LIST messages.
+ *
  * @author Created by tochur on 17.05.15.
  */
 public class BlackList implements IMessageResponder{
@@ -22,6 +24,13 @@ public class BlackList implements IMessageResponder{
     private UEMessage answer;
     private Integer authorID;
 
+    /**
+     * Creates Responder, that handles BLACK_LIST messages.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param blackListUtil BlackListUtil, util used to BlackList management.
+     * @param messages Black_List, util used to easily creation of all types of message with id Black_List.
+     */
     @Inject
     public BlackList(StateManager stateManager, MessageSender messageSender, BlackListUtil blackListUtil, Black_List messages){
         this.stateManager = stateManager;
@@ -30,12 +39,19 @@ public class BlackList implements IMessageResponder{
         this.messages = messages;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{

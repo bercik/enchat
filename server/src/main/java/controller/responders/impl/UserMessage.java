@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
+ * Responder, that handles UserMessages.
+ *
  * @author Created by tochur on 18.05.15.
  */
 public class UserMessage implements IMessageResponder {
@@ -24,26 +26,38 @@ public class UserMessage implements IMessageResponder {
     private MessageSender messageSender;
     private Server_Message serverMessage;
     private Clients_Message clientsMessage;
-    private Server_Message server_message;
     private RoomManager roomManager;
 
+    /**
+     * Creates Responder, that handles UserMessages.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param roomManager RoomManager, util that enables creation connection between users.
+     * @param serverMessage ServerMessage, util used to easily creation of all types of message with id Server_message.
+     * @param clientsMessage ClientsMessage, util used to easily creation of all types of message with id Clients_message.
+     */
     @Inject
-    public UserMessage(StateManager stateManager, MessageSender messageSender, RoomManager roomManager, Server_Message serverMessage, Clients_Message clientsMessage, Server_Message server_message){
+    public UserMessage(StateManager stateManager, MessageSender messageSender, RoomManager roomManager, Server_Message serverMessage, Clients_Message clientsMessage){
         this.stateManager = stateManager;
         this.messageSender = messageSender;
         this.roomManager = roomManager;
-        this.serverMessage = serverMessage;
         this.clientsMessage = clientsMessage;
-        this.server_message = server_message;
+        this.serverMessage = serverMessage;
     }
 
-
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try {
@@ -87,13 +101,10 @@ public class UserMessage implements IMessageResponder {
     private void readInfo(){
         authorID = ueMessage.getAuthorID();
     }
-
     private Integer authorID;
     private UEMessage ueMessage;
-    //The message to sender if some errors heppened
+    //The message to sender if some errors happened
     private UEMessage answer;
     //Message with replaced header
     private EncryptedMessage EModMessage;
-    //Message with replaced header, and with suitable destination user Id.
-    private UEMessage toPass;
 }

@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 /**
+ * Responder, that handles LogIn messages.
+ *
  * @author Created by tochur on 16.05.15.
  */
 public class LogIn implements IMessageResponder {
@@ -40,6 +42,18 @@ public class LogIn implements IMessageResponder {
     private LoggedUtil loggedUtil;
     private RoomManager roomManager;
 
+    /**
+     * Creates Responder, that handles LogIN messages.
+     * @param decryption Decryption, util user to decrypt message.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param authentication Authentication, util user to users certification.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param messages Log_IN, util used to easily creation of all types of message with id Log_In.
+     * @param another_user_logged Another_User_Logged, util used to easily creation of all types of message with id Another_User_Logged.
+     * @param conversationalist_disconnected Conversationalist_Disconnected, util used to easily creation of all types of message with id Conversationalist_Disconnected.
+     * @param loggedUtil LoggedUtil, util used to log users.
+     * @param roomManager RoomManager, util that enables creation connection between users.
+     */
     @Inject
     public LogIn(Decryption decryption, StateManager stateManager,Authentication authentication, MessageSender messageSender,
                  Log_In messages, Another_User_Logged another_user_logged, Conversationalist_Disconnected conversationalist_disconnected,
@@ -55,12 +69,19 @@ public class LogIn implements IMessageResponder {
         this.conversationalist_disconnected = conversationalist_disconnected;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{

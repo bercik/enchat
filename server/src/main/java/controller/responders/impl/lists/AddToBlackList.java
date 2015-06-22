@@ -19,6 +19,8 @@ import rsa.exceptions.DecryptingException;
 import java.io.IOException;
 
 /**
+ * Responder, that handles ADD_TO_BLACK_LIST messages.
+ *
  * @author Created by tochur on 17.05.15.
  */
 public class AddToBlackList implements IMessageResponder {
@@ -29,6 +31,14 @@ public class AddToBlackList implements IMessageResponder {
     private Integer authorID;
     private String nickToAdd;
 
+    /**
+     * Creates Responder, that handles ADD_TO_BLACK_LIST messages.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param decryption Decryption, util user to decrypt message.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param blackListUtil BlackListUtil, util used to BlackList management.
+     * @param messages Black_List, util used to easily creation of all types of message with id Black_List.
+     */
     @Inject
     public AddToBlackList(StateManager stateManager, Decryption decryption, MessageSender messageSender, BlackListUtil blackListUtil, Black_List messages){
         this.stateManager = stateManager;
@@ -38,12 +48,19 @@ public class AddToBlackList implements IMessageResponder {
         this.messages = messages;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{

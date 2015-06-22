@@ -48,9 +48,8 @@ public class NewClientListener implements Runnable{
         this.working = true;
         while (working) {
             try {
-                System.out.println("Waiting for new client");
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("Got new client");
+                //System.out.println("Got new client");
 
 
                 //Creating new client handler object

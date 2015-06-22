@@ -18,6 +18,8 @@ import rsa.exceptions.DecryptingException;
 import java.io.IOException;
 
 /**
+ * Responder, that handles SignUP messages.
+ *
  * @author Created by tochur on 15.05.15.
  */
 public class SignUp implements IMessageResponder {
@@ -34,6 +36,14 @@ public class SignUp implements IMessageResponder {
     private UMessage message;
     private UEMessage answer;
 
+    /**
+     * Creates Responder, that handles SignUp messages.
+     * @param decryption Decryption, util used to Decrypt messages.
+     * @param stateManager StateManager, util used to control users UserStates.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param registration Registration, util used to manage registration process.
+     * @param messages Sign_Up, util used to easily creation of all types of message with id Sign_Up.
+     */
     @Inject
     public SignUp(Decryption decryption, StateManager stateManager, MessageSender messageSender, Registration registration, Sign_Up messages){
         this.decryption = decryption;
@@ -43,12 +53,19 @@ public class SignUp implements IMessageResponder {
         this.sign_up = messages;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{

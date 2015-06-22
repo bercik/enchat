@@ -20,9 +20,9 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * @author Created by tochur on 13.05.15.
+ * This class is responsible for keyExchange and actualization state of users that can exchange information with server
  *
- * This class is responsible for actualization state of users that can exchange information with server
+ * @author Created by tochur on 13.05.15.
  *
  */
 public class NewClientHandler implements Runnable {
@@ -30,13 +30,22 @@ public class NewClientHandler implements Runnable {
     private PublicKeysManager publicKeysManager;
     private OutStreams outStreams;
     private UserStates userStates;
+    //Unique user identifier - per session.
     private static Integer ID = 0;
 
-    private InputStreamsHandler inputStreamshandler;
+    private InputStreamsHandler inputStreamsHandler;
 
+    /**
+     * Creates new ClientHandler, util that
+     * @param inputStreamsHandler InputStreamsHandler, util that manages the stream, used to add new input stream, associated with connected user.
+     * @param publicKey PublicKey, publicKey of the server - to exchange.
+     * @param publicKeysManager PublicKeysManager, utils to PublicKey management, used to add new user and associated with hin PublicKey
+     * @param outStreams OutStreams, util that manages the Output streams, used to add new output stream, associated with connected user.
+     * @param userStates UserStates, util used to manage users states.
+     */
     @Inject
-    public NewClientHandler(InputStreamsHandler inputStreamshandler,@Named("Server") PublicKey publicKey, PublicKeysManager publicKeysManager, OutStreams outStreams, UserStates userStates){
-        this.inputStreamshandler = inputStreamshandler;
+    public NewClientHandler(InputStreamsHandler inputStreamsHandler,@Named("Server") PublicKey publicKey, PublicKeysManager publicKeysManager, OutStreams outStreams, UserStates userStates){
+        this.inputStreamsHandler = inputStreamsHandler;
         this.publicKey = publicKey;
         this.publicKeysManager = publicKeysManager;
         this.outStreams = outStreams;
@@ -47,16 +56,18 @@ public class NewClientHandler implements Runnable {
         this.clientSocket = clientSocket;
     }
 
+    /**
+     * Connection establishing with new user.
+     */
     @Override
     public void run() {
         try{
-            System.out.println("Connecting new client with id: " + ID);
             int newClientID = ID++;
 
             //Creating streams
             setUpStreams();
 
-            //Wysłanie klucza publicznego
+            //Exchanging Keys
             exchangePublicKeys();
 
             //Updating model
@@ -74,6 +85,13 @@ public class NewClientHandler implements Runnable {
 
     }
 
+    /**
+     * Exchanges PublicKeys using Util classes from shared module and updates model (publicKeyContainer).
+     * @throws IOException when IOException occur.
+     * @throws InvalidKeySpecException when KeySpecification is not valid.
+     * @throws NoSuchAlgorithmException when programmer passer as String parameter wrong algorithm (ex "RZA", despite "RSA")
+     * @throws GeneratingPublicKeyException when system was not able to generate PublicKey based on info from stream.
+     */
     protected void exchangePublicKeys() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, GeneratingPublicKeyException {
         PublicKeyInfo publicKeyInfo = new PublicKeyInfo(publicKey);
         publicKeyInfo.send(outputStream);
@@ -85,13 +103,21 @@ public class NewClientHandler implements Runnable {
         publicKey = clientPublicKeyInfo.getPublicKey();
     }
 
+    /**
+     * Opening the streams on clientSocket.
+     * @throws IOException when an exception occurred, and streams were not able to be created.
+     */
     protected void setUpStreams() throws IOException {
         inputStream = new DataInputStream( clientSocket.getInputStream());
         outputStream = new DataOutputStream( clientSocket.getOutputStream());
     }
 
+    /**
+     * Updates state of the user with specified id.
+     * @param newID Integer, id of the user who will be added to model.
+     */
     protected void updateModel(int newID){
-        inputStreamshandler.addStreamToScan(newID, inputStream);
+        inputStreamsHandler.addStreamToScan(newID, inputStream);
         publicKeysManager.addKey(newID, publicKey, modulus, exponent);
         outStreams.addStream(newID, outputStream);
         userStates.updateState(newID, UserState.CONNECTED_TO_SERVER);
@@ -100,6 +126,6 @@ public class NewClientHandler implements Runnable {
     private BigInteger modulus;
     private BigInteger exponent;
     private PublicKey publicKey;
-    DataInputStream inputStream;
-    DataOutputStream outputStream;
+    private DataInputStream inputStream;
+    private DataOutputStream outputStream;
 }

@@ -3,6 +3,8 @@ package controller.responders.exceptions;
 import messages.MessageId;
 
 /**
+ * When there is no message handler implemented for this message.
+ *
  * @author Created by tochur on 19.04.15.
  */
 public class NoHandlersFound extends Throwable {

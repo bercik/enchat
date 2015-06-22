@@ -94,9 +94,8 @@ public class ServerModule extends AbstractModule {
 
     @Provides @Singleton
     ServerSocket getServerSocket(@Named("PORT_NUMBER")Integer PORT){
-        System.out.println("Socket from provider: " + PORT);
+        System.out.println("Starting server on PORT: " + PORT);
         try {
-            System.out.println("inside try");
             ServerSocket serverSocket = new ServerSocket(PORT);
             return serverSocket;
         } catch (IOException e) {

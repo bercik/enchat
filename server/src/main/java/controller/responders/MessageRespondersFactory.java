@@ -10,11 +10,19 @@ import controller.responders.impl.lists.RemoveFromBlackList;
 import messages.MessageId;
 
 /**
+ * Factory of messages responders.
+ *
  * @author Created by tochur on 14.05.15.
  */
 @Singleton
 public class MessageRespondersFactory {
 
+    /**
+     * Creates the Responder Object to handle new Message, read from input stream.
+     * @param messageId MessageId, id of the incoming message.
+     * @param injector Inject, Guice object to create Responder.
+     * @return IMessageResponder, suitable Responder object.
+     */
     public IMessageResponder create(MessageId messageId, Injector injector){
 
         switch (messageId){
@@ -40,16 +48,9 @@ public class MessageRespondersFactory {
                 return injector.getInstance(Disconnect.class);
             case LOGOUT:
                 return injector.getInstance(LogOut.class);
-            //Ryniak patch begin
             case END_TALK:
                 return injector.getInstance(EndConversation.class);
-            //Ryniak patch end
-            
         }
         return null;
     }
-
-
-    private SignUp signUp;
-    private LogIn logIn;
 }

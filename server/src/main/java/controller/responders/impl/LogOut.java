@@ -13,30 +13,41 @@ import model.user.UserState;
 import server.sender.MessageSender;
 
 /**
+ * Responder, that handles LogOut messages.
+ *
  * @author Created by tochur on 18.05.15.
  */
 public class LogOut implements IMessageResponder {
     private StateManager stateManager;
-    private MessageSender messageSender;
-    private Another_User_Logged logout;
     private LoggedUtil loggedUtil;
     private RoomManager roomManager;
 
+    /**
+     * Creates Responder, that handles LogOut messages.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param loggedUtil LoggedUtil, util used to log users.
+     * @param roomManager RoomManager, util that enables creation connection between users.
+     */
     @Inject
-    public LogOut(StateManager stateManager, MessageSender messageSender, Another_User_Logged logout, LoggedUtil loggedUtil, RoomManager roomManager){
+    public LogOut(StateManager stateManager, LoggedUtil loggedUtil, RoomManager roomManager){
         this.stateManager = stateManager;
-        this.messageSender = messageSender;
-        this.logout = logout;
         this.loggedUtil = loggedUtil;
         this.roomManager = roomManager;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{
@@ -54,7 +65,10 @@ public class LogOut implements IMessageResponder {
         }
     }
 
-    public void updateModel(){
+    /**
+     * Updates the state after action.
+     */
+    void updateModel(){
         try{
             roomManager.leaveRoom(authorID);
         }catch (ElementNotFoundException e){
@@ -71,5 +85,4 @@ public class LogOut implements IMessageResponder {
 
     private UEMessage ueMessage;
     private Integer authorID;
-    private UEMessage answer;
 }

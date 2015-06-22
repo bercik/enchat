@@ -13,18 +13,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Util, that is used for encrypting and decrypting Messages.
+ * Lower level util, that is used for encrypting Messages.
  *
  * @author Created by tochur on 24.04.15.
  */
 public class EncryptionUtil {
     private PrivateKey serverPrivateKey;
 
+    /**
+     * Creates the Encryption Util.
+     * @param serverPrivateKey PrivateKey, key used to decrypt message from other users.
+     */
     @Inject
     public EncryptionUtil(@Named("Server")PrivateKey serverPrivateKey){
         this.serverPrivateKey = serverPrivateKey;
     }
 
+    /**
+     * Encrypts message.
+     * @param message UMessage, message to encrypt.
+     * @param receiverKey PublicKey, public Key of the message receiver.
+     * @return UEMessage, message ready to send.
+     * @throws EncryptionException when sth went wrong during encrypting.
+     */
     public UEMessage encryptMessage(UMessage message, PublicKey receiverKey) throws EncryptionException {
         Message m = message.getMessage();
         EncryptedMessage encrypted = encryptMessage(m, receiverKey);
@@ -32,8 +43,11 @@ public class EncryptionUtil {
     }
 
     /**
-     * Only packages (data) are encrypting
-     * @return encrypted message
+     * Encrypts message.
+     * @param message Message, message to encrypt.
+     * @param receiverKey PublicKey, public Key of the message receiver.
+     * @return UEMessage, message ready to send.
+     * @throws EncryptionException when sth went wrong during encrypting.
      */
     public EncryptedMessage encryptMessage(Message message, PublicKey receiverKey) throws EncryptionException {
         List<Pack> packages = new LinkedList<>();
@@ -55,6 +69,13 @@ public class EncryptionUtil {
         }
     }
 
+    /**
+     * Encrypts data array, using PublicKeyPassed as parameter.
+     * @param data byte[], array with data.
+     * @param publicUserKey PublicKey, public key of the message receiver.
+     * @return byte[] byte array with encrypted message.
+     * @throws EncryptingException when sth went wrong during encrypting.
+     */
     public byte[] encrypt(byte[] data, PublicKey publicUserKey) throws EncryptingException {
         try {
             return RSA.encrypt(data, publicUserKey);
@@ -63,6 +84,12 @@ public class EncryptionUtil {
         }
     }
 
+    /**
+     * Creates a sign to data sent in the package.
+     * @param data byte[], array to sign
+     * @return byte[], byte array with sign.
+     * @throws EncryptingException when sth went wrong during encrypting.
+     */
     public byte[] sign(byte[] data) throws EncryptingException {
         try {
             return  RSA.sign(data, serverPrivateKey);

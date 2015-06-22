@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
+ * Responder, that handles EndConversation messages.
+ *
  * @author Created by tochur on 18.05.15.
  */
 public class EndConversation implements IMessageResponder {
@@ -30,6 +32,15 @@ public class EndConversation implements IMessageResponder {
     private RoomManager roomManager;
     private LoggedUtil loggedUtil;
 
+
+    /**
+     * Creates Responder, that handles LogIN messages.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param conversationalist_disconnected Conversationalist_Disconnected, util used to easily creation of all types of message with id Conversationalist_Disconnected.
+     * @param roomManager RoomManager, util that enables creation connection between users.
+     * @param loggedUtil LoggedUtil, util used to log users.
+     */
     @Inject
     public EndConversation(StateManager stateManager, MessageSender messageSender, Conversationalist_Disconnected conversationalist_disconnected, RoomManager roomManager, LoggedUtil loggedUtil){
         this.stateManager = stateManager;
@@ -39,12 +50,19 @@ public class EndConversation implements IMessageResponder {
         this.loggedUtil = loggedUtil;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         Collection<Integer> otherUsers = null;

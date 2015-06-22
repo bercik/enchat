@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ * Responder, that handles CLIENTS_LIST messages.
+ *
  * @author Created by tochur on 17.05.15.
  */
 public class ClientList implements IMessageResponder{
@@ -25,6 +27,14 @@ public class ClientList implements IMessageResponder{
     private Integer authorID;
     private BlackListUtil blackListUtil;
 
+    /**
+     * Creates Responder, that handles CLIENTS_LIST messages.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param loggedManager LoggedManager, util used to manage logged.
+     * @param blackListUtil BlackListUtil, util used to BlackList management.
+     * @param messages Logged_List, util used to easily creation of all types of message with id Logged_List.
+     */
     @Inject
     public ClientList(StateManager stateManager, MessageSender messageSender, LoggedUtil loggedManager, Logged_List messages, BlackListUtil blackListUtil){
         this.stateManager = stateManager;
@@ -34,12 +44,19 @@ public class ClientList implements IMessageResponder{
         this.blackListUtil = blackListUtil;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{
@@ -65,10 +82,12 @@ public class ClientList implements IMessageResponder{
 
     }
 
-    /* Prepares the sorted list of user that are currently logged excluding the nick of
-    * user, that request the info about logged message (author ID)
-    * */
-    public List<String> prepareListToSend(){
+    /**
+     * Prepares the sorted list of user that are currently logged excluding the nick of
+     * user, that request the info about logged message (author ID).
+     * @return List&lt;String&gt; , sorted list of currently logged users.
+     */
+     public List<String> prepareListToSend(){
         Set<String> toShow = new HashSet<>();
         String authorNick = null;
         try {

@@ -37,6 +37,17 @@ public class ConversationRequest implements IMessageResponder {
     private Conversation_Request conversation_request;
     private Incoming_Conversation incoming_conversation;
 
+    /**
+     * Creates Responder, that handles LogIN messages.
+     * @param decryption Decryption, util user to decrypt message.
+     * @param stateManager StateManager, user used to control users UserStates.
+     * @param messageSender MessageSender, util used to send prepared message (UEMessages).
+     * @param blackListUtil BlackListUtil, util used to managing blackList in this case used to check weather conversation may be started.
+     * @param loggedUtil LoggedUtil, util used to log users.
+     * @param roomManager RoomManager, util that enables creation connection between users.
+     * @param conversation_request Conversation_Request,
+     * @param incoming_conversation Incoming_Conversation, util used to easily creation of all types of message with id Incoming_Conversation.
+     */
     @Inject
     public ConversationRequest(Decryption decryption, StateManager stateManager, MessageSender messageSender,
                                BlackListUtil blackListUtil, LoggedUtil loggedUtil, RoomManager roomManager,
@@ -51,12 +62,19 @@ public class ConversationRequest implements IMessageResponder {
         this.incoming_conversation = incoming_conversation;
     }
 
+    /**
+     * Starts the responder as a Thread.
+     * @param ueMessage UEMessage, message that will be handled by responder.
+     */
     @Override
     public void serveEvent(UEMessage ueMessage) {
         this.ueMessage = ueMessage;
         new Thread(this).start();
     }
 
+    /**
+     * Function that calls actions on utils passed
+     */
     @Override
     public void run() {
         try{
