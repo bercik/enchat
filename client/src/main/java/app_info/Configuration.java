@@ -2,7 +2,6 @@ package app_info;
 
 import app_info.exceptions.BadConfigurationFileException;
 import java.io.*;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -21,44 +20,60 @@ public final class Configuration
     private Configuration() throws IOException, GeneratingPublicKeyException, 
             BadConfigurationFileException
     {
-        width = 122;
-        height = 36;
-        loadFromFile();
     }
 
-    //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
-    public static Configuration getInstance()
+    public static void init() throws IOException, 
+            GeneratingPublicKeyException, BadConfigurationFileException
     {
         if (instance == null)
         {
+            instance = new Configuration();
             try
             {
-                instance = new Configuration();
+                instance.loadFromFile();
             }
-            catch (Exception ex)
+            catch (BadConfigurationFileException | IOException ex)
             {
-                throw new ExceptionInInitializerError(ex);
+                // jeżeli nie udało się odczytać z pliku to ustawiamy domyślne
+                // wartości i rzucamy wyjątek dalej
+                instance.port = DEFAULT_PORT;
+                instance.serverAddress = DEFAULT_SERVER_ADDRESS;
+                
+                throw ex;
             }
+        }
+    }
+    
+    //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
+    public static Configuration getInstance()
+    {
+        // w tym momencie powinna być już utworzona 
+        // instancja klasy Configuration poprzez wywołanie metody init()
+        if (instance == null)
+        {
+            String msg = "instance in Configuration singleton is null. "
+                    + "You should call init() method first";
+            throw new ExceptionInInitializerError(msg);
         }
 
         return instance;
     }
 
-    public int getWidth()
+    public static int getWidth()
     {
         return width;
     }
 
-    public int getHeight()
+    public static int getHeight()
     {
         return height;
     }
 
-    public String getCommandPrefix()
+    public static String getCommandPrefix()
     {
         return commandPrefix;
     }
-
+    
     public String getServerAddress()
     {
         return serverAddress;
@@ -118,7 +133,8 @@ public final class Configuration
                 }
                 
                 if (serverAddress == null || 
-                        !IPAddressUtil.isIPv4LiteralAddress(serverAddress))
+                        !IPAddressUtil.isIPv4LiteralAddress(serverAddress) ||
+                        port < 0 || port > 65535)
                 {
                     throw new BadConfigurationFileException();
                 }
@@ -130,10 +146,10 @@ public final class Configuration
     private static Configuration instance = null;
 
     // prefiks każdej komendy
-    private final String commandPrefix = "/";
+    private static final String commandPrefix = "/";
     //rozmiar naszej konsoli
-    private int width = 122;
-    private int height = 36;
+    private static final int width = 122;
+    private static final int height = 36;
 
     //zmienne te będą wczytywane z pliku
     private String serverAddress;

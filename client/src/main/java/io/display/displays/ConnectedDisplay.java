@@ -5,6 +5,7 @@
  */
 package io.display.displays;
 
+import app_info.Configuration;
 import io.display.IFormatter;
 
 /**
@@ -13,10 +14,19 @@ import io.display.IFormatter;
  */
 public class ConnectedDisplay extends CommandLineDisplay
 {
+    private static final IFormatter.Color KEY_INFO_COLOR = 
+            IFormatter.Color.BLUE;
+    
     @Override
     public String showBody()
     {
-        String body = "Jesteś teraz połączony z serwerem!\n\n" +
+        Configuration conf = Configuration.getInstance();
+        String body = "Jesteś teraz połączony z serwerem o adresie " +
+                formatter.fg(KEY_INFO_COLOR, conf.getServerAddress()) 
+                + " na porcie " + 
+                formatter.fg(
+                        KEY_INFO_COLOR, Integer.toString(conf.getPort())) 
+                + "!\n\n" +
                 "Możesz się zarejestrować wpisując komendę " + 
                 formatCommand("register") + "\n" +
                 "lub zalogować wpisując komendę " + 

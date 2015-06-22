@@ -38,12 +38,11 @@ public class LinuxDisplayManager implements IDisplayManager
     @Override
     public void setMsg(String msg, boolean error)
     {
-        Configuration conf = Configuration.getInstance();
-        msg = trimString(msg, conf.getWidth());
+        msg = trimString(msg, Configuration.getWidth());
         
         // na wszelki wypadek sprawdzamy, chociaż poprzednia metoda powinna
         // odpowiednio przyciąć msg
-        if (msg.length() > conf.getWidth())
+        if (msg.length() > Configuration.getWidth())
         {
             String errorMsg = "Wiadomość " + msg + " w setMsg dłuższa niż " +
                     "szerokość konsoli";
@@ -57,8 +56,7 @@ public class LinuxDisplayManager implements IDisplayManager
     @Override
     public void setCommand(String newCommand)
     {
-        Configuration conf = Configuration.getInstance();
-        if (newCommand.length() > conf.getWidth())
+        if (newCommand.length() > Configuration.getWidth())
         {
             String errorMsg = "Komenda " + newCommand + " w setCommand "
                     + "dłuższa niż szerokość konsoli";
@@ -101,8 +99,7 @@ public class LinuxDisplayManager implements IDisplayManager
     {
         clearConsole();
         // get console size from configuration class
-        Configuration conf = Configuration.getInstance();
-        setConsoleSize(conf.getWidth(), conf.getHeight());
+        setConsoleSize(Configuration.getWidth(), Configuration.getHeight());
         // get content to show and validate it
         String show = currentDisplay.show();
         validateShow(show);
@@ -114,8 +111,6 @@ public class LinuxDisplayManager implements IDisplayManager
     {
         String[] split = show.split("\n");
 
-        Configuration conf = Configuration.getInstance();
-
         int i = 1;
         for (String str : split)
         {
@@ -125,7 +120,7 @@ public class LinuxDisplayManager implements IDisplayManager
             // to port program to another platofrm
             str = str.replaceAll("\033\\[\\d+m", "");
 
-            if (str.length() > conf.getWidth())
+            if (str.length() > Configuration.getWidth())
             {
                 String msg = "Linia " + i + ":" + str + " w displayu "
                         + currentDisplay.getClass().getSimpleName() + " jest za"

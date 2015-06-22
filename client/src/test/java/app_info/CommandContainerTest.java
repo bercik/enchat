@@ -5,12 +5,14 @@
  */
 package app_info;
 
+import app_info.exceptions.BadConfigurationFileException;
 import app_info.exceptions.CommandAlreadyExistsException;
 import app_info.exceptions.IdAlreadyExistsException;
 import app_info.exceptions.NullCommandException;
 import controller.ControllerManager;
 import controller.IController;
 import io.input.Key;
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,6 +21,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import plugin.IPlugin;
 import plugin.PluginManager;
+import rsa.exceptions.GeneratingPublicKeyException;
 
 /**
  *
@@ -120,8 +123,10 @@ public class CommandContainerTest
     }
 
     @BeforeClass
-    public static void setUpClass()
+    public static void setUpClass() throws IOException, 
+            GeneratingPublicKeyException, BadConfigurationFileException
     {
+        Configuration.init();
     }
 
     @AfterClass
