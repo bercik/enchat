@@ -20,8 +20,7 @@ public class HelpCommandsBuilder
     public static HelpCommands build()
     {
         HelpCommands helpCommands = new HelpCommands();
-        Configuration conf = Configuration.getInstance();
-        String commandPrefix = conf.getCommandPrefix();
+        String commandPrefix = Configuration.getCommandPrefix();
         
         // register command
         String name = "register";
@@ -126,9 +125,9 @@ public class HelpCommandsBuilder
                 + "na czarną listę będzie chciał z nami rozmawiać "
                 + "dostanie informację, że jesteśmy zajęci.\n" + 
                 "Aby wpisać użytkownika na czarną listę użyj komendy " + 
-                conf.getCommandPrefix() + "block\n" + 
+                commandPrefix + "block\n" + 
                 "Aby usunąć użytkownika z czarnej listy użyj komendy " +
-                conf.getCommandPrefix() + "unblock\n";
+                commandPrefix + "unblock\n";
         parameters = new Parameter[0];
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
@@ -226,6 +225,20 @@ public class HelpCommandsBuilder
         command = new Command(name, description, shortDescription, parameters);
         helpCommands.addCommand(name, command);
         
+        // config
+        name = "config";
+        shortDescription = "Konfiguruje adres i port serwera na których "
+                + "będziemy próbowali się z nim połączyć";
+        description = "Ustawia nowy adres i port serwera dla bieżącej "
+                + "sesji aplikacji i zapisuje je do pliku konfiguracyjnego";
+        parameters = new Parameter[]
+        {
+            new Parameter("address", "adres IPv4 serwera"),
+            new Parameter("port", "port serwera")
+        };
+        command = new Command(name, description, shortDescription, parameters);
+        helpCommands.addCommand(name, command);
+        
         // exit
         name = "exit";
         shortDescription = "Zakańcza działanie aplikacji";
@@ -240,8 +253,10 @@ public class HelpCommandsBuilder
         description = "Aplikacja enChat została napisana przez zespół "
                 + "io_fighters jako projekt z inżynierii oprogramowania\n\n" + 
                 "Członkowie zespołu:\n" +
+                "kierownik projektu: tBajorek <tb@tbajorek.pl>\n" +
                 "programista/inżynier: bercik <robert.cebula1@gmail.com>\n" +
                 "programista: Mati <matello455@gmail.com>";
+        
         Information information = new Information(name, description, 
                 shortDescription);
         helpCommands.addInformation(name, information);

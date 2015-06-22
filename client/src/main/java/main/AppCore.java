@@ -6,13 +6,16 @@
 package main;
 
 import app_info.CommandContainer;
+import app_info.Configuration;
 import app_info.Id;
+import app_info.exceptions.BadConfigurationFileException;
 import controller.ControllerManager;
 import io.IOSet;
 import io.IOSetFabric;
 import io.display.IDisplayManager;
 import io.input.IInput;
 import io.input.Key;
+import java.io.IOException;
 import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
 import plugin.PluginManager;
@@ -55,9 +58,27 @@ public class AppCore
                             pluginManager, conversation);
             // set controller manager reference in plugin manager
             pluginManager.setControllerManager(controllerManager);
-            // try to connect to server at start
-            pluginManager.updatePlugin(
-                    Id.CONNECT_PLUGIN.getIntRepresentation(), new String[0]);
+            // init configuration
+            boolean successfulConfigInit = true;
+            try
+            {
+                Configuration.init();
+            }
+            catch (BadConfigurationFileException | IOException ex)
+            {
+                successfulConfigInit = false;
+                String msg = "Plik konfiguracyjny jest w złym formacie, "
+                        + "używam domyślnych wartości. Aby je zmienić użyj "
+                        + "komendy " + Configuration.getCommandPrefix()
+                        + "config";
+                pluginManager.setMsg(msg, true);
+            }
+            // try to connect to server at start if config file was ok
+            if (successfulConfigInit)
+            {
+                pluginManager.updatePlugin(
+                        Id.CONNECT_PLUGIN.getIntRepresentation(), new String[0]);
+            }
 
             // działamy dopóki controller manager nie zarządzi, że koniec
             while (!controllerManager.isAppEnd())

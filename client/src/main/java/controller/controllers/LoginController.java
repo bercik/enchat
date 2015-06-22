@@ -25,8 +25,9 @@ public class LoginController extends CommandLineController
     {
         // wywołujemy metodę klasy bazowej
         super.putSpecialKey(key);
-        // jeżeli escape to wracamy do main controller
-        if (key == Key.ESC)
+        // jeżeli escape i konsola nie jest zablokowana
+        // to wracamy do main controller
+        if (!getBlockConsole() && key == Key.ESC)
         {
             controllerManager.setController(
                 Id.MAIN_CONTROLLER.getIntRepresentation(), null);

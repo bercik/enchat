@@ -42,8 +42,7 @@ public abstract class CommandLineDisplay implements IDisplay
     
     protected String centerString(String str)
     {
-        Configuration conf = Configuration.getInstance();
-        int offset = (conf.getWidth() - str.length()) / 2;
+        int offset = (Configuration.getWidth() - str.length()) / 2;
         String result = indent(offset);
         result += str;
         
@@ -71,8 +70,7 @@ public abstract class CommandLineDisplay implements IDisplay
         if (addPrefix)
         {
             // we add prefix to command
-            Configuration conf = Configuration.getInstance();
-            command = conf.getCommandPrefix() + command;
+            command = Configuration.getCommandPrefix() + command;
         }        
         // add foreground color to command
         String result = formatter.fg(COMMAND_FG_COLOR, command) + " ";
@@ -143,8 +141,7 @@ public abstract class CommandLineDisplay implements IDisplay
         int wholeHeight = bodyHeight + COMMAND_MESSAGE_HEIGHT;
         
         // get console size from configuration
-        Configuration conf = Configuration.getInstance();
-        int diff = wholeHeight - conf.getHeight();
+        int diff = wholeHeight - Configuration.getHeight();
         
         if (diff > 0)
         {
@@ -202,17 +199,15 @@ public abstract class CommandLineDisplay implements IDisplay
     public String show()
     {
         // get console size from configuration
-        Configuration conf = Configuration.getInstance();
-        
         String body = showBody();
         body = trimOrFill(body);
         
         String whole = body + '\n';
         whole += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE,
-                indent(conf.getWidth()));
+                indent(Configuration.getWidth()));
         whole += '\n' + msg + '\n';
         whole += formatter.spec(IFormatter.SpecialFormat.UNDERSCORE,
-                indent(conf.getWidth()));
+                indent(Configuration.getWidth()));
         whole += '\n' + command;
         
         return whole;

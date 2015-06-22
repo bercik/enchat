@@ -26,6 +26,7 @@ public enum Id
     STATE_PLUGIN(),
     WEATHER_PLUGIN(),
     MSCREEN_PLUGIN(),
+    CONFIG_PLUGIN(),
     EXIT_PLUGIN();
 
     // bez znaczenia co tu damy i tak będzie 0

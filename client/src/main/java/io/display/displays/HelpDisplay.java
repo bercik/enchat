@@ -55,7 +55,8 @@ public class HelpDisplay extends CommandLineDisplay
     {
         String result = "To jest pomoc programu enChat\nWpisz " + 
                 formatCommand("help", new String[]{ "name" }) +
-                ", aby uzyskać szczegółowe informacje o podanej komendzie\n\n";
+                ", aby uzyskać szczegółowe informacje o podanej "
+                + "komendzie/informacji\n\n";
         
         HelpCommands helpCommands = HelpCommandsBuilder.build();
         Command[] allCommands = helpCommands.getAllCommands();
