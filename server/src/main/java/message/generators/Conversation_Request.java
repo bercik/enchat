@@ -10,7 +10,7 @@ import rsa.exceptions.EncryptionException;
 import java.util.Arrays;
 
 /**
- * Created by tochur on 01.05.15.
+ * @author Created by tochur on 01.05.15.
  */
 public class Conversation_Request {
     private final MessageId conversationRequest = MessageId.CONVERSATION_REQUEST;

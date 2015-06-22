@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * Created by tochur on 18.05.15.
+ * @author Created by tochur on 18.05.15.
  */
 public class UserMessage implements IMessageResponder {
 

@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * Created by tochur on 13.05.15.
+ * @author Created by tochur on 13.05.15.
  *
  * This class is runnable.
  * After starting, it persistently waits for clients (passing accept) on ServerSocket.

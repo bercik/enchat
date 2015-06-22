@@ -8,23 +8,29 @@ import model.exceptions.IncorrectNickOrPassword;
 import java.util.Map;
 
 /**
- * Created by tochur on 16.05.15.
+ * Util for certification.
+ *
+ * @author Created by tochur on 16.05.15.
  */
 public class Authentication {
     private Map<String, Account> accounts;
 
+    /**
+     * Creates the util for certification.
+     * @param accounts String to Account map, delivers the data necessary for certification.
+     */
     @Inject
     public Authentication(@Named("Accounts")Map<String, Account> accounts){
         this.accounts = accounts;
     }
 
 
-    /** READONLY
+    /**
      * Cheeks if account with specified login and password exists.
-     * It's used during logging for authorization.
-     * @param nick - user nick
-     * @param password - password associated with login
-     * @return - account - object that holds permanent user data.
+     * It's used during logging for certification.
+     * @param nick String - user nick
+     * @param password String - password associated with login
+     * @return Account - object that holds permanent user data.
      * @throws IncorrectNickOrPassword - when authentication failed
      */
     public Account authenticate(String nick, String password) throws IncorrectNickOrPassword {

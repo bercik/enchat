@@ -6,7 +6,9 @@ import model.Account;
 import java.security.PublicKey;
 
 /**
- * Created by tochur on 16.05.15.
+ * Object that holds all info of user.
+ *
+ * @author Created by tochur on 16.05.15.
  */
 public class User {
     private final int ID;
@@ -47,33 +49,65 @@ public class User {
         return this.publicKey;
     }
 
-
+    /**
+     * Sets user Account.
+     * @param account Account, object to bind with the user.
+     */
     public void bindWithAccount(Account account){
         this.account = account;
     }
 
+    /**
+     * Returns the user Account.
+     * @return Account associated with the user.
+     */
     public Account getAccount(){ return account; }
 
+    /**
+     * Returns the user current state.
+     * @return UserState, current userState.
+     */
     public UserState getState(){
         return userState;
     }
 
+    /**
+     * Sets the user state
+     * @param state UserState, new userState.
+     */
     public void setState(UserState state){
         this.userState = state;
     }
 
+    /**
+     * Returns the user nick.
+     * @return String, user nick.
+     */
     public String getNick(){
         return account.getNick();
     }
 
+    /**
+     * Returns the ChatRoom
+     * @return ChatRoom, the room that user is inside.
+     */
     public ChatRoom getRoom() {
         return room;
     }
 
+    /**
+     * Sets the ChatRoom
+     * @param room ChatRoom, new ChatRoom that user is inside.
+     */
     public void setRoom(ChatRoom room) {
         this.room = room;
     }
 
+    /**
+     * Compares two users.
+     * @param obj Object, object to compare
+     * @return true if objects are equals, false otherwise.
+     */
     @Override
     public boolean equals(Object obj){
         if (obj == null) return false;

@@ -2,21 +2,21 @@ package model.containers.temporary;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import controller.responders.exceptions.ToMuchUsersInThisRoom;
 import message.generators.Conversationalist_Disconnected;
 import model.ChatRoom;
 import model.exceptions.ElementNotFoundException;
 import server.sender.MessageSender;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
- * Singleton object.
- * Manages Rooms.
  * Interface for chats managing.
+ * Singleton object, that manages Rooms.
  *
- * Created by tochur on 17.05.15.
+ * @author Created by tochur on 17.05.15.
  */
 @Singleton
 public class RoomManager {
@@ -32,14 +32,6 @@ public class RoomManager {
         this.rooms = rooms;
     }
 
-
-    /**
-     * Checks weather user with ID is free (not in room)
-     * //TODO it's not thread safety. when you use this info outside synchronized
-     */
-    /*public synchronized boolean isFree(Integer userID) {
-        return rooms.isUserInRoom(userID);
-    }*/
 
     /**
      * Tries to Start the conversation between users with specified ids.
@@ -92,6 +84,13 @@ public class RoomManager {
         return conversationalists;
     }
 
+    /**
+     * Called to end an conversation. The best effort is made to inform all other conversation participants about this action
+     * @param messageSender MessageSender, util to sending messages.
+     * @param authorID Integer, id of the user that is leaving the conversation.
+     * @param authorNick String, nick of the user that is leaving the conversation.
+     * @param conversationalist_disconnected util for easy message creation.
+     */
     public void leaveRoomAndTryToInform(MessageSender messageSender, Integer authorID, String authorNick,  Conversationalist_Disconnected conversationalist_disconnected) {
         Collection<Integer> toInform = getConversationalists(authorID);
         for(Integer id: toInform){

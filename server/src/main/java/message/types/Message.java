@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by tochur on 30.04.15.
+ * @author Created by tochur on 30.04.15.
  *
  * Represents the decrypted message in a system.
  * If packageAmount > 0, data (List<String>) holds the byte[] converted to String.

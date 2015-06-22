@@ -14,7 +14,7 @@ import server.sender.MessageSender;
 import server.sender.OutStreams;
 
 /**
- * Created by tochur on 18.05.15.
+ * @author Created by tochur on 18.05.15.
  */
 public class Disconnect implements IMessageResponder {
     private StateManager stateManager;

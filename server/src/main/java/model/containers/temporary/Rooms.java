@@ -5,25 +5,22 @@ import controller.responders.exceptions.ToMuchUsersInThisRoom;
 import model.ChatRoom;
 import model.exceptions.ElementNotFoundException;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Thread safety
- *
  * This singleton object holds info about association between users and ChatRooms.
  * Exactly maps all users that are in a ChatRooms to their ChatRooms.
  * This class takes the responsibility for removing the empty ChatRooms.
  * In fact is happens automatically, when all associations between users
  * and specified ChatRoom will be removed.
  *
- * Note that if in one ChatRoom is N users, N mappings <UserId><ChatRoom>
+ * Note that if in one ChatRoom is N users, N mappings:    UserId  to  ChatRoom
  * will be hold in the collection.
  *
  * This class do not modify the ChatRooms operates only on associations between users and ChatRooms.
  *
- * Created by tochur on 17.05.15.
+ * @author Created by tochur on 17.05.15.
  */
 @Singleton
 public class Rooms {
@@ -65,7 +62,6 @@ public class Rooms {
     }
 
     /**
-     * //TODO this is not thread safety (we should check weather user didn't logout in the meaning time.
      * Method that lets to create new Conversation it is thread safety.
      * @param authorID - id of the user that requested for chat
      * @param otherUserID - id of the requested conversationalist.

@@ -17,7 +17,7 @@ import rsa.exceptions.DecryptingException;
 import java.io.IOException;
 
 /**
- * Created by tochur on 17.05.15.
+ * @author Created by tochur on 17.05.15.
  */
 public class RemoveFromBlackList implements IMessageResponder {
 

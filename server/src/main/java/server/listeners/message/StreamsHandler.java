@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Created by tochur on 14.05.15.
+ * @author Created by tochur on 14.05.15.
  *
  * This class if responsible checking weather new bytes are available in any of
  * streams that server listen to.

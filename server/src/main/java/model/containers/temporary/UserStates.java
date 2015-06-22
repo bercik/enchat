@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by tochur on 16.05.15.
+ * Util for user state management.
+ *
+ * @author Created by tochur on 16.05.15.
  */
 
 @Singleton
@@ -16,9 +18,9 @@ public class UserStates {
     private Map<Integer, UserState> userStates = new HashMap<>();
 
     /**
-     * Add exception
-     * @param ID
-     * @return
+     * Returns state of the user with specified id.
+     * @param ID Integer of the user to check.
+     * @return UserState of the user.
      */
     public UserState getUserState(Integer ID){
         return userStates.get(ID);
@@ -42,7 +44,10 @@ public class UserStates {
         userStates.remove(ID);
     }
 
-
+    /**
+     * Returns the amount of user connected to the server.
+     * @return amount of users connected.
+     */
     public int getRecordsAmount(){
         return userStates.size();
     }

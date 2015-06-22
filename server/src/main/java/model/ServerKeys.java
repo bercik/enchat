@@ -8,9 +8,9 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- * Created by tochur on 15.05.15.
+ * Singleton object, that wraps Server Key.
  *
- * Singleton object, that wraps Server Keys.
+ * @author Created by tochur on 15.05.15.
  */
 @Singleton
 public class ServerKeys {
@@ -18,6 +18,9 @@ public class ServerKeys {
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
+    /**
+     * Creates new ServerKeysKit
+     */
     @Inject
     public ServerKeys(){
         try {
@@ -29,10 +32,18 @@ public class ServerKeys {
         }
     }
 
+    /**
+     * Returns server PublicKey.
+     * @return server PublicKey.
+     */
     public PublicKey getPublicKey() {
         return publicKey;
     }
 
+    /**
+     * Returns server PrivateKey.
+     * @return server PrivateKey.
+     */
     public PrivateKey getPrivateKey() {
         return privateKey;
     }

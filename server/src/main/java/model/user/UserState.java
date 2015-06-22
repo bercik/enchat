@@ -1,9 +1,9 @@
 package model.user;
 
 /**
- * Created by tochur on 16.04.15.
- *
  * Defines allowed userStates
+ *
+ * @author Created by tochur on 16.04.15.
  */
 public enum UserState {
     CONNECTED_TO_SERVER,                //Means, that server listen for answer from him.

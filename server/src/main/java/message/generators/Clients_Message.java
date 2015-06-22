@@ -7,7 +7,7 @@ import messages.MessageId;
 import rsa.exceptions.EncryptionException;
 
 /**
- * Created by tochur on 01.05.15.
+ * @author Created by tochur on 01.05.15.
  */
 public class Clients_Message {
     private MessageId clientMessage = MessageId.CLIENT_MESSAGE;

@@ -6,7 +6,7 @@ import message.types.UEMessage;
 import messages.MessageId;
 
 /**
- * Created by tochur on 18.05.15.
+ * @author Created by tochur on 18.05.15.
  *
  * Passing message with header modification.
  */

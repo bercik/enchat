@@ -3,7 +3,7 @@ package message.types;
 import messages.MessageId;
 
 /**
- * Created by tochur on 30.04.15.
+ * @author Created by tochur on 30.04.15.
  */
 public class AbstractMessage implements IMessage {
     Header header;

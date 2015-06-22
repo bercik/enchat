@@ -1,7 +1,7 @@
 package message.types;
 
 /**
- * Created by tochur on 18.04.15.
+ * @author Created by tochur on 18.04.15.
  *
  * This is direct wrapper of byte[].
  * To send some info between client and server, It must be changed to

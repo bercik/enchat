@@ -9,7 +9,7 @@ import rsa.exceptions.EncryptingException;
 import java.math.BigInteger;
 
 /**
- * Created by tochur on 18.05.15.
+ * @author Created by tochur on 18.05.15.
  */
 public class KeyPackageSupplier {
     private PublicKeysManager publicKeysManager;

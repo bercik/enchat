@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by tochur on 16.05.15.
+ * @author Created by tochur on 16.05.15.
  *
  * Util for sending encrypted message to specified DataOutputStream
  */

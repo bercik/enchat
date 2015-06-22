@@ -8,7 +8,7 @@ import java.io.IOException;
 
 
 /**
- * Created by tochur on 13.05.15.
+ * @author Created by tochur on 13.05.15.
  *
  * Sends the UEMessage to suitable Stream.
  *  - extract userID from Message

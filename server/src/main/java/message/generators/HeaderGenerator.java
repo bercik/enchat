@@ -4,7 +4,7 @@ import message.types.Header;
 import messages.MessageId;
 
 /**
- * Created by tochur on 03.05.15.
+ * @author Created by tochur on 03.05.15.
  *
  * Util to create MessageHeaders.
  * It can be accessed only by classes from the same package.

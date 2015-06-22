@@ -18,7 +18,7 @@ import rsa.exceptions.DecryptingException;
 import java.io.IOException;
 
 /**
- * Created by tochur on 15.05.15.
+ * @author Created by tochur on 15.05.15.
  */
 public class SignUp implements IMessageResponder {
     private Decryption decryption;

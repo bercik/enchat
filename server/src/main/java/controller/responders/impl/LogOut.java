@@ -13,7 +13,7 @@ import model.user.UserState;
 import server.sender.MessageSender;
 
 /**
- * Created by tochur on 18.05.15.
+ * @author Created by tochur on 18.05.15.
  */
 public class LogOut implements IMessageResponder {
     private StateManager stateManager;

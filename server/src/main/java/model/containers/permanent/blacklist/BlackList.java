@@ -1,5 +1,7 @@
 package model.containers.permanent.blacklist;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import model.exceptions.AlreadyInCollection;
 import model.exceptions.ElementNotFoundException;
 import model.exceptions.OverloadedCannotAddNew;
@@ -7,11 +9,15 @@ import model.exceptions.OverloadedCannotAddNew;
 import java.util.*;
 
 /**
- * Created by tochur on 01.05.15.
  *
- * Collects the nicks.
- * User that has black list wont get any message from user with nick from Blacklist
- * As well users with nick from black list wont see weather user is Logged.
+ * Collects nicks of users that are blocked. Is associated with the client account in 1:1 relationship.
+ * Placing the user nick to black list is prompt following consequences:
+ * First blocked user won't see you at logged user list even when you will be logged.
+ * Second he want be able to start an conversation with you.
+ * But that won't restrict your rights. In any moment (without removing him from blacklist) you can
+ * start a conversation, and you will see him on logged user list.
+ *
+ * @author Created by tochur on 01.05.15.
  */
 public class BlackList {
     //Holds nick
@@ -27,17 +33,18 @@ public class BlackList {
     }
 
     /**
-     * New blacklist is created with default max user specified by parameter
-     * @param maxSize - max amount of users at blackList
+     * New blacklist is created with max size specified by parameter
+     * @param BLACK_LIST_MAX_SIZE Integer max amount of users at blackList
      */
-    public BlackList(int maxSize){
-        MAX_SIZE = maxSize;
+    @Inject
+    public BlackList(@Named("BLACK_LIST_MAX_SIZE")Integer BLACK_LIST_MAX_SIZE){
+        this.MAX_SIZE = BLACK_LIST_MAX_SIZE;
         nicks = new HashSet<>();
     }
 
     /**
      * Add new nick to black list.
-     * @param nick - nick of the user to add to blackList
+     * @param nick String nick of the user to add to blackList
      * @throws OverloadedCannotAddNew - when no more users can be added
      * @throws AlreadyInCollection - when user with this nick already is in blackList
      */

@@ -9,7 +9,7 @@ import rsa.exceptions.DecryptingException;
 import java.security.PublicKey;
 
 /**
- * Created by tochur on 15.05.15.
+ * @author Created by tochur on 15.05.15.
  */
 public class Decryption {
     DecryptionUtil decryptionUtil;

@@ -11,7 +11,7 @@ import model.user.Verifier;
 import java.util.Collection;
 
 /**
- * Created by tochur on 16.05.15.
+ * @author Created by tochur on 16.05.15.
  *
  * Let us to verify weather user is allowed to send this message type.
  */

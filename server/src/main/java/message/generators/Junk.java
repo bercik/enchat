@@ -5,7 +5,7 @@ import message.types.UEMessage;
 import messages.MessageId;
 
 /**
- * Created by tochur on 01.05.15.
+ * @author Created by tochur on 01.05.15.
  *
  * Let user to safety creating messages.
  */

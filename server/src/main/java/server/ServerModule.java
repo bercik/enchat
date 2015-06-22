@@ -26,7 +26,7 @@ import java.security.PublicKey;
 import java.util.Map;
 
 /**
- * Created by tochur on 13.05.15.
+ * @author Created by tochur on 13.05.15.
  */
 public class ServerModule extends AbstractModule {
     @Override
@@ -45,6 +45,8 @@ public class ServerModule extends AbstractModule {
         bindConstant().annotatedWith(Names.named("MAX_ACTIVE_USER")).to(1000);
             //Amount of Accounts, that may be created.
         bindConstant().annotatedWith(Names.named("ACCOUNT_LIMIT")).to(1000);
+            //Amount of max nicks on black list
+        bindConstant().annotatedWith(Names.named("BLACK_LIST_MAX_SIZE")).to(100);
 
     }
 

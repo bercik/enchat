@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
- * Created by tochur on 14.05.15.
+ * @author Created by tochur on 14.05.15.
  */
 public class StreamScanner {
 

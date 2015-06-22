@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Util, that is used for encrypting and decrypting Messages.
  *
- * Created by tochur on 24.04.15.
+ * @author Created by tochur on 24.04.15.
  */
 public class EncryptionUtil {
     private PrivateKey serverPrivateKey;

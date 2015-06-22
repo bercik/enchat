@@ -28,6 +28,16 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <configuration>
+          <doctitle>My API for ${project.name} ${project.version}</doctitle>
+          <windowtitle>My API for ${project.name} ${project.version}</windowtitle>
+          <testDoctitle>My Test API for ${project.name} ${project.version}</testDoctitle>
+          <testWindowtitle>My Test API for ${project.name} ${project.version}</testWindowtitle>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
