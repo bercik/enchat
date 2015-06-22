@@ -12,6 +12,7 @@ import controller.controllers.LoginController;
 import controller.controllers.MainController;
 import controller.controllers.RegisterController;
 import messages.MessageId;
+import plugin.plugins.AnotherUserLoggedPlugin;
 import plugin.plugins.BlockPlugin;
 import plugin.plugins.CalcPlugin;
 import plugin.plugins.ConnectPlugin;
@@ -161,6 +162,14 @@ public class CommandContainerBuilder
         commandContainer.registerCommand(
                 Id.MSCREEN_PLUGIN.getIntRepresentation(), "mscreen", 
                 new MScreenPlugin(), null, State.ALL, false);
+        
+        // another user logged
+        commandContainer.registerPlugin(
+                MessageId.ANOTHER_USER_LOGGER.getIntRepresentation(), 
+                new AnotherUserLoggedPlugin(), new State[]
+                {
+                    State.LOGGED,
+                });
         
         // exit
         commandContainer.registerCommand(Id.EXIT_PLUGIN.getIntRepresentation(), 
