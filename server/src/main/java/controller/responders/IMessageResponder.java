@@ -4,7 +4,7 @@ package controller.responders;
 import message.types.UEMessage;
 
 /**
- * Created by tochur on 14.05.15.
+ * @author Created by tochur on 14.05.15.
  */
 public interface IMessageResponder extends Runnable{
     /**

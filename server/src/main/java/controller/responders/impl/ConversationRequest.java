@@ -25,7 +25,7 @@ import rsa.exceptions.EncryptionException;
 import java.io.IOException;
 
 /**
- * Created by tochur on 17.05.15.
+ * @author Created by tochur on 17.05.15.
  */
 public class ConversationRequest implements IMessageResponder {
     private Decryption decryption;

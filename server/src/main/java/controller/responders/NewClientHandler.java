@@ -20,7 +20,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * Created by tochur on 13.05.15.
+ * @author Created by tochur on 13.05.15.
  *
  * This class is responsible for actualization state of users that can exchange information with server
  *

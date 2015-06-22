@@ -8,7 +8,7 @@ import messages.MessageId;
 import java.util.List;
 
 /**
- * Created by tochur on 24.04.15.
+ * @author Created by tochur on 24.04.15.
  *
  * Util for creating EncryptedMessages read from row Data.
  * This way of creating message is dangerous, and may cause MessageIdException.

@@ -3,7 +3,7 @@ package message.types;
 import messages.MessageId;
 
 /**
- * Created by tochur on 24.04.15.
+ * @author Created by tochur on 24.04.15.
  */
 public interface IMessage {
     public MessageId getId();

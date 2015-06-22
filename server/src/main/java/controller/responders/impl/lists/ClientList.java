@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by tochur on 17.05.15.
+ * @author Created by tochur on 17.05.15.
  */
 public class ClientList implements IMessageResponder{
     private UEMessage ueMessage;

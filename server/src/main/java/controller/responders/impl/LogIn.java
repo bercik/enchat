@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 /**
- * Created by tochur on 16.05.15.
+ * @author Created by tochur on 16.05.15.
  */
 public class LogIn implements IMessageResponder {
     private Decryption decryption;

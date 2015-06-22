@@ -5,7 +5,7 @@ import server.listeners.ServerListeners;
 import server.listeners.ServerStartFailed;
 
 /**
- * Created by tochur on 13.05.15.
+ * @author Created by tochur on 13.05.15.
  */
 public class ServerStart {
     public static void main(String[] args) throws ServerStartFailed {

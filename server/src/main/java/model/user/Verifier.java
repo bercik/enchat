@@ -10,12 +10,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by tochur on 16.05.15.
+ * Util for verifying user State (weather he can made specified action - requested by the message).
+ *
+ * @author Created by tochur on 16.05.15.
  */
 @Singleton
 public class Verifier {
     private Map<MessageId, Set<UserState>> permissions;
 
+    /**
+     * Creates an object that defines what is allowed in which state.
+     */
     @Inject
     public Verifier(){
         permissions = new HashMap<>();
@@ -26,36 +31,42 @@ public class Verifier {
         permissions.put(MessageId.ADD_TO_BLACK_LIST, atLeastLogged());
         permissions.put(MessageId.BLACK_LIST, atLeastLogged());
         permissions.put(MessageId.REMOVE_FROM_BLACK_LIST, atLeastLogged());
-        permissions.put(MessageId.CLIENT_MESSAGE, InRoom());
+        permissions.put(MessageId.CLIENT_MESSAGE, inRoom());
         permissions.put(MessageId.CONVERSATION_REQUEST, atLeastLogged());
         permissions.put(MessageId.DISCONNECT, atLeastConnected());
         permissions.put(MessageId.CLIENTS_LIST, atLeastConnected());
         permissions.put(MessageId.LOGOUT, atLeastLogged());
-        permissions.put(MessageId.CONVERSATIONALIST_DISCONNECTED, InRoom());
+        permissions.put(MessageId.CONVERSATIONALIST_DISCONNECTED, inRoom());
         //Ryniak patch begin
-        permissions.put(MessageId.END_TALK, InRoom());
+        permissions.put(MessageId.END_TALK, inRoom());
         //Ryniak patch end
     }
 
+    /**
+     * Checks weather userState allows to send the message.
+     * @param state UserState, current user State.
+     * @param messageId MessageId specifies the type of the message.
+     * @return boolean, true when action is allowed, false otherwise.
+     */
     public boolean verify(UserState state, MessageId messageId){
         return permissions.get(messageId).contains(state);
     }
 
-    public Set<UserState> atLeastConnected(){
+    private Set<UserState> atLeastConnected(){
         Set<UserState> atLeastConnected = atLeastLogged();
         atLeastConnected.add(UserState.CONNECTED_TO_SERVER);
 
         return atLeastConnected;
     }
 
-    public Set<UserState> atLeastLogged(){
-        Set<UserState> atLeastLogged = InRoom();
+    private Set<UserState> atLeastLogged(){
+        Set<UserState> atLeastLogged = inRoom();
         atLeastLogged.add(UserState.LOGGED);
 
         return atLeastLogged;
     }
 
-    public Set<UserState> InRoom(){
+    private Set<UserState> inRoom(){
         Set<UserState> inRoom = new HashSet<UserState>();
         inRoom.add(UserState.IN_ROOM);
 

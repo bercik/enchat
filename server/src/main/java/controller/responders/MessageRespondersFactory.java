@@ -10,7 +10,7 @@ import controller.responders.impl.lists.RemoveFromBlackList;
 import messages.MessageId;
 
 /**
- * Created by tochur on 14.05.15.
+ * @author Created by tochur on 14.05.15.
  */
 @Singleton
 public class MessageRespondersFactory {

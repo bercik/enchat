@@ -9,7 +9,7 @@ import rsa.exceptions.EncryptionException;
 import java.util.Arrays;
 
 /**
- * Created by tochur on 03.05.15.
+ * @author Created by tochur on 03.05.15.
  */
 public class Black_List {
     private MessageId requestNick = MessageId.BLACK_LIST;

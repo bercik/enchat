@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by tochur on 18.04.15.
+ * @author Created by tochur on 18.04.15.
  *
  * The only entrance for incoming messages from connected users.
  *  (It's like the panel, messages are available buttons)

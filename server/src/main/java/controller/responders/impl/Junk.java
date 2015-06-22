@@ -4,7 +4,7 @@ import controller.responders.IMessageResponder;
 import message.types.UEMessage;
 
 /**
- * Created by tochur on 17.05.15.
+ * @author Created by tochur on 17.05.15.
  */
 public class Junk implements IMessageResponder {
     @Override

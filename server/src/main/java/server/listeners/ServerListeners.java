@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import server.listeners.message.InputStreamsHandler;
 
 /**
- * Created by tochur on 13.05.15.
+ * @author Created by tochur on 13.05.15.
  *
  * This class opens server inputs.
  * When method start() is called server begin 2 threads:

@@ -9,7 +9,7 @@ import rsa.exceptions.EncryptionException;
 import java.security.PublicKey;
 
 /**
- * Created by tochur on 16.05.15.
+ * @author Created by tochur on 16.05.15.
  */
 public class Encryption {
     EncryptionUtil encryptionUtil;

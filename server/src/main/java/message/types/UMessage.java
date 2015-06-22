@@ -5,7 +5,7 @@ import messages.MessageId;
 import java.util.List;
 
 /**
- * Created by tochur on 15.05.15.
+ * @author Created by tochur on 15.05.15.
  */
 public class UMessage {
     private final Integer authorID;

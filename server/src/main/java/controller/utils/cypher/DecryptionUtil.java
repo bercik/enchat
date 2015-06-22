@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by tochur on 16.05.15.
+ * @author Created by tochur on 16.05.15.
  */
 
 @Singleton

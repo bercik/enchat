@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by tochur on 16.05.15.
+ * @author Created by tochur on 16.05.15.
  *
  * Associate OutputStreams with ID of user, which is unique value,
  * assigned to user during creating connection with server.

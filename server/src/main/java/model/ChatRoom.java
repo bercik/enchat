@@ -1,20 +1,18 @@
 package model;
 
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Thread safety.
  * This class is used to store (temporary) information about users that
  * are having a chat.
  *
  * In this version only 2 persons may be in room. In future it will be extended.
  *
  *
- * Created by tochur on 30.04.15.
+ * @author Created by tochur on 30.04.15.
  */
 public class ChatRoom {
     private Set<Integer> participantsIDs = new HashSet<>();
@@ -67,7 +65,10 @@ public class ChatRoom {
         return participantsIDs.size();
     }
 
-
+    /**
+     * Returns the collection of Integers - id's of user that are in ChatRoom.
+     * @return Integer Collection id's of users in ChatRoom.
+     */
     public Collection<Integer> getParticipantsIDs() {
         return Collections.unmodifiableCollection(participantsIDs);
     }

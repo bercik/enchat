@@ -1,7 +1,9 @@
 package model.exceptions;
 
 /**
- * Created by tochur on 21.06.15.
+ * When sb already logged, using this account.
+ *
+ * @author Created by tochur on 21.06.15.
  */
 public class UserWithNickAlreadyLogged extends Exception {
     private final Integer id;
