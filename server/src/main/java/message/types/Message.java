@@ -6,20 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author Created by tochur on 30.04.15.
- *
  * Represents the decrypted message in a system.
- * If packageAmount > 0, data (List<String>) holds the byte[] converted to String.
+ * If packageAmount &lt; 0, data (List&lt;String&gt;) holds the byte[] converted to String.
  * Each string corresponds to info from successive package.
- *      new String( package0.getDataArray() ); <=>  data.get(0);
+ *      new String( package0.getDataArray() ); &lt;=&gt;  data.get(0);
  *
- * If packageAmount = 0, EncryptedMessage <=> Message.
+ * If packageAmount = 0, EncryptedMessage &lt;=&gt; Message.
  * Message format is:
  *      id      - (int32)
  *      errorId  - (int32)
  *      packageAmount - (int32)
- *      data - (List<Strings>);
+ *      data - (List&gt;Strings&gt;);
  *
+ * @author Created by tochur on 30.04.15.
  */
 public class Message extends AbstractMessage {
     //Data hold in message
@@ -27,8 +26,8 @@ public class Message extends AbstractMessage {
 
     /**
      * Creates message with many data
-     * @param header
-     * @param info
+     * @param header Header, information that identifies the message type and size.
+     * @param info List &lt;String &gt; data that will be inside the message.
      */
     public Message(Header header, List<String> info) {
         super(header);
@@ -40,8 +39,8 @@ public class Message extends AbstractMessage {
 
     /**
      * Creates message with only one string
-     * @param header
-     * @param info
+     * @param header Header, information that identifies the message type and size.
+     * @param info String, info that will be inside the message.
      */
     public Message(Header header, String info) {
         super(header);
@@ -51,10 +50,10 @@ public class Message extends AbstractMessage {
 
     /**
      * Creates message with many data
-     * @param messageId
-     * @param errorId
-     * @param dataAmount
-     * @param info
+     * @param messageId MessageId, id of the message
+     * @param errorId ErrorID, id of the error.
+     * @param dataAmount Integer, amount of data to pack
+     * @param info List &lt;String &gt; data that will be passed in the message.
      */
     public Message(MessageId messageId, MessageId.ErrorId errorId, int dataAmount, List<String> info){
         super(messageId, errorId, dataAmount);
@@ -66,8 +65,8 @@ public class Message extends AbstractMessage {
 
     /**
      * Constructs message without data
-     * @param id -
-     * @param errorId
+     * @param id MessageID, id of the message.
+     * @param errorId ErrorID, id of the error.
      */
     public Message(MessageId id, MessageId.ErrorId errorId) {
         super(id, errorId, 0);
@@ -75,7 +74,7 @@ public class Message extends AbstractMessage {
 
     /**
      * Access data wrapped by message.
-     * @return returns List<String> with data
+     * @return returns List&lt;String&gt; with data
      */
     public List<String> getPackages(){
         return data;

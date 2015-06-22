@@ -9,6 +9,8 @@ import rsa.exceptions.EncryptionException;
 import java.util.Arrays;
 
 /**
+ * Creator of the messages.
+ *
  * @author Created by tochur on 03.05.15.
  */
 public class Black_List {
@@ -19,6 +21,10 @@ public class Black_List {
 
     private Encryption encryption;
 
+    /**
+     * Creates the util user for message creation.
+     * @param encryption Encryption - util for encryption the message.
+     */
     @Inject
     public Black_List(Encryption encryption){
         this.encryption = encryption;
@@ -39,37 +45,71 @@ public class Black_List {
         return encryption.encryptMessage(uMessage);
     }
 
+    /**
+     * Creates the message with MessageId ADD_TO_BLACK_LIST and error OK - added successfully.
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage addedSuccessfully(Integer receiverID){
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(addToBlackList, 0));
         return new UEMessage(receiverID, encrypted);
     }
 
+    /**
+     * Creates the message with MessageId ADD_TO_BLACK_LIST and error ErrorId.TOO_MUCH_USERS_ON_BLACKLIST.
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage userNotExistsCannotAdd(Integer receiverID){
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(addToBlackList, 1));
         return new UEMessage(receiverID, encrypted);
     }
 
+    /**
+     * Creates the message with MessageId ADD_TO_BLACK_LIST and error ErrorId.TOO_MUCH_USERS_ON_BLACKLIST.
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage toMuchOnList(Integer receiverID){
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(addToBlackList, 2));
         return new UEMessage(receiverID, encrypted);
     }
 
+    /**
+     * Creates the message with MessageId ADD_TO_BLACK_LIST and error ErrorId.ALREADY_ADDED.
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage alreadyAdded(Integer receiverID){
         encrypted =  new EncryptedMessage(HeaderGenerator.createHeader(addToBlackList, 3));
         return new UEMessage(receiverID, encrypted);
     }
 
+    /**
+     * Creates the message with MessageId BLACK_LIST and error ok (0)
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage removedSuccessfully(Integer receiverID) {
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(removeFromBlackList, 0));
         return new UEMessage(receiverID, encrypted);
     }
 
+    /**
+     * Creates the message with MessageId BLACK_LIST and error ErrorId.USER_NOT_ON_BLACKLIST.
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage notOnList(Integer receiverID) {
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(removeFromBlackList, 1));
         return new UEMessage(receiverID, encrypted);
     }
 
-    //When user with this name do not exists.
+    /**
+     * Creates the message with MessageId BLACK_LIST and error ErrorId.USER_NOT_EXIST.
+     * @param receiverID Integer, receiver of the message.
+     * @return UEMessage - message ready to send.
+     */
     public UEMessage userNotExistsCannotRemove(Integer receiverID) {
         encrypted = new EncryptedMessage(HeaderGenerator.createHeader(removeFromBlackList, 2));
         return new UEMessage(receiverID, encrypted);

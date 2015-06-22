@@ -1,9 +1,10 @@
 package message.exceptions;
 
 /**
- * @author Created by tochur on 03.05.15.
+ * When any exception, during reading from Socket new message happens.
+ * Ex. when message has wrong format (wrong header type) or not full message was send.
  *
- * This Exception when any Error Connected with reading message from buffer happened.
+ * @author Created by tochur on 03.05.15.
  */
 public class IncorrectBufferRead extends IncomingMessageException {
 }

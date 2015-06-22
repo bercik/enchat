@@ -4,8 +4,6 @@ import message.types.Header;
 import messages.MessageId;
 
 /**
- * @author Created by tochur on 03.05.15.
- *
  * Util to create MessageHeaders.
  * It can be accessed only by classes from the same package.
  * So after system testing it will be fully safe.
@@ -15,6 +13,8 @@ import messages.MessageId;
  *  message.generators are correctly formed, and weather class
  *      shared.messages.MessageId defines correct values corresponding
  * to headers.
+ *
+ * @author Created by tochur on 03.05.15.
  */
 
 class HeaderGenerator {

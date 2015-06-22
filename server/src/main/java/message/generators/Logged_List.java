@@ -12,22 +12,27 @@ import rsa.exceptions.EncryptionException;
 import java.util.Arrays;
 
 /**
- * @author Created by tochur on 03.05.15.
- *
+ * Creator of the messages.
  * Creates message with all strings (user nicks).
  * Each nick is wrapped in own package.
+ *
+ * @author Created by tochur on 03.05.15.
  */
 public class Logged_List {
     private MessageId messageId = MessageId.CLIENTS_LIST;
     private Encryption encryption;
 
+    /**
+     * Creates the util user for message creation.
+     * @param encryption Encryption - util for encryption the message.
+     */
     @Inject
     public Logged_List(Encryption encryption){
         this.encryption = encryption;
     }
 
     /**
-     *
+     * Creates the message with clientsList.
      * @param receiverID - the ActiveUser that request for his blackList
      * @param nicks - nicks of logged users
      * @return - encryptedMessage

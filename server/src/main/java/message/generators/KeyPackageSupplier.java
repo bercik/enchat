@@ -9,6 +9,9 @@ import rsa.exceptions.EncryptingException;
 import java.math.BigInteger;
 
 /**
+ * Util used to prepare PublicKey to send - divides the modulus and exponent into strings that
+ * then may be wrapped into the Packs (encrypted).
+ *
  * @author Created by tochur on 18.05.15.
  */
 public class KeyPackageSupplier {
@@ -26,7 +29,8 @@ public class KeyPackageSupplier {
      * @param keySourceID - id of the user whose public key info is sending
      * @param sourceUserNick - nick of the user whose public key info is sending
      * @return Array with info about user, necessary to lead encrypted conversation.
-     * @throws ElementNotFoundException
+     * @throws ElementNotFoundException when there is no PublicKey associates with user.
+     * @throws EncryptingException when sth went wrong with encryption process.
      */
     public String[] supply(Integer keySourceID, String sourceUserNick) throws ElementNotFoundException, EncryptingException {
 
