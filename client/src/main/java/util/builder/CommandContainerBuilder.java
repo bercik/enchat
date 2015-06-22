@@ -15,6 +15,7 @@ import messages.MessageId;
 import plugin.plugins.AnotherUserLoggedPlugin;
 import plugin.plugins.BlockPlugin;
 import plugin.plugins.CalcPlugin;
+import plugin.plugins.ConfigPlugin;
 import plugin.plugins.ConnectPlugin;
 import plugin.plugins.ConversationIncomePlugin;
 import plugin.plugins.ConversationalistDisconnectedPlugin;
@@ -170,6 +171,11 @@ public class CommandContainerBuilder
                 {
                     State.LOGGED,
                 });
+        
+        // config
+        commandContainer.registerCommand(
+                Id.CONFIG_PLUGIN.getIntRepresentation(), "config", 
+                new ConfigPlugin(), null, State.ALL, false);
         
         // exit
         commandContainer.registerCommand(Id.EXIT_PLUGIN.getIntRepresentation(), 

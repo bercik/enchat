@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
-import sun.net.util.IPAddressUtil;
+import util.config.NetworkValidator;
 
 /**
  *
@@ -17,12 +17,12 @@ import sun.net.util.IPAddressUtil;
 public final class Configuration
 {
     //konstruktor prywatny potrzebny do wczytania odpowiednich informacji z pliku
-    private Configuration() throws IOException, GeneratingPublicKeyException, 
+    private Configuration() throws IOException, GeneratingPublicKeyException,
             BadConfigurationFileException
     {
     }
 
-    public static void init() throws IOException, 
+    public static void init() throws IOException,
             GeneratingPublicKeyException, BadConfigurationFileException
     {
         if (instance == null)
@@ -38,12 +38,12 @@ public final class Configuration
                 // wartości i rzucamy wyjątek dalej
                 instance.port = DEFAULT_PORT;
                 instance.serverAddress = DEFAULT_SERVER_ADDRESS;
-                
+
                 throw ex;
             }
         }
     }
-    
+
     //funkcja którą będziemy wywoływać gdy będziemy potrzbowali informacji o konfiguracji
     public static Configuration getInstance()
     {
@@ -73,7 +73,7 @@ public final class Configuration
     {
         return commandPrefix;
     }
-    
+
     public String getServerAddress()
     {
         return serverAddress;
@@ -89,9 +89,8 @@ public final class Configuration
         return new PublicKeyInfo(serverPublicKeyInfo);
     }
 
-    //funkcja ładuje informacje z pliku który uprzednio jest wyszukiwany przy pomocy
-    //funkcji findFile
-    public void loadFromFile() throws IOException, GeneratingPublicKeyException, BadConfigurationFileException
+    // funkcja zwracająca ścieżkę bezwzględną do pliku konfiguracyjnego
+    private String getConfigFilePath()
     {
         // ugly code to read configuration text file
         // it recognize path to .jar file or classes directory
@@ -100,7 +99,23 @@ public final class Configuration
         URL location = Configuration.class.getProtectionDomain().getCodeSource().getLocation();
         String jarPath = location.getFile();
         jarPath = jarPath.substring(0, jarPath.lastIndexOf('/'));
-        String filePath = jarPath + FILE_PATH;
+        return jarPath + FILE_PATH;
+    }
+
+    private void writeAddressAndPortToFile(BufferedWriter writer,
+            String address, int port) throws IOException
+    {
+        writer.write(address);
+        writer.write("\n");
+        writer.write(Integer.toString(port));
+        writer.write("\n");
+    }
+
+    //funkcja ładuje informacje z pliku, który jeżeli nie istnieje jest tworzony
+    private void loadFromFile() throws IOException,
+            GeneratingPublicKeyException, BadConfigurationFileException
+    {
+        String filePath = getConfigFilePath();
 
         // create directorys if necessary
         File file = new File(filePath);
@@ -109,10 +124,8 @@ public final class Configuration
         {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
             {
-                writer.write(DEFAULT_SERVER_ADDRESS);
-                writer.write("\n");
-                writer.write(Integer.toString(DEFAULT_PORT));
-                writer.write("\n");
+                writeAddressAndPortToFile(writer, DEFAULT_SERVER_ADDRESS,
+                        DEFAULT_PORT);
 
                 port = DEFAULT_PORT;
                 serverAddress = DEFAULT_SERVER_ADDRESS;
@@ -120,7 +133,8 @@ public final class Configuration
         }
         else
         {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file)))
+            try (BufferedReader reader
+                    = new BufferedReader(new FileReader(file)))
             {
                 try
                 {
@@ -131,14 +145,35 @@ public final class Configuration
                 {
                     throw new BadConfigurationFileException(ex);
                 }
-                
-                if (serverAddress == null || 
-                        !IPAddressUtil.isIPv4LiteralAddress(serverAddress) ||
-                        port < 0 || port > 65535)
+
+                if (serverAddress == null
+                        || !NetworkValidator.validateIPv4Address(serverAddress)
+                        || !NetworkValidator.validatePort(port))
                 {
                     throw new BadConfigurationFileException();
                 }
             }
+        }
+    }
+
+    // funkcja która ustawia nowy adres i port i zapisuje je do pliku
+    public void SetAndSaveToFile(String newServerAddress, int newPort)
+            throws IOException
+    {
+        // przypisujemy nowe wartości
+        serverAddress = newServerAddress;
+        port = newPort;
+
+        // otwieramy plik
+        String filePath = getConfigFilePath();
+        File file = new File(filePath);
+        // wpisujemy nowe wartości
+        // nadpisujemy stary
+        try (BufferedWriter writer
+                = new BufferedWriter(new FileWriter(file, false)))
+        {
+            // wpisujemy nowe wartości
+            writeAddressAndPortToFile(writer, serverAddress, port);
         }
     }
 
