@@ -65,7 +65,7 @@ public class ConversationPublicKeyExchangeTest
         
         String STRING_CODING = "UTF-8";
         
-        /* TUTAJ SIÄ˜ SYPIE
+        /* tutaj siê sypie
         // convert to string arrays
         String[] strArray = new String[4];
         strArray[0] = new String(modFirst, STRING_CODING);
@@ -84,7 +84,7 @@ public class ConversationPublicKeyExchangeTest
         assertEquals(modSecond, modSecond);
         assertEquals(expFirst, expFirst);
         assertEquals(expSecond, expSecond);
-        // KONIEC SYPANIA SIÄ˜ */
+        // koniec sypania siê */
         
         // send over TCP
         
