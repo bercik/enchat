@@ -27,6 +27,7 @@ public final class LinuxNonBlockingInput implements IInput
         uTFHolder = new UTFHolder();
     }
 
+    @Override
     public void init() throws IOException, InterruptedException
     {
         setTerminalToCBreak();

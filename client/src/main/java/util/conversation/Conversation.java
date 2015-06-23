@@ -58,8 +58,7 @@ public class Conversation
         }
         catch (ConversationFileSaveException ex)
         {
-            // do nothing TODELETE
-            throw new RuntimeException(ex);
+            // do nothing
         }
         // na końcu czyścimy listę wiadomości
         messages.clear();

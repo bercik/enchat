@@ -21,9 +21,11 @@ import io.display.IDisplay;
 import io.display.IFormatter;
 import io.display.LinuxDisplayManager;
 import io.display.LinuxFormatter;
+import io.display.WindowsDisplayManager;
 import io.display.displays.NonConnectedDisplay;
 import io.input.IInput;
 import io.input.LinuxNonBlockingInput;
+import io.input.WindowsNonBlockingInput;
 import java.io.IOException;
 import rsa.exceptions.GeneratingPublicKeyException;
 
@@ -48,6 +50,14 @@ public class IOSetFabric
             IDisplay defaultDisplay = new NonConnectedDisplay();
             IFormatter formatter = new LinuxFormatter();
             displayManager = new LinuxDisplayManager(defaultDisplay, formatter);
+        }
+        else if (os.startsWith("windows"))
+        {
+            // TODO
+            input = new WindowsNonBlockingInput();
+            IDisplay defaultDisplay = new NonConnectedDisplay();
+            IFormatter formatter = new LinuxFormatter();
+            displayManager = new WindowsDisplayManager();
         }
         else
         {

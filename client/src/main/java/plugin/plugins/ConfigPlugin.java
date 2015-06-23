@@ -16,8 +16,6 @@ import util.config.NetworkValidator;
  */
 public class ConfigPlugin extends Plugin
 {
-    // TODO
-    
     @Override
     public void reset()
     {
