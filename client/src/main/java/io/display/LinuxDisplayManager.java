@@ -22,63 +22,11 @@ import app_info.Configuration;
  *
  * @author robert
  */
-public class LinuxDisplayManager implements IDisplayManager
+public class LinuxDisplayManager extends AbstractLinuxWindowsDisplayManager
 {
-    private IDisplay currentDisplay = null;
-    private final IFormatter formatter;
-
     public LinuxDisplayManager(IDisplay display, IFormatter fformatter)
     {
-        currentDisplay = display;
-        currentDisplay.setFormatter(fformatter);
-        formatter = fformatter;
-        refresh();
-    }
-
-    @Override
-    public void setMsg(String msg, boolean error)
-    {
-        msg = trimString(msg, Configuration.getWidth());
-        
-        // na wszelki wypadek sprawdzamy, chociaż poprzednia metoda powinna
-        // odpowiednio przyciąć msg
-        if (msg.length() > Configuration.getWidth())
-        {
-            String errorMsg = "Wiadomość " + msg + " w setMsg dłuższa niż " +
-                    "szerokość konsoli";
-            throw new RuntimeException(errorMsg);
-        }
-
-        currentDisplay.setMsg(msg, error);
-        refresh();
-    }
-
-    @Override
-    public void setCommand(String newCommand)
-    {
-        if (newCommand.length() > Configuration.getWidth())
-        {
-            String errorMsg = "Komenda " + newCommand + " w setCommand "
-                    + "dłuższa niż szerokość konsoli";
-            throw new RuntimeException(errorMsg);
-        }
-
-        currentDisplay.setCommand(newCommand);
-        refresh();
-    }
-
-    @Override
-    public void setDisplay(IDisplay newDisplay)
-    {
-        newDisplay.setFormatter(formatter);
-        currentDisplay = newDisplay;
-        refresh();
-    }
-
-    @Override
-    public String getCommand()
-    {
-        return currentDisplay.getCommand();
+        super(display, fformatter);
     }
 
     private void clearConsole()
@@ -95,53 +43,14 @@ public class LinuxDisplayManager implements IDisplayManager
         System.out.print(toPrint);
     }
 
-    private void refresh()
+    @Override
+    protected void show(String toShow)
     {
+        // clear console (in fact move all console down height rows)
         clearConsole();
-        // get console size from configuration class
+        // resize console in case that user did it
         setConsoleSize(Configuration.getWidth(), Configuration.getHeight());
-        // get content to show and validate it
-        String show = currentDisplay.show();
-        validateShow(show);
         // show content to user
-        System.out.print(currentDisplay.show());
-    }
-
-    private void validateShow(String show)
-    {
-        String[] split = show.split("\n");
-
-        int i = 1;
-        for (String str : split)
-        {
-            // WARNING
-            // we remove characters used for formatting text 
-            // (they aren't visible). This need to be change if you want
-            // to port program to another platofrm
-            str = str.replaceAll("\033\\[\\d+m", "");
-
-            if (str.length() > Configuration.getWidth())
-            {
-                String msg = "Linia " + i + ":" + str + " w displayu "
-                        + currentDisplay.getClass().getSimpleName() + " jest za"
-                        + " długa";
-                throw new RuntimeException(msg);
-            }
-
-            ++i;
-        }
-    }
-
-    private String trimString(String str, int length)
-    {
-        String postfix = "...";
-        
-        if (str.length() > length)
-        {
-            str = str.substring(0, length - postfix.length());
-            str += postfix;
-        }
-        
-        return str;
+        System.out.print(toShow);
     }
 }

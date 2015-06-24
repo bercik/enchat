@@ -5,34 +5,26 @@
  */
 package io.display;
 
+import com.googlecode.lanterna.screen.Screen;
+
 /**
  *
  * @author Robert
  */
-public class WindowsDisplayManager implements IDisplayManager
+public class WindowsDisplayManager extends AbstractLinuxWindowsDisplayManager
 {
-    // TODO
+
+    // reference to screen that we share with WindowsNonBlockingInput class
+    private final Screen screen;
+
+    public WindowsDisplayManager(Screen screen, IDisplay display, IFormatter fformatter)
+    {
+        super(display, fformatter);
+        this.screen = screen;
+    }
     
     @Override
-    public void setMsg(String msg, boolean error)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setCommand(String newCommand)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setDisplay(IDisplay newDisplay)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getCommand()
+    protected void show(String toShow)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

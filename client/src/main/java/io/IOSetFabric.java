@@ -61,7 +61,8 @@ public class IOSetFabric
             input = new WindowsNonBlockingInput(screen);
             IDisplay defaultDisplay = new NonConnectedDisplay();
             IFormatter formatter = new LinuxFormatter();
-            displayManager = new WindowsDisplayManager();
+            displayManager = new WindowsDisplayManager(screen, defaultDisplay, 
+                    formatter);
         }
         else
         {
