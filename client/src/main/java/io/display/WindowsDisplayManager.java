@@ -29,20 +29,19 @@ public class WindowsDisplayManager extends AbstractLinuxWindowsDisplayManager
     @Override
     protected void show(String toShow, String command)
     {
+        // czyścimy ekran
         screen.clear();
 
-        String[] split = toShow.split("\n");
+        // parsujemy formatowanie i wyświetlamy na ekran
+        WindowsFormatterParser windowsFormatterParser = 
+                new WindowsFormatterParser(screen);
+        windowsFormatterParser.show(toShow);
 
-        int col = 0;
-        for (String line : split)
-        {
-            screen.putString(0, col++, line, Terminal.Color.BLUE,
-                    Terminal.Color.BLACK, ScreenCharacterStyle.Underline);
-
-        }
-
+        // ustawiamy pozycję kursora
         screen.setCursorPosition(command.length(), 
                 Configuration.getHeight() - 1);
+        
+        // odświeżamy ekran
         screen.refresh();
     }
 }
