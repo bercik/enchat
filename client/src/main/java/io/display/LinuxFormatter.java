@@ -12,6 +12,7 @@ import io.display.console_codes.SpecCodes;
  */
 public class LinuxFormatter implements IFormatter
 {
+    // kody
     private final FGColorCodes fgColorCodes = new FGColorCodes();
     private final BGColorCodes bgColorCodes = new BGColorCodes();
     private final SpecCodes specCodes = new SpecCodes();
