@@ -123,9 +123,7 @@ public class LogOutIT {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         outStreams.addStream(userID, new DataOutputStream(baos));
         Emitter emitter = new Emitter();
-        
-        MessageSender messageSender = new MessageSender(outStreams, emitter);
-        
+               
         //Initialize Log_In
         Another_User_Logged messages = new Another_User_Logged();
         
@@ -143,15 +141,13 @@ public class LogOutIT {
         
         
         //Create LogOut class
-        LogOut logOut = new LogOut(stateManager,messageSender, messages,loggedUtil, roomManager);
+        LogOut logOut = new LogOut(stateManager,loggedUtil, roomManager);
         logOut.serveEvent(ueMessage);
         Thread.sleep(1000);
         
 
         assertEquals(UserState.CONNECTED_TO_SERVER, userStates.getUserState(userID));
         assertEquals(false,loggedUtil.isLogged(userID));
-        // This doesn't compile. Commented by Robert on 21.06.2015
-        //assertEquals(false,roomManager.isFree(userID));
 
     }
     

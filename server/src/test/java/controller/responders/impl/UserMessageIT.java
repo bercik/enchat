@@ -164,7 +164,6 @@ public class UserMessageIT {
         
         //Initialize Server_Message
         Server_Message serverMessage = new Server_Message();
-        Server_Message server_message = new Server_Message(); //??
         
         //Initialize Clients_Message
         Clients_Message clientsMessage = new Clients_Message();
@@ -178,7 +177,7 @@ public class UserMessageIT {
         rooms.addNew(userID, chatRoom);
         RoomManager roomManager = new RoomManager(rooms);
   
-        UserMessage userMessage = new UserMessage(stateManager, messageSender, roomManager, serverMessage, clientsMessage, server_message);
+        UserMessage userMessage = new UserMessage(stateManager, messageSender, roomManager, serverMessage, clientsMessage);
         userMessage.serveEvent(ueMessage);
         //logIn.run();
         Thread.sleep(1000);
