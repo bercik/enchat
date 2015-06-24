@@ -23,9 +23,14 @@ public abstract class AbstractLinuxWindowsDisplayManager
         currentDisplay = display;
         currentDisplay.setFormatter(fformatter);
         formatter = fformatter;
-        refresh();
     }
 
+    @Override
+    public void init()
+    {
+        refresh();
+    }
+    
     @Override
     public void setMsg(String msg, boolean error)
     {
@@ -72,7 +77,7 @@ public abstract class AbstractLinuxWindowsDisplayManager
         return currentDisplay.getCommand();
     }
 
-    protected abstract void show(String toShow);
+    protected abstract void show(String toShow, String command);
     
     private void refresh()
     {
@@ -80,7 +85,7 @@ public abstract class AbstractLinuxWindowsDisplayManager
         String toShow = currentDisplay.show();
         validateShow(toShow);
         // call function implemented by subclasses which shows content to user
-        show(toShow);
+        show(toShow, currentDisplay.getCommand());
     }
 
     private void validateShow(String show)

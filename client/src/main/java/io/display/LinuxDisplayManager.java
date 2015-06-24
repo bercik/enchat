@@ -44,7 +44,7 @@ public class LinuxDisplayManager extends AbstractLinuxWindowsDisplayManager
     }
 
     @Override
-    protected void show(String toShow)
+    protected void show(String toShow, String command)
     {
         // clear console (in fact move all console down height rows)
         clearConsole();

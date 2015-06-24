@@ -37,6 +37,8 @@ public class AppCore
             ioSet = IOSetFabric.getIOSet();
             IDisplayManager displayManager = ioSet.getDisplayManager();
             IInput input = ioSet.getInput();
+            // display manager init
+            displayManager.init();
             // init input
             input.init();
             // conversation object which holds conversation messages

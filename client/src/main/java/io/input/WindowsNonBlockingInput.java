@@ -74,9 +74,6 @@ public class WindowsNonBlockingInput implements IInput
         // sprawdzamy czy wciśnięto jakiś klawisz
         if (key != null)
         {
-            // TODELETE
-            System.out.println(key.getKind().toString());
-
             // sprawdzamy rodzaj wciśniętego klawisza
             switch (key.getKind())
             {

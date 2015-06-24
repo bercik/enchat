@@ -11,6 +11,8 @@ package io.display;
  */
 public interface IDisplayManager
 {
+    public void init();
+    
     public void setMsg(String msg, boolean error);
     
     public void setCommand(String newCommand);

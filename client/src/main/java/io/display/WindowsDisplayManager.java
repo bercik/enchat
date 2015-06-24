@@ -5,7 +5,10 @@
  */
 package io.display;
 
+import app_info.Configuration;
 import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.ScreenCharacterStyle;
+import com.googlecode.lanterna.terminal.Terminal;
 
 /**
  *
@@ -22,10 +25,24 @@ public class WindowsDisplayManager extends AbstractLinuxWindowsDisplayManager
         super(display, fformatter);
         this.screen = screen;
     }
-    
+
     @Override
-    protected void show(String toShow)
+    protected void show(String toShow, String command)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        screen.clear();
+
+        String[] split = toShow.split("\n");
+
+        int col = 0;
+        for (String line : split)
+        {
+            screen.putString(0, col++, line, Terminal.Color.BLUE,
+                    Terminal.Color.BLACK, ScreenCharacterStyle.Underline);
+
+        }
+
+        screen.setCursorPosition(command.length(), 
+                Configuration.getHeight() - 1);
+        screen.refresh();
     }
 }
