@@ -52,8 +52,6 @@ public final class LinuxNonBlockingInput implements IInput
             }
             catch (UTFCodingException ex)
             {
-                Logger.getLogger(LinuxNonBlockingInput.class.getName()).log(
-                        Level.SEVERE, null, ex);
             }
 
             if (uTFHolder.getReady())

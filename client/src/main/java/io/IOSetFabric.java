@@ -16,6 +16,7 @@
  */
 package io;
 
+import com.googlecode.lanterna.screen.Screen;
 import io.display.IDisplayManager;
 import io.display.IDisplay;
 import io.display.IFormatter;
@@ -53,8 +54,11 @@ public class IOSetFabric
         }
         else if (os.startsWith("windows"))
         {
+            WindowsScreenFabric fabric = new WindowsScreenFabric();
+            Screen screen = fabric.createScreen();
+            
             // TODO
-            input = new WindowsNonBlockingInput();
+            input = new WindowsNonBlockingInput(screen);
             IDisplay defaultDisplay = new NonConnectedDisplay();
             IFormatter formatter = new LinuxFormatter();
             displayManager = new WindowsDisplayManager();
