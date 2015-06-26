@@ -2,11 +2,11 @@ package app_info;
 
 import app_info.exceptions.BadConfigurationFileException;
 import java.io.*;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import rsa.PublicKeyInfo;
 import rsa.exceptions.GeneratingPublicKeyException;
+import util.PathGetter;
 import util.config.NetworkValidator;
 
 /**
@@ -92,13 +92,7 @@ public final class Configuration
     // funkcja zwracająca ścieżkę bezwzględną do pliku konfiguracyjnego
     private String getConfigFilePath()
     {
-        // ugly code to read configuration text file
-        // it recognize path to .jar file or classes directory
-        // and than manipulate to get the path with conf.txt file
-        // conf.txt file is in the folder above target folder
-        URL location = Configuration.class.getProtectionDomain().getCodeSource().getLocation();
-        String jarPath = location.getFile();
-        jarPath = jarPath.substring(0, jarPath.lastIndexOf('/'));
+        String jarPath = new PathGetter().getAbsolutePathToJarDir();
         return jarPath + FILE_PATH;
     }
 

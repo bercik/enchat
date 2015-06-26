@@ -16,9 +16,13 @@ import io.display.IDisplayManager;
 import io.input.IInput;
 import io.input.Key;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
 import plugin.PluginManager;
+import util.ExceptionUtils;
+import util.Log;
 import util.builder.CommandContainerBuilder;
 import util.conversation.Conversation;
         
@@ -33,6 +37,8 @@ public class AppCore
         IOSet ioSet = null;
         try
         {
+            // init log system
+            Log.init();
             // IO
             ioSet = IOSetFabric.getIOSet();
             IDisplayManager displayManager = ioSet.getDisplayManager();
@@ -112,10 +118,13 @@ public class AppCore
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger logger = Logger.getLogger("MainLogger");
+            logger.severe(ExceptionUtils.getStackTraceString(ex));
         }
         finally
         {
+            Logger logger = Logger.getLogger("MainLogger");
+            logger.info("End logging");
             if (ioSet != null)
             {
                 // restore console to previous state

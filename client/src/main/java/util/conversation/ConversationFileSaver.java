@@ -21,6 +21,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import org.joda.time.LocalTime;
 import rsa.RSA;
+import util.PathGetter;
 
 /**
  *
@@ -50,9 +51,7 @@ public class ConversationFileSaver
     public void save(List<Message> messages, String fileName, String password)
             throws ConversationFileSaveException
     {
-        String jarPath = ConversationFileSaver.class.getProtectionDomain().
-                getCodeSource().getLocation().getPath();
-        jarPath = jarPath.substring(0, jarPath.lastIndexOf('/'));
+        String jarPath = new PathGetter().getAbsolutePathToJarDir();
         String folderPath = jarPath + PATH;
         String filePath = folderPath + fileName;
 

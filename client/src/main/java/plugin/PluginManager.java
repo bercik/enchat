@@ -6,6 +6,8 @@ import controller.ControllerManager;
 import io.display.IDisplay;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import messages.MessageId;
 import network.MessageSignPair;
 import network.NetworkMessageIncome;
@@ -14,6 +16,8 @@ import package_forwarder.MessageIncomeBuffer;
 import package_forwarder.PackageForwarder;
 import rsa.PublicKeyInfo;
 import rsa.RSA;
+import util.ExceptionUtils;
+import util.StringFormatter;
 
 /**
  * @author robert
@@ -24,7 +28,7 @@ public class PluginManager
     private final MessageIncomeBuffer messageIncomeBuffer;
     private final IPluginCommandContainer pluginCommandContainer;
     private ControllerManager controllerManager;
-    
+
     private String passwordHash;
 
     public PluginManager(MessageIncomeBuffer mmessageIncomeBuffer,
@@ -49,17 +53,17 @@ public class PluginManager
         packageForwarder.setInterlocutorPublicKeyInfo(
                 interlocutorPublicKeyInfo);
     }
-    
+
     public void setAppEnd()
     {
         controllerManager.setAppEnd();
     }
-    
+
     public State getAppState()
     {
         return controllerManager.getAppState();
     }
-    
+
     public void updatePlugin(int id, String[] parameters)
     {
         IPlugin plugin = pluginCommandContainer.getPluginById(id);
@@ -78,7 +82,7 @@ public class PluginManager
             // TODELETE
             //throw new RuntimeException(ex);
             // odkomentować
-            exceptionOccured();
+            exceptionOccured(ex);
         }
     }
 
@@ -91,12 +95,12 @@ public class PluginManager
     {
         this.passwordHash = passwordHash;
     }
-    
+
     public void connect() throws Exception
     {
         packageForwarder.connect();
     }
-    
+
     public void disconnect()
     {
         packageForwarder.disconnect();
@@ -131,7 +135,7 @@ public class PluginManager
     {
         controllerManager.switchDisplayToMain();
     }
-    
+
     /**
      * Metoda wywoływana za każdym obiegiem pętli głównej programu. Sprawdza czy
      * są jakieś nowe paczki od serwera w MessageIncomeBuffer i jeżeli tak to
@@ -147,9 +151,9 @@ public class PluginManager
             //throw new RuntimeException(ex);
             // odkomentować
             // jeżeli tak to wywołujemy odpowiednią funkcję
-            exceptionOccured();
+            exceptionOccured(ex);
         }
-        
+
         // jeżeli są nowe wiadomości od serwera
         else if (messageIncomeBuffer.isAvailable())
         {
@@ -169,7 +173,7 @@ public class PluginManager
                 for (MessageSignPair pair : pairs)
                 {
                     String param = "";
-                    
+
                     try
                     {
                         param = new String(pair.getMessage(),
@@ -181,14 +185,21 @@ public class PluginManager
                                 + "in PluginManager.update when converting"
                                 + " message to string", ex);
                     }
-                    
+
                     parameters.add(param);
                 }
-                
+
                 // pobieramy id wiadomości
                 int id = message.getId();
                 // pobieramy error wiadomości
                 int error = message.getError();
+                // zapisujemy informację o paczce do loga
+                Logger logger = Logger.getLogger("MainLogger");
+                String logMsg = "Paczka <id>: " + Integer.toString(id)
+                        + " <error>: " + Integer.toString(error)
+                        + " <parameters>: "
+                        + StringFormatter.convertListToString(parameters);
+                logger.info(logMsg);
                 // jeżeli zły MessageId to rzuci wyjątek runtime exceptions
                 // (sprawdza tylko czy prawidłowy)
                 MessageId messageId = MessageId.createMessageId(id);
@@ -202,15 +213,18 @@ public class PluginManager
         }
     }
 
-    private void exceptionOccured()
+    private void exceptionOccured(Exception ex)
     {
+        // zapisujemy stack trace do loga
+        Logger logger = Logger.getLogger("MainLogger");
+        logger.warning(ExceptionUtils.getStackTraceString(ex));
         // zmieniamy stan aplikacji na not_connected
         // (package_forwarder gwarantuje, że w przypadku wyjątku połączenie
         // z serwerem zostaje przerwane i całość wraca do stanu sprzed
         // połączenia)
         controllerManager.setAppState(State.NOT_CONNECTED);
-        String msg = "Nastąpiło przerwanie połączenia z serwerem w wyniku " + 
-                "wystąpienia wyjątku";
+        String msg = "Nastąpiło przerwanie połączenia z serwerem w wyniku "
+                + "wystąpienia wyjątku";
         setMsg(msg, true);
         // resetujemy wszystkie pluginy
         for (IPlugin plugin : pluginCommandContainer.getAllPlugins())

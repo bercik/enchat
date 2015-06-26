@@ -15,7 +15,6 @@ import java.io.IOException;
  */
 public class WindowsNonBlockingInput implements IInput
 {
-    // TODO
     // referencja do ekranu(dzielona z WindowsDisplayManager)
     private final Screen screen;
 

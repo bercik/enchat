@@ -57,7 +57,6 @@ public class IOSetFabric
             WindowsScreenFabric fabric = new WindowsScreenFabric();
             Screen screen = fabric.createScreen();
             
-            // TODO
             input = new WindowsNonBlockingInput(screen);
             IDisplay defaultDisplay = new NonConnectedDisplay();
             IFormatter formatter = new LinuxFormatter();

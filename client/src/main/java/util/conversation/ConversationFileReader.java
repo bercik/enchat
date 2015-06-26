@@ -21,6 +21,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import org.joda.time.LocalTime;
 import rsa.RSA;
+import util.PathGetter;
 
 /**
  *
@@ -55,9 +56,7 @@ public class ConversationFileReader
         {
             offset = 0;
 
-            String jarPath = ConversationFileReader.class.getProtectionDomain().
-                    getCodeSource().getLocation().getPath();
-            jarPath = jarPath.substring(0, jarPath.lastIndexOf('/'));
+            String jarPath = new PathGetter().getAbsolutePathToJarDir();
             String folderPath = jarPath + PATH;
             String filePath = folderPath + fileName;
 

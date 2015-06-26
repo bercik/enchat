@@ -6,6 +6,7 @@
 package util;
 
 import app_info.Configuration;
+import java.util.List;
 
 /**
  *
@@ -16,10 +17,29 @@ public class StringFormatter
     public static String badCommand(String command)
     {
         Configuration conf = Configuration.getInstance();
-        String result = "Złe wywołanie komendy " + conf.getCommandPrefix() +
-                command + ". Wpisz " + conf.getCommandPrefix() + "help " + 
-                command + ", aby uzyskać więcej informacji";
-        
+        String result = "Złe wywołanie komendy "
+                + Configuration.getCommandPrefix() + command + ". Wpisz "
+                + Configuration.getCommandPrefix() + "help " + command
+                + ", aby uzyskać więcej informacji";
+
         return result;
+    }
+    
+    public static <T> String convertListToString(List<T> list)
+    {
+        StringBuilder result = new StringBuilder("[");
+        
+        for (T el : list)
+        {
+            result.append(el.toString()).append(", ");
+        }
+        // delete last comma and space if there was some elements in list
+        if (list.size() > 0)
+        {
+            result.delete(result.length() - 3, result.length() - 2);
+        }
+        result.append("]");
+        
+        return result.toString();
     }
 }
