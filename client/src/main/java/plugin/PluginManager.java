@@ -193,19 +193,21 @@ public class PluginManager
                 int id = message.getId();
                 // pobieramy error wiadomości
                 int error = message.getError();
-                // zapisujemy informację o paczce do loga
-                Logger logger = Logger.getLogger("MainLogger");
-                String logMsg = "Paczka <id>: " + Integer.toString(id)
-                        + " <error>: " + Integer.toString(error)
-                        + " <parameters>: "
-                        + StringFormatter.convertListToString(parameters);
-                logger.info(logMsg);
                 // jeżeli zły MessageId to rzuci wyjątek runtime exceptions
                 // (sprawdza tylko czy prawidłowy)
                 MessageId messageId = MessageId.createMessageId(id);
                 // jeżeli zły ErrorId to rzuci wyjątkiem runtime excpetion
                 // (sprawdza tylko czy prawidłowy)
-                messageId.createErrorId(error);
+                MessageId.ErrorId errorId = messageId.createErrorId(error);
+                // zapisujemy informację o paczce do loga
+                Logger logger = Logger.getLogger("MainLogger");
+                String logMsg = "Paczka <id>: " + Integer.toString(id)
+                        + "(" + messageId.toString() + ")"
+                        + " <error>: " + Integer.toString(error)
+                        + "(" + errorId.toString() + ")"
+                        + " <parameters>: "
+                        + StringFormatter.convertListToString(parameters);
+                logger.info(logMsg);
                 // pobieramy plugin
                 IPlugin plugin = pluginCommandContainer.getPluginById(id);
                 plugin.update(error, parameters.toArray(new String[0]));

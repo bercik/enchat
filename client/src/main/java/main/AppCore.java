@@ -123,8 +123,12 @@ public class AppCore
         }
         finally
         {
+            // zapisujemy informację o zakończeniu logowania
             Logger logger = Logger.getLogger("MainLogger");
             logger.info("End logging");
+            // zamykamy logowanie
+            Log.close();
+            
             if (ioSet != null)
             {
                 // restore console to previous state
