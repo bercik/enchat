@@ -20,4 +20,5 @@ hs_err_pid*
 /shared/target/
 /server/target/
 /client/target/
+!/client/target/client-1.0.jar
 /target/
