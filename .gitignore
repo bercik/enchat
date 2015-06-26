@@ -17,8 +17,9 @@ nb-configuration.xml
 hs_err_pid*
 
 
-/shared/target/
-/server/target/
-/client/target/
+/shared/target/*
+/server/target/*
+!/server/target/servert-1.0.jar
+/client/target/*
 !/client/target/client-1.0.jar
 /target/
