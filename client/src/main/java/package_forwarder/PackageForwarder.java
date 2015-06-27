@@ -65,7 +65,7 @@ public class PackageForwarder implements Runnable
                         messageIncomeBuffer.setException(e);
                     }
                 }
-                
+
                 return;
             }
         }
@@ -78,12 +78,9 @@ public class PackageForwarder implements Runnable
             ClassNotFoundException
     {
         conn = new Connection();
-        if (thread == null)
-        {
-            thread = new Thread(this);
-            thread.setDaemon(true);
-            thread.start();
-        }
+        thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void send(int id, String[] parameters) throws SendException
@@ -98,13 +95,13 @@ public class PackageForwarder implements Runnable
             for (int i = 0; i < parameters.length; ++i)
             {
                 message = parameters[i].getBytes();
-                signMessage = RSA.sign(message, 
+                signMessage = RSA.sign(message,
                         conn.getKeyPair().getPrivateKeyInfo().getPrivateKey());
                 messageSignPairs.add(new MessageSignPair(message, signMessage));
             }
 
-            NetworkMessageOutcome networkMessageOutcome = 
-                    new NetworkMessageOutcome(id, messageSignPairs);
+            NetworkMessageOutcome networkMessageOutcome
+                    = new NetworkMessageOutcome(id, messageSignPairs);
             networkMessageOutcome.send(conn, interlocutorPublicKeyInfo);
         }
         catch (Exception ex)
@@ -133,14 +130,14 @@ public class PackageForwarder implements Runnable
     {
         interlocutorPublicKeyInfo = iinterlocutorPublicKeyInfo;
     }
-    
+
     // publiczny klucz osoby z którą prowadzimy konwersację
     PublicKeyInfo interlocutorPublicKeyInfo;
-    
+
     private Connection conn;
     private Thread thread;
     private final MessageIncomeBuffer messageIncomeBuffer;
-    
+
     // thread synchronize
     private final Object lock = new Object();
     private boolean disconnected = false;
